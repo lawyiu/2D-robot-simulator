@@ -11,3 +11,12 @@ void App::draw(piksel::Graphics& g) {
 
     mRobot->draw(g);
 }
+
+void App::mouseWheel(int delta) {
+    mScaleFactor += delta / mWheelFactor;
+
+    /* Clamp scale factor to avoid objects becoming bigger when zooming out too much. */
+    if (mScaleFactor < 0.5) {
+        mScaleFactor = 0.5;
+    }
+}

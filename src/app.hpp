@@ -10,8 +10,11 @@ public:
     void setup();
     void draw(piksel::Graphics& g);
 
+    void mouseWheel(int delta);
+
 private:
-    float mScaleFactor = 10.0f; // Pixels per cm
+    float mScaleFactor = 10.0f;  // Pixels per cm
+    float mWheelFactor = 100.0f; // Controls mouse wheel speed
     Robot* mRobot;
 };
 #endif /* APP_HPP */
