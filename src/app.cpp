@@ -12,6 +12,12 @@ void App::draw(piksel::Graphics& g) {
     mRobot->draw(g);
 }
 
+void App::keyPressed(int key) {
+    if (key == GLFW_KEY_0) {
+        mScaleFactor = INIT_SCALE_FACTOR;
+    }
+}
+
 void App::mouseWheel(int delta) {
     mScaleFactor += delta / mWheelFactor;
 
