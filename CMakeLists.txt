@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 add_subdirectory(lib/piksel)
 
 set(SOURCES
+    src/robot.cpp
     src/main.cpp
     src/app.cpp
 )
