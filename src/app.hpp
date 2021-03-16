@@ -18,6 +18,6 @@ public:
 private:
     float mScaleFactor = INIT_SCALE_FACTOR; // Pixels per cm
     float mWheelFactor = 100.0f;            // Controls mouse wheel speed
-    Robot* mRobot;
+    Robot mRobot;
 };
 #endif /* APP_HPP */
