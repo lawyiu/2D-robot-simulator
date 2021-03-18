@@ -1,3 +1,6 @@
 [submodule "lib/piksel"]
 	path = lib/piksel
 	url = https://github.com/bernhardfritz/piksel.git
+[submodule "googletest"]
+	path = googletest
+	url = https://github.com/google/googletest.git
