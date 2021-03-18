@@ -8,7 +8,8 @@
 
 class App : public piksel::BaseApp {
 public:
-    App() : piksel::BaseApp(640, 480) {}
+    static App& getInstance();
+
     void setup();
     void draw(piksel::Graphics& g);
 
@@ -16,6 +17,10 @@ public:
     void mouseWheel(int delta);
 
 private:
+    App() : piksel::BaseApp(640, 480) {}
+    App(const App& other) {}
+    ~App() {}
+
     float mScaleFactor = INIT_SCALE_FACTOR; // Pixels per cm
     float mWheelFactor = 100.0f;            // Controls mouse wheel speed
     Robot mRobot;

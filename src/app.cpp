@@ -1,5 +1,10 @@
 #include "app.hpp"
 
+App& App::getInstance() {
+    static App app;
+    return app;
+}
+
 void App::setup() {}
 
 void App::draw(piksel::Graphics& g) {

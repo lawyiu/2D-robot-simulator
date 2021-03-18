@@ -1,6 +1,6 @@
 #include "app.hpp"
 
 int main() {
-    App app;
+    App& app = App::getInstance();
     app.start();
 }
