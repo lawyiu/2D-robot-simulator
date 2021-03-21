@@ -10,6 +10,8 @@ add_subdirectory(googletest
 add_subdirectory(lib/piksel)
 
 set(SOURCES
+    arduino_examples/hello.cpp
+    src/Arduino.cpp
     src/robot.cpp
     src/pinsController.cpp
     src/main.cpp

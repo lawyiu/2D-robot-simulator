@@ -1,8 +1,16 @@
 #include "robot.hpp"
 
+#include "Arduino.h"
+
 using namespace piksel;
 
-void Robot::update() {}
+void Robot::init() {
+    setup();
+}
+
+void Robot::update() {
+    loop();
+}
 
 void Robot::draw(Graphics& g) {
     g.push();

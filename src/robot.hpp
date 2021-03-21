@@ -13,6 +13,7 @@ public:
        Width and height in cm. */
     Robot(glm::vec2 position, float rotation, float width, float height, glm::vec4 color)
         : mPosition(position), mRotation(rotation), mWidth(width), mHeight(height), mColor(color) {}
+    void init();
     void update();
     void draw(piksel::Graphics& g);
 

@@ -5,9 +5,13 @@ App& App::getInstance() {
     return app;
 }
 
-void App::setup() {}
+void App::setup() {
+    mRobot.init();
+}
 
 void App::draw(piksel::Graphics& g) {
+    mRobot.update();
+
     g.background(glm::vec4(0.5f, 0.7f, 0.5f, 1.0f));
     g.translate(width / 2.0f, height / 2.0f);
     g.scale(mScaleFactor, mScaleFactor);
