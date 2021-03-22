@@ -13,6 +13,12 @@ enum { LOW, HIGH };
 
 enum { BIN, HEX, DEC, OCT };
 
+void pinMode(uint8_t pin, uint8_t mode);
+int digitalRead(uint8_t pin);
+void digitalWrite(uint8_t pin, uint8_t val);
+int analogRead(uint8_t pin);
+void analogWrite(uint8_t pin, int val);
+
 class SerialPort {
 public:
     void begin(unsigned long rate);

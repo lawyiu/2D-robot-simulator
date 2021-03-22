@@ -13,6 +13,8 @@ public:
     void setup();
     void draw(piksel::Graphics& g);
 
+    Robot& getCurrentRobot();
+
     void keyPressed(int key);
     void mouseWheel(int delta);
 

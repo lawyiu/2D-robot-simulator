@@ -1,5 +1,7 @@
 #include "Arduino.h"
 #include "app.hpp"
+#include "pinsController.hpp"
+#include "robot.hpp"
 
 #include <iostream>
 #include <string.h>
@@ -8,6 +10,35 @@ SerialPort Serial;
 SerialPort Serial1;
 SerialPort Serial2;
 SerialPort Serial3;
+
+void pinMode(uint8_t pin, uint8_t mode) {
+    Robot robot = App::getInstance().getCurrentRobot();
+    PinsController pins = robot.getPinsController();
+
+    pins.setPinDirection(pin, static_cast<PinDirection>(mode));
+}
+
+int digitalRead(uint8_t pin) {
+    Robot robot = App::getInstance().getCurrentRobot();
+    PinsController pins = robot.getPinsController();
+
+    return pins.getPinValue(pin);
+}
+
+void digitalWrite(uint8_t pin, uint8_t val) {
+    Robot robot = App::getInstance().getCurrentRobot();
+    PinsController pins = robot.getPinsController();
+
+    pins.setPinValue(pin, val);
+}
+
+int analogRead(uint8_t pin) {
+    return digitalRead(pin);
+}
+
+void analogWrite(uint8_t pin, int val) {
+    digitalWrite(pin, val);
+}
 
 void SerialPort::begin(unsigned long rate) {
     mBegan = true;

@@ -19,6 +19,10 @@ void App::draw(piksel::Graphics& g) {
     mRobot.draw(g);
 }
 
+Robot& App::getCurrentRobot() {
+    return mRobot;
+}
+
 void App::keyPressed(int key) {
     if (key == GLFW_KEY_0) {
         mScaleFactor = INIT_SCALE_FACTOR;
