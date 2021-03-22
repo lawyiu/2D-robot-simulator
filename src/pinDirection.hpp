@@ -1,0 +1,6 @@
+#ifndef PIN_DIRECTION_HPP
+#define PIN_DIRECTION_HPP
+
+enum PinDirection { INPUT, OUTPUT, INPUT_PULLUP };
+
+#endif /* PIN_DIRECTION_HPP */

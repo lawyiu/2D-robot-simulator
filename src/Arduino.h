@@ -7,7 +7,7 @@
 #include <stddef.h>
 #include <string>
 
-enum { INPUT, INPUT_PULLUP, OUTPUT };
+#include "pinDirection.hpp"
 
 enum { LOW, HIGH };
 

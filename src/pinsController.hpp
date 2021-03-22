@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <vector>
 
-enum PinDirection { INPUT, OUTPUT };
+#include "pinDirection.hpp"
 
 enum PinType { DIGITAL, ANALOG };
 
