@@ -12,22 +12,22 @@ SerialPort Serial2;
 SerialPort Serial3;
 
 void pinMode(uint8_t pin, uint8_t mode) {
-    Robot robot = App::getInstance().getCurrentRobot();
-    PinsController pins = robot.getPinsController();
+    Robot& robot = App::getInstance().getCurrentRobot();
+    PinsController& pins = robot.getPinsController();
 
     pins.setPinDirection(pin, static_cast<PinDirection>(mode));
 }
 
 int digitalRead(uint8_t pin) {
-    Robot robot = App::getInstance().getCurrentRobot();
-    PinsController pins = robot.getPinsController();
+    Robot& robot = App::getInstance().getCurrentRobot();
+    PinsController& pins = robot.getPinsController();
 
     return pins.getPinValue(pin);
 }
 
 void digitalWrite(uint8_t pin, uint8_t val) {
-    Robot robot = App::getInstance().getCurrentRobot();
-    PinsController pins = robot.getPinsController();
+    Robot& robot = App::getInstance().getCurrentRobot();
+    PinsController& pins = robot.getPinsController();
 
     pins.setPinValue(pin, val);
 }
