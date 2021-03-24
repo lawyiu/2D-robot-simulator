@@ -1,0 +1,15 @@
+{
+    Serial;
+    Serial1;
+    Serial2;
+    Serial3;
+    extern "C++" {
+        SerialPort::*;
+        millis*;
+        pinMode*;
+        digitalWrite*;
+        digitalRead*;
+        analogWrite*;
+        analogRead*;
+    };
+};

@@ -7,10 +7,11 @@ set(CMAKE_CXX_STANDARD 11)
 add_subdirectory(googletest
                  EXCLUDE_FROM_ALL)
 
+add_subdirectory(arduino_examples)
+
 add_subdirectory(lib/piksel)
 
 set(SOURCES
-    arduino_examples/hello.cpp
     src/Arduino.cpp
     src/robot.cpp
     src/pinsController.cpp
@@ -19,6 +20,7 @@ set(SOURCES
     src/app.cpp
 )
 add_executable(index ${SOURCES})
+set_target_properties(index PROPERTIES LINK_FLAGS "-Wl,--dynamic-list=\"${PROJECT_SOURCE_DIR}\"/syms.txt")
 target_include_directories(index
     PUBLIC src
     PUBLIC lib/piksel/src

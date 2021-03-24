@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <string>
 
+#include "export.hpp"
 #include "pinDirection.hpp"
 
 enum { LOW, HIGH };
@@ -52,7 +53,9 @@ extern SerialPort Serial3;
 
 unsigned long millis();
 
-void setup();
-void loop();
+extern "C" {
+    EXPORT void setup();
+    EXPORT void loop();
+}
 
 #endif /* ARDUINO_HPP */

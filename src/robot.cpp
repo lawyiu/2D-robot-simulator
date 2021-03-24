@@ -2,19 +2,56 @@
 
 #include "led.hpp"
 
-#include "Arduino.h"
+#include <dlfcn.h>
+#include <iostream>
+
+#define DEFAULT_LIB "./libcode.so"
 
 using namespace piksel;
+using namespace std;
+
+Robot::~Robot() {
+    if (mLibHandle) {
+        if (dlclose(mLibHandle)) {
+            cerr << "[Robot] Could not close the library: " << dlerror() << endl;
+        }
+    }
+}
 
 void Robot::init() {
-    std::unique_ptr<Output> ledPtr(new Led(*this));
-    mOutputs.push_back(std::move(ledPtr));
+    char* error;
 
-    setup();
+    unique_ptr<Output> ledPtr(new Led(*this));
+    mOutputs.push_back(move(ledPtr));
+
+    mLibHandle = dlopen(DEFAULT_LIB, RTLD_NOW);
+    if (!mLibHandle) {
+        cerr << "[Robot] Error loading the Arduino code from library: " << dlerror() << endl;
+    } else {
+        dlerror(); // Clear any existing error
+        mSetup = reinterpret_cast<setup_t>(dlsym(mLibHandle, "setup"));
+
+        if ((error = dlerror())) {
+            cerr << "[Robot] Could not find setup function: " << error << endl;
+        }
+
+        dlerror(); // Clear any existing error
+        mLoop = reinterpret_cast<loop_t>(dlsym(mLibHandle, "loop"));
+
+        if ((error = dlerror())) {
+            cerr << "[Robot] Could not find loop function: " << error << endl;
+        }
+    }
+
+    if (mSetup) {
+        mSetup();
+    }
 }
 
 void Robot::update() {
-    loop();
+    if (mLoop) {
+        mLoop();
+    }
 
     for (auto&& output : mOutputs) {
         output->update();
