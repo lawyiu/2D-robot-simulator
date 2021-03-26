@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.12)
 project(2D_Robot_Sim)
 set(CMAKE_CXX_STANDARD 11)
 
+if(EMSCRIPTEN)
+    string(PREPEND CMAKE_CXX_FLAGS "-fpic ")
+endif()
+
 # Add googletest directly to our build. This defines
 # the gtest and gtest_main targets.
 add_subdirectory(googletest
@@ -10,6 +14,10 @@ add_subdirectory(googletest
 add_subdirectory(arduino_examples)
 
 add_subdirectory(lib/piksel)
+
+if(EMSCRIPTEN)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/shell.html ${CMAKE_BINARY_DIR}/shell.html COPYONLY)
+endif()
 
 set(SOURCES
     src/Arduino.cpp
@@ -20,7 +28,14 @@ set(SOURCES
     src/app.cpp
 )
 add_executable(index ${SOURCES})
-set_target_properties(index PROPERTIES LINK_FLAGS "-Wl,--dynamic-list=\"${PROJECT_SOURCE_DIR}\"/syms.txt")
+
+if(EMSCRIPTEN)
+    target_compile_options(index PRIVATE -s MAIN_MODULE=1)
+    target_link_options(index PRIVATE -s MAIN_MODULE=1)
+else()
+    set_target_properties(index PROPERTIES LINK_FLAGS "-Wl,--dynamic-list=\"${PROJECT_SOURCE_DIR}\"/syms.txt")
+endif()
+
 target_include_directories(index
     PUBLIC src
     PUBLIC lib/piksel/src
@@ -40,3 +55,5 @@ target_include_directories(tests
 )
 target_link_libraries(tests gtest_main)
 add_test(NAME tests COMMAND tests)
+
+add_dependencies(tests piksel)
