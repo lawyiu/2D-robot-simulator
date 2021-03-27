@@ -91,6 +91,20 @@
       .hidden {
         display: none;
       }
+
+      .console-header {
+        text-align: center;
+      }
+
+      .msg-container {
+        display: flex;
+        justify-content: center;
+      }
+
+      .console {
+        width: 80%;
+        height: 25em;
+      }
     </style>
   </head>
   <body>
@@ -103,11 +117,28 @@
       <div class="emscripten" id="status">Downloading...</div>
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
+
+    <p class="console-header">Serial Monitor</p>
+    <div class="msg-container">
+      <textarea class="console" id="serial-console" readonly=true></textarea>
+    </div>
+
+    <p class="console-header">Error Output</p>
+    <div class="msg-container">
+      <textarea class="console" id="error-console" readonly=true></textarea>
+    </div>
+
     <script type='text/javascript'>
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
       var appElement = document.getElementById('app');
+      var serialOutElm = document.getElementById('serial-console');
+      var errorOutElm = document.getElementById('error-console');
+
+      function scrollEnd(textareaElm) {
+        textareaElm.scrollTop = textareaElm.scrollHeight;
+      }
 
       var Module = {
         preRun: [],
@@ -115,21 +146,14 @@
         print: (function() {
           return function(text) {
             if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-            // These replacements are necessary if you render to raw HTML
-            //text = text.replace(/&/g, "&amp;");
-            //text = text.replace(/</g, "&lt;");
-            //text = text.replace(/>/g, "&gt;");
-            //text = text.replace('\n', '<br>', 'g');
-            console.log(text);
+            serialOutElm.textContent += text;
+            scrollEnd(serialOutElm);
           };
         })(),
         printErr: function(text) {
           if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-          if (0) { // XXX disabled for safety typeof dump == 'function') {
-            dump(text + '\n'); // fast, straight to the real console
-          } else {
-            console.error(text);
-          }
+          errorOutElm.textContent += text + "\n";
+          scrollEnd(errorOutElm);
         },
         canvas: (function() {
           var canvas = document.getElementById('canvas');
