@@ -105,6 +105,21 @@
         width: 80%;
         height: 25em;
       }
+
+      .editor-form {
+        display: flex;
+        justify-content: center;
+      }
+
+      .editor-container {
+        display: flex;
+        flex-direction: column;
+        width: 80%
+      }
+
+      .editor {
+        height: 50em;
+      }
     </style>
   </head>
   <body>
@@ -126,6 +141,19 @@
     <p class="console-header">Error Output</p>
     <div class="msg-container">
       <textarea class="console" id="error-console" readonly=true></textarea>
+    </div>
+
+    <p class="console-header">Arduino Program Editor</p>
+    <form class="editor-form">
+      <div class="editor-container">
+        <textarea class="editor" id="program-editor"></textarea>
+        <button>Compile!</button>
+      </div>
+    </form>
+
+    <p class="console-header">Compiler Output</p>
+    <div class="msg-container">
+      <textarea class="console" id="compiler-console" readonly=true></textarea>
     </div>
 
     <script type='text/javascript'>
