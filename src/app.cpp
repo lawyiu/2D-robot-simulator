@@ -6,13 +6,24 @@ App& App::getInstance() {
 }
 
 void App::setup() {
+    mFont.load("data/fonts/OpenSans/OpenSans-Regular.ttf");
+
     mRobot.init();
 }
 
 void App::draw(piksel::Graphics& g) {
-    mRobot.update();
+    if (!mPause) {
+        mRobot.update();
+    }
 
     g.background(glm::vec4(0.5f, 0.7f, 0.5f, 1.0f));
+
+    if (mPause) {
+        g.textFont(mFont);
+        g.textSize(mTextSize);
+        g.text("Paused", mTextPadding, height - mTextPadding);
+    }
+
     g.translate(width / 2.0f, height / 2.0f);
     g.scale(mScaleFactor, mScaleFactor);
 
@@ -24,8 +35,17 @@ Robot& App::getCurrentRobot() {
 }
 
 void App::keyPressed(int key) {
-    if (key == GLFW_KEY_0) {
-        mScaleFactor = INIT_SCALE_FACTOR;
+    switch (key) {
+        case GLFW_KEY_0:
+            mScaleFactor = INIT_SCALE_FACTOR;
+            break;
+
+        case GLFW_KEY_SPACE:
+            mPause = !mPause;
+            break;
+
+        default:
+            break;
     }
 }
 
