@@ -8,17 +8,22 @@ App& App::getInstance() {
 void App::setup() {
     mFont.load("data/fonts/OpenSans/OpenSans-Regular.ttf");
 
-    mRobot.init();
+    mRobot.reset(new Robot());
+    mRobot->init();
 }
 
 void App::draw(piksel::Graphics& g) {
     if (mReload) {
-        mRobot.reloadCode();
+        mRobot->reloadCode();
         mReload = false;
+    } else if (mRestart) {
+        mRobot.reset(new Robot());
+        mRobot->init();
+        mRestart = false;
     }
 
     if (!mPause) {
-        mRobot.update();
+        mRobot->update();
     }
 
     g.background(glm::vec4(0.5f, 0.7f, 0.5f, 1.0f));
@@ -32,11 +37,11 @@ void App::draw(piksel::Graphics& g) {
     g.translate(width / 2.0f, height / 2.0f);
     g.scale(mScaleFactor, mScaleFactor);
 
-    mRobot.draw(g);
+    mRobot->draw(g);
 }
 
 Robot& App::getCurrentRobot() {
-    return mRobot;
+    return *mRobot;
 }
 
 void App::keyPressed(int key) {
@@ -51,6 +56,10 @@ void App::keyPressed(int key) {
 
         case GLFW_KEY_L:
             mReload = true;
+            break;
+
+        case GLFW_KEY_R:
+            mRestart = true;
             break;
 
         default:

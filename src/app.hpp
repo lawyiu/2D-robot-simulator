@@ -4,6 +4,8 @@
 #include "robot.hpp"
 #include <piksel/baseapp.hpp>
 
+#include <memory>
+
 #define INIT_SCALE_FACTOR 10.0f
 
 class App : public piksel::BaseApp {
@@ -25,6 +27,7 @@ private:
 
     bool mPause = false;
     bool mReload = false;
+    bool mRestart = false;
 
     piksel::Font mFont;
     const float mTextPadding = 10.0f;
@@ -33,7 +36,7 @@ private:
     float mScaleFactor = INIT_SCALE_FACTOR; // Pixels per cm
     float mWheelFactor = 100.0f;            // Controls mouse wheel speed
 
-    Robot mRobot;
+    std::unique_ptr<Robot> mRobot;
 };
 
 #endif /* APP_HPP */
