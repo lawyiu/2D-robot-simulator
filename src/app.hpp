@@ -24,6 +24,7 @@ private:
     ~App() {}
 
     bool mPause = false;
+    bool mReload = false;
 
     piksel::Font mFont;
     const float mTextPadding = 10.0f;

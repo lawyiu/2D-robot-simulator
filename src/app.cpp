@@ -12,6 +12,11 @@ void App::setup() {
 }
 
 void App::draw(piksel::Graphics& g) {
+    if (mReload) {
+        mRobot.reloadCode();
+        mReload = false;
+    }
+
     if (!mPause) {
         mRobot.update();
     }
@@ -42,6 +47,10 @@ void App::keyPressed(int key) {
 
         case GLFW_KEY_SPACE:
             mPause = !mPause;
+            break;
+
+        case GLFW_KEY_L:
+            mReload = true;
             break;
 
         default:

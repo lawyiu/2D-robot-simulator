@@ -26,6 +26,9 @@ public:
     Robot& operator=(const Robot&) = delete;
 
     void init();
+    void loadCode();
+    void unloadCode();
+    void reloadCode();
     void update();
     void draw(piksel::Graphics& g);
 

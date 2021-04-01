@@ -11,18 +11,22 @@ using namespace piksel;
 using namespace std;
 
 Robot::~Robot() {
-    if (mLibHandle) {
-        if (dlclose(mLibHandle)) {
-            cerr << "[Robot] Could not close the library: " << dlerror() << endl;
-        }
-    }
+    unloadCode();
 }
 
 void Robot::init() {
-    char* error;
-
     unique_ptr<Output> ledPtr(new Led(*this));
     mOutputs.push_back(move(ledPtr));
+
+    loadCode();
+
+    if (mSetup) {
+        mSetup();
+    }
+}
+
+void Robot::loadCode() {
+    char* error;
 
     mLibHandle = dlopen(DEFAULT_LIB, RTLD_NOW);
     if (!mLibHandle) {
@@ -42,6 +46,19 @@ void Robot::init() {
             cerr << "[Robot] Could not find loop function: " << error << endl;
         }
     }
+}
+
+void Robot::unloadCode() {
+    if (mLibHandle) {
+        if (dlclose(mLibHandle)) {
+            cerr << "[Robot] Could not close the library: " << dlerror() << endl;
+        }
+    }
+}
+
+void Robot::reloadCode() {
+    unloadCode();
+    loadCode();
 
     if (mSetup) {
         mSetup();
