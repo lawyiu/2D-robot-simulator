@@ -44,9 +44,9 @@ private:
     PinsController mPins;
     std::vector<std::unique_ptr<Output>> mOutputs;
 
-    void* mLibHandle;
-    setup_t mSetup;
-    loop_t mLoop;
+    void* mLibHandle = nullptr;
+    setup_t mSetup = nullptr;
+    loop_t mLoop = nullptr;
 };
 
 #endif /* ROBOT_HPP */
