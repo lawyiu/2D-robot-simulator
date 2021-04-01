@@ -23,12 +23,15 @@ private:
     App(const App& other) {}
     ~App() {}
 
-    piksel::Font mFont;
     bool mPause = false;
+
+    piksel::Font mFont;
     const float mTextPadding = 10.0f;
     const float mTextSize = 18.0f;
+
     float mScaleFactor = INIT_SCALE_FACTOR; // Pixels per cm
     float mWheelFactor = 100.0f;            // Controls mouse wheel speed
+
     Robot mRobot;
 };
 
