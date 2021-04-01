@@ -52,6 +52,8 @@ void Robot::unloadCode() {
     if (mLibHandle) {
         if (dlclose(mLibHandle)) {
             cerr << "[Robot] Could not close the library: " << dlerror() << endl;
+        } else {
+            mLibHandle = nullptr;
         }
     }
 }
