@@ -16,6 +16,7 @@ add_subdirectory(arduino_examples)
 add_subdirectory(lib/piksel)
 
 if(EMSCRIPTEN)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/preRun.js ${CMAKE_BINARY_DIR}/preRun.js COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/shell.html ${CMAKE_BINARY_DIR}/shell.html COPYONLY)
 endif()
 
@@ -31,7 +32,7 @@ add_executable(index ${SOURCES})
 
 if(EMSCRIPTEN)
     target_compile_options(index PRIVATE -s MAIN_MODULE=1)
-    target_link_options(index PRIVATE -s MAIN_MODULE=1)
+    set_target_properties(index PROPERTIES LINK_FLAGS "-s MAIN_MODULE=1 --pre-js preRun.js")
 else()
     set_target_properties(index PROPERTIES LINK_FLAGS "-Wl,--dynamic-list=\"${PROJECT_SOURCE_DIR}\"/syms.txt")
 endif()
