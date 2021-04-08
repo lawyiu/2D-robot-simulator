@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+ruby '2.7.2'
+
+gem 'puma', '~> 5', :group => :production
+gem 'sinatra', '~> 2'
+gem 'sinatra-contrib', '~> 2', :group => :development
+gem 'rubocop', :group => :development
+gem 'rufo', :group => :development
+gem 'reek', :group => :development
+gem "byebug", :groups => [:development, :test]
