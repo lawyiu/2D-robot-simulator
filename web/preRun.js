@@ -3,6 +3,16 @@ Module["preRun"].push(function() {
     var compileBtn = document.querySelector(".editor-form button");
     var compileOutput = document.querySelector("#compiler-console");
 
+    function base64ToUint8Array(base64) {
+        var binary_string = window.atob(base64);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes;
+    }
+
     function sendData(formData) {
         const XHR = new XMLHttpRequest;
 
@@ -13,7 +23,7 @@ Module["preRun"].push(function() {
                 const data = JSON.parse(XHR.responseText);
 
                 if (data.errors == "") {
-                    code = atob(data.bin);
+                    code = base64ToUint8Array(data.bin);
                     FS.writeFile("/libcode.so", code);
 
                     compileOutput.textContent += "Successfully compiled!\n" + data.errors;
