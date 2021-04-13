@@ -18,6 +18,7 @@ add_subdirectory(lib/piksel)
 if(EMSCRIPTEN)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/preRun.js ${CMAKE_BINARY_DIR}/preRun.js COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/shell.html ${CMAKE_BINARY_DIR}/shell.html COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/shell.css ${CMAKE_BINARY_DIR}/shell.css COPYONLY)
 endif()
 
 set(SOURCES
