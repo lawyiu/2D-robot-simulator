@@ -94,6 +94,9 @@
           appElement.classList.remove('hidden');
           var canvas = document.getElementById('canvas');
           canvas.focus({preventScroll: true});
+
+          // Let parent frame know that the module is ready
+          parent.window.moduleReady = true;
         }
       };
       Module.setStatus('Downloading...');

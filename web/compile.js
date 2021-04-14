@@ -48,9 +48,13 @@
     compileBtn.addEventListener("click", function(e) {
         e.preventDefault();
 
-        compileOutput.textContent = "Compiling...\n";
+        if (window.moduleReady) {
+            compileOutput.textContent = "Compiling...\n";
 
-        const FD = new FormData(formElm);
-        sendData(FD);
+            const FD = new FormData(formElm);
+            sendData(FD);
+        } else {
+            compileOutput.textContent = "Simulator has not finished loading! Please try again when it is loaded.\n";
+        }
     });
 }());
