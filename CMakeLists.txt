@@ -36,8 +36,13 @@ set(SOURCES
 add_executable(sim ${SOURCES})
 
 if(EMSCRIPTEN)
+    add_custom_command(
+        TARGET sim PRE_BUILD
+        COMMAND $ENV{EMSDK}/upstream/emscripten/tools/file_packager code --preload arduino_examples/libhello.so@/libcode.so --js-output=code.js
+        VERBATIM)
+    add_dependencies(sim hello)
     target_compile_options(sim PRIVATE -s MAIN_MODULE=1)
-    set_target_properties(sim PROPERTIES LINK_FLAGS "-s MAIN_MODULE=1 --pre-js preRun.js --post-js postRun.js")
+    set_target_properties(sim PROPERTIES LINK_FLAGS "-s MAIN_MODULE=1 --pre-js preRun.js --post-js postRun.js --extern-pre-js code.js")
 else()
     set_target_properties(sim PROPERTIES LINK_FLAGS "-Wl,--dynamic-list=\"${PROJECT_SOURCE_DIR}\"/syms.txt")
 endif()
