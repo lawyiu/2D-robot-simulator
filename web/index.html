@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="shell.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+  <body>
+    <div class="container">
+        <iframe id="sim-frame" src="sim.html" frameBorder="0"></iframe>
+
+        <p class="console-header">Serial Monitor</p>
+        <div class="msg-container">
+        <textarea class="console" id="serial-console" readonly=true></textarea>
+        </div>
+
+        <p class="console-header">Error Output</p>
+        <div class="msg-container">
+        <textarea class="console" id="error-console" readonly=true></textarea>
+        </div>
+
+        <p class="console-header">Arduino Program Editor</p>
+        <form class="editor-form">
+        <div class="editor-container">
+            <textarea class="editor" id="program-editor" name="code"></textarea>
+            <button>Compile!</button>
+        </div>
+        </form>
+
+        <p class="console-header">Compiler Output</p>
+        <div class="msg-container">
+        <textarea class="console" id="compiler-console" readonly=true></textarea>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="compile.js"></script>
+  </body>
+</html>

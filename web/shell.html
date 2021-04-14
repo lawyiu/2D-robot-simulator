@@ -17,36 +17,13 @@
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
 
-    <p class="console-header">Serial Monitor</p>
-    <div class="msg-container">
-      <textarea class="console" id="serial-console" readonly=true></textarea>
-    </div>
-
-    <p class="console-header">Error Output</p>
-    <div class="msg-container">
-      <textarea class="console" id="error-console" readonly=true></textarea>
-    </div>
-
-    <p class="console-header">Arduino Program Editor</p>
-    <form class="editor-form">
-      <div class="editor-container">
-        <textarea class="editor" id="program-editor" name="code"></textarea>
-        <button>Compile!</button>
-      </div>
-    </form>
-
-    <p class="console-header">Compiler Output</p>
-    <div class="msg-container">
-      <textarea class="console" id="compiler-console" readonly=true></textarea>
-    </div>
-
     <script type='text/javascript'>
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
       var appElement = document.getElementById('app');
-      var serialOutElm = document.getElementById('serial-console');
-      var errorOutElm = document.getElementById('error-console');
+      var serialOutElm = parent.document.getElementById('serial-console');
+      var errorOutElm = parent.document.getElementById('error-console');
 
       function scrollEnd(textareaElm) {
         textareaElm.scrollTop = textareaElm.scrollHeight;

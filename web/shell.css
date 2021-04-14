@@ -79,37 +79,9 @@ canvas.emscripten:focus {
 .container {
     position: relative;
     display: block;
+    text-align: center;
 }
 
 .hidden {
     display: none;
-}
-
-.console-header {
-    text-align: center;
-}
-
-.msg-container {
-    display: flex;
-    justify-content: center;
-}
-
-.console {
-    width: 80%;
-    height: 25em;
-}
-
-.editor-form {
-    display: flex;
-    justify-content: center;
-}
-
-.editor-container {
-    display: flex;
-    flex-direction: column;
-    width: 80%
-}
-
-.editor {
-    height: 50em;
 }

@@ -17,8 +17,12 @@ add_subdirectory(lib/piksel)
 
 if(EMSCRIPTEN)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/preRun.js ${CMAKE_BINARY_DIR}/preRun.js COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/postRun.js ${CMAKE_BINARY_DIR}/postRun.js COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/compile.js ${CMAKE_BINARY_DIR}/compile.js COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/shell.html ${CMAKE_BINARY_DIR}/shell.html COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/shell.css ${CMAKE_BINARY_DIR}/shell.css COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/index.html ${CMAKE_BINARY_DIR}/index.html COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/index.css ${CMAKE_BINARY_DIR}/index.css COPYONLY)
 endif()
 
 set(SOURCES
@@ -29,20 +33,20 @@ set(SOURCES
     src/main.cpp
     src/app.cpp
 )
-add_executable(index ${SOURCES})
+add_executable(sim ${SOURCES})
 
 if(EMSCRIPTEN)
-    target_compile_options(index PRIVATE -s MAIN_MODULE=1)
-    set_target_properties(index PROPERTIES LINK_FLAGS "-s MAIN_MODULE=1 --pre-js preRun.js")
+    target_compile_options(sim PRIVATE -s MAIN_MODULE=1)
+    set_target_properties(sim PROPERTIES LINK_FLAGS "-s MAIN_MODULE=1 --pre-js preRun.js --post-js postRun.js")
 else()
-    set_target_properties(index PROPERTIES LINK_FLAGS "-Wl,--dynamic-list=\"${PROJECT_SOURCE_DIR}\"/syms.txt")
+    set_target_properties(sim PROPERTIES LINK_FLAGS "-Wl,--dynamic-list=\"${PROJECT_SOURCE_DIR}\"/syms.txt")
 endif()
 
-target_include_directories(index
+target_include_directories(sim
     PUBLIC src
     PUBLIC lib/piksel/src
 )
-target_link_libraries(index
+target_link_libraries(sim
     piksel
 )
 
