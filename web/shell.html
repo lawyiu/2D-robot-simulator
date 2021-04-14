@@ -22,8 +22,19 @@
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
       var appElement = document.getElementById('app');
-      var serialOutElm = parent.document.getElementById('serial-console');
-      var errorOutElm = parent.document.getElementById('error-console');
+      var serialOutElm = null;
+      var errorOutElm = null;
+
+      function findParentElms() {
+        serialOutElm = parent.document.getElementById('serial-console');
+        errorOutElm = parent.document.getElementById('error-console');
+      }
+
+      if (/complete|interactive|loaded/.test(parent.document.readyState)) {
+        findParentElms();
+      } else {
+        parent.document.addEventListener('DOMContentLoaded', findParentElms);
+      }
 
       function scrollEnd(textareaElm) {
         textareaElm.scrollTop = textareaElm.scrollHeight;
@@ -35,14 +46,24 @@
         print: (function() {
           return function(text) {
             if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-            serialOutElm.textContent += text;
-            scrollEnd(serialOutElm);
+
+            if (!serialOutElm) {
+              console.log(text);
+            } else {
+              serialOutElm.textContent += text;
+              scrollEnd(serialOutElm);
+            }
           };
         })(),
         printErr: function(text) {
           if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-          errorOutElm.textContent += text + "\n";
-          scrollEnd(errorOutElm);
+
+          if (!errorOutElm) {
+            console.error(text);
+          } else {
+            errorOutElm.textContent += text + "\n";
+            scrollEnd(errorOutElm);
+          }
         },
         canvas: (function() {
           var canvas = document.getElementById('canvas');
