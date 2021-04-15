@@ -8,11 +8,23 @@ if(EMSCRIPTEN)
     string(REPLACE "-shared" "" CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS ${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS})
 endif()
 
-aux_source_directory(. SOURCES)
+SET(INO_SOURCES
+    hello.ino
+    blink_no_delay.ino
+)
 
-foreach(SRC_FILE ${SOURCES})
+foreach(SRC_FILE ${INO_SOURCES})
     get_filename_component(BASE_FILENAME ${SRC_FILE} NAME_WE)
-    add_library(${BASE_FILENAME} MODULE ${SRC_FILE})
+
+    add_custom_command(
+        OUTPUT ${BASE_FILENAME}.cpp
+        COMMAND echo "#include <Arduino.h>" > ${BASE_FILENAME}.cpp
+        COMMAND cat ${CMAKE_CURRENT_SOURCE_DIR}/${SRC_FILE} >> ${BASE_FILENAME}.cpp
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${SRC_FILE}
+        VERBATIM
+    )
+
+    add_library(${BASE_FILENAME} MODULE ${BASE_FILENAME}.cpp)
 
     if(EMSCRIPTEN)
         target_compile_options(${BASE_FILENAME} PRIVATE -s SIDE_MODULE=1)
