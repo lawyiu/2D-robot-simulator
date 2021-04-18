@@ -17,8 +17,8 @@ WORKDIR /src/headers
 COPY --chown=emscripten:emscripten Arduino.h Arduino.tcc export.hpp pinDirection.hpp ./
 
 WORKDIR /src
-COPY --chown=emscripten:emscripten compile_server/Gemfile compile_server/Gemfile.lock compile_server/server.rb \
-     compile_server/config.ru compile_server/start.sh ./
+COPY --chown=emscripten:emscripten compile_server/Gemfile compile_server/Gemfile.lock ./
 RUN bundle config set --local path 'vendor/bundle' && bundle config set --local without 'development test' && bundle install
+COPY --chown=emscripten:emscripten compile_server/server.rb compile_server/config.ru compile_server/start.sh ./
 
 CMD [ "./start.sh" ]
