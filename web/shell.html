@@ -22,29 +22,19 @@
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
       var appElement = document.getElementById('app');
-      var serialOutElm = null;
-      var errorOutElm = null;
-
-      function findParentElms() {
-        serialOutElm = parent.document.getElementById('serial-console');
-        errorOutElm = parent.document.getElementById('error-console');
-      }
-
-      if (/complete|interactive|loaded/.test(parent.document.readyState)) {
-        findParentElms();
-      } else {
-        parent.document.addEventListener('DOMContentLoaded', findParentElms);
-      }
 
       function scrollEnd(textareaElm) {
         textareaElm.scrollTop = textareaElm.scrollHeight;
       }
 
       var Module = {
+        serialOutElm: null,
+        errorOutElm: null,
         preRun: [],
         postRun: [],
         print: (function() {
           return function(text) {
+            const serialOutElm = Module.serialOutElm;
             if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
 
             if (!serialOutElm) {
@@ -56,6 +46,7 @@
           };
         })(),
         printErr: function(text) {
+          const errorOutElm = Module.errorOutElm;
           if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
 
           if (!errorOutElm) {
