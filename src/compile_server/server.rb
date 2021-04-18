@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'open3'
+require 'tmpdir'
 require 'base64'
 require 'byebug' if development?
 
@@ -22,15 +23,17 @@ post '/compile' do
   result = {:errors => '', :bin => ''}
   code = params['code']
 
-  f = File.write('code.cpp', code)
+  Dir.mktmpdir do |dir|
+    f = File.write("#{dir}/code.cpp", code)
 
-  Open3.popen3('emcc code.cpp -I ../headers -s SIDE_MODULE=1 -o libcode.so') do |_, stdout, stderr, wait_tr|
-    exit_code = wait_tr.value
+    Open3.popen3("emcc #{dir}/code.cpp -I ../headers -s SIDE_MODULE=1 -o #{dir}/libcode.so") do |_, stdout, stderr, wait_tr|
+      exit_code = wait_tr.value
 
-    if exit_code != 0 then
-      result[:errors] = stderr.read()
-    elsif
-      result[:bin] = Base64.encode64(File.read('libcode.so'))
+      if exit_code != 0 then
+        result[:errors] = stderr.read()
+      elsif
+        result[:bin] = Base64.encode64(File.read("#{dir}/libcode.so"))
+      end
     end
   end
 
