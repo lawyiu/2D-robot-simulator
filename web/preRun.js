@@ -13,4 +13,8 @@ Module["preRun"].push(function() {
     } else {
         parent.document.addEventListener('DOMContentLoaded', findParentElms);
     }
+
+    /* Workaround for bug where entering and exiting fullscreen will cause the canvas
+       to be resized incorrectly. */
+    window.devicePixelRatio = 1;
 });
