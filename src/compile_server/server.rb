@@ -23,6 +23,10 @@ post '/compile' do
   result = {:errors => '', :bin => ''}
   code = params['code']
 
+  if !code.match(/^#include <Arduino.h>$/)
+    code = "#include <Arduino.h>\n" + code
+  end
+
   Dir.mktmpdir do |dir|
     f = File.write("#{dir}/code.cpp", code)
 
