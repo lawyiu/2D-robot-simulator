@@ -55,6 +55,28 @@ target_link_libraries(sim
     piksel
 )
 
+if(EMSCRIPTEN)
+    set(DEPLOY_FILES
+        index.html
+        shell.css
+        index.css
+        compile.js
+        sim.html
+        sim.js
+        sim.wasm
+        sim.data
+        code
+    )
+
+    add_custom_target(deploy
+        DEPENDS sim
+        COMMAND_EXPAND_LISTS
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/deploy
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/${DEPLOY_FILES} ${CMAKE_BINARY_DIR}/deploy
+        VERBATIM
+    )
+endif()
+
 set(TEST_SOURCES
     src/pinsController.cpp
     tests/pinsControllerTests.cpp
