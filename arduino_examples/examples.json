@@ -1,0 +1,6 @@
+{
+    "examples": [
+        "hello.ino",
+        "blink_no_delay.ino"
+    ]
+}
