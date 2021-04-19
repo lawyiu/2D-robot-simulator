@@ -68,11 +68,20 @@ if(EMSCRIPTEN)
         code
     )
 
+    set(DEPLOY_EXAMPLES
+        examples.json
+        hello.ino
+        blink_no_delay.ino
+    )
+    list(TRANSFORM DEPLOY_EXAMPLES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/arduino_examples/)
+
     add_custom_target(deploy
         DEPENDS sim
         COMMAND_EXPAND_LISTS
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/deploy
         COMMAND ${CMAKE_COMMAND} -E copy ${DEPLOY_FILES} ${CMAKE_BINARY_DIR}/deploy
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/deploy/examples
+        COMMAND ${CMAKE_COMMAND} -E copy ${DEPLOY_EXAMPLES} ${CMAKE_BINARY_DIR}/deploy/examples
         VERBATIM
     )
 endif()
