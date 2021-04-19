@@ -72,7 +72,7 @@ if(EMSCRIPTEN)
         DEPENDS sim
         COMMAND_EXPAND_LISTS
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/deploy
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/${DEPLOY_FILES} ${CMAKE_BINARY_DIR}/deploy
+        COMMAND ${CMAKE_COMMAND} -E copy ${DEPLOY_FILES} ${CMAKE_BINARY_DIR}/deploy
         VERBATIM
     )
 endif()
