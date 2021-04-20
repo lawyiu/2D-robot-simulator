@@ -18,6 +18,7 @@ add_subdirectory(lib/piksel)
 if(EMSCRIPTEN)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/preRun.js ${CMAKE_BINARY_DIR}/preRun.js COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/postRun.js ${CMAKE_BINARY_DIR}/postRun.js COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/editor.js ${CMAKE_BINARY_DIR}/editor.js COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/compile.js ${CMAKE_BINARY_DIR}/compile.js COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/shell.html ${CMAKE_BINARY_DIR}/shell.html COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/web/shell.css ${CMAKE_BINARY_DIR}/shell.css COPYONLY)
@@ -60,6 +61,7 @@ if(EMSCRIPTEN)
         index.html
         shell.css
         index.css
+        editor.js
         compile.js
         sim.html
         sim.js
