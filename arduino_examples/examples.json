@@ -1,6 +1,10 @@
 {
     "examples": [
         {
+            "file": "welcome.ino",
+            "description": "The default program that prints out the welcome message."
+        },
+        {
             "file": "hello.ino",
             "description": "A program that prints out Hello World! every second."
         },

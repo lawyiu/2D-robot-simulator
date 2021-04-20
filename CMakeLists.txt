@@ -39,9 +39,9 @@ add_executable(sim ${SOURCES})
 if(EMSCRIPTEN)
     add_custom_command(
         TARGET sim PRE_BUILD
-        COMMAND $ENV{EMSDK}/upstream/emscripten/tools/file_packager code --preload arduino_examples/libhello.so@/libcode.so --js-output=code.js
+        COMMAND $ENV{EMSDK}/upstream/emscripten/tools/file_packager code --preload arduino_examples/libwelcome.so@/libcode.so --js-output=code.js
         VERBATIM)
-    add_dependencies(sim hello)
+    add_dependencies(sim welcome)
     target_compile_options(sim PRIVATE -s MAIN_MODULE=1)
     set_target_properties(sim PROPERTIES LINK_FLAGS "-s MAIN_MODULE=1 --pre-js preRun.js --post-js postRun.js --extern-pre-js code.js")
 else()
@@ -72,6 +72,7 @@ if(EMSCRIPTEN)
 
     set(DEPLOY_EXAMPLES
         examples.json
+        welcome.ino
         hello.ino
         blink_no_delay.ino
     )

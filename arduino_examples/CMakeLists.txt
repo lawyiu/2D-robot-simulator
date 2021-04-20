@@ -9,6 +9,7 @@ if(EMSCRIPTEN)
 endif()
 
 SET(INO_SOURCES
+    welcome.ino
     hello.ino
     blink_no_delay.ino
 )
