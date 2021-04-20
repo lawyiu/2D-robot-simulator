@@ -169,7 +169,7 @@
     }
   
    }
-   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 620, "audio": 0}], "remote_package_size": 620, "package_uuid": "928dee60-f1a1-4344-87be-8376bea28cfa"});
+   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 805, "audio": 0}], "remote_package_size": 805, "package_uuid": "3eb05d86-9980-4111-98e2-63caaa354313"});
   
   })();
   
@@ -364,7 +364,7 @@ Module['FS_createPath']("/data/fonts", "OpenSans", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "780423c1-0d33-487e-a038-d34f6c374045"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "45a7c0e4-7e03-47c9-81e4-5e1abb54e98d"});
   
   })();
   
@@ -388,6 +388,8 @@ Module['FS_createPath']("/data/fonts", "OpenSans", true, true);
         parent.document.addEventListener('DOMContentLoaded', findParentElms);
     }
 
+    /* Workaround for bug where entering and exiting fullscreen will cause the canvas
+       to be resized incorrectly. */
     window.devicePixelRatio = 1;
 });
 

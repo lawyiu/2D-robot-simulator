@@ -1,0 +1,16 @@
+{
+    "examples": [
+        {
+            "file": "welcome.ino",
+            "description": "The default program that prints out the welcome message."
+        },
+        {
+            "file": "hello.ino",
+            "description": "A program that prints out Hello World! every second."
+        },
+        {
+            "file": "blink_no_delay.ino",
+            "description": "A program that blinks a LED every second."
+        }
+    ]
+}
