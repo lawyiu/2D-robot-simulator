@@ -34,5 +34,6 @@
 
     selectElm.addEventListener("change", function(event) {
         loadProgram(this.value);
+        editor.focus();
     });
 }());
