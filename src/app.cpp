@@ -12,7 +12,7 @@ void App::setup() {
     mRobot->init();
 }
 
-void App::draw(piksel::Graphics& g) {
+void App::update() {
     if (mReload) {
         mRobot->reloadCode();
         mReload = false;
@@ -25,6 +25,10 @@ void App::draw(piksel::Graphics& g) {
     if (!mPause) {
         mRobot->update();
     }
+}
+
+void App::draw(piksel::Graphics& g) {
+    update();
 
     g.background(glm::vec4(0.5f, 0.7f, 0.5f, 1.0f));
 

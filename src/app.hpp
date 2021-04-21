@@ -13,6 +13,7 @@ public:
     static App& getInstance();
 
     void setup();
+    void update();
     void draw(piksel::Graphics& g);
 
     Robot& getCurrentRobot();
