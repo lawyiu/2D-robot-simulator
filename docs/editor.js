@@ -13,14 +13,14 @@
     }
 
     function loadProgram(filename) {
-        fetch("/examples/" + filename)
+        fetch(window.location + "examples/" + filename)
         .then(resp => resp.text())
         .then(data => {
             editor.setValue(data, 1);
         });
     }
 
-    fetch("/examples/examples.json")
+    fetch(window.location + "examples/examples.json")
         .then(resp => resp.json())
         .then(data => {
             const examples = data.examples;
