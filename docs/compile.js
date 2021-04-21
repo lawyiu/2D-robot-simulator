@@ -52,6 +52,7 @@
             compileOutput.textContent = "Compiling...\n";
 
             const FD = new FormData(formElm);
+            FD.append("code", window.editor.getValue());
             sendData(FD);
         } else {
             compileOutput.textContent = "Simulator has not finished loading! Please try again when it is loaded.\n";
