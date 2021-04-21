@@ -1,7 +1,11 @@
 (function() {
     "use strict";
     const selectElm = document.querySelector("#examples-selection");
-    const progEditElm = document.querySelector("#program-editor");
+    ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/');
+    window.editor = ace.edit("program-editor");
+    editor.setTheme("ace/theme/github");
+    editor.session.setMode("ace/mode/c_cpp");
+    editor.setShowPrintMargin(false);
 
     function addOption(selectElm, opStr, opVal) {
         var newOption = new Option(opStr, opVal);
@@ -12,7 +16,7 @@
         fetch("/examples/" + filename)
         .then(resp => resp.text())
         .then(data => {
-            progEditElm.textContent = data;
+            editor.setValue(data, 1);
         });
     }
 
