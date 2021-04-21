@@ -17,4 +17,13 @@ Module["preRun"].push(function() {
     /* Workaround for bug where entering and exiting fullscreen will cause the canvas
        to be resized incorrectly. */
     window.devicePixelRatio = 1;
+
+    document.addEventListener("keydown", function(event) {
+       switch(event.code) {
+           case "KeyR":
+               Module["clearSerialOutput"]();
+               break;
+       }
+       event.preventDefault();
+    });
 });

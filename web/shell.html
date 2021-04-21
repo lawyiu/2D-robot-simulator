@@ -32,6 +32,18 @@
         errorOutElm: null,
         preRun: [],
         postRun: [],
+        clearSerialOutput: (function() {
+          const serialOutElm = Module.serialOutElm;
+          if (serialOutElm) {
+            serialOutElm.textContent = "";
+          }
+        }),
+        clearErrorOutput: (function() {
+          const errorOutElm = Module.errorOutElm;
+          if (errorOutElm) {
+            errorOutElm.textContent = "";
+          }
+        }),
         print: (function() {
           return function(text) {
             const serialOutElm = Module.serialOutElm;
