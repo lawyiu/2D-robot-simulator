@@ -10,7 +10,12 @@ using namespace piksel;
 
 Led::Led(Robot& robot, std::initializer_list<uint32_t> pins, glm::vec2 position, glm::vec4 color)
     : Output(robot, pins), mPosition(position), mColor(color), mState(false) {
-    mPinNum = *pins.begin();
+
+    if (pins.size() != 1) {
+        std::cerr << "[LED] No pin was assigned for output control!\n";
+    } else {
+        mPinNum = *pins.begin();
+    }
 }
 
 void Led::update() {

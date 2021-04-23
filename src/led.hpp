@@ -19,7 +19,7 @@ public:
 private:
     glm::vec2 mPosition;
     glm::vec4 mColor;
-    int mPinNum;
+    int mPinNum = 13;
     bool mState;
 };
 
