@@ -1,8 +1,23 @@
 #include "app.hpp"
 
+#include <limits.h>
+
 App& App::getInstance() {
     static App app;
     return app;
+}
+
+void App::updateDeltaTime() {
+    int newMillis = millis();
+    mDeltaTimeMillis = newMillis - mPrevMillis;
+
+    // Handle overflow
+    if (mDeltaTimeMillis < 0) {
+        int leftOver = std::numeric_limits<int>::max() - mPrevMillis;
+        mDeltaTimeMillis = newMillis + leftOver;
+    }
+
+    mPrevMillis = newMillis;
 }
 
 void App::setup() {
@@ -13,6 +28,9 @@ void App::setup() {
 }
 
 void App::update() {
+    updateDeltaTime();
+    float dt = getDeltaTimeSeconds();
+
     if (mReload) {
         mRobot->reloadCode();
         mReload = false;
@@ -24,6 +42,28 @@ void App::update() {
 
     if (!mPause) {
         mRobot->update();
+    }
+
+    float keyPanDist = pixelsPerSecond * dt;
+    switch (mKeyPanState) {
+        case PAN_UP:
+            mOffsetY -= keyPanDist;
+            break;
+
+        case PAN_DOWN:
+            mOffsetY += keyPanDist;
+            break;
+
+        case PAN_LEFT:
+            mOffsetX -= keyPanDist;
+            break;
+
+        case PAN_RIGHT:
+            mOffsetX += keyPanDist;
+            break;
+
+        default:
+            break;
     }
 }
 
@@ -38,7 +78,7 @@ void App::draw(piksel::Graphics& g) {
         g.text("Paused", mTextPadding, height - mTextPadding);
     }
 
-    g.translate(width / 2.0f, height / 2.0f);
+    g.translate(width / 2.0f + mOffsetX, height / 2.0f + mOffsetY);
     g.scale(mScaleFactor, mScaleFactor);
 
     mRobot->draw(g);
@@ -64,6 +104,36 @@ void App::keyPressed(int key) {
 
         case GLFW_KEY_R:
             mRestart = true;
+            break;
+
+        case GLFW_KEY_UP:
+            mKeyPanState = PAN_UP;
+            break;
+
+        case GLFW_KEY_DOWN:
+            mKeyPanState = PAN_DOWN;
+            break;
+
+        case GLFW_KEY_LEFT:
+            mKeyPanState = PAN_LEFT;
+            break;
+
+        case GLFW_KEY_RIGHT:
+            mKeyPanState = PAN_RIGHT;
+            break;
+
+        default:
+            break;
+    }
+}
+
+void App::keyReleased(int key) {
+    switch (key) {
+        case GLFW_KEY_UP:
+        case GLFW_KEY_DOWN:
+        case GLFW_KEY_LEFT:
+        case GLFW_KEY_RIGHT:
+            mKeyPanState = PAN_NONE;
             break;
 
         default:
