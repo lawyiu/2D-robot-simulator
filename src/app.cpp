@@ -45,25 +45,18 @@ void App::update() {
     }
 
     float keyPanDist = pixelsPerSecond * dt;
-    switch (mKeyPanState) {
-        case PAN_UP:
-            mOffsetY -= keyPanDist;
-            break;
 
-        case PAN_DOWN:
-            mOffsetY += keyPanDist;
-            break;
-
-        case PAN_LEFT:
-            mOffsetX -= keyPanDist;
-            break;
-
-        case PAN_RIGHT:
-            mOffsetX += keyPanDist;
-            break;
-
-        default:
-            break;
+    if (mKeyPanState & PAN_UP) {
+        mOffsetY -= keyPanDist;
+    }
+    if (mKeyPanState & PAN_DOWN) {
+        mOffsetY += keyPanDist;
+    }
+    if (mKeyPanState & PAN_LEFT) {
+        mOffsetX -= keyPanDist;
+    }
+    if (mKeyPanState & PAN_RIGHT) {
+        mOffsetX += keyPanDist;
     }
 }
 
@@ -107,19 +100,19 @@ void App::keyPressed(int key) {
             break;
 
         case GLFW_KEY_UP:
-            mKeyPanState = PAN_UP;
+            mKeyPanState |= PAN_UP;
             break;
 
         case GLFW_KEY_DOWN:
-            mKeyPanState = PAN_DOWN;
+            mKeyPanState |= PAN_DOWN;
             break;
 
         case GLFW_KEY_LEFT:
-            mKeyPanState = PAN_LEFT;
+            mKeyPanState |= PAN_LEFT;
             break;
 
         case GLFW_KEY_RIGHT:
-            mKeyPanState = PAN_RIGHT;
+            mKeyPanState |= PAN_RIGHT;
             break;
 
         default:
@@ -130,10 +123,19 @@ void App::keyPressed(int key) {
 void App::keyReleased(int key) {
     switch (key) {
         case GLFW_KEY_UP:
+            mKeyPanState &= ~PAN_UP;
+            break;
+
         case GLFW_KEY_DOWN:
+            mKeyPanState &= ~PAN_DOWN;
+            break;
+
         case GLFW_KEY_LEFT:
+            mKeyPanState &= ~PAN_LEFT;
+            break;
+
         case GLFW_KEY_RIGHT:
-            mKeyPanState = PAN_NONE;
+            mKeyPanState &= ~PAN_RIGHT;
             break;
 
         default:

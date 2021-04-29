@@ -26,7 +26,7 @@ public:
     void mouseWheel(int delta);
 
 private:
-    App() : piksel::BaseApp(640, 480) {}
+    App() : piksel::BaseApp(640, 480), mKeyPanState(PAN_NONE) {}
     App(const App& other) {}
     ~App() {}
 
@@ -36,14 +36,14 @@ private:
     int mDeltaTimeMillis = 0;
 
     enum KeyPanState {
-        PAN_NONE,
-        PAN_UP,
-        PAN_DOWN,
-        PAN_LEFT,
-        PAN_RIGHT
+        PAN_NONE = 0,
+        PAN_UP = 1,
+        PAN_DOWN = 2,
+        PAN_LEFT = 4,
+        PAN_RIGHT = 8
     };
 
-    KeyPanState mKeyPanState = PAN_NONE;
+    uint8_t mKeyPanState : 4;
 
     bool mPause = false;
     bool mReload = false;
