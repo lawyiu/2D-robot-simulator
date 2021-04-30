@@ -152,3 +152,48 @@ void App::mouseWheel(int delta) {
         mScaleFactor = 0.5;
     }
 }
+
+void App::mouseMoved(int x, int y) {
+    float dt = getDeltaTimeSeconds();
+
+    switch (mMousePanState) {
+        case START_PAN:
+            mOrigX = x;
+            mOrigY = y;
+
+            mMousePanState = PANNING;
+            break;
+
+        case PANNING:
+            mOffsetX += (x - mOrigX);
+            mOffsetY += (y - mOrigY);
+            mOrigX = x;
+            mOrigY = y;
+            break;
+
+        default:
+            break;
+    }
+}
+
+void App::mousePressed(int button) {
+    switch (button) {
+        case GLFW_MOUSE_BUTTON_LEFT:
+            mMousePanState = START_PAN;
+            break;
+
+        default:
+            break;
+    }
+}
+
+void App::mouseReleased(int button) {
+    switch (button) {
+        case GLFW_MOUSE_BUTTON_LEFT:
+            mMousePanState = NO_PAN;
+            break;
+
+        default:
+            break;
+    }
+}

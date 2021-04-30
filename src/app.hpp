@@ -24,6 +24,9 @@ public:
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseWheel(int delta);
+    void mouseMoved(int x, int y);
+    void mousePressed(int button);
+    void mouseReleased(int button);
 
 private:
     App() : piksel::BaseApp(640, 480), mKeyPanState(PAN_NONE) {}
@@ -45,6 +48,14 @@ private:
 
     uint8_t mKeyPanState : 4;
 
+    enum MousePanState {
+        NO_PAN,
+        START_PAN,
+        PANNING
+    };
+
+    MousePanState mMousePanState = NO_PAN;
+
     bool mPause = false;
     bool mReload = false;
     bool mRestart = false;
@@ -59,6 +70,8 @@ private:
     float pixelsPerSecond = 100.0f;
     float mOffsetX = 0.0f;
     float mOffsetY = 0.0f;
+    float mOrigX = 0.0f;
+    float mOrigY = 0.0f;
 
     std::unique_ptr<Robot> mRobot;
 };
