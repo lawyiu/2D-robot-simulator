@@ -93,3 +93,8 @@ void Robot::draw(Graphics& g) {
 
     g.pop();
 }
+
+glm::vec2 Robot::getHeading() {
+    float angleRads = mRotation * PI / 180.0f;
+    return glm::normalize(glm::vec2(glm::cos(angleRads), glm::sin(angleRads)));
+}

@@ -32,6 +32,7 @@ public:
     void update();
     void draw(piksel::Graphics& g);
 
+    glm::vec2 getHeading();
     PinsController& getPinsController() { return mPins; }
 
 private:
