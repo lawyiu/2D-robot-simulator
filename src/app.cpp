@@ -144,7 +144,8 @@ void App::keyReleased(int key) {
 }
 
 void App::mouseWheel(int delta) {
-    mScaleFactor += delta / mWheelFactor;
+    float dt = getDeltaTimeSeconds();
+    mScaleFactor += delta / mWheelFactor * dt;
 
     /* Clamp scale factor to avoid objects becoming bigger when zooming out too much. */
     if (mScaleFactor < 0.5) {

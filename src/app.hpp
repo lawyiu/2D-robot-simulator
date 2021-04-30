@@ -54,7 +54,7 @@ private:
     const float mTextSize = 18.0f;
 
     float mScaleFactor = INIT_SCALE_FACTOR; // Pixels per cm
-    float mWheelFactor = 100.0f;            // Controls mouse wheel speed
+    float mWheelFactor = 5.0f;              // Controls mouse wheel speed
 
     float pixelsPerSecond = 100.0f;
     float mOffsetX = 0.0f;
