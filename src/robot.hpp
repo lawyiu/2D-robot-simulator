@@ -35,6 +35,8 @@ public:
     glm::vec2 getHeading();
     glm::vec2 getLeftPerpendicularVec();
     glm::vec2 getRightPerpendicularVec();
+
+    glm::vec2 getPosition() { return mPosition; }
     PinsController& getPinsController() { return mPins; }
 
 private:
