@@ -98,3 +98,17 @@ glm::vec2 Robot::getHeading() {
     float angleRads = mRotation * PI / 180.0f;
     return glm::normalize(glm::vec2(glm::cos(angleRads), glm::sin(angleRads)));
 }
+
+glm::vec2 Robot::getLeftPerpendicularVec() {
+    glm::vec2 headingVec = getHeading();
+    glm::vec2 perpVec = glm::vec2(headingVec.y, -headingVec.x);
+
+    return perpVec;
+}
+
+glm::vec2 Robot::getRightPerpendicularVec() {
+    glm::vec2 headingVec = getHeading();
+    glm::vec2 perpVec = glm::vec2(-headingVec.y, headingVec.x);
+
+    return perpVec;
+}

@@ -33,6 +33,8 @@ public:
     void draw(piksel::Graphics& g);
 
     glm::vec2 getHeading();
+    glm::vec2 getLeftPerpendicularVec();
+    glm::vec2 getRightPerpendicularVec();
     PinsController& getPinsController() { return mPins; }
 
 private:
