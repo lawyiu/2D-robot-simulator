@@ -32,6 +32,8 @@ public:
     void update();
     void draw(piksel::Graphics& g);
 
+    float getRotation() { return mRotation; }
+    void setRotation(float degrees) { mRotation = degrees; }
     glm::vec2 getHeading();
     glm::vec2 getLeftPerpendicularVec();
     glm::vec2 getRightPerpendicularVec();
