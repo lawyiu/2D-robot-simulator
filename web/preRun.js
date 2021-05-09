@@ -22,6 +22,7 @@ Module["preRun"].push(function() {
        switch(event.code) {
            case "KeyR":
                Module["clearSerialOutput"]();
+               Module["clearErrorOutput"]();
                break;
        }
        event.preventDefault();
