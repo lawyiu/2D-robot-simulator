@@ -11,17 +11,24 @@
     <div class="container">
         <iframe id="sim-frame" src="sim.html" frameBorder="0"></iframe>
 
-        <p class="console-header">Serial Monitor</p>
+        <h3 class="console-header">Controls</h3>
+        <p>R - Restart the simulation.</p>
+        <p>L - Load new code without restarting the simulation.</p>
+        <p>Spacebar - Pause the simulation.</p>
+        <p>Arrow Keys / left mouse button - Pan the camera around.</p>
+        <p>Mouse wheel - Zoom in or out.</p>
+
+        <h3 class="console-header">Serial Monitor</h3>
         <div class="msg-container">
         <textarea class="console" id="serial-console" readonly=true></textarea>
         </div>
 
-        <p class="console-header">Error Output</p>
+        <h3 class="console-header">Error Output</h3>
         <div class="msg-container">
         <textarea class="console" id="error-console" readonly=true></textarea>
         </div>
 
-        <p class="console-header">Arduino Program Editor</p>
+        <h3 class="console-header">Arduino Program Editor</h3>
         <select id="examples-selection"></select>
         <form class="editor-form">
         <div class="editor-container">
@@ -30,7 +37,7 @@
         </div>
         </form>
 
-        <p class="console-header">Compiler Output</p>
+        <h3 class="console-header">Compiler Output</h3>
         <div class="msg-container">
         <textarea class="console" id="compiler-console" readonly=true></textarea>
         </div>
