@@ -89,16 +89,18 @@ if(EMSCRIPTEN)
     )
 endif()
 
-set(TEST_SOURCES
-    src/pinsController.cpp
-    tests/pinsControllerTests.cpp
-)
+if(!EMSCRIPTEN)
+    set(TEST_SOURCES
+        src/pinsController.cpp
+        tests/pinsControllerTests.cpp
+    )
 
-add_executable(tests ${TEST_SOURCES})
-target_include_directories(tests
-    PUBLIC src
-)
-target_link_libraries(tests gtest_main)
-add_test(NAME tests COMMAND tests)
+    add_executable(tests ${TEST_SOURCES})
+    target_include_directories(tests
+        PUBLIC src
+    )
+    target_link_libraries(tests gtest_main)
+    add_test(NAME tests COMMAND tests)
 
-add_dependencies(tests piksel)
+    add_dependencies(tests piksel)
+endif()
