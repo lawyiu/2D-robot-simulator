@@ -50,6 +50,8 @@ Please note that Windows users will need to use WSL to build for the web or desk
     R - Restart the simulation.
     L - Load new code without restarting the simulation.
     Spacebar - Pause the simulation.
+    Arrow Keys / left mouse button - Pan the camera around.
+    Mouse wheel - Zoom in or out.
 
 ## What's working
   * Serial printing
