@@ -169,7 +169,7 @@
     }
   
    }
-   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 805, "audio": 0}], "remote_package_size": 805, "package_uuid": "581140c5-a5fd-48e1-9eb8-7b1d16bf5e7a"});
+   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 808, "audio": 0}], "remote_package_size": 808, "package_uuid": "25796531-1cbd-4b7c-8e77-9ee5fdb97f1b"});
   
   })();
   
@@ -364,7 +364,7 @@ Module['FS_createPath']("/data/fonts", "OpenSans", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "4bbba320-8f81-4e84-9889-54056f363a26"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "9a5fe6ad-f37c-4e1b-b614-9826e7b70169"});
   
   })();
   
@@ -944,10 +944,6 @@ function addFunction(func, sig) {
 
 
 // end include: runtime_debug.js
-function makeBigInt(low, high, unsigned) {
-  return unsigned ? ((+((low>>>0)))+((+((high>>>0)))*4294967296.0)) : ((+((low>>>0)))+((+((high|0)))*4294967296.0));
-}
-
 var tempRet0 = 0;
 
 var setTempRet0 = function(value) {
@@ -957,10 +953,6 @@ var setTempRet0 = function(value) {
 var getTempRet0 = function() {
   return tempRet0;
 };
-
-function getCompilerSetting(name) {
-  throw 'You must build with -s RETAIN_COMPILER_SETTINGS=1 for getCompilerSetting or emscripten_get_compiler_setting to work';
-}
 
 
 
@@ -973,6 +965,8 @@ function getCompilerSetting(name) {
 // You can also build docs locally as HTML or other formats in site/
 // An online HTML version (which may be of a different version of Emscripten)
 //    is up at http://kripken.github.io/emscripten-site/docs/api_reference/preamble.js.html
+
+var dynamicLibraries = Module['dynamicLibraries'] || [];
 
 var wasmBinary;
 if (Module['wasmBinary']) wasmBinary = Module['wasmBinary'];
@@ -1011,7 +1005,7 @@ if (typeof WebAssembly !== 'object') {
 function setValue(ptr, value, type, noSafe) {
   type = type || 'i8';
   if (type.charAt(type.length-1) === '*') type = 'i32'; // pointers are 32-bit
-    switch(type) {
+    switch (type) {
       case 'i1': HEAP8[((ptr)>>0)] = value; break;
       case 'i8': HEAP8[((ptr)>>0)] = value; break;
       case 'i16': HEAP16[((ptr)>>1)] = value; break;
@@ -1029,7 +1023,7 @@ function setValue(ptr, value, type, noSafe) {
 function getValue(ptr, type, noSafe) {
   type = type || 'i8';
   if (type.charAt(type.length-1) === '*') type = 'i32'; // pointers are 32-bit
-    switch(type) {
+    switch (type) {
       case 'i1': return HEAP8[((ptr)>>0)];
       case 'i8': return HEAP8[((ptr)>>0)];
       case 'i16': return HEAP16[((ptr)>>1)];
@@ -1594,15 +1588,6 @@ function updateGlobalBufferAndViews(buf) {
   Module['HEAPF64'] = HEAPF64 = new Float64Array(buf);
 }
 
-var __stack_pointer = new WebAssembly.Global({value: 'i32', mutable: true}, 5544592);
-
-// To support such allocations during startup, track them on __heap_base and
-// then when the main module is loaded it reads that value and uses it to
-// initialize sbrk (the main module is relocatable itself, and so it does not
-// have __heap_base hardcoded into it - it receives it from JS as an extern
-// global, basically).
-Module['___heap_base'] = 5544592;
-
 var TOTAL_STACK = 5242880;
 if (Module['TOTAL_STACK']) assert(TOTAL_STACK === Module['TOTAL_STACK'], 'the stack size can no longer be determined at runtime')
 
@@ -1654,7 +1639,7 @@ updateGlobalBufferAndViews(buffer);
 // include: runtime_init_table.js
 // In RELOCATABLE mode we create the table in JS.
 var wasmTable = new WebAssembly.Table({
-  'initial': 1193,
+  'initial': 1192,
   'element': 'anyfunc'
 });
 
@@ -1689,17 +1674,13 @@ function checkStackCookie() {
 // include: runtime_assertions.js
 
 
-// Endianness check (note: assumes compiler arch was little-endian)
+// Endianness check
 (function() {
   var h16 = new Int16Array(1);
   var h8 = new Int8Array(h16.buffer);
   h16[0] = 0x6373;
-  if (h8[0] !== 0x73 || h8[1] !== 0x63) throw 'Runtime error: expected the system to be little-endian!';
+  if (h8[0] !== 0x73 || h8[1] !== 0x63) throw 'Runtime error: expected the system to be little-endian! (Run with -s SUPPORT_BIG_ENDIAN=1 to bypass)';
 })();
-
-function abortFnPtrError(ptr, sig) {
-	abort("Invalid function pointer " + ptr + " called with signature '" + sig + "'. Perhaps this is an invalid value (e.g. caused by calling a virtual method on a NULL pointer)? Or calling a function with an incorrect type, which will fail? (it is worth building your source files with -Werror (warnings are errors), as warnings can indicate undefined behavior which can cause this). Build with ASSERTIONS=2 for more info.");
-}
 
 // end include: runtime_assertions.js
 var __ATPRERUN__  = []; // functions called before the runtime is initialized
@@ -1710,8 +1691,6 @@ var __ATPOSTRUN__ = []; // functions called after the main() is called
 
 var runtimeInitialized = false;
 var runtimeExited = false;
-
-__ATINIT__.push({ func: function() { ___wasm_call_ctors() } });
 
 function preRun() {
 
@@ -1922,25 +1901,18 @@ function abort(what) {
 // include: URIUtils.js
 
 
-function hasPrefix(str, prefix) {
-  return String.prototype.startsWith ?
-      str.startsWith(prefix) :
-      str.indexOf(prefix) === 0;
-}
-
 // Prefix of data URIs emitted by SINGLE_FILE and related options.
 var dataURIPrefix = 'data:application/octet-stream;base64,';
 
 // Indicates whether filename is a base64 data URI.
 function isDataURI(filename) {
-  return hasPrefix(filename, dataURIPrefix);
+  // Prefix of data URIs emitted by SINGLE_FILE and related options.
+  return filename.startsWith(dataURIPrefix);
 }
-
-var fileURIPrefix = "file://";
 
 // Indicates whether filename is delivered via file protocol (as opposed to http/https)
 function isFileURI(filename) {
-  return hasPrefix(filename, fileURIPrefix);
+  return filename.startsWith('file://');
 }
 
 // end include: URIUtils.js
@@ -2035,28 +2007,36 @@ function createWasm() {
 
     Module['asm'] = exports;
 
+    var metadata = getDylinkMetadata(module);
+    if (metadata.neededDynlibs) {
+      dynamicLibraries = metadata.neededDynlibs.concat(dynamicLibraries);
+    }
+    mergeLibSymbols(exports, 'main')
+
+    addOnInit(Module['asm']['__wasm_call_ctors']);
+
     removeRunDependency('wasm-instantiate');
   }
   // we can't run yet (except in a pthread, where we have a custom sync instantiator)
   addRunDependency('wasm-instantiate');
 
+  // Prefer streaming instantiation if available.
   // Async compilation can be confusing when an error on the page overwrites Module
   // (for example, if the order of elements is wrong, and the one defining Module is
   // later), so we save Module and check it later.
   var trueModule = Module;
-  function receiveInstantiatedSource(output) {
-    // 'output' is a WebAssemblyInstantiatedSource object which has both the module and instance.
+  function receiveInstantiationResult(result) {
+    // 'result' is a ResultObject object which has both the module and instance.
     // receiveInstance() will swap in the exports (to Module.asm) so they can be called
     assert(Module === trueModule, 'the Module object should not be replaced during async compilation - perhaps the order of HTML elements is wrong?');
     trueModule = null;
-    // TODO: Due to Closure regression https://github.com/google/closure-compiler/issues/3193, the above line no longer optimizes out down to the following line.
-    // When the regression is fixed, can restore the above USE_PTHREADS-enabled path.
-    receiveInstance(output['instance']);
+    receiveInstance(result['instance'], result['module']);
   }
 
   function instantiateArrayBuffer(receiver) {
     return getBinaryPromise().then(function(binary) {
-      return WebAssembly.instantiate(binary, info);
+      var result = WebAssembly.instantiate(binary, info);
+      return result;
     }).then(receiver, function(reason) {
       err('failed to asynchronously prepare wasm: ' + reason);
 
@@ -2068,7 +2048,6 @@ function createWasm() {
     });
   }
 
-  // Prefer streaming instantiation if available.
   function instantiateAsync() {
     if (!wasmBinary &&
         typeof WebAssembly.instantiateStreaming === 'function' &&
@@ -2078,16 +2057,16 @@ function createWasm() {
         typeof fetch === 'function') {
       return fetch(wasmBinaryFile, { credentials: 'same-origin' }).then(function (response) {
         var result = WebAssembly.instantiateStreaming(response, info);
-        return result.then(receiveInstantiatedSource, function(reason) {
+        return result.then(receiveInstantiationResult, function(reason) {
             // We expect the most common failure cause to be a bad MIME type for the binary,
             // in which case falling back to ArrayBuffer instantiation should work.
             err('wasm streaming compile failed: ' + reason);
             err('falling back to ArrayBuffer instantiation');
-            return instantiateArrayBuffer(receiveInstantiatedSource);
+            return instantiateArrayBuffer(receiveInstantiationResult);
           });
       });
     } else {
-      return instantiateArrayBuffer(receiveInstantiatedSource);
+      return instantiateArrayBuffer(receiveInstantiationResult);
     }
   }
 
@@ -2115,12 +2094,12 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  281360: function() {var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px';},  
- 281550: function() {setTimeout(function() { var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px'; }, 0);},  
- 281771: function($0) {if (!$0) { AL.alcErr = 0xA004 ; return 1; }},  
- 281819: function($0) {err("bad name in alcGetProcAddress: " + UTF8ToString($0));},  
- 281882: function($0) {if (!AL.currentCtx) { err("alGetProcAddress() called without a valid context"); return 1; } if (!$0) { AL.currentCtx.err = 0xA003 ; return 1; }},  
- 282030: function($0) {err("bad name in alGetProcAddress: " + UTF8ToString($0));}
+  281920: function() {var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px';},  
+ 282110: function() {setTimeout(function() { var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px'; }, 0);},  
+ 282331: function($0) {if (!$0) { AL.alcErr = 0xA004 ; return 1; }},  
+ 282379: function($0) {err("bad name in alcGetProcAddress: " + UTF8ToString($0));},  
+ 282442: function($0) {if (!AL.currentCtx) { err("alGetProcAddress() called without a valid context"); return 1; } if (!$0) { AL.currentCtx.err = 0xA003 ; return 1; }},  
+ 282590: function($0) {err("bad name in alGetProcAddress: " + UTF8ToString($0));}
 };
 
 
@@ -2132,14 +2111,14 @@ var ASM_CONSTS = {
   Module["GOT"] = GOT;
   var GOTHandler={get:function(obj, symName) {
         if (!GOT[symName]) {
-          GOT[symName] = new WebAssembly.Global({value: 'i32', mutable: true});
+          GOT[symName] = new WebAssembly.Global({'value': 'i32', 'mutable': true});
         }
         return GOT[symName]
       }};
   Module["GOTHandler"] = GOTHandler;
 
   function callRuntimeCallbacks(callbacks) {
-      while(callbacks.length > 0) {
+      while (callbacks.length > 0) {
         var callback = callbacks.shift();
         if (typeof callback == 'function') {
           callback(Module); // Pass the module as the first argument.
@@ -2176,6 +2155,63 @@ var ASM_CONSTS = {
     }
   Module["demangleAll"] = demangleAll;
 
+  function getDylinkMetadata(binary) {
+      var next = 0;
+      function getLEB() {
+        var ret = 0;
+        var mul = 1;
+        while (1) {
+          var byte = binary[next++];
+          ret += ((byte & 0x7f) * mul);
+          mul *= 0x80;
+          if (!(byte & 0x80)) break;
+        }
+        return ret;
+      }
+  
+      if (binary instanceof WebAssembly.Module) {
+        var dylinkSection = WebAssembly.Module.customSections(binary, "dylink");
+        assert(dylinkSection.length != 0, 'need dylink section');
+        binary = new Int8Array(dylinkSection[0]);
+      } else {
+        var int32View = new Uint32Array(new Uint8Array(binary.subarray(0, 24)).buffer);
+        assert(int32View[0] == 0x6d736100, 'need to see wasm magic number'); // \0asm
+        // we should see the dylink section right after the magic number and wasm version
+        assert(binary[8] === 0, 'need the dylink section to be first')
+        next = 9;
+        getLEB(); //section size
+        assert(binary[next] === 6);                 next++; // size of "dylink" string
+        assert(binary[next] === 'd'.charCodeAt(0)); next++;
+        assert(binary[next] === 'y'.charCodeAt(0)); next++;
+        assert(binary[next] === 'l'.charCodeAt(0)); next++;
+        assert(binary[next] === 'i'.charCodeAt(0)); next++;
+        assert(binary[next] === 'n'.charCodeAt(0)); next++;
+        assert(binary[next] === 'k'.charCodeAt(0)); next++;
+      }
+  
+      var customSection = {};
+      customSection.memorySize = getLEB();
+      customSection.memoryAlign = getLEB();
+      customSection.tableSize = getLEB();
+      customSection.tableAlign = getLEB();
+      var tableAlign = Math.pow(2, customSection.tableAlign);
+      assert(tableAlign === 1, 'invalid tableAlign ' + tableAlign);
+      // shared libraries this module needs. We need to load them first, so that
+      // current module could resolve its imports. (see tools/shared.py
+      // WebAssembly.make_shared_library() for "dylink" section extension format)
+      var neededDynlibsCount = getLEB();
+      customSection.neededDynlibs = [];
+      for (var i = 0; i < neededDynlibsCount; ++i) {
+        var nameLen = getLEB();
+        var nameUTF8 = binary.subarray(next, next + nameLen);
+        next += nameLen;
+        var name = UTF8ArrayToString(nameUTF8, 0);
+        customSection.neededDynlibs.push(name);
+      }
+      return customSection;
+    }
+  Module["getDylinkMetadata"] = getDylinkMetadata;
+
   function jsStackTrace() {
       var error = new Error();
       if (!error.stack) {
@@ -2194,9 +2230,70 @@ var ASM_CONSTS = {
     }
   Module["jsStackTrace"] = jsStackTrace;
 
+  var runtimeKeepaliveCounter=0;
+  Module["runtimeKeepaliveCounter"] = runtimeKeepaliveCounter;
+  function keepRuntimeAlive() {
+      return noExitRuntime || runtimeKeepaliveCounter > 0;
+    }
+  Module["keepRuntimeAlive"] = keepRuntimeAlive;
+
+  function asmjsMangle(x) {
+      var unmangledSymbols = ['stackAlloc','stackSave','stackRestore'];
+      return x.indexOf('dynCall_') == 0 || unmangledSymbols.includes(x) ? x : '_' + x;
+    }
+  Module["asmjsMangle"] = asmjsMangle;
+  function mergeLibSymbols(exports, libName) {
+      // add symbols into global namespace TODO: weak linking etc.
+      for (var sym in exports) {
+        if (!exports.hasOwnProperty(sym)) {
+          continue;
+        }
+  
+        // When RTLD_GLOBAL is enable, the symbols defined by this shared object will be made
+        // available for symbol resolution of subsequently loaded shared objects.
+        //
+        // We should copy the symbols (which include methods and variables) from SIDE_MODULE to MAIN_MODULE.
+  
+        if (!asmLibraryArg.hasOwnProperty(sym)) {
+          asmLibraryArg[sym] = exports[sym];
+        }
+  
+        // Export native export on the Module object.
+        // TODO(sbc): Do all users want this?  Should we skip this by default?
+        var module_sym = asmjsMangle(sym);
+        if (!Module.hasOwnProperty(module_sym)) {
+          Module[module_sym] = exports[sym];
+        }
+      }
+    }
+  Module["mergeLibSymbols"] = mergeLibSymbols;
+
   var LDSO={nextHandle:1,loadedLibs:{},loadedLibNames:{}};
   Module["LDSO"] = LDSO;
   
+  function dynCallLegacy(sig, ptr, args) {
+      assert(('dynCall_' + sig) in Module, 'bad function pointer type - no table for sig \'' + sig + '\'');
+      if (args && args.length) {
+        // j (64-bit integer) must be passed in as two numbers [low 32, high 32].
+        assert(args.length === sig.substring(1).replace(/j/g, '--').length);
+      } else {
+        assert(sig.length == 1);
+      }
+      var f = Module["dynCall_" + sig];
+      return args && args.length ? f.apply(null, [ptr].concat(args)) : f.call(null, ptr);
+    }
+  Module["dynCallLegacy"] = dynCallLegacy;
+  function dynCall(sig, ptr, args) {
+      // Without WASM_BIGINT support we cannot directly call function with i64 as
+      // part of thier signature, so we rely the dynCall functions generated by
+      // wasm-emscripten-finalize
+      if (sig.includes('j')) {
+        return dynCallLegacy(sig, ptr, args);
+      }
+      assert(wasmTable.get(ptr), 'missing table entry in dynCall: ' + ptr);
+      return wasmTable.get(ptr).apply(null, args)
+    }
+  Module["dynCall"] = dynCall;
   function createInvokeFunction(sig) {
       return function() {
         var sp = stackSave();
@@ -2211,14 +2308,16 @@ var ASM_CONSTS = {
     }
   Module["createInvokeFunction"] = createInvokeFunction;
   
+  var ___heap_base=5545152;
+  Module["___heap_base"] = ___heap_base;
   function getMemory(size) {
       // After the runtime is initialized, we must only use sbrk() normally.
       if (runtimeInitialized)
         return _malloc(size);
-      var ret = Module['___heap_base'];
+      var ret = ___heap_base;
       var end = (ret + size + 15) & -16;
       assert(end <= HEAP8.length, 'failure to getMemory - memory growth etc. is not supported there, call malloc/sbrk directly or increase INITIAL_MEMORY');
-      Module['___heap_base'] = end;
+      ___heap_base = end;
       GOT['__heap_base'].value = end;
       return ret;
     }
@@ -2231,7 +2330,7 @@ var ASM_CONSTS = {
         '__wasm_apply_data_relocs',
         '__dso_handle',
         '__set_stack_limits'
-      ].indexOf(symName) != -1
+      ].includes(symName)
       ;
     }
   Module["isInternalSym"] = isInternalSym;
@@ -2243,13 +2342,13 @@ var ASM_CONSTS = {
   
         var replace = false;
         var value = exports[symName];
-        if (symName.indexOf('orig$') == 0) {
+        if (symName.startsWith('orig$')) {
           symName = symName.split('$')[1];
           replace = true;
         }
   
         if (!GOT[symName]) {
-          GOT[symName] = new WebAssembly.Global({value: 'i32', mutable: true});
+          GOT[symName] = new WebAssembly.Global({'value': 'i32', 'mutable': true});
         }
         if (replace || GOT[symName].value == 0) {
           if (typeof value === 'function') {
@@ -2283,137 +2382,60 @@ var ASM_CONSTS = {
     }
   Module["relocateExports"] = relocateExports;
   
-  function asmjsMangle(x) {
-      var unmangledSymbols = ['setTempRet0','getTempRet0','stackAlloc','stackSave','stackRestore'];
-      return x.indexOf('dynCall_') == 0 || unmangledSymbols.indexOf(x) != -1 ? x : '_' + x;
-    }
-  Module["asmjsMangle"] = asmjsMangle;
   function resolveGlobalSymbol(symName, direct) {
       var sym;
       if (direct) {
         // First look for the orig$ symbol which is the symbols without
-        // any legalization performed.   Here we look on the 'asm' object
-        // to avoid any JS wrapping of the symbol.
-        sym = Module['asm']['orig$' + symName];
+        // any legalization performed.
+        sym = asmLibraryArg['orig$' + symName];
       }
-      // Then look for the unmangled name itself.
       if (!sym) {
-        sym = Module['asm'][symName];
-      }
-      // fall back to the mangled name on the module object which could include
-      // JavaScript functions and wrapped native functions.
-      if (!sym && direct) {
-        sym = Module['_orig$' + symName];
+        sym = asmLibraryArg[symName];
       }
   
+      // Check for the symbol on the Module object.  This is the only
+      // way to dynamically access JS library symbols that were not
+      // referenced by the main module (and therefore not part of the
+      // initial set of symbols included in asmLibraryArg when it
+      // was declared.
       if (!sym) {
         sym = Module[asmjsMangle(symName)];
       }
   
-      if (!sym && symName.indexOf('invoke_') == 0) {
+      if (!sym && symName.startsWith('invoke_')) {
         sym = createInvokeFunction(symName.split('_')[1]);
       }
   
       return sym;
     }
   Module["resolveGlobalSymbol"] = resolveGlobalSymbol;
-  
-  function getDylinkMetadata(binary) {
-      var next = 0;
-      function getLEB() {
-        var ret = 0;
-        var mul = 1;
-        while (1) {
-          var byte = binary[next++];
-          ret += ((byte & 0x7f) * mul);
-          mul *= 0x80;
-          if (!(byte & 0x80)) break;
-        }
-        return ret;
-      }
-  
-      function parseDylinkSection() {
-        var customSection = {};
-        customSection.memorySize = getLEB();
-        customSection.memoryAlign = getLEB();
-        customSection.tableSize = getLEB();
-        customSection.tableAlign = getLEB();
-        // shared libraries this module needs. We need to load them first, so that
-        // current module could resolve its imports. (see tools/shared.py
-        // WebAssembly.make_shared_library() for "dylink" section extension format)
-        var neededDynlibsCount = getLEB();
-        customSection.neededDynlibs = [];
-        for (var i = 0; i < neededDynlibsCount; ++i) {
-          var nameLen = getLEB();
-          var nameUTF8 = binary.subarray(next, next + nameLen);
-          next += nameLen;
-          var name = UTF8ArrayToString(nameUTF8, 0);
-          customSection.neededDynlibs.push(name);
-        }
-        return customSection;
-      }
-  
-      if (binary instanceof WebAssembly.Module) {
-        var dylinkSection = WebAssembly.Module.customSections(binary, "dylink");
-        assert(dylinkSection.length != 0, 'need dylink section');
-        binary = new Int8Array(dylinkSection[0]);
-      } else {
-        var int32View = new Uint32Array(new Uint8Array(binary.subarray(0, 24)).buffer);
-        assert(int32View[0] == 0x6d736100, 'need to see wasm magic number'); // \0asm
-        // we should see the dylink section right after the magic number and wasm version
-        assert(binary[8] === 0, 'need the dylink section to be first')
-        next = 9;
-        getLEB(); //section size
-        assert(binary[next] === 6);                 next++; // size of "dylink" string
-        assert(binary[next] === 'd'.charCodeAt(0)); next++;
-        assert(binary[next] === 'y'.charCodeAt(0)); next++;
-        assert(binary[next] === 'l'.charCodeAt(0)); next++;
-        assert(binary[next] === 'i'.charCodeAt(0)); next++;
-        assert(binary[next] === 'n'.charCodeAt(0)); next++;
-        assert(binary[next] === 'k'.charCodeAt(0)); next++;
-      }
-  
-      return parseDylinkSection();
-    }
-  Module["getDylinkMetadata"] = getDylinkMetadata;
   function loadWebAssemblyModule(binary, flags) {
       var metadata = getDylinkMetadata(binary);
-      var memorySize = metadata.memorySize;
-      var memoryAlign = metadata.memoryAlign;
-      var tableSize = metadata.tableSize;
-      var tableAlign = metadata.tableAlign;
-      var neededDynlibs = metadata.neededDynlibs;
+      var originalTable = wasmTable;
   
       // loadModule loads the wasm module after all its dependencies have been loaded.
       // can be called both sync/async.
       function loadModule() {
         // alignments are powers of 2
-        memoryAlign = Math.pow(2, memoryAlign);
-        tableAlign = Math.pow(2, tableAlign);
+        var memAlign = Math.pow(2, metadata.memoryAlign);
         // finalize alignments and verify them
-        memoryAlign = Math.max(memoryAlign, STACK_ALIGN); // we at least need stack alignment
-        assert(tableAlign === 1, 'invalid tableAlign ' + tableAlign);
+        memAlign = Math.max(memAlign, STACK_ALIGN); // we at least need stack alignment
         // prepare memory
-        var memoryBase = alignMemory(getMemory(memorySize + memoryAlign), memoryAlign); // TODO: add to cleanups
-        // prepare env imports
-        var env = asmLibraryArg;
+        var memoryBase = alignMemory(getMemory(metadata.memorySize + memAlign), memAlign); // TODO: add to cleanups
         // TODO: use only __memory_base and __table_base, need to update asm.js backend
-        var table = wasmTable;
-        var tableBase = table.length;
-        var originalTable = table;
-        table.grow(tableSize);
-        assert(table === originalTable);
+        var tableBase = wasmTable.length;
+        wasmTable.grow(metadata.tableSize);
         // zero-initialize memory and table
         // The static area consists of explicitly initialized data, followed by zero-initialized data.
         // The latter may need zeroing out if the MAIN_MODULE has already used this memory area before
         // dlopen'ing the SIDE_MODULE.  Since we don't know the size of the explicitly initialized data
         // here, we just zero the whole thing, which is suboptimal, but should at least resolve bugs
         // from uninitialized memory.
-        for (var i = memoryBase; i < memoryBase + memorySize; i++) {
-          HEAP8[i] = 0;
-        }
-        for (var i = tableBase; i < tableBase + tableSize; i++) {
-          table.set(i, null);
+          for (var i = memoryBase; i < memoryBase + metadata.memorySize; i++) {
+            HEAP8[i] = 0;
+          }
+        for (var i = tableBase; i < tableBase + metadata.tableSize; i++) {
+          wasmTable.set(i, null);
         }
   
         // This is the export map that we ultimately return.  We declare it here
@@ -2433,13 +2455,6 @@ var ASM_CONSTS = {
           return resolved;
         }
   
-        // copy currently exported symbols so the new module can import them
-        for (var x in Module) {
-          if (!(x in env)) {
-            env[x] = Module[x];
-          }
-        }
-  
         // TODO kill ↓↓↓ (except "symbols local to this module", it will likely be
         // not needed if we require that if A wants symbols from B it has to link
         // to B explicitly: similarly to -Wl,--no-undefined)
@@ -2452,7 +2467,7 @@ var ASM_CONSTS = {
         // are. To do that here, we use a JS proxy (another option would
         // be to inspect the binary directly).
         var proxyHandler = {
-          'get': function(obj, prop) {
+          'get': function(stubs, prop) {
             // symbols that should be local to this module
             switch (prop) {
               case '__memory_base':
@@ -2460,32 +2475,36 @@ var ASM_CONSTS = {
               case '__table_base':
                 return tableBase;
             }
-            if (prop in obj) {
-              return obj[prop]; // already present
+            if (prop in asmLibraryArg) {
+              // No stub needed, symbol already exists in symbol table
+              return asmLibraryArg[prop];
             }
-            // otherwise this is regular function import - call it indirectly
-            var resolved;
-            return obj[prop] = function() {
-              if (!resolved) resolved = resolveSymbol(prop, true);
-              return resolved.apply(null, arguments);
-            };
+            // Return a stub function that will resolve the symbol
+            // when first called.
+            if (!(prop in stubs)) {
+              var resolved;
+              stubs[prop] = function() {
+                if (!resolved) resolved = resolveSymbol(prop, true);
+                return resolved.apply(null, arguments);
+              };
+            }
+            return stubs[prop];
           }
         };
-        var proxy = new Proxy(env, proxyHandler);
+        var proxy = new Proxy({}, proxyHandler);
         var info = {
-          'GOT.mem': new Proxy(asmLibraryArg, GOTHandler),
-          'GOT.func': new Proxy(asmLibraryArg, GOTHandler),
+          'GOT.mem': new Proxy({}, GOTHandler),
+          'GOT.func': new Proxy({}, GOTHandler),
           'env': proxy,
           wasi_snapshot_preview1: proxy,
         };
   
         function postInstantiation(instance) {
           // the table should be unchanged
-          assert(table === originalTable);
-          assert(table === wasmTable);
+          assert(wasmTable === originalTable);
           // add new entries to functionsInTableMap
-          for (var i = 0; i < tableSize; i++) {
-            var item = table.get(tableBase + i);
+          for (var i = 0; i < metadata.tableSize; i++) {
+            var item = wasmTable.get(tableBase + i);
             // verify that the new table region was filled in
             assert(item !== undefined, 'table entry was not filled in');
             // Ignore null values.
@@ -2497,16 +2516,22 @@ var ASM_CONSTS = {
           if (!flags.allowUndefined) {
             reportUndefinedSymbols();
           }
+  
           // initialize the module
-          var init = moduleExports['__post_instantiate'];
-          if (init) {
-            if (runtimeInitialized) {
-              init();
-            } else {
-              // we aren't ready to run compiled code yet
-              __ATINIT__.push(init);
+            var init = moduleExports['__wasm_call_ctors'];
+            // TODO(sbc): Remove this once extra check once the binaryen
+            // change propogates: https://github.com/WebAssembly/binaryen/pull/3811
+            if (!init) {
+              init = moduleExports['__post_instantiate'];
             }
-          }
+            if (init) {
+              if (runtimeInitialized) {
+                init();
+              } else {
+                // we aren't ready to run compiled code yet
+                __ATINIT__.push(init);
+              }
+            }
           return moduleExports;
         }
   
@@ -2527,7 +2552,7 @@ var ASM_CONSTS = {
   
       // now load needed libraries and the module itself.
       if (flags.loadAsync) {
-        return neededDynlibs.reduce(function(chain, dynNeeded) {
+        return metadata.neededDynlibs.reduce(function(chain, dynNeeded) {
           return chain.then(function() {
             return loadDynamicLibrary(dynNeeded, flags);
           });
@@ -2536,7 +2561,7 @@ var ASM_CONSTS = {
         });
       }
   
-      neededDynlibs.forEach(function(dynNeeded) {
+      metadata.neededDynlibs.forEach(function(dynNeeded) {
         loadDynamicLibrary(dynNeeded, flags);
       });
       return loadModule();
@@ -2554,27 +2579,6 @@ var ASM_CONSTS = {
       });
     }
   Module["fetchBinary"] = fetchBinary;
-  
-  function mergeLibSymbols(libModule, libName) {
-      // add symbols into global namespace TODO: weak linking etc.
-      for (var sym in libModule) {
-        if (!libModule.hasOwnProperty(sym)) {
-          continue;
-        }
-  
-        // When RTLD_GLOBAL is enable, the symbols defined by this shared object will be made
-        // available for symbol resolution of subsequently loaded shared objects.
-        //
-        // We should copy the symbols (which include methods and variables) from SIDE_MODULE to MAIN_MODULE.
-  
-        var module_sym = asmjsMangle(sym);
-  
-        if (!Module.hasOwnProperty(module_sym)) {
-          Module[module_sym] = libModule[sym];
-        }
-      }
-    }
-  Module["mergeLibSymbols"] = mergeLibSymbols;
   function loadDynamicLibrary(lib, flags) {
       if (lib == '__main__' && !LDSO.loadedLibNames[lib]) {
         LDSO.loadedLibs[-1] = {
@@ -2697,11 +2701,7 @@ var ASM_CONSTS = {
     }
   Module["reportUndefinedSymbols"] = reportUndefinedSymbols;
   function preloadDylibs() {
-      var libs = [];
-      if (Module['dynamicLibraries']) {
-        libs = libs.concat(Module['dynamicLibraries'])
-      }
-      if (!libs.length) {
+      if (!dynamicLibraries.length) {
         reportUndefinedSymbols();
         return;
       }
@@ -2710,7 +2710,7 @@ var ASM_CONSTS = {
       if (!readBinary) {
         // we can't read binary data synchronously, so preload
         addRunDependency('preloadDylibs');
-        libs.reduce(function(chain, lib) {
+        dynamicLibraries.reduce(function(chain, lib) {
           return chain.then(function() {
             return loadDynamicLibrary(lib, {loadAsync: true, global: true, nodelete: true, allowUndefined: true});
           });
@@ -2722,7 +2722,7 @@ var ASM_CONSTS = {
         return;
       }
   
-      libs.forEach(function(lib) {
+      dynamicLibraries.forEach(function(lib) {
         // libraries linked to main never go away
         loadDynamicLibrary(lib, {global: true, nodelete: true, allowUndefined: true});
       });
@@ -2738,36 +2738,6 @@ var ASM_CONSTS = {
       return demangleAll(js);
     }
   Module["stackTrace"] = stackTrace;
-
-  function __Unwind_GetIP(
-  ) {
-  if (!Module['__Unwind_GetIP']) abort("external symbol '_Unwind_GetIP' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['__Unwind_GetIP'].apply(null, arguments);
-  }
-
-  function __Unwind_GetLanguageSpecificData(
-  ) {
-  if (!Module['__Unwind_GetLanguageSpecificData']) abort("external symbol '_Unwind_GetLanguageSpecificData' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['__Unwind_GetLanguageSpecificData'].apply(null, arguments);
-  }
-
-  function __Unwind_GetRegionStart(
-  ) {
-  if (!Module['__Unwind_GetRegionStart']) abort("external symbol '_Unwind_GetRegionStart' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['__Unwind_GetRegionStart'].apply(null, arguments);
-  }
-
-  function __Unwind_SetGR(
-  ) {
-  if (!Module['__Unwind_SetGR']) abort("external symbol '_Unwind_SetGR' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['__Unwind_SetGR'].apply(null, arguments);
-  }
-
-  function __Unwind_SetIP(
-  ) {
-  if (!Module['__Unwind_SetIP']) abort("external symbol '_Unwind_SetIP' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['__Unwind_SetIP'].apply(null, arguments);
-  }
 
   function _tzset() {
       // TODO: Use (malleable) environment variables instead of system settings.
@@ -2856,7 +2826,7 @@ var ASM_CONSTS = {
     }
   Module["_mktime"] = _mktime;
   _mktime.sig = 'ii';
-  function _asctime_r(tmPtr, buf) {
+  function ___asctime(tmPtr, buf) {
       var date = {
         tm_sec: HEAP32[((tmPtr)>>2)],
         tm_min: HEAP32[(((tmPtr)+(4))>>2)],
@@ -2883,14 +2853,8 @@ var ASM_CONSTS = {
       stringToUTF8(s, buf, 26);
       return buf;
     }
-  Module["_asctime_r"] = _asctime_r;
-  _asctime_r.sig = 'iii';
-  function ___asctime_r(a0,a1
-  ) {
-  return _asctime_r(a0,a1);
-  }
-  Module["___asctime_r"] = ___asctime_r;
-  ___asctime_r.sig = 'iii';
+  Module["___asctime"] = ___asctime;
+  ___asctime.sig = 'iii';
 
   function ___assert_fail(condition, filename, line, func) {
       abort('Assertion failed: ' + UTF8ToString(condition) + ', at: ' + [filename ? UTF8ToString(filename) : 'unknown filename', line, func ? UTF8ToString(func) : 'unknown function']);
@@ -2948,6 +2912,7 @@ var ASM_CONSTS = {
       return _malloc(size + ExceptionInfoAttrs.SIZE) + ExceptionInfoAttrs.SIZE;
     }
   Module["___cxa_allocate_exception"] = ___cxa_allocate_exception;
+  ___cxa_allocate_exception.sig = 'vi';
 
   function _atexit(func, arg) {
       __ATEXIT__.unshift({ func: func, arg: arg });
@@ -3038,7 +3003,7 @@ var ASM_CONSTS = {
       info.init(type, destructor);
       exceptionLast = ptr;
       uncaughtExceptionCount++;
-      throw ptr + " - Exception catching is disabled, this exception cannot be caught. Compile with -s DISABLE_EXCEPTION_CATCHING=0 or DISABLE_EXCEPTION_CATCHING=2 to catch." + " (note: in dynamic linking, if a side module wants exceptions, the main module must be built with that support)";
+      throw ptr + " - Exception catching is disabled, this exception cannot be caught. Compile with -s NO_DISABLE_EXCEPTION_CATCHING or -s EXCEPTION_CATCHING_ALLOWED=[..] to catch." + " (note: in dynamic linking, if a side module wants exceptions, the main module must be built with that support)";
     }
   Module["___cxa_throw"] = ___cxa_throw;
   ___cxa_throw.sig = 'viii';
@@ -3070,6 +3035,7 @@ var ASM_CONSTS = {
   }
   Module["___gmtime_r"] = ___gmtime_r;
   ___gmtime_r.sig = 'iii';
+
 
   function _localtime_r(time, tmPtr) {
       _tzset();
@@ -3113,17 +3079,8 @@ var ASM_CONSTS = {
     }
   Module["___map_file"] = ___map_file;
 
-  function ___posix_spawnx(
-  ) {
-  if (!Module['___posix_spawnx']) abort("external symbol '__posix_spawnx' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['___posix_spawnx'].apply(null, arguments);
-  }
-
-  function ___pthread_once(
-  ) {
-  if (!Module['___pthread_once']) abort("external symbol '__pthread_once' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['___pthread_once'].apply(null, arguments);
-  }
+  var ___stack_pointer=new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5545152);
+  Module["___stack_pointer"] = ___stack_pointer;
 
   var PATH={splitPath:function(filename) {
         var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
@@ -3356,7 +3313,7 @@ var ASM_CONSTS = {
               } catch(e) {
                 // Cross-platform differences: on Windows, reading EOF throws an exception, but on other OSes,
                 // reading EOF returns 0. Uniformize behavior by treating the EOF exception to return 0.
-                if (e.toString().indexOf('EOF') != -1) bytesRead = 0;
+                if (e.toString().includes('EOF')) bytesRead = 0;
                 else throw e;
               }
   
@@ -3414,7 +3371,7 @@ var ASM_CONSTS = {
   Module["TTY"] = TTY;
   
   function mmapAlloc(size) {
-      var alignedSize = alignMemory(size, 16384);
+      var alignedSize = alignMemory(size, 65536);
       var ptr = _malloc(alignedSize);
       while (size < alignedSize) HEAP8[ptr + size++] = 0;
       return ptr;
@@ -3898,11 +3855,11 @@ var ASM_CONSTS = {
           return 0;
         }
         // return 0 if any user, group or owner bits are set.
-        if (perms.indexOf('r') !== -1 && !(node.mode & 292)) {
+        if (perms.includes('r') && !(node.mode & 292)) {
           return 2;
-        } else if (perms.indexOf('w') !== -1 && !(node.mode & 146)) {
+        } else if (perms.includes('w') && !(node.mode & 146)) {
           return 2;
-        } else if (perms.indexOf('x') !== -1 && !(node.mode & 73)) {
+        } else if (perms.includes('x') && !(node.mode & 73)) {
           return 2;
         }
         return 0;
@@ -4141,7 +4098,7 @@ var ASM_CONSTS = {
           while (current) {
             var next = current.name_next;
   
-            if (mounts.indexOf(current.mount) !== -1) {
+            if (mounts.includes(current.mount)) {
               FS.destroyNode(current);
             }
   
@@ -5171,7 +5128,7 @@ var ASM_CONSTS = {
           Object.defineProperties(lazyArray, {
             length: {
               get: /** @this{Object} */ function() {
-                if(!this.lengthKnown) {
+                if (!this.lengthKnown) {
                   this.cacheLength();
                 }
                 return this._length;
@@ -5179,7 +5136,7 @@ var ASM_CONSTS = {
             },
             chunkSize: {
               get: /** @this{Object} */ function() {
-                if(!this.lengthKnown) {
+                if (!this.lengthKnown) {
                   this.cacheLength();
                 }
                 return this._chunkSize;
@@ -5605,15 +5562,15 @@ var ASM_CONSTS = {
         // For more documentation see system/include/emscripten/emscripten.h
         Module['websocket']._callbacks = {};
         Module['websocket']['on'] = /** @this{Object} */ function(event, callback) {
-  	    if ('function' === typeof callback) {
-  		  this._callbacks[event] = callback;
+          if ('function' === typeof callback) {
+            this._callbacks[event] = callback;
           }
-  	    return this;
+          return this;
         };
   
         Module['websocket'].emit = /** @this{Object} */ function(event, param) {
-  	    if ('function' === typeof this._callbacks[event]) {
-  		  this._callbacks[event].call(this, param);
+          if ('function' === typeof this._callbacks[event]) {
+            this._callbacks[event].call(this, param);
           }
         };
   
@@ -6239,7 +6196,7 @@ var ASM_CONSTS = {
         return [0, 0, 0, 0, 0, 0, 0, 0];
       }
       // Z placeholder to keep track of zeros when splitting the string on ":"
-      if (str.indexOf("::") === 0) {
+      if (str.startsWith("::")) {
         str = str.replace("::", "Z:"); // leading zeros case
       } else {
         str = str.replace("::", ":Z:");
@@ -6444,8 +6401,8 @@ var ASM_CONSTS = {
         if (parts[5] === 0) {
           str = "::";
           //special case IPv6 addresses
-          if(v4part === "0.0.0.0") v4part = ""; // any/unspecified address
-          if(v4part === "0.0.0.1") v4part = "1";// loopback address
+          if (v4part === "0.0.0.0") v4part = ""; // any/unspecified address
+          if (v4part === "0.0.0.1") v4part = "1";// loopback address
           str += v4part;
           return str;
         }
@@ -6673,7 +6630,6 @@ var ASM_CONSTS = {
   
       path = SYSCALLS.getStr(path);
       path = SYSCALLS.calculateAt(dirfd, path);
-      mode = SYSCALLS.get();
       FS.chmod(path, mode);
       return 0;
     } catch (e) {
@@ -7205,7 +7161,7 @@ var ASM_CONSTS = {
       var allocated = false;
   
       // addr argument must be page aligned if MAP_FIXED flag is set.
-      if ((flags & 16) !== 0 && (addr % 16384) !== 0) {
+      if ((flags & 16) !== 0 && (addr % 65536) !== 0) {
         return -28;
       }
   
@@ -7213,7 +7169,7 @@ var ASM_CONSTS = {
       // but it is widely used way to allocate memory pages on Linux, BSD and Mac.
       // In this case fd argument is ignored.
       if ((flags & 32) !== 0) {
-        ptr = _memalign(16384, len);
+        ptr = _memalign(65536, len);
         if (!ptr) return -48;
         _memset(ptr, 0, len);
         allocated = true;
@@ -7330,7 +7286,7 @@ var ASM_CONSTS = {
   
       path = SYSCALLS.getStr(path);
       path = SYSCALLS.calculateAt(dirfd, path);
-      var mode = SYSCALLS.get();
+      var mode = varargs ? SYSCALLS.get() : 0;
       return FS.open(path, flags, mode).fd;
     } catch (e) {
     if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
@@ -8050,7 +8006,7 @@ var ASM_CONSTS = {
   
       path = SYSCALLS.getStr(path);
       assert(flags === 0);
-      path = SYSCALLS.calculateAt(dirfd, path);
+      path = SYSCALLS.calculateAt(dirfd, path, true);
       var seconds = HEAP32[((times)>>2)];
       var nanoseconds = HEAP32[(((times)+(4))>>2)];
       var atime = (seconds*1000) + (nanoseconds/(1000*1000));
@@ -8106,6 +8062,10 @@ var ASM_CONSTS = {
         return 1; // Return non-zero on failure, can't set timing mode when there is no main loop.
       }
   
+      if (!Browser.mainLoop.running) {
+        runtimeKeepalivePush();
+        Browser.mainLoop.running = true;
+      }
       if (mode == 0 /*EM_TIMING_SETTIMEOUT*/) {
         Browser.mainLoop.scheduler = function Browser_mainLoop_scheduler_setTimeout() {
           var timeUntilNextTick = Math.max(0, Browser.mainLoop.tickStartTime + value - _emscripten_get_now())|0;
@@ -8149,16 +8109,48 @@ var ASM_CONSTS = {
     }
   Module["_emscripten_set_main_loop_timing"] = _emscripten_set_main_loop_timing;
   _emscripten_set_main_loop_timing.sig = 'iii';
-  function setMainLoop(browserIterationFunc, fps, simulateInfiniteLoop, arg, noSetTiming) {
-      noExitRuntime = true;
   
+  function runtimeKeepalivePush() {
+      runtimeKeepaliveCounter += 1;
+    }
+  Module["runtimeKeepalivePush"] = runtimeKeepalivePush;
+  runtimeKeepalivePush.sig = 'v';
+  
+  function maybeExit() {
+      if (!keepRuntimeAlive()) {
+        try {
+          _exit(EXITSTATUS);
+        } catch (e) {
+          if (e instanceof ExitStatus) {
+            return;
+          }
+          throw e;
+        }
+      }
+    }
+  Module["maybeExit"] = maybeExit;
+  function setMainLoop(browserIterationFunc, fps, simulateInfiniteLoop, arg, noSetTiming) {
       assert(!Browser.mainLoop.func, 'emscripten_set_main_loop: there can only be one main loop function at once: call emscripten_cancel_main_loop to cancel the previous one before setting a new one with different parameters.');
   
       Browser.mainLoop.func = browserIterationFunc;
       Browser.mainLoop.arg = arg;
   
       var thisMainLoopId = Browser.mainLoop.currentlyRunningMainloop;
+      function checkIsRunning() {
+        if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) {
+          runtimeKeepalivePop();
+          maybeExit();
+          return false;
+        }
+        return true;
+      }
   
+      // We create the loop runner here but it is not actually running until
+      // _emscripten_set_main_loop_timing is called (which might happen a
+      // later time).  This member signifies that the current runner has not
+      // yet been started so that we can call runtimeKeepalivePush when it
+      // gets it timing set for the first time.
+      Browser.mainLoop.running = false;
       Browser.mainLoop.runner = function Browser_mainLoop_runner() {
         if (ABORT) return;
         if (Browser.mainLoop.queue.length > 0) {
@@ -8180,14 +8172,14 @@ var ASM_CONSTS = {
           Browser.mainLoop.updateStatus();
   
           // catches pause/resume main loop from blocker execution
-          if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
+          if (!checkIsRunning()) return;
   
           setTimeout(Browser.mainLoop.runner, 0);
           return;
         }
   
         // catch pauses from non-main loop sources
-        if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
+        if (!checkIsRunning()) return;
   
         // Implement very basic swap interval control
         Browser.mainLoop.currentFrameNumber = Browser.mainLoop.currentFrameNumber + 1 | 0;
@@ -8213,7 +8205,7 @@ var ASM_CONSTS = {
         checkStackCookie();
   
         // catch pauses from the main loop itself
-        if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
+        if (!checkIsRunning()) return;
   
         // Queue new audio data. This is important to be right after the main loop invocation, so that we will immediately be able
         // to queue the newest produced audio samples.
@@ -8236,7 +8228,39 @@ var ASM_CONSTS = {
       }
     }
   Module["setMainLoop"] = setMainLoop;
-  var Browser={mainLoop:{scheduler:null,method:"",currentlyRunningMainloop:0,func:null,arg:0,timingMode:0,timingValue:0,currentFrameNumber:0,queue:[],pause:function() {
+  
+  function callUserCallback(func, synchronous) {
+      if (ABORT) {
+        err('user callback triggered after application aborted.  Ignoring.');
+        return;
+      }
+      // For synchronous calls, let any exceptions propagate, and don't let the runtime exit.
+      if (synchronous) {
+        func();
+        return;
+      }
+      try {
+        func();
+      } catch (e) {
+        if (e instanceof ExitStatus) {
+          return;
+        } else if (e !== 'unwind') {
+          // And actual unexpected user-exectpion occured
+          if (e && typeof e === 'object' && e.stack) err('exception thrown: ' + [e, e.stack]);
+          throw e;
+        }
+      }
+        maybeExit();
+    }
+  Module["callUserCallback"] = callUserCallback;
+  
+  function runtimeKeepalivePop() {
+      assert(runtimeKeepaliveCounter > 0);
+      runtimeKeepaliveCounter -= 1;
+    }
+  Module["runtimeKeepalivePop"] = runtimeKeepalivePop;
+  runtimeKeepalivePop.sig = 'v';
+  var Browser={mainLoop:{running:false,scheduler:null,method:"",currentlyRunningMainloop:0,func:null,arg:0,timingMode:0,timingValue:0,currentFrameNumber:0,queue:[],pause:function() {
           Browser.mainLoop.scheduler = null;
           // Incrementing this signals the previous main loop that it's now become old, and it must return.
           Browser.mainLoop.currentlyRunningMainloop++;
@@ -8273,18 +8297,7 @@ var ASM_CONSTS = {
               return; // |return false| skips a frame
             }
           }
-          try {
-            func();
-          } catch (e) {
-            if (e instanceof ExitStatus) {
-              return;
-            } else if (e == 'unwind') {
-              return;
-            } else {
-              if (e && typeof e === 'object' && e.stack) err('exception thrown: ' + [e, e.stack]);
-              throw e;
-            }
-          }
+          callUserCallback(func);
           if (Module['postMainLoop']) Module['postMainLoop']();
         }},isFullscreen:false,pointerLock:false,moduleContextCreatedCallbacks:[],workers:[],init:function() {
         if (!Module["preloadPlugins"]) Module["preloadPlugins"] = []; // needs to exist even in workers
@@ -8427,28 +8440,30 @@ var ASM_CONSTS = {
         };
         Module['preloadPlugins'].push(audioPlugin);
   
-        var wasmPlugin = {};
-        wasmPlugin['asyncWasmLoadPromise'] = new Promise(
-          function(resolve, reject) { return resolve(); });
-        wasmPlugin['canHandle'] = function(name) {
-          return !Module.noWasmDecoding && name.endsWith('.so');
-        };
-        wasmPlugin['handle'] = function(byteArray, name, onload, onerror) {
-          // loadWebAssemblyModule can not load modules out-of-order, so rather
-          // than just running the promises in parallel, this makes a chain of
-          // promises to run in series.
-          this['asyncWasmLoadPromise'] = this['asyncWasmLoadPromise'].then(
-            function() {
-              return loadWebAssemblyModule(byteArray, {loadAsync: true, nodelete: true});
-            }).then(
-              function(module) {
-                Module['preloadedWasm'][name] = module;
-                onload();
-              },
-              function(err) {
-                console.warn("Couldn't instantiate wasm: " + name + " '" + err + "'");
-                onerror();
-              });
+        // Use string keys here to avoid minification since the plugin consumer
+        // also uses string keys.
+        var wasmPlugin = {
+          'asyncWasmLoadPromise': new Promise(function(resolve, reject) { return resolve(); }),
+          'canHandle': function(name) {
+            return !Module.noWasmDecoding && name.endsWith('.so')
+          },
+          'handle': function(byteArray, name, onload, onerror) {
+            // loadWebAssemblyModule can not load modules out-of-order, so rather
+            // than just running the promises in parallel, this makes a chain of
+            // promises to run in series.
+            this['asyncWasmLoadPromise'] = this['asyncWasmLoadPromise'].then(
+              function() {
+                return loadWebAssemblyModule(byteArray, {loadAsync: true, nodelete: true});
+              }).then(
+                function(module) {
+                  Module['preloadedWasm'][name] = module;
+                  onload();
+                },
+                function(err) {
+                  console.warn("Couldn't instantiate wasm: " + name + " '" + err + "'");
+                  onerror();
+                });
+          }
         };
         Module['preloadPlugins'].push(wasmPlugin);
   
@@ -8630,15 +8645,16 @@ var ASM_CONSTS = {
         var RAF = Browser.fakeRequestAnimationFrame;
         RAF(func);
       },safeRequestAnimationFrame:function(func) {
+        runtimeKeepalivePush();
         return Browser.requestAnimationFrame(function() {
-          if (ABORT) return;
-          func();
+          runtimeKeepalivePop();
+          callUserCallback(func);
         });
       },safeSetTimeout:function(func, timeout) {
-        noExitRuntime = true;
+        runtimeKeepalivePush();
         return setTimeout(function() {
-          if (ABORT) return;
-          func();
+          runtimeKeepalivePop();
+          callUserCallback(func);
         }, timeout);
       },getMimetype:function(name) {
         return {
@@ -8651,7 +8667,7 @@ var ASM_CONSTS = {
           'mp3': 'audio/mpeg'
         }[name.substr(name.lastIndexOf('.')+1)];
       },getUserMedia:function(func) {
-        if(!window.getUserMedia) {
+        if (!window.getUserMedia) {
           window.getUserMedia = navigator['getUserMedia'] ||
                                 navigator['mozGetUserMedia'];
         }
@@ -8679,7 +8695,7 @@ var ASM_CONSTS = {
             break;
           case 'wheel':
             delta = event.deltaY
-            switch(event.deltaMode) {
+            switch (event.deltaMode) {
               case 0:
                 // DOM_DELTA_PIXEL: 100 pixels make up a step
                 delta /= 100;
@@ -10343,7 +10359,7 @@ var ASM_CONSTS = {
       if (!AL.currentCtx) {
         return;
       }
-      switch (pname) {
+      switch (param) {
       case 'AL_SOURCE_DISTANCE_MODEL':
         AL.currentCtx.sourceDistanceModel = false;
         AL.updateContextGlobal(AL.currentCtx);
@@ -10673,9 +10689,9 @@ var ASM_CONSTS = {
         AL.currentCtx.err = 0xA003 /* AL_INVALID_VALUE */;
         return 0 /* AL_NONE */;
       }
-      name = UTF8ToString(pEnumName);
+      var name = UTF8ToString(pEnumName);
   
-      switch(name) {
+      switch (name) {
       // Spec doesn't clearly state that alGetEnumValue() is required to
       // support _only_ extension tokens.
       // We should probably follow OpenAL-Soft's example and support all
@@ -11038,7 +11054,7 @@ var ASM_CONSTS = {
   Module["_alGetSource3f"] = _alGetSource3f;
   _alGetSource3f.sig = 'viiiii';
 
-  function _alGetSource3i(source, param, pValue0, pValue1, pValue2) {
+  function _alGetSource3i(sourceId, param, pValue0, pValue1, pValue2) {
       var val = AL.getSourceParam('alGetSource3i', sourceId, param);
       if (val === null) {
         return;
@@ -11307,7 +11323,7 @@ var ASM_CONSTS = {
       if (!AL.currentCtx) {
         return 0;
       }
-      switch (pname) {
+      switch (param) {
       case 'AL_SOURCE_DISTANCE_MODEL':
         return AL.currentCtx.sourceDistanceModel ? 0 /* AL_FALSE */ : 1 /* AL_TRUE */;
       default:
@@ -11319,7 +11335,7 @@ var ASM_CONSTS = {
   _alIsEnabled.sig = 'ii';
 
   function _alIsExtensionPresent(pExtName) {
-      name = UTF8ToString(pExtName);
+      var name = UTF8ToString(pExtName);
   
       return AL.AL_EXTENSIONS[name] ? 1 : 0;
     }
@@ -11816,7 +11832,7 @@ var ASM_CONSTS = {
   _alSourcefv.sig = 'viii';
 
 
-  function _alSourceiv(source, param, pValues) {
+  function _alSourceiv(sourceId, param, pValues) {
       if (!AL.currentCtx) {
         return;
       }
@@ -12059,7 +12075,7 @@ var ASM_CONSTS = {
         newCapture.mediaStream = mediaStream;
   
         var inputChannelCount = 1;
-        switch(newCapture.mediaStreamSourceNode.channelCountMode) {
+        switch (newCapture.mediaStreamSourceNode.channelCountMode) {
         case 'max':
           inputChannelCount = outputChannelCount;
           break;
@@ -12218,7 +12234,7 @@ var ASM_CONSTS = {
   
       var setSample;
   
-      switch(c.requestedSampleType) {
+      switch (c.requestedSampleType) {
       case 'f32': setSample = setF32Sample; break;
       case 'i16': setSample = setI16Sample; break;
       case 'u8' : setSample = setU8Sample ; break;
@@ -12491,9 +12507,9 @@ var ASM_CONSTS = {
         AL.alcErr = 0xA004 /* ALC_INVALID_VALUE */;
         return 0; /* ALC_NONE */
       }
-      name = UTF8ToString(pEnumName);
+      var name = UTF8ToString(pEnumName);
       // See alGetEnumValue(), but basically behave the same as OpenAL-Soft
-      switch(name) {
+      switch (name) {
       case 'ALC_NO_ERROR': return 0;
       case 'ALC_INVALID_DEVICE': return 0xA001;
       case 'ALC_INVALID_CONTEXT': return 0xA002;
@@ -12552,7 +12568,7 @@ var ASM_CONSTS = {
         return;
       }
   
-      switch(param) {
+      switch (param) {
       case 0x1000 /* ALC_MAJOR_VERSION */:
         HEAP32[((pValues)>>2)] = 1;
         break;
@@ -12938,7 +12954,7 @@ var ASM_CONSTS = {
       }
       AL.paused = true;
   
-      for (ctxId in AL.contexts) {
+      for (var ctxId in AL.contexts) {
         var ctx = AL.contexts[ctxId];
         if (ctx.deviceId !== deviceId) {
           continue;
@@ -12963,7 +12979,7 @@ var ASM_CONSTS = {
       }
       AL.paused = false;
   
-      for (ctxId in AL.contexts) {
+      for (var ctxId in AL.contexts) {
         var ctx = AL.contexts[ctxId];
         if (ctx.deviceId !== deviceId) {
           continue;
@@ -13058,9 +13074,34 @@ var ASM_CONSTS = {
   Module["_emscripten_alcResetDeviceSOFT"] = _emscripten_alcResetDeviceSOFT;
   _emscripten_alcResetDeviceSOFT.sig = 'iii';
 
+  var readAsmConstArgsArray=[];
+  Module["readAsmConstArgsArray"] = readAsmConstArgsArray;
+  function readAsmConstArgs(sigPtr, buf) {
+      // Nobody should have mutated _readAsmConstArgsArray underneath us to be something else than an array.
+      assert(Array.isArray(readAsmConstArgsArray));
+      // The input buffer is allocated on the stack, so it must be stack-aligned.
+      assert(buf % 16 == 0);
+      readAsmConstArgsArray.length = 0;
+      var ch;
+      // Most arguments are i32s, so shift the buffer pointer so it is a plain
+      // index into HEAP32.
+      buf >>= 2;
+      while (ch = HEAPU8[sigPtr++]) {
+        assert(ch === 100/*'d'*/ || ch === 102/*'f'*/ || ch === 105 /*'i'*/);
+        // A double takes two 32-bit slots, and must also be aligned - the backend
+        // will emit padding to avoid that.
+        var double = ch < 105;
+        if (double && (buf & 1)) buf++;
+        readAsmConstArgsArray.push(double ? HEAPF64[buf++ >> 1] : HEAP32[buf]);
+        ++buf;
+      }
+      return readAsmConstArgsArray;
+    }
+  Module["readAsmConstArgs"] = readAsmConstArgs;
   function _emscripten_asm_const_int(code, sigPtr, argbuf) {
       code -= 1024;
       var args = readAsmConstArgs(sigPtr, argbuf);
+      if (!ASM_CONSTS.hasOwnProperty(code)) abort('No EM_ASM constant found at address ' + code);
       return ASM_CONSTS[code].apply(null, args);
     }
   Module["_emscripten_asm_const_int"] = _emscripten_asm_const_int;
@@ -13068,6 +13109,7 @@ var ASM_CONSTS = {
 
   function _emscripten_force_exit(status) {
       noExitRuntime = false;
+      runtimeKeepaliveCounter = 0;
       exit(status);
     }
   Module["_emscripten_force_exit"] = _emscripten_force_exit;
@@ -13078,6 +13120,11 @@ var ASM_CONSTS = {
     }
   Module["_emscripten_get_device_pixel_ratio"] = _emscripten_get_device_pixel_ratio;
   _emscripten_get_device_pixel_ratio.sig = 'd';
+
+  function _emscripten_get_heap_max() {
+      return HEAPU8.length;
+    }
+  Module["_emscripten_get_heap_max"] = _emscripten_get_heap_max;
 
   function __webgl_enable_ANGLE_instanced_arrays(ctx) {
       // Extension available in WebGL 1 from Firefox 26 and Google Chrome 30 onwards. Core feature in WebGL 2.
@@ -13131,7 +13178,7 @@ var ASM_CONSTS = {
       return !!(ctx.multiDrawWebgl = ctx.getExtension('WEBGL_multi_draw'));
     }
   Module["__webgl_enable_WEBGL_multi_draw"] = __webgl_enable_WEBGL_multi_draw;
-  var GL={counter:1,buffers:[],mappedBuffers:{},programs:[],framebuffers:[],renderbuffers:[],textures:[],uniforms:[],shaders:[],vaos:[],contexts:[],offscreenCanvases:{},timerQueriesEXT:[],queries:[],samplers:[],transformFeedbacks:[],syncs:[],byteSizeByTypeRoot:5120,byteSizeByType:[1,1,2,2,4,4,4,2,3,4,8],programInfos:{},stringCache:{},stringiCache:{},unpackAlignment:4,recordError:function recordError(errorCode) {
+  var GL={counter:1,buffers:[],mappedBuffers:{},programs:[],framebuffers:[],renderbuffers:[],textures:[],shaders:[],vaos:[],contexts:[],offscreenCanvases:{},queries:[],samplers:[],transformFeedbacks:[],syncs:[],byteSizeByTypeRoot:5120,byteSizeByType:[1,1,2,2,4,4,4,2,3,4,8],stringCache:{},stringiCache:{},unpackAlignment:4,recordError:function recordError(errorCode) {
         if (!GL.lastError) {
           GL.lastError = errorCode;
         }
@@ -13270,6 +13317,19 @@ var ASM_CONSTS = {
         }
       },createContext:function(canvas, webGLContextAttributes) {
   
+        // BUG: Workaround Safari WebGL issue: After successfully acquiring WebGL context on a canvas,
+        // calling .getContext() will always return that context independent of which 'webgl' or 'webgl2'
+        // context version was passed. See https://bugs.webkit.org/show_bug.cgi?id=222758 and
+        // https://github.com/emscripten-core/emscripten/issues/13295.
+        // TODO: Once the bug is fixed and shipped in Safari, adjust the Safari version field in above check.
+        if (!canvas.getContextSafariWebGL2Fixed) {
+          canvas.getContextSafariWebGL2Fixed = canvas.getContext;
+          canvas.getContext = function(ver, attrs) {
+            var gl = canvas.getContextSafariWebGL2Fixed(ver, attrs);
+            return ((ver == 'webgl') == (gl instanceof WebGLRenderingContext)) ? gl : null;
+          }
+        }
+  
         var ctx = 
           (webGLContextAttributes.majorVersion > 1)
           ?
@@ -13342,61 +13402,32 @@ var ASM_CONSTS = {
         __webgl_enable_WEBGL_draw_instanced_base_vertex_base_instance(GLctx);
         __webgl_enable_WEBGL_multi_draw_instanced_base_vertex_base_instance(GLctx);
   
-        GLctx.disjointTimerQueryExt = GLctx.getExtension("EXT_disjoint_timer_query");
+        // On WebGL 2, EXT_disjoint_timer_query is replaced with an alternative
+        // that's based on core APIs, and exposes only the queryCounterEXT()
+        // entrypoint.
+        if (context.version >= 2) {
+          GLctx.disjointTimerQueryExt = GLctx.getExtension("EXT_disjoint_timer_query_webgl2");
+        }
+  
+        // However, Firefox exposes the WebGL 1 version on WebGL 2 as well and
+        // thus we look for the WebGL 1 version again if the WebGL 2 version
+        // isn't present. https://bugzilla.mozilla.org/show_bug.cgi?id=1328882
+        if (context.version < 2 || !GLctx.disjointTimerQueryExt)
+        {
+          GLctx.disjointTimerQueryExt = GLctx.getExtension("EXT_disjoint_timer_query");
+        }
+  
         __webgl_enable_WEBGL_multi_draw(GLctx);
   
         // .getSupportedExtensions() can return null if context is lost, so coerce to empty array.
         var exts = GLctx.getSupportedExtensions() || [];
         exts.forEach(function(ext) {
           // WEBGL_lose_context, WEBGL_debug_renderer_info and WEBGL_debug_shaders are not enabled by default.
-          if (ext.indexOf('lose_context') < 0 && ext.indexOf('debug') < 0) {
+          if (!ext.includes('lose_context') && !ext.includes('debug')) {
             // Call .getExtension() to enable that extension permanently.
             GLctx.getExtension(ext);
           }
         });
-      },populateUniformTable:function(program) {
-        var p = GL.programs[program];
-        var ptable = GL.programInfos[program] = {
-          uniforms: {},
-          maxUniformLength: 0, // This is eagerly computed below, since we already enumerate all uniforms anyway.
-          maxAttributeLength: -1, // This is lazily computed and cached, computed when/if first asked, "-1" meaning not computed yet.
-          maxUniformBlockNameLength: -1 // Lazily computed as well
-        };
-  
-        var utable = ptable.uniforms;
-        // A program's uniform table maps the string name of an uniform to an integer location of that uniform.
-        // The global GL.uniforms map maps integer locations to WebGLUniformLocations.
-        var numUniforms = GLctx.getProgramParameter(p, 0x8B86/*GL_ACTIVE_UNIFORMS*/);
-        for (var i = 0; i < numUniforms; ++i) {
-          var u = GLctx.getActiveUniform(p, i);
-  
-          var name = u.name;
-          ptable.maxUniformLength = Math.max(ptable.maxUniformLength, name.length+1);
-  
-          // If we are dealing with an array, e.g. vec4 foo[3], strip off the array index part to canonicalize that "foo", "foo[]",
-          // and "foo[0]" will mean the same. Loop below will populate foo[1] and foo[2].
-          if (name.slice(-1) == ']') {
-            name = name.slice(0, name.lastIndexOf('['));
-          }
-  
-          // Optimize memory usage slightly: If we have an array of uniforms, e.g. 'vec3 colors[3];', then
-          // only store the string 'colors' in utable, and 'colors[0]', 'colors[1]' and 'colors[2]' will be parsed as 'colors'+i.
-          // Note that for the GL.uniforms table, we still need to fetch the all WebGLUniformLocations for all the indices.
-          var loc = GLctx.getUniformLocation(p, name);
-          if (loc) {
-            var id = GL.getNewId(GL.uniforms);
-            utable[name] = [u.size, id];
-            GL.uniforms[id] = loc;
-  
-            for (var j = 1; j < u.size; ++j) {
-              var n = name + '['+j+']';
-              loc = GLctx.getUniformLocation(p, n);
-              id = GL.getNewId(GL.uniforms);
-  
-              GL.uniforms[id] = loc;
-            }
-          }
-        }
       }};
   Module["GL"] = GL;
   function _emscripten_glActiveTexture(x0) { GLctx['activeTexture'](x0) }
@@ -13404,8 +13435,7 @@ var ASM_CONSTS = {
   _emscripten_glActiveTexture.sig = 'vi';
 
   function _emscripten_glAttachShader(program, shader) {
-      GLctx.attachShader(GL.programs[program],
-                              GL.shaders[shader]);
+      GLctx.attachShader(GL.programs[program], GL.shaders[shader]);
     }
   Module["_emscripten_glAttachShader"] = _emscripten_glAttachShader;
   _emscripten_glAttachShader.sig = 'vii';
@@ -13417,7 +13447,7 @@ var ASM_CONSTS = {
   _emscripten_glBeginQuery.sig = 'vii';
 
   function _emscripten_glBeginQueryEXT(target, id) {
-      GLctx.disjointTimerQueryExt['beginQueryEXT'](target, GL.timerQueriesEXT[id]);
+      GLctx.disjointTimerQueryExt['beginQueryEXT'](target, GL.queries[id]);
     }
   Module["_emscripten_glBeginQueryEXT"] = _emscripten_glBeginQueryEXT;
   _emscripten_glBeginQueryEXT.sig = 'vii';
@@ -13710,7 +13740,11 @@ var ASM_CONSTS = {
   function _emscripten_glCreateProgram() {
       var id = GL.getNewId(GL.programs);
       var program = GLctx.createProgram();
+      // Store additional information needed for each shader program:
       program.name = id;
+      // Lazy cache results of glGetProgramiv(GL_ACTIVE_UNIFORM_MAX_LENGTH/GL_ACTIVE_ATTRIBUTE_MAX_LENGTH/GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH)
+      program.maxUniformLength = program.maxAttributeLength = program.maxUniformBlockNameLength = 0;
+      program.uniformIdCounter = 1;
       GL.programs[id] = program;
       return id;
     }
@@ -13720,6 +13754,7 @@ var ASM_CONSTS = {
   function _emscripten_glCreateShader(shaderType) {
       var id = GL.getNewId(GL.shaders);
       GL.shaders[id] = GLctx.createShader(shaderType);
+  
       return id;
     }
   Module["_emscripten_glCreateShader"] = _emscripten_glCreateShader;
@@ -13774,7 +13809,6 @@ var ASM_CONSTS = {
       GLctx.deleteProgram(program);
       program.name = 0;
       GL.programs[id] = null;
-      GL.programInfos[id] = null;
     }
   Module["_emscripten_glDeleteProgram"] = _emscripten_glDeleteProgram;
   _emscripten_glDeleteProgram.sig = 'vi';
@@ -13794,10 +13828,10 @@ var ASM_CONSTS = {
   function _emscripten_glDeleteQueriesEXT(n, ids) {
       for (var i = 0; i < n; i++) {
         var id = HEAP32[(((ids)+(i*4))>>2)];
-        var query = GL.timerQueriesEXT[id];
+        var query = GL.queries[id];
         if (!query) continue; // GL spec: "unused names in ids are ignored, as is the name zero."
         GLctx.disjointTimerQueryExt['deleteQueryEXT'](query);
-        GL.timerQueriesEXT[id] = null;
+        GL.queries[id] = null;
       }
     }
   Module["_emscripten_glDeleteQueriesEXT"] = _emscripten_glDeleteQueriesEXT;
@@ -13917,8 +13951,7 @@ var ASM_CONSTS = {
   _emscripten_glDepthRangef.sig = 'vii';
 
   function _emscripten_glDetachShader(program, shader) {
-      GLctx.detachShader(GL.programs[program],
-                              GL.shaders[shader]);
+      GLctx.detachShader(GL.programs[program], GL.shaders[shader]);
     }
   Module["_emscripten_glDetachShader"] = _emscripten_glDetachShader;
   _emscripten_glDetachShader.sig = 'vii';
@@ -14156,7 +14189,7 @@ var ASM_CONSTS = {
   _emscripten_glFlush.sig = 'v';
 
   function emscriptenWebGLGetBufferBinding(target) {
-      switch(target) {
+      switch (target) {
         case 0x8892 /*GL_ARRAY_BUFFER*/: target = 0x8894 /*GL_ARRAY_BUFFER_BINDING*/; break;
         case 0x8893 /*GL_ELEMENT_ARRAY_BUFFER*/: target = 0x8895 /*GL_ELEMENT_ARRAY_BUFFER_BINDING*/; break;
         case 0x88EB /*GL_PIXEL_PACK_BUFFER*/: target = 0x88ED /*GL_PIXEL_PACK_BUFFER_BINDING*/; break;
@@ -14289,12 +14322,12 @@ var ASM_CONSTS = {
         var query = GLctx.disjointTimerQueryExt['createQueryEXT']();
         if (!query) {
           GL.recordError(0x502 /* GL_INVALID_OPERATION */);
-          while(i < n) HEAP32[(((ids)+(i++*4))>>2)] = 0;
+          while (i < n) HEAP32[(((ids)+(i++*4))>>2)] = 0;
           return;
         }
-        var id = GL.getNewId(GL.timerQueriesEXT);
+        var id = GL.getNewId(GL.queries);
         query.name = id;
-        GL.timerQueriesEXT[id] = query;
+        GL.queries[id] = query;
         HEAP32[(((ids)+(i*4))>>2)] = id;
       }
     }
@@ -14394,21 +14427,20 @@ var ASM_CONSTS = {
       }
       program = GL.programs[program];
   
-      switch(pname) {
-        case 0x8A41: /* GL_UNIFORM_BLOCK_NAME_LENGTH */
-          var name = GLctx['getActiveUniformBlockName'](program, uniformBlockIndex);
-          HEAP32[((params)>>2)] = name.length+1;
-          return;
-        default:
-          var result = GLctx['getActiveUniformBlockParameter'](program, uniformBlockIndex, pname);
-          if (!result) return; // If an error occurs, nothing will be written to params.
-          if (typeof result == 'number') {
-            HEAP32[((params)>>2)] = result;
-          } else {
-            for (var i = 0; i < result.length; i++) {
-              HEAP32[(((params)+(i*4))>>2)] = result[i];
-            }
-          }
+      if (pname == 0x8A41 /* GL_UNIFORM_BLOCK_NAME_LENGTH */) {
+        var name = GLctx['getActiveUniformBlockName'](program, uniformBlockIndex);
+        HEAP32[((params)>>2)] = name.length+1;
+        return;
+      }
+  
+      var result = GLctx['getActiveUniformBlockParameter'](program, uniformBlockIndex, pname);
+      if (result === null) return; // If an error occurs, nothing should be written to params.
+      if (pname == 0x8A43 /*GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES*/) {
+        for (var i = 0; i < result.length; i++) {
+          HEAP32[(((params)+(i*4))>>2)] = result[i];
+        }
+      } else {
+        HEAP32[((params)>>2)] = result;
       }
     }
   Module["_emscripten_glGetActiveUniformBlockiv"] = _emscripten_glGetActiveUniformBlockiv;
@@ -14489,7 +14521,7 @@ var ASM_CONSTS = {
         return;
       }
       var ret = undefined;
-      switch(name_) { // Handle a few trivial GLES values
+      switch (name_) { // Handle a few trivial GLES values
         case 0x8DFA: // GL_SHADER_COMPILER
           ret = 1;
           break;
@@ -14508,6 +14540,7 @@ var ASM_CONSTS = {
           var formats = GLctx.getParameter(0x86A3 /*GL_COMPRESSED_TEXTURE_FORMATS*/);
           ret = formats ? formats.length : 0;
           break;
+  
         case 0x821D: // GL_NUM_EXTENSIONS
           if (GL.currentContext.version < 2) {
             GL.recordError(0x502 /* GL_INVALID_OPERATION */); // Calling GLES3/WebGL2 function with a GLES2/WebGL1 context
@@ -14543,7 +14576,7 @@ var ASM_CONSTS = {
             if (result === null) {
               // null is a valid result for some (e.g., which buffer is bound - perhaps nothing is bound), but otherwise
               // can mean an invalid name_, which we need to report as an error
-              switch(name_) {
+              switch (name_) {
                 case 0x8894: // ARRAY_BUFFER_BINDING
                 case 0x8B8D: // CURRENT_PROGRAM
                 case 0x8895: // ELEMENT_ARRAY_BUFFER_BINDING
@@ -14806,42 +14839,35 @@ var ASM_CONSTS = {
         return;
       }
   
-      var ptable = GL.programInfos[program];
-      if (!ptable) {
-        GL.recordError(0x502 /* GL_INVALID_OPERATION */);
-        return;
-      }
+      program = GL.programs[program];
   
       if (pname == 0x8B84) { // GL_INFO_LOG_LENGTH
-        var log = GLctx.getProgramInfoLog(GL.programs[program]);
+        var log = GLctx.getProgramInfoLog(program);
         if (log === null) log = '(unknown error)';
         HEAP32[((p)>>2)] = log.length + 1;
       } else if (pname == 0x8B87 /* GL_ACTIVE_UNIFORM_MAX_LENGTH */) {
-        HEAP32[((p)>>2)] = ptable.maxUniformLength;
+        if (!program.maxUniformLength) {
+          for (var i = 0; i < GLctx.getProgramParameter(program, 0x8B86/*GL_ACTIVE_UNIFORMS*/); ++i) {
+            program.maxUniformLength = Math.max(program.maxUniformLength, GLctx.getActiveUniform(program, i).name.length+1);
+          }
+        }
+        HEAP32[((p)>>2)] = program.maxUniformLength;
       } else if (pname == 0x8B8A /* GL_ACTIVE_ATTRIBUTE_MAX_LENGTH */) {
-        if (ptable.maxAttributeLength == -1) {
-          program = GL.programs[program];
-          var numAttribs = GLctx.getProgramParameter(program, 0x8B89/*GL_ACTIVE_ATTRIBUTES*/);
-          ptable.maxAttributeLength = 0; // Spec says if there are no active attribs, 0 must be returned.
-          for (var i = 0; i < numAttribs; ++i) {
-            var activeAttrib = GLctx.getActiveAttrib(program, i);
-            ptable.maxAttributeLength = Math.max(ptable.maxAttributeLength, activeAttrib.name.length+1);
+        if (!program.maxAttributeLength) {
+          for (var i = 0; i < GLctx.getProgramParameter(program, 0x8B89/*GL_ACTIVE_ATTRIBUTES*/); ++i) {
+            program.maxAttributeLength = Math.max(program.maxAttributeLength, GLctx.getActiveAttrib(program, i).name.length+1);
           }
         }
-        HEAP32[((p)>>2)] = ptable.maxAttributeLength;
+        HEAP32[((p)>>2)] = program.maxAttributeLength;
       } else if (pname == 0x8A35 /* GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH */) {
-        if (ptable.maxUniformBlockNameLength == -1) {
-          program = GL.programs[program];
-          var numBlocks = GLctx.getProgramParameter(program, 0x8A36/*GL_ACTIVE_UNIFORM_BLOCKS*/);
-          ptable.maxUniformBlockNameLength = 0;
-          for (var i = 0; i < numBlocks; ++i) {
-            var activeBlockName = GLctx.getActiveUniformBlockName(program, i);
-            ptable.maxUniformBlockNameLength = Math.max(ptable.maxUniformBlockNameLength, activeBlockName.length+1);
+        if (!program.maxUniformBlockNameLength) {
+          for (var i = 0; i < GLctx.getProgramParameter(program, 0x8A36/*GL_ACTIVE_UNIFORM_BLOCKS*/); ++i) {
+            program.maxUniformBlockNameLength = Math.max(program.maxUniformBlockNameLength, GLctx.getActiveUniformBlockName(program, i).length+1);
           }
         }
-        HEAP32[((p)>>2)] = ptable.maxUniformBlockNameLength;
+        HEAP32[((p)>>2)] = program.maxUniformBlockNameLength;
       } else {
-        HEAP32[((p)>>2)] = GLctx.getProgramParameter(GL.programs[program], pname);
+        HEAP32[((p)>>2)] = GLctx.getProgramParameter(program, pname);
       }
     }
   Module["_emscripten_glGetProgramiv"] = _emscripten_glGetProgramiv;
@@ -14854,8 +14880,15 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var query = GL.timerQueriesEXT[id];
-      var param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
+      var query = GL.queries[id];
+      var param;
+      if (GL.currentContext.version < 2)
+      {
+        param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
+      }
+      else {
+        param = GLctx['getQueryParameter'](query, pname);
+      }
       var ret;
       if (typeof param == 'boolean') {
         ret = param ? 1 : 0;
@@ -14874,7 +14907,7 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var query = GL.timerQueriesEXT[id];
+      var query = GL.queries[id];
       var param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
       var ret;
       if (typeof param == 'boolean') {
@@ -14894,8 +14927,15 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var query = GL.timerQueriesEXT[id];
-      var param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
+      var query = GL.queries[id];
+      var param;
+      if (GL.currentContext.version < 2)
+      {
+        param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
+      }
+      else {
+        param = GLctx['getQueryParameter'](query, pname);
+      }
       var ret;
       if (typeof param == 'boolean') {
         ret = param ? 1 : 0;
@@ -14934,7 +14974,7 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var query = GL.timerQueriesEXT[id];
+      var query = GL.queries[id];
       var param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
       var ret;
       if (typeof param == 'boolean') {
@@ -14990,8 +15030,7 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      sampler = GL.samplers[sampler];
-      HEAPF32[((params)>>2)] = GLctx['getSamplerParameter'](sampler, pname);
+      HEAPF32[((params)>>2)] = GLctx['getSamplerParameter'](GL.samplers[sampler], pname);
     }
   Module["_emscripten_glGetSamplerParameterfv"] = _emscripten_glGetSamplerParameterfv;
   _emscripten_glGetSamplerParameterfv.sig = 'viii';
@@ -15003,8 +15042,7 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      sampler = GL.samplers[sampler];
-      HEAP32[((params)>>2)] = GLctx['getSamplerParameter'](sampler, pname);
+      HEAP32[((params)>>2)] = GLctx['getSamplerParameter'](GL.samplers[sampler], pname);
     }
   Module["_emscripten_glGetSamplerParameteriv"] = _emscripten_glGetSamplerParameteriv;
   _emscripten_glGetSamplerParameteriv.sig = 'viii';
@@ -15066,51 +15104,52 @@ var ASM_CONSTS = {
   _emscripten_glGetShaderiv.sig = 'viii';
 
   function _emscripten_glGetString(name_) {
-      if (GL.stringCache[name_]) return GL.stringCache[name_];
-      var ret;
-      switch(name_) {
-        case 0x1F03 /* GL_EXTENSIONS */:
-          var exts = GLctx.getSupportedExtensions() || []; // .getSupportedExtensions() can return null if context is lost, so coerce to empty array.
-          exts = exts.concat(exts.map(function(e) { return "GL_" + e; }));
-          ret = stringToNewUTF8(exts.join(' '));
-          break;
-        case 0x1F00 /* GL_VENDOR */:
-        case 0x1F01 /* GL_RENDERER */:
-        case 0x9245 /* UNMASKED_VENDOR_WEBGL */:
-        case 0x9246 /* UNMASKED_RENDERER_WEBGL */:
-          var s = GLctx.getParameter(name_);
-          if (!s) {
-            GL.recordError(0x500/*GL_INVALID_ENUM*/);
-          }
-          ret = stringToNewUTF8(s);
-          break;
+      var ret = GL.stringCache[name_];
+      if (!ret) {
+        switch (name_) {
+          case 0x1F03 /* GL_EXTENSIONS */:
+            var exts = GLctx.getSupportedExtensions() || []; // .getSupportedExtensions() can return null if context is lost, so coerce to empty array.
+            exts = exts.concat(exts.map(function(e) { return "GL_" + e; }));
+            ret = stringToNewUTF8(exts.join(' '));
+            break;
+          case 0x1F00 /* GL_VENDOR */:
+          case 0x1F01 /* GL_RENDERER */:
+          case 0x9245 /* UNMASKED_VENDOR_WEBGL */:
+          case 0x9246 /* UNMASKED_RENDERER_WEBGL */:
+            var s = GLctx.getParameter(name_);
+            if (!s) {
+              GL.recordError(0x500/*GL_INVALID_ENUM*/);
+            }
+            ret = s && stringToNewUTF8(s);
+            break;
   
-        case 0x1F02 /* GL_VERSION */:
-          var glVersion = GLctx.getParameter(0x1F02 /*GL_VERSION*/);
-          // return GLES version string corresponding to the version of the WebGL context
-          if (GL.currentContext.version >= 2) glVersion = 'OpenGL ES 3.0 (' + glVersion + ')';
-          else
-          {
-            glVersion = 'OpenGL ES 2.0 (' + glVersion + ')';
-          }
-          ret = stringToNewUTF8(glVersion);
-          break;
-        case 0x8B8C /* GL_SHADING_LANGUAGE_VERSION */:
-          var glslVersion = GLctx.getParameter(0x8B8C /*GL_SHADING_LANGUAGE_VERSION*/);
-          // extract the version number 'N.M' from the string 'WebGL GLSL ES N.M ...'
-          var ver_re = /^WebGL GLSL ES ([0-9]\.[0-9][0-9]?)(?:$| .*)/;
-          var ver_num = glslVersion.match(ver_re);
-          if (ver_num !== null) {
-            if (ver_num[1].length == 3) ver_num[1] = ver_num[1] + '0'; // ensure minor version has 2 digits
-            glslVersion = 'OpenGL ES GLSL ES ' + ver_num[1] + ' (' + glslVersion + ')';
-          }
-          ret = stringToNewUTF8(glslVersion);
-          break;
-        default:
-          GL.recordError(0x500/*GL_INVALID_ENUM*/);
-          return 0;
+          case 0x1F02 /* GL_VERSION */:
+            var glVersion = GLctx.getParameter(0x1F02 /*GL_VERSION*/);
+            // return GLES version string corresponding to the version of the WebGL context
+            if (GL.currentContext.version >= 2) glVersion = 'OpenGL ES 3.0 (' + glVersion + ')';
+            else
+            {
+              glVersion = 'OpenGL ES 2.0 (' + glVersion + ')';
+            }
+            ret = stringToNewUTF8(glVersion);
+            break;
+          case 0x8B8C /* GL_SHADING_LANGUAGE_VERSION */:
+            var glslVersion = GLctx.getParameter(0x8B8C /*GL_SHADING_LANGUAGE_VERSION*/);
+            // extract the version number 'N.M' from the string 'WebGL GLSL ES N.M ...'
+            var ver_re = /^WebGL GLSL ES ([0-9]\.[0-9][0-9]?)(?:$| .*)/;
+            var ver_num = glslVersion.match(ver_re);
+            if (ver_num !== null) {
+              if (ver_num[1].length == 3) ver_num[1] = ver_num[1] + '0'; // ensure minor version has 2 digits
+              glslVersion = 'OpenGL ES GLSL ES ' + ver_num[1] + ' (' + glslVersion + ')';
+            }
+            ret = stringToNewUTF8(glslVersion);
+            break;
+          default:
+            GL.recordError(0x500/*GL_INVALID_ENUM*/);
+            // fall through
+        }
+        GL.stringCache[name_] = ret;
       }
-      GL.stringCache[name_] = ret;
       return ret;
     }
   Module["_emscripten_glGetString"] = _emscripten_glGetString;
@@ -15129,7 +15168,7 @@ var ASM_CONSTS = {
         }
         return stringiCache[index];
       }
-      switch(name) {
+      switch (name) {
         case 0x1F03 /* GL_EXTENSIONS */:
           var exts = GLctx.getSupportedExtensions() || []; // .getSupportedExtensions() can return null if context is lost, so coerce to empty array.
           exts = exts.concat(exts.map(function(e) { return "GL_" + e; }));
@@ -15247,22 +15286,82 @@ var ASM_CONSTS = {
   _emscripten_glGetUniformIndices.sig = 'viiii';
 
   function _emscripten_glGetUniformLocation(program, name) {
+      // Returns the index of '[' character in an uniform that represents an array of uniforms (e.g. colors[10])
+      // Closure does counterproductive inlining: https://github.com/google/closure-compiler/issues/3203, so prevent
+      // inlining manually.
+      /** @noinline */
+      function getLeftBracePos(name) {
+        return name.slice(-1) == ']' && name.lastIndexOf('[');
+      }
+  
       name = UTF8ToString(name);
   
+      program = GL.programs[program];
+      var uniformLocsById = program.uniformLocsById; // Maps GLuint -> WebGLUniformLocation
+      var uniformSizeAndIdsByName = program.uniformSizeAndIdsByName; // Maps name -> [uniform array length, GLuint]
+      var i, j;
       var arrayIndex = 0;
-      // If user passed an array accessor "[index]", parse the array index off the accessor.
-      if (name[name.length - 1] == ']') {
-        var leftBrace = name.lastIndexOf('[');
-        arrayIndex = name[leftBrace+1] != ']' ? jstoi_q(name.slice(leftBrace + 1)) : 0; // "index]", parseInt will ignore the ']' at the end; but treat "foo[]" as "foo[0]"
-        name = name.slice(0, leftBrace);
+      var uniformBaseName = name;
+  
+      // Invariant: when populating integer IDs for uniform locations, we must maintain the precondition that
+      // arrays reside in contiguous addresses, i.e. for a 'vec4 colors[10];', colors[4] must be at location colors[0]+4.
+      // However, user might call glGetUniformLocation(program, "colors") for an array, so we cannot discover based on the user
+      // input arguments whether the uniform we are dealing with is an array. The only way to discover which uniforms are arrays
+      // is to enumerate over all the active uniforms in the program.
+      var leftBrace = getLeftBracePos(name);
+  
+      // On the first time invocation of glGetUniformLocation on this shader program:
+      // initialize cache data structures and discover which uniforms are arrays.
+      if (!uniformLocsById) {
+        // maps GLint integer locations to WebGLUniformLocations
+        program.uniformLocsById = uniformLocsById = {};
+        // maps integer locations back to uniform name strings, so that we can lazily fetch uniform array locations
+        program.uniformArrayNamesById = {};
+  
+        for (i = 0; i < GLctx.getProgramParameter(program, 0x8B86/*GL_ACTIVE_UNIFORMS*/); ++i) {
+          var u = GLctx.getActiveUniform(program, i);
+          var nm = u.name;
+          var sz = u.size;
+          var lb = getLeftBracePos(nm);
+          var arrayName = lb > 0 ? nm.slice(0, lb) : nm;
+  
+          // Assign a new location.
+          var id = program.uniformIdCounter;
+          program.uniformIdCounter += sz;
+          // Eagerly get the location of the uniformArray[0] base element.
+          // The remaining indices >0 will be left for lazy evaluation to
+          // improve performance. Those may never be needed to fetch, if the
+          // application fills arrays always in full starting from the first
+          // element of the array.
+          uniformSizeAndIdsByName[arrayName] = [sz, id];
+  
+          // Store placeholder integers in place that highlight that these
+          // >0 index locations are array indices pending population.
+          for(j = 0; j < sz; ++j) {
+            uniformLocsById[id] = j;
+            program.uniformArrayNamesById[id++] = arrayName;
+          }
+        }
       }
   
-      var uniformInfo = GL.programInfos[program] && GL.programInfos[program].uniforms[name]; // returns pair [ dimension_of_uniform_array, uniform_location ]
-      if (uniformInfo && arrayIndex >= 0 && arrayIndex < uniformInfo[0]) { // Check if user asked for an out-of-bounds element, i.e. for 'vec4 colors[3];' user could ask for 'colors[10]' which should return -1.
-        return uniformInfo[1] + arrayIndex;
-      } else {
-        return -1;
+      // If user passed an array accessor "[index]", parse the array index off the accessor.
+      if (leftBrace > 0) {
+        arrayIndex = jstoi_q(name.slice(leftBrace + 1)) >>> 0; // "index]", coerce parseInt(']') with >>>0 to treat "foo[]" as "foo[0]" and foo[-1] as unsigned out-of-bounds.
+        uniformBaseName = name.slice(0, leftBrace);
       }
+  
+      // Have we cached the location of this uniform before?
+      var sizeAndId = uniformSizeAndIdsByName[uniformBaseName]; // A pair [array length, GLint of the uniform location]
+  
+      // If an uniform with this name exists, and if its index is within the array limits (if it's even an array),
+      // query the WebGLlocation, or return an existing cached location.
+      if (sizeAndId && arrayIndex < sizeAndId[0]) {
+        arrayIndex += sizeAndId[1]; // Add the base location of the uniform to the array index offset.
+        if ((uniformLocsById[arrayIndex] = uniformLocsById[arrayIndex] || GLctx.getUniformLocation(program, name))) {
+          return arrayIndex;
+        }
+      }
+      return -1;
     }
   Module["_emscripten_glGetUniformLocation"] = _emscripten_glGetUniformLocation;
   _emscripten_glGetUniformLocation.sig = 'iii';
@@ -15275,7 +15374,8 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var data = GLctx.getUniform(GL.programs[program], GL.uniforms[location]);
+      program = GL.programs[program];
+      var data = GLctx.getUniform(program, program.uniformLocsById[location]);
       if (typeof data == 'number' || typeof data == 'boolean') {
         switch (type) {
           case 0: HEAP32[((params)>>2)] = data; break;
@@ -15450,7 +15550,7 @@ var ASM_CONSTS = {
   _emscripten_glIsQuery.sig = 'ii';
 
   function _emscripten_glIsQueryEXT(id) {
-      var query = GL.timerQueriesEXT[id];
+      var query = GL.queries[id];
       if (!query) return 0;
       return GLctx.disjointTimerQueryExt['isQueryEXT'](query);
     }
@@ -15524,8 +15624,12 @@ var ASM_CONSTS = {
   _emscripten_glLineWidth.sig = 'vi';
 
   function _emscripten_glLinkProgram(program) {
-      GLctx.linkProgram(GL.programs[program]);
-      GL.populateUniformTable(program);
+      program = GL.programs[program];
+      GLctx.linkProgram(program);
+      // Invalidate earlier computed uniform->ID mappings, those have now become stale
+      program.uniformLocsById = 0; // Mark as null-like so that glGetUniformLocation() knows to populate this again.
+      program.uniformSizeAndIdsByName = {};
+  
     }
   Module["_emscripten_glLinkProgram"] = _emscripten_glLinkProgram;
   _emscripten_glLinkProgram.sig = 'vi';
@@ -15586,7 +15690,7 @@ var ASM_CONSTS = {
   _emscripten_glProgramParameteri.sig = 'viii';
 
   function _emscripten_glQueryCounterEXT(id, target) {
-      GLctx.disjointTimerQueryExt['queryCounterEXT'](GL.timerQueriesEXT[id], target);
+      GLctx.disjointTimerQueryExt['queryCounterEXT'](GL.queries[id], target);
     }
   Module["_emscripten_glQueryCounterEXT"] = _emscripten_glQueryCounterEXT;
   _emscripten_glQueryCounterEXT.sig = 'vii';
@@ -15886,8 +15990,22 @@ var ASM_CONSTS = {
   Module["_emscripten_glTransformFeedbackVaryings"] = _emscripten_glTransformFeedbackVaryings;
   _emscripten_glTransformFeedbackVaryings.sig = 'viiii';
 
+  function webglGetUniformLocation(location) {
+      var p = GLctx.currentProgram;
+      var webglLoc = p.uniformLocsById[location];
+      // p.uniformLocsById[location] stores either an integer, or a WebGLUniformLocation.
+  
+      // If an integer, we have not yet bound the location, so do it now. The integer value specifies the array index
+      // we should bind to.
+      if (webglLoc >= 0) {
+        p.uniformLocsById[location] = webglLoc = GLctx.getUniformLocation(p, p.uniformArrayNamesById[location] + (webglLoc > 0 ? '[' + webglLoc + ']' : ''));
+      }
+      // Else an already cached WebGLUniformLocation, return it.
+      return webglLoc;
+    }
+  Module["webglGetUniformLocation"] = webglGetUniformLocation;
   function _emscripten_glUniform1f(location, v0) {
-      GLctx.uniform1f(GL.uniforms[location], v0);
+      GLctx.uniform1f(webglGetUniformLocation(location), v0);
     }
   Module["_emscripten_glUniform1f"] = _emscripten_glUniform1f;
   _emscripten_glUniform1f.sig = 'vif';
@@ -15897,7 +16015,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniform1fv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform1fv(GL.uniforms[location], HEAPF32, value>>2, count);
+        GLctx.uniform1fv(webglGetUniformLocation(location), HEAPF32, value>>2, count);
         return;
       }
   
@@ -15911,13 +16029,13 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*4)>>2);
       }
-      GLctx.uniform1fv(GL.uniforms[location], view);
+      GLctx.uniform1fv(webglGetUniformLocation(location), view);
     }
   Module["_emscripten_glUniform1fv"] = _emscripten_glUniform1fv;
   _emscripten_glUniform1fv.sig = 'viii';
 
   function _emscripten_glUniform1i(location, v0) {
-      GLctx.uniform1i(GL.uniforms[location], v0);
+      GLctx.uniform1i(webglGetUniformLocation(location), v0);
     }
   Module["_emscripten_glUniform1i"] = _emscripten_glUniform1i;
   _emscripten_glUniform1i.sig = 'vii';
@@ -15927,7 +16045,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniform1iv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform1iv(GL.uniforms[location], HEAP32, value>>2, count);
+        GLctx.uniform1iv(webglGetUniformLocation(location), HEAP32, value>>2, count);
         return;
       }
   
@@ -15941,25 +16059,25 @@ var ASM_CONSTS = {
       {
         var view = HEAP32.subarray((value)>>2, (value+count*4)>>2);
       }
-      GLctx.uniform1iv(GL.uniforms[location], view);
+      GLctx.uniform1iv(webglGetUniformLocation(location), view);
     }
   Module["_emscripten_glUniform1iv"] = _emscripten_glUniform1iv;
   _emscripten_glUniform1iv.sig = 'viii';
 
   function _emscripten_glUniform1ui(location, v0) {
-      GLctx.uniform1ui(GL.uniforms[location], v0);
+      GLctx.uniform1ui(webglGetUniformLocation(location), v0);
     }
   Module["_emscripten_glUniform1ui"] = _emscripten_glUniform1ui;
   _emscripten_glUniform1ui.sig = 'vii';
 
   function _emscripten_glUniform1uiv(location, count, value) {
-      GLctx.uniform1uiv(GL.uniforms[location], HEAPU32, value>>2, count);
+      GLctx.uniform1uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count);
     }
   Module["_emscripten_glUniform1uiv"] = _emscripten_glUniform1uiv;
   _emscripten_glUniform1uiv.sig = 'viii';
 
   function _emscripten_glUniform2f(location, v0, v1) {
-      GLctx.uniform2f(GL.uniforms[location], v0, v1);
+      GLctx.uniform2f(webglGetUniformLocation(location), v0, v1);
     }
   Module["_emscripten_glUniform2f"] = _emscripten_glUniform2f;
   _emscripten_glUniform2f.sig = 'viff';
@@ -15967,7 +16085,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniform2fv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform2fv(GL.uniforms[location], HEAPF32, value>>2, count*2);
+        GLctx.uniform2fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*2);
         return;
       }
   
@@ -15982,13 +16100,13 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*8)>>2);
       }
-      GLctx.uniform2fv(GL.uniforms[location], view);
+      GLctx.uniform2fv(webglGetUniformLocation(location), view);
     }
   Module["_emscripten_glUniform2fv"] = _emscripten_glUniform2fv;
   _emscripten_glUniform2fv.sig = 'viii';
 
   function _emscripten_glUniform2i(location, v0, v1) {
-      GLctx.uniform2i(GL.uniforms[location], v0, v1);
+      GLctx.uniform2i(webglGetUniformLocation(location), v0, v1);
     }
   Module["_emscripten_glUniform2i"] = _emscripten_glUniform2i;
   _emscripten_glUniform2i.sig = 'viii';
@@ -15996,7 +16114,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniform2iv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform2iv(GL.uniforms[location], HEAP32, value>>2, count*2);
+        GLctx.uniform2iv(webglGetUniformLocation(location), HEAP32, value>>2, count*2);
         return;
       }
   
@@ -16011,25 +16129,25 @@ var ASM_CONSTS = {
       {
         var view = HEAP32.subarray((value)>>2, (value+count*8)>>2);
       }
-      GLctx.uniform2iv(GL.uniforms[location], view);
+      GLctx.uniform2iv(webglGetUniformLocation(location), view);
     }
   Module["_emscripten_glUniform2iv"] = _emscripten_glUniform2iv;
   _emscripten_glUniform2iv.sig = 'viii';
 
   function _emscripten_glUniform2ui(location, v0, v1) {
-      GLctx.uniform2ui(GL.uniforms[location], v0, v1);
+      GLctx.uniform2ui(webglGetUniformLocation(location), v0, v1);
     }
   Module["_emscripten_glUniform2ui"] = _emscripten_glUniform2ui;
   _emscripten_glUniform2ui.sig = 'viii';
 
   function _emscripten_glUniform2uiv(location, count, value) {
-      GLctx.uniform2uiv(GL.uniforms[location], HEAPU32, value>>2, count*2);
+      GLctx.uniform2uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count*2);
     }
   Module["_emscripten_glUniform2uiv"] = _emscripten_glUniform2uiv;
   _emscripten_glUniform2uiv.sig = 'viii';
 
   function _emscripten_glUniform3f(location, v0, v1, v2) {
-      GLctx.uniform3f(GL.uniforms[location], v0, v1, v2);
+      GLctx.uniform3f(webglGetUniformLocation(location), v0, v1, v2);
     }
   Module["_emscripten_glUniform3f"] = _emscripten_glUniform3f;
   _emscripten_glUniform3f.sig = 'vifff';
@@ -16037,7 +16155,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniform3fv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform3fv(GL.uniforms[location], HEAPF32, value>>2, count*3);
+        GLctx.uniform3fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*3);
         return;
       }
   
@@ -16053,13 +16171,13 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*12)>>2);
       }
-      GLctx.uniform3fv(GL.uniforms[location], view);
+      GLctx.uniform3fv(webglGetUniformLocation(location), view);
     }
   Module["_emscripten_glUniform3fv"] = _emscripten_glUniform3fv;
   _emscripten_glUniform3fv.sig = 'viii';
 
   function _emscripten_glUniform3i(location, v0, v1, v2) {
-      GLctx.uniform3i(GL.uniforms[location], v0, v1, v2);
+      GLctx.uniform3i(webglGetUniformLocation(location), v0, v1, v2);
     }
   Module["_emscripten_glUniform3i"] = _emscripten_glUniform3i;
   _emscripten_glUniform3i.sig = 'viiii';
@@ -16067,7 +16185,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniform3iv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform3iv(GL.uniforms[location], HEAP32, value>>2, count*3);
+        GLctx.uniform3iv(webglGetUniformLocation(location), HEAP32, value>>2, count*3);
         return;
       }
   
@@ -16083,25 +16201,25 @@ var ASM_CONSTS = {
       {
         var view = HEAP32.subarray((value)>>2, (value+count*12)>>2);
       }
-      GLctx.uniform3iv(GL.uniforms[location], view);
+      GLctx.uniform3iv(webglGetUniformLocation(location), view);
     }
   Module["_emscripten_glUniform3iv"] = _emscripten_glUniform3iv;
   _emscripten_glUniform3iv.sig = 'viii';
 
   function _emscripten_glUniform3ui(location, v0, v1, v2) {
-      GLctx.uniform3ui(GL.uniforms[location], v0, v1, v2);
+      GLctx.uniform3ui(webglGetUniformLocation(location), v0, v1, v2);
     }
   Module["_emscripten_glUniform3ui"] = _emscripten_glUniform3ui;
   _emscripten_glUniform3ui.sig = 'viiii';
 
   function _emscripten_glUniform3uiv(location, count, value) {
-      GLctx.uniform3uiv(GL.uniforms[location], HEAPU32, value>>2, count*3);
+      GLctx.uniform3uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count*3);
     }
   Module["_emscripten_glUniform3uiv"] = _emscripten_glUniform3uiv;
   _emscripten_glUniform3uiv.sig = 'viii';
 
   function _emscripten_glUniform4f(location, v0, v1, v2, v3) {
-      GLctx.uniform4f(GL.uniforms[location], v0, v1, v2, v3);
+      GLctx.uniform4f(webglGetUniformLocation(location), v0, v1, v2, v3);
     }
   Module["_emscripten_glUniform4f"] = _emscripten_glUniform4f;
   _emscripten_glUniform4f.sig = 'viffff';
@@ -16109,7 +16227,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniform4fv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform4fv(GL.uniforms[location], HEAPF32, value>>2, count*4);
+        GLctx.uniform4fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*4);
         return;
       }
   
@@ -16130,13 +16248,13 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*16)>>2);
       }
-      GLctx.uniform4fv(GL.uniforms[location], view);
+      GLctx.uniform4fv(webglGetUniformLocation(location), view);
     }
   Module["_emscripten_glUniform4fv"] = _emscripten_glUniform4fv;
   _emscripten_glUniform4fv.sig = 'viii';
 
   function _emscripten_glUniform4i(location, v0, v1, v2, v3) {
-      GLctx.uniform4i(GL.uniforms[location], v0, v1, v2, v3);
+      GLctx.uniform4i(webglGetUniformLocation(location), v0, v1, v2, v3);
     }
   Module["_emscripten_glUniform4i"] = _emscripten_glUniform4i;
   _emscripten_glUniform4i.sig = 'viiiii';
@@ -16144,7 +16262,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniform4iv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform4iv(GL.uniforms[location], HEAP32, value>>2, count*4);
+        GLctx.uniform4iv(webglGetUniformLocation(location), HEAP32, value>>2, count*4);
         return;
       }
   
@@ -16161,19 +16279,19 @@ var ASM_CONSTS = {
       {
         var view = HEAP32.subarray((value)>>2, (value+count*16)>>2);
       }
-      GLctx.uniform4iv(GL.uniforms[location], view);
+      GLctx.uniform4iv(webglGetUniformLocation(location), view);
     }
   Module["_emscripten_glUniform4iv"] = _emscripten_glUniform4iv;
   _emscripten_glUniform4iv.sig = 'viii';
 
   function _emscripten_glUniform4ui(location, v0, v1, v2, v3) {
-      GLctx.uniform4ui(GL.uniforms[location], v0, v1, v2, v3);
+      GLctx.uniform4ui(webglGetUniformLocation(location), v0, v1, v2, v3);
     }
   Module["_emscripten_glUniform4ui"] = _emscripten_glUniform4ui;
   _emscripten_glUniform4ui.sig = 'viiiii';
 
   function _emscripten_glUniform4uiv(location, count, value) {
-      GLctx.uniform4uiv(GL.uniforms[location], HEAPU32, value>>2, count*4);
+      GLctx.uniform4uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count*4);
     }
   Module["_emscripten_glUniform4uiv"] = _emscripten_glUniform4uiv;
   _emscripten_glUniform4uiv.sig = 'viii';
@@ -16189,7 +16307,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniformMatrix2fv(location, count, transpose, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniformMatrix2fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*4);
+        GLctx.uniformMatrix2fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*4);
         return;
       }
   
@@ -16206,19 +16324,19 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*16)>>2);
       }
-      GLctx.uniformMatrix2fv(GL.uniforms[location], !!transpose, view);
+      GLctx.uniformMatrix2fv(webglGetUniformLocation(location), !!transpose, view);
     }
   Module["_emscripten_glUniformMatrix2fv"] = _emscripten_glUniformMatrix2fv;
   _emscripten_glUniformMatrix2fv.sig = 'viiii';
 
   function _emscripten_glUniformMatrix2x3fv(location, count, transpose, value) {
-      GLctx.uniformMatrix2x3fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*6);
+      GLctx.uniformMatrix2x3fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*6);
     }
   Module["_emscripten_glUniformMatrix2x3fv"] = _emscripten_glUniformMatrix2x3fv;
   _emscripten_glUniformMatrix2x3fv.sig = 'viiii';
 
   function _emscripten_glUniformMatrix2x4fv(location, count, transpose, value) {
-      GLctx.uniformMatrix2x4fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*8);
+      GLctx.uniformMatrix2x4fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*8);
     }
   Module["_emscripten_glUniformMatrix2x4fv"] = _emscripten_glUniformMatrix2x4fv;
   _emscripten_glUniformMatrix2x4fv.sig = 'viiii';
@@ -16226,7 +16344,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniformMatrix3fv(location, count, transpose, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniformMatrix3fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*9);
+        GLctx.uniformMatrix3fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*9);
         return;
       }
   
@@ -16248,19 +16366,19 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*36)>>2);
       }
-      GLctx.uniformMatrix3fv(GL.uniforms[location], !!transpose, view);
+      GLctx.uniformMatrix3fv(webglGetUniformLocation(location), !!transpose, view);
     }
   Module["_emscripten_glUniformMatrix3fv"] = _emscripten_glUniformMatrix3fv;
   _emscripten_glUniformMatrix3fv.sig = 'viiii';
 
   function _emscripten_glUniformMatrix3x2fv(location, count, transpose, value) {
-      GLctx.uniformMatrix3x2fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*6);
+      GLctx.uniformMatrix3x2fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*6);
     }
   Module["_emscripten_glUniformMatrix3x2fv"] = _emscripten_glUniformMatrix3x2fv;
   _emscripten_glUniformMatrix3x2fv.sig = 'viiii';
 
   function _emscripten_glUniformMatrix3x4fv(location, count, transpose, value) {
-      GLctx.uniformMatrix3x4fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*12);
+      GLctx.uniformMatrix3x4fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*12);
     }
   Module["_emscripten_glUniformMatrix3x4fv"] = _emscripten_glUniformMatrix3x4fv;
   _emscripten_glUniformMatrix3x4fv.sig = 'viiii';
@@ -16268,7 +16386,7 @@ var ASM_CONSTS = {
   function _emscripten_glUniformMatrix4fv(location, count, transpose, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniformMatrix4fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*16);
+        GLctx.uniformMatrix4fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*16);
         return;
       }
   
@@ -16301,19 +16419,19 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*64)>>2);
       }
-      GLctx.uniformMatrix4fv(GL.uniforms[location], !!transpose, view);
+      GLctx.uniformMatrix4fv(webglGetUniformLocation(location), !!transpose, view);
     }
   Module["_emscripten_glUniformMatrix4fv"] = _emscripten_glUniformMatrix4fv;
   _emscripten_glUniformMatrix4fv.sig = 'viiii';
 
   function _emscripten_glUniformMatrix4x2fv(location, count, transpose, value) {
-      GLctx.uniformMatrix4x2fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*8);
+      GLctx.uniformMatrix4x2fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*8);
     }
   Module["_emscripten_glUniformMatrix4x2fv"] = _emscripten_glUniformMatrix4x2fv;
   _emscripten_glUniformMatrix4x2fv.sig = 'viiii';
 
   function _emscripten_glUniformMatrix4x3fv(location, count, transpose, value) {
-      GLctx.uniformMatrix4x3fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*12);
+      GLctx.uniformMatrix4x3fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*12);
     }
   Module["_emscripten_glUniformMatrix4x3fv"] = _emscripten_glUniformMatrix4x3fv;
   _emscripten_glUniformMatrix4x3fv.sig = 'viiii';
@@ -16347,7 +16465,11 @@ var ASM_CONSTS = {
   _emscripten_glUnmapBuffer.sig = 'ii';
 
   function _emscripten_glUseProgram(program) {
-      GLctx.useProgram(GL.programs[program]);
+      program = GL.programs[program];
+      GLctx.useProgram(program);
+      // Record the currently active program so that we can access the uniform
+      // mapping table of that program.
+      GLctx.currentProgram = program;
     }
   Module["_emscripten_glUseProgram"] = _emscripten_glUseProgram;
   _emscripten_glUseProgram.sig = 'vi';
@@ -16508,22 +16630,19 @@ var ASM_CONSTS = {
     }
   Module["_emscripten_memcpy_big"] = _emscripten_memcpy_big;
 
-  function _emscripten_get_heap_size() {
-      return HEAPU8.length;
-    }
-  Module["_emscripten_get_heap_size"] = _emscripten_get_heap_size;
-  
   function abortOnCannotGrowMemory(requestedSize) {
       abort('Cannot enlarge memory arrays to size ' + requestedSize + ' bytes (OOM). Either (1) compile with  -s INITIAL_MEMORY=X  with X higher than the current value ' + HEAP8.length + ', (2) compile with  -s ALLOW_MEMORY_GROWTH=1  which allows increasing the size at runtime, or (3) if you want malloc to return NULL (0) instead of this abort, compile with  -s ABORTING_MALLOC=0 ');
     }
   Module["abortOnCannotGrowMemory"] = abortOnCannotGrowMemory;
   function _emscripten_resize_heap(requestedSize) {
+      var oldSize = HEAPU8.length;
+      requestedSize = requestedSize >>> 0;
       abortOnCannotGrowMemory(requestedSize);
     }
   Module["_emscripten_resize_heap"] = _emscripten_resize_heap;
 
   var JSEvents={inEventHandler:0,removeAllEventListeners:function() {
-        for(var i = JSEvents.eventHandlers.length-1; i >= 0; --i) {
+        for (var i = JSEvents.eventHandlers.length-1; i >= 0; --i) {
           JSEvents._removeHandler(i);
         }
         JSEvents.eventHandlers = [];
@@ -16537,13 +16656,13 @@ var ASM_CONSTS = {
         function arraysHaveEqualContent(arrA, arrB) {
           if (arrA.length != arrB.length) return false;
   
-          for(var i in arrA) {
+          for (var i in arrA) {
             if (arrA[i] != arrB[i]) return false;
           }
           return true;
         }
         // Test if the given call was already queued, and if so, don't add it again.
-        for(var i in JSEvents.deferredCalls) {
+        for (var i in JSEvents.deferredCalls) {
           var call = JSEvents.deferredCalls[i];
           if (call.targetFunction == targetFunction && arraysHaveEqualContent(call.argsList, argsList)) {
             return;
@@ -16557,7 +16676,7 @@ var ASM_CONSTS = {
   
         JSEvents.deferredCalls.sort(function(x,y) { return x.precedence < y.precedence; });
       },removeDeferredCalls:function(targetFunction) {
-        for(var i = 0; i < JSEvents.deferredCalls.length; ++i) {
+        for (var i = 0; i < JSEvents.deferredCalls.length; ++i) {
           if (JSEvents.deferredCalls[i].targetFunction == targetFunction) {
             JSEvents.deferredCalls.splice(i, 1);
             --i;
@@ -16569,14 +16688,14 @@ var ASM_CONSTS = {
         if (!JSEvents.canPerformEventHandlerRequests()) {
           return;
         }
-        for(var i = 0; i < JSEvents.deferredCalls.length; ++i) {
+        for (var i = 0; i < JSEvents.deferredCalls.length; ++i) {
           var call = JSEvents.deferredCalls[i];
           JSEvents.deferredCalls.splice(i, 1);
           --i;
           call.targetFunction.apply(null, call.argsList);
         }
       },eventHandlers:[],removeAllHandlersOnTarget:function(target, eventTypeString) {
-        for(var i = 0; i < JSEvents.eventHandlers.length; ++i) {
+        for (var i = 0; i < JSEvents.eventHandlers.length; ++i) {
           if (JSEvents.eventHandlers[i].target == target && 
             (!eventTypeString || eventTypeString == JSEvents.eventHandlers[i].eventTypeString)) {
              JSEvents._removeHandler(i--);
@@ -16607,7 +16726,7 @@ var ASM_CONSTS = {
           JSEvents.eventHandlers.push(eventHandler);
           JSEvents.registerRemoveEventListeners();
         } else {
-          for(var i = 0; i < JSEvents.eventHandlers.length; ++i) {
+          for (var i = 0; i < JSEvents.eventHandlers.length; ++i) {
             if (JSEvents.eventHandlers[i].target == eventHandler.target
              && JSEvents.eventHandlers[i].eventTypeString == eventHandler.eventTypeString) {
                JSEvents._removeHandler(i--);
@@ -17003,8 +17122,7 @@ var ASM_CONSTS = {
   _glActiveTexture.sig = 'vi';
 
   function _glAttachShader(program, shader) {
-      GLctx.attachShader(GL.programs[program],
-                              GL.shaders[shader]);
+      GLctx.attachShader(GL.programs[program], GL.shaders[shader]);
     }
   Module["_glAttachShader"] = _glAttachShader;
   _glAttachShader.sig = 'vii';
@@ -17100,7 +17218,11 @@ var ASM_CONSTS = {
   function _glCreateProgram() {
       var id = GL.getNewId(GL.programs);
       var program = GLctx.createProgram();
+      // Store additional information needed for each shader program:
       program.name = id;
+      // Lazy cache results of glGetProgramiv(GL_ACTIVE_UNIFORM_MAX_LENGTH/GL_ACTIVE_ATTRIBUTE_MAX_LENGTH/GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH)
+      program.maxUniformLength = program.maxAttributeLength = program.maxUniformBlockNameLength = 0;
+      program.uniformIdCounter = 1;
       GL.programs[id] = program;
       return id;
     }
@@ -17110,6 +17232,7 @@ var ASM_CONSTS = {
   function _glCreateShader(shaderType) {
       var id = GL.getNewId(GL.shaders);
       GL.shaders[id] = GLctx.createShader(shaderType);
+  
       return id;
     }
   Module["_glCreateShader"] = _glCreateShader;
@@ -17147,7 +17270,6 @@ var ASM_CONSTS = {
       GLctx.deleteProgram(program);
       program.name = 0;
       GL.programs[id] = null;
-      GL.programInfos[id] = null;
     }
   Module["_glDeleteProgram"] = _glDeleteProgram;
   _glDeleteProgram.sig = 'vi';
@@ -17176,8 +17298,7 @@ var ASM_CONSTS = {
   _glDeleteVertexArrays.sig = 'vii';
 
   function _glDetachShader(program, shader) {
-      GLctx.detachShader(GL.programs[program],
-                              GL.shaders[shader]);
+      GLctx.detachShader(GL.programs[program], GL.shaders[shader]);
     }
   Module["_glDetachShader"] = _glDetachShader;
   _glDetachShader.sig = 'vii';
@@ -17275,42 +17396,35 @@ var ASM_CONSTS = {
         return;
       }
   
-      var ptable = GL.programInfos[program];
-      if (!ptable) {
-        GL.recordError(0x502 /* GL_INVALID_OPERATION */);
-        return;
-      }
+      program = GL.programs[program];
   
       if (pname == 0x8B84) { // GL_INFO_LOG_LENGTH
-        var log = GLctx.getProgramInfoLog(GL.programs[program]);
+        var log = GLctx.getProgramInfoLog(program);
         if (log === null) log = '(unknown error)';
         HEAP32[((p)>>2)] = log.length + 1;
       } else if (pname == 0x8B87 /* GL_ACTIVE_UNIFORM_MAX_LENGTH */) {
-        HEAP32[((p)>>2)] = ptable.maxUniformLength;
+        if (!program.maxUniformLength) {
+          for (var i = 0; i < GLctx.getProgramParameter(program, 0x8B86/*GL_ACTIVE_UNIFORMS*/); ++i) {
+            program.maxUniformLength = Math.max(program.maxUniformLength, GLctx.getActiveUniform(program, i).name.length+1);
+          }
+        }
+        HEAP32[((p)>>2)] = program.maxUniformLength;
       } else if (pname == 0x8B8A /* GL_ACTIVE_ATTRIBUTE_MAX_LENGTH */) {
-        if (ptable.maxAttributeLength == -1) {
-          program = GL.programs[program];
-          var numAttribs = GLctx.getProgramParameter(program, 0x8B89/*GL_ACTIVE_ATTRIBUTES*/);
-          ptable.maxAttributeLength = 0; // Spec says if there are no active attribs, 0 must be returned.
-          for (var i = 0; i < numAttribs; ++i) {
-            var activeAttrib = GLctx.getActiveAttrib(program, i);
-            ptable.maxAttributeLength = Math.max(ptable.maxAttributeLength, activeAttrib.name.length+1);
+        if (!program.maxAttributeLength) {
+          for (var i = 0; i < GLctx.getProgramParameter(program, 0x8B89/*GL_ACTIVE_ATTRIBUTES*/); ++i) {
+            program.maxAttributeLength = Math.max(program.maxAttributeLength, GLctx.getActiveAttrib(program, i).name.length+1);
           }
         }
-        HEAP32[((p)>>2)] = ptable.maxAttributeLength;
+        HEAP32[((p)>>2)] = program.maxAttributeLength;
       } else if (pname == 0x8A35 /* GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH */) {
-        if (ptable.maxUniformBlockNameLength == -1) {
-          program = GL.programs[program];
-          var numBlocks = GLctx.getProgramParameter(program, 0x8A36/*GL_ACTIVE_UNIFORM_BLOCKS*/);
-          ptable.maxUniformBlockNameLength = 0;
-          for (var i = 0; i < numBlocks; ++i) {
-            var activeBlockName = GLctx.getActiveUniformBlockName(program, i);
-            ptable.maxUniformBlockNameLength = Math.max(ptable.maxUniformBlockNameLength, activeBlockName.length+1);
+        if (!program.maxUniformBlockNameLength) {
+          for (var i = 0; i < GLctx.getProgramParameter(program, 0x8A36/*GL_ACTIVE_UNIFORM_BLOCKS*/); ++i) {
+            program.maxUniformBlockNameLength = Math.max(program.maxUniformBlockNameLength, GLctx.getActiveUniformBlockName(program, i).length+1);
           }
         }
-        HEAP32[((p)>>2)] = ptable.maxUniformBlockNameLength;
+        HEAP32[((p)>>2)] = program.maxUniformBlockNameLength;
       } else {
-        HEAP32[((p)>>2)] = GLctx.getProgramParameter(GL.programs[program], pname);
+        HEAP32[((p)>>2)] = GLctx.getProgramParameter(program, pname);
       }
     }
   Module["_glGetProgramiv"] = _glGetProgramiv;
@@ -17355,22 +17469,82 @@ var ASM_CONSTS = {
   _glGetShaderiv.sig = 'viii';
 
   function _glGetUniformLocation(program, name) {
+      // Returns the index of '[' character in an uniform that represents an array of uniforms (e.g. colors[10])
+      // Closure does counterproductive inlining: https://github.com/google/closure-compiler/issues/3203, so prevent
+      // inlining manually.
+      /** @noinline */
+      function getLeftBracePos(name) {
+        return name.slice(-1) == ']' && name.lastIndexOf('[');
+      }
+  
       name = UTF8ToString(name);
   
+      program = GL.programs[program];
+      var uniformLocsById = program.uniformLocsById; // Maps GLuint -> WebGLUniformLocation
+      var uniformSizeAndIdsByName = program.uniformSizeAndIdsByName; // Maps name -> [uniform array length, GLuint]
+      var i, j;
       var arrayIndex = 0;
-      // If user passed an array accessor "[index]", parse the array index off the accessor.
-      if (name[name.length - 1] == ']') {
-        var leftBrace = name.lastIndexOf('[');
-        arrayIndex = name[leftBrace+1] != ']' ? jstoi_q(name.slice(leftBrace + 1)) : 0; // "index]", parseInt will ignore the ']' at the end; but treat "foo[]" as "foo[0]"
-        name = name.slice(0, leftBrace);
+      var uniformBaseName = name;
+  
+      // Invariant: when populating integer IDs for uniform locations, we must maintain the precondition that
+      // arrays reside in contiguous addresses, i.e. for a 'vec4 colors[10];', colors[4] must be at location colors[0]+4.
+      // However, user might call glGetUniformLocation(program, "colors") for an array, so we cannot discover based on the user
+      // input arguments whether the uniform we are dealing with is an array. The only way to discover which uniforms are arrays
+      // is to enumerate over all the active uniforms in the program.
+      var leftBrace = getLeftBracePos(name);
+  
+      // On the first time invocation of glGetUniformLocation on this shader program:
+      // initialize cache data structures and discover which uniforms are arrays.
+      if (!uniformLocsById) {
+        // maps GLint integer locations to WebGLUniformLocations
+        program.uniformLocsById = uniformLocsById = {};
+        // maps integer locations back to uniform name strings, so that we can lazily fetch uniform array locations
+        program.uniformArrayNamesById = {};
+  
+        for (i = 0; i < GLctx.getProgramParameter(program, 0x8B86/*GL_ACTIVE_UNIFORMS*/); ++i) {
+          var u = GLctx.getActiveUniform(program, i);
+          var nm = u.name;
+          var sz = u.size;
+          var lb = getLeftBracePos(nm);
+          var arrayName = lb > 0 ? nm.slice(0, lb) : nm;
+  
+          // Assign a new location.
+          var id = program.uniformIdCounter;
+          program.uniformIdCounter += sz;
+          // Eagerly get the location of the uniformArray[0] base element.
+          // The remaining indices >0 will be left for lazy evaluation to
+          // improve performance. Those may never be needed to fetch, if the
+          // application fills arrays always in full starting from the first
+          // element of the array.
+          uniformSizeAndIdsByName[arrayName] = [sz, id];
+  
+          // Store placeholder integers in place that highlight that these
+          // >0 index locations are array indices pending population.
+          for(j = 0; j < sz; ++j) {
+            uniformLocsById[id] = j;
+            program.uniformArrayNamesById[id++] = arrayName;
+          }
+        }
       }
   
-      var uniformInfo = GL.programInfos[program] && GL.programInfos[program].uniforms[name]; // returns pair [ dimension_of_uniform_array, uniform_location ]
-      if (uniformInfo && arrayIndex >= 0 && arrayIndex < uniformInfo[0]) { // Check if user asked for an out-of-bounds element, i.e. for 'vec4 colors[3];' user could ask for 'colors[10]' which should return -1.
-        return uniformInfo[1] + arrayIndex;
-      } else {
-        return -1;
+      // If user passed an array accessor "[index]", parse the array index off the accessor.
+      if (leftBrace > 0) {
+        arrayIndex = jstoi_q(name.slice(leftBrace + 1)) >>> 0; // "index]", coerce parseInt(']') with >>>0 to treat "foo[]" as "foo[0]" and foo[-1] as unsigned out-of-bounds.
+        uniformBaseName = name.slice(0, leftBrace);
       }
+  
+      // Have we cached the location of this uniform before?
+      var sizeAndId = uniformSizeAndIdsByName[uniformBaseName]; // A pair [array length, GLint of the uniform location]
+  
+      // If an uniform with this name exists, and if its index is within the array limits (if it's even an array),
+      // query the WebGLlocation, or return an existing cached location.
+      if (sizeAndId && arrayIndex < sizeAndId[0]) {
+        arrayIndex += sizeAndId[1]; // Add the base location of the uniform to the array index offset.
+        if ((uniformLocsById[arrayIndex] = uniformLocsById[arrayIndex] || GLctx.getUniformLocation(program, name))) {
+          return arrayIndex;
+        }
+      }
+      return -1;
     }
   Module["_glGetUniformLocation"] = _glGetUniformLocation;
   _glGetUniformLocation.sig = 'iii';
@@ -17385,8 +17559,12 @@ var ASM_CONSTS = {
   _glIsVertexArray.sig = 'ii';
 
   function _glLinkProgram(program) {
-      GLctx.linkProgram(GL.programs[program]);
-      GL.populateUniformTable(program);
+      program = GL.programs[program];
+      GLctx.linkProgram(program);
+      // Invalidate earlier computed uniform->ID mappings, those have now become stale
+      program.uniformLocsById = 0; // Mark as null-like so that glGetUniformLocation() knows to populate this again.
+      program.uniformSizeAndIdsByName = {};
+  
     }
   Module["_glLinkProgram"] = _glLinkProgram;
   _glLinkProgram.sig = 'vi';
@@ -17444,7 +17622,7 @@ var ASM_CONSTS = {
   function _glUniform1fv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform1fv(GL.uniforms[location], HEAPF32, value>>2, count);
+        GLctx.uniform1fv(webglGetUniformLocation(location), HEAPF32, value>>2, count);
         return;
       }
   
@@ -17458,7 +17636,7 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*4)>>2);
       }
-      GLctx.uniform1fv(GL.uniforms[location], view);
+      GLctx.uniform1fv(webglGetUniformLocation(location), view);
     }
   Module["_glUniform1fv"] = _glUniform1fv;
   _glUniform1fv.sig = 'viii';
@@ -17466,7 +17644,7 @@ var ASM_CONSTS = {
   function _glUniform1iv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform1iv(GL.uniforms[location], HEAP32, value>>2, count);
+        GLctx.uniform1iv(webglGetUniformLocation(location), HEAP32, value>>2, count);
         return;
       }
   
@@ -17480,7 +17658,7 @@ var ASM_CONSTS = {
       {
         var view = HEAP32.subarray((value)>>2, (value+count*4)>>2);
       }
-      GLctx.uniform1iv(GL.uniforms[location], view);
+      GLctx.uniform1iv(webglGetUniformLocation(location), view);
     }
   Module["_glUniform1iv"] = _glUniform1iv;
   _glUniform1iv.sig = 'viii';
@@ -17488,7 +17666,7 @@ var ASM_CONSTS = {
   function _glUniform2fv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform2fv(GL.uniforms[location], HEAPF32, value>>2, count*2);
+        GLctx.uniform2fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*2);
         return;
       }
   
@@ -17503,7 +17681,7 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*8)>>2);
       }
-      GLctx.uniform2fv(GL.uniforms[location], view);
+      GLctx.uniform2fv(webglGetUniformLocation(location), view);
     }
   Module["_glUniform2fv"] = _glUniform2fv;
   _glUniform2fv.sig = 'viii';
@@ -17511,7 +17689,7 @@ var ASM_CONSTS = {
   function _glUniform3fv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform3fv(GL.uniforms[location], HEAPF32, value>>2, count*3);
+        GLctx.uniform3fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*3);
         return;
       }
   
@@ -17527,7 +17705,7 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*12)>>2);
       }
-      GLctx.uniform3fv(GL.uniforms[location], view);
+      GLctx.uniform3fv(webglGetUniformLocation(location), view);
     }
   Module["_glUniform3fv"] = _glUniform3fv;
   _glUniform3fv.sig = 'viii';
@@ -17535,7 +17713,7 @@ var ASM_CONSTS = {
   function _glUniform4fv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform4fv(GL.uniforms[location], HEAPF32, value>>2, count*4);
+        GLctx.uniform4fv(webglGetUniformLocation(location), HEAPF32, value>>2, count*4);
         return;
       }
   
@@ -17556,7 +17734,7 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*16)>>2);
       }
-      GLctx.uniform4fv(GL.uniforms[location], view);
+      GLctx.uniform4fv(webglGetUniformLocation(location), view);
     }
   Module["_glUniform4fv"] = _glUniform4fv;
   _glUniform4fv.sig = 'viii';
@@ -17564,7 +17742,7 @@ var ASM_CONSTS = {
   function _glUniformMatrix4fv(location, count, transpose, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniformMatrix4fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*16);
+        GLctx.uniformMatrix4fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*16);
         return;
       }
   
@@ -17597,13 +17775,17 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*64)>>2);
       }
-      GLctx.uniformMatrix4fv(GL.uniforms[location], !!transpose, view);
+      GLctx.uniformMatrix4fv(webglGetUniformLocation(location), !!transpose, view);
     }
   Module["_glUniformMatrix4fv"] = _glUniformMatrix4fv;
   _glUniformMatrix4fv.sig = 'viiii';
 
   function _glUseProgram(program) {
-      GLctx.useProgram(GL.programs[program]);
+      program = GL.programs[program];
+      GLctx.useProgram(program);
+      // Record the currently active program so that we can access the uniform
+      // mapping table of that program.
+      GLctx.currentProgram = program;
     }
   Module["_glUseProgram"] = _glUseProgram;
   _glUseProgram.sig = 'vi';
@@ -18177,9 +18359,9 @@ var ASM_CONSTS = {
         var win = GLFW.WindowFromId(winid);
         if (!win) return;
   
-        switch(mode) {
+        switch (mode) {
           case 0x00033001: { // GLFW_CURSOR
-            switch(value) {
+            switch (value) {
               case 0x00034001: { // GLFW_CURSOR_NORMAL
                 win.inputModes[mode] = value;
                 Module['canvas'].removeEventListener('click', GLFW.onClickRequestPointerLock, true);
@@ -18578,53 +18760,6 @@ var ASM_CONSTS = {
   _glfwWindowHint.sig = 'vii';
 
 
-  function _fpathconf(fildes, name) {
-      // long fpathconf(int fildes, int name);
-      // http://pubs.opengroup.org/onlinepubs/000095399/functions/encrypt.html
-      // NOTE: The first parameter is ignored, so pathconf == fpathconf.
-      // The constants here aren't real values. Just mimicking glibc.
-      switch (name) {
-        case 0:
-          return 32000;
-        case 1:
-        case 2:
-        case 3:
-          return 255;
-        case 4:
-        case 5:
-        case 16:
-        case 17:
-        case 18:
-          return 4096;
-        case 6:
-        case 7:
-        case 20:
-          return 1;
-        case 8:
-          return 0;
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 14:
-        case 15:
-        case 19:
-          return -1;
-        case 13:
-          return 64;
-      }
-      setErrNo(28);
-      return -1;
-    }
-  Module["_fpathconf"] = _fpathconf;
-  _fpathconf.sig = 'iii';
-  function _pathconf(a0,a1
-  ) {
-  return _fpathconf(a0,a1);
-  }
-  Module["_pathconf"] = _pathconf;
-  _pathconf.sig = 'iii';
-
   function _pthread_cleanup_push(routine, arg) {
       __ATEXIT__.push({ func: routine, arg: arg });
       _pthread_cleanup_push.level = __ATEXIT__.length;
@@ -18633,7 +18768,7 @@ var ASM_CONSTS = {
   _pthread_cleanup_push.sig = 'vii';
   function _pthread_cleanup_pop(execute) {
       assert(_pthread_cleanup_push.level == __ATEXIT__.length, 'cannot pop if something else added meanwhile!');
-      callback = __ATEXIT__.pop();
+      var callback = __ATEXIT__.pop();
       if (execute) {
         wasmTable.get(callback.func)(callback.arg)
       }
@@ -18659,8 +18794,8 @@ var ASM_CONSTS = {
     }
   Module["_pthread_sigmask"] = _pthread_sigmask;
 
-  function _setTempRet0($i) {
-      setTempRet0(($i) | 0);
+  function _setTempRet0(val) {
+      setTempRet0(val);
     }
   Module["_setTempRet0"] = _setTempRet0;
   _setTempRet0.sig = 'vi';
@@ -18697,7 +18832,7 @@ var ASM_CONSTS = {
   Module["__MONTH_DAYS_REGULAR"] = __MONTH_DAYS_REGULAR;
   function __addDays(date, days) {
       var newDate = new Date(date.getTime());
-      while(days > 0) {
+      while (days > 0) {
         var leap = __isLeapYear(newDate.getFullYear());
         var currentMonth = newDate.getMonth();
         var daysInCurrentMonth = (leap ? __MONTH_DAYS_LEAP : __MONTH_DAYS_REGULAR)[currentMonth];
@@ -19026,7 +19161,7 @@ var ASM_CONSTS = {
         }
       };
       for (var rule in EXPANSION_RULES_2) {
-        if (pattern.indexOf(rule) >= 0) {
+        if (pattern.includes(rule)) {
           pattern = pattern.replace(new RegExp(rule, 'g'), EXPANSION_RULES_2[rule](date));
         }
       }
@@ -19047,154 +19182,6 @@ var ASM_CONSTS = {
     }
   Module["_strftime_l"] = _strftime_l;
 
-  function _sysconf(name) {
-      // long sysconf(int name);
-      // http://pubs.opengroup.org/onlinepubs/009695399/functions/sysconf.html
-      switch(name) {
-        case 30: return 16384;
-        case 85:
-          var maxHeapSize = HEAPU8.length;
-          return maxHeapSize / 16384;
-        case 132:
-        case 133:
-        case 12:
-        case 137:
-        case 138:
-        case 15:
-        case 235:
-        case 16:
-        case 17:
-        case 18:
-        case 19:
-        case 20:
-        case 149:
-        case 13:
-        case 10:
-        case 236:
-        case 153:
-        case 9:
-        case 21:
-        case 22:
-        case 159:
-        case 154:
-        case 14:
-        case 77:
-        case 78:
-        case 139:
-        case 82:
-        case 68:
-        case 67:
-        case 164:
-        case 11:
-        case 29:
-        case 47:
-        case 48:
-        case 95:
-        case 52:
-        case 51:
-        case 46:
-          return 200809;
-        case 27:
-        case 246:
-        case 127:
-        case 128:
-        case 23:
-        case 24:
-        case 160:
-        case 161:
-        case 181:
-        case 182:
-        case 242:
-        case 183:
-        case 184:
-        case 243:
-        case 244:
-        case 245:
-        case 165:
-        case 178:
-        case 179:
-        case 49:
-        case 50:
-        case 168:
-        case 169:
-        case 175:
-        case 170:
-        case 171:
-        case 172:
-        case 97:
-        case 76:
-        case 32:
-        case 173:
-        case 35:
-        case 80:
-        case 81:
-        case 79:
-          return -1;
-        case 176:
-        case 177:
-        case 7:
-        case 155:
-        case 8:
-        case 157:
-        case 125:
-        case 126:
-        case 92:
-        case 93:
-        case 129:
-        case 130:
-        case 131:
-        case 94:
-        case 91:
-          return 1;
-        case 74:
-        case 60:
-        case 69:
-        case 70:
-        case 4:
-          return 1024;
-        case 31:
-        case 42:
-        case 72:
-          return 32;
-        case 87:
-        case 26:
-        case 33:
-          return 2147483647;
-        case 34:
-        case 1:
-          return 47839;
-        case 38:
-        case 36:
-          return 99;
-        case 43:
-        case 37:
-          return 2048;
-        case 0: return 2097152;
-        case 3: return 65536;
-        case 28: return 32768;
-        case 44: return 32767;
-        case 75: return 16384;
-        case 39: return 1000;
-        case 89: return 700;
-        case 71: return 256;
-        case 40: return 255;
-        case 2: return 100;
-        case 180: return 64;
-        case 25: return 20;
-        case 5: return 16;
-        case 6: return 6;
-        case 73: return 4;
-        case 84: {
-          if (typeof navigator === 'object') return navigator['hardwareConcurrency'] || 1;
-          return 1;
-        }
-      }
-      setErrNo(28);
-      return -1;
-    }
-  Module["_sysconf"] = _sysconf;
-  _sysconf.sig = 'ii';
-
   function _time(ptr) {
       var ret = (Date.now()/1000)|0;
       if (ptr) {
@@ -19205,23 +19192,12 @@ var ASM_CONSTS = {
   Module["_time"] = _time;
   _time.sig = 'ii';
 
-  function ___stack_pointer(
-  ) {
-  if (!Module['___stack_pointer']) abort("external symbol '__stack_pointer' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['___stack_pointer'].apply(null, arguments);
-  }
 
-  function ___memory_base(
-  ) {
-  if (!Module['___memory_base']) abort("external symbol '__memory_base' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['___memory_base'].apply(null, arguments);
-  }
+  var ___memory_base=1024;
+  Module["___memory_base"] = ___memory_base;
 
-  function ___table_base(
-  ) {
-  if (!Module['___table_base']) abort("external symbol '__table_base' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['___table_base'].apply(null, arguments);
-  }
+  var ___table_base=1;
+  Module["___table_base"] = ___table_base;
 
 
 
@@ -19593,40 +19569,10 @@ var ASM_CONSTS = {
 
 
 
-  function ___heap_base(
-  ) {
-  if (!Module['___heap_base']) abort("external symbol '__heap_base' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['___heap_base'].apply(null, arguments);
-  }
-
-  var readAsmConstArgsArray=[];
-  Module["readAsmConstArgsArray"] = readAsmConstArgsArray;
-  function readAsmConstArgs(sigPtr, buf) {
-      // Nobody should have mutated _readAsmConstArgsArray underneath us to be something else than an array.
-      assert(Array.isArray(readAsmConstArgsArray));
-      // The input buffer is allocated on the stack, so it must be stack-aligned.
-      assert(buf % 16 == 0);
-      readAsmConstArgsArray.length = 0;
-      var ch;
-      // Most arguments are i32s, so shift the buffer pointer so it is a plain
-      // index into HEAP32.
-      buf >>= 2;
-      while (ch = HEAPU8[sigPtr++]) {
-        assert(ch === 100/*'d'*/ || ch === 102/*'f'*/ || ch === 105 /*'i'*/);
-        // A double takes two 32-bit slots, and must also be aligned - the backend
-        // will emit padding to avoid that.
-        var double = ch < 105;
-        if (double && (buf & 1)) buf++;
-        readAsmConstArgsArray.push(double ? HEAPF64[buf++ >> 1] : HEAP32[buf]);
-        ++buf;
-      }
-      return readAsmConstArgsArray;
-    }
-  Module["readAsmConstArgs"] = readAsmConstArgs;
 
 
   function _getTempRet0() {
-      return (getTempRet0() | 0);
+      return getTempRet0();
     }
   Module["_getTempRet0"] = _getTempRet0;
   _getTempRet0.sig = 'i';
@@ -19696,64 +19642,6 @@ var ASM_CONSTS = {
 
 
 
-  function _confstr(name, buf, len) {
-      // size_t confstr(int name, char *buf, size_t len);
-      // http://pubs.opengroup.org/onlinepubs/000095399/functions/confstr.html
-      var value;
-      switch (name) {
-        case 0:
-          value = ENV['PATH'] || '/';
-          break;
-        case 1:
-          // Mimicking glibc.
-          value = 'POSIX_V6_ILP32_OFF32\nPOSIX_V6_ILP32_OFFBIG';
-          break;
-        case 2:
-          // This JS implementation was tested against this glibc version.
-          value = 'glibc 2.14';
-          break;
-        case 3:
-          // We don't support pthreads.
-          value = '';
-          break;
-        case 1118:
-        case 1122:
-        case 1124:
-        case 1125:
-        case 1126:
-        case 1128:
-        case 1129:
-        case 1130:
-          value = '';
-          break;
-        case 1116:
-        case 1117:
-        case 1121:
-          value = '-m32';
-          break;
-        case 1120:
-          value = '-m32 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64';
-          break;
-        default:
-          setErrNo(28);
-          return 0;
-      }
-      if (len == 0 || buf == 0) {
-        return value.length + 1;
-      } else {
-        var length = Math.min(len, value.length);
-        for (var i = 0; i < length; i++) {
-          HEAP8[(((buf)+(i))>>0)] = value.charCodeAt(i);
-        }
-        if (len > length) HEAP8[(((buf)+(i++))>>0)] = 0;
-        return i;
-      }
-    }
-  Module["_confstr"] = _confstr;
-  _confstr.sig = 'iiii';
-
-
-
 
   function __Exit(a0
   ) {
@@ -19790,7 +19678,6 @@ var ASM_CONSTS = {
       }
     }
   Module["_setgroups"] = _setgroups;
-
 
 
 
@@ -19943,10 +19830,9 @@ var ASM_CONSTS = {
 
 
 
-
   function _ctime_r(time, buf) {
       var stack = stackSave();
-      var rv = _asctime_r(_localtime_r(time, stackAlloc(44)), buf);
+      var rv = ___asctime(_localtime_r(time, stackAlloc(44)), buf);
       stackRestore(stack);
       return rv;
     }
@@ -20888,7 +20774,7 @@ var ASM_CONSTS = {
       if (flags & 128 /*EM_LOG_FUNC_PARAMS*/) {
         // To get the actual parameters to the functions, traverse the stack via the unfortunately deprecated 'arguments.callee' method, if it works:
         stack_args = traverseStack(arguments);
-        while (stack_args[1].indexOf('_emscripten_') >= 0)
+        while (stack_args[1].includes('_emscripten_'))
           stack_args = traverseStack(stack_args[0]);
       }
   
@@ -21082,7 +20968,7 @@ var ASM_CONSTS = {
   
       var ret = [];
       var curr, next, currArg;
-      while(1) {
+      while (1) {
         var startTextIndex = textIndex;
         curr = HEAP8[((textIndex)>>0)];
         if (curr === 0) break;
@@ -21147,7 +21033,7 @@ var ASM_CONSTS = {
               precision = getNextArg('i32');
               textIndex++;
             } else {
-              while(1) {
+              while (1) {
                 var precisionChr = HEAP8[((textIndex+1)>>0)];
                 if (precisionChr < 48 ||
                     precisionChr > 57) break;
@@ -21340,7 +21226,7 @@ var ASM_CONSTS = {
                 var parts = argText.split('e');
                 if (isGeneral && !flagAlternative) {
                   // Discard trailing zeros and periods.
-                  while (parts[0].length > 1 && parts[0].indexOf('.') != -1 &&
+                  while (parts[0].length > 1 && parts[0].includes('.') &&
                          (parts[0].slice(-1) == '0' || parts[0].slice(-1) == '.')) {
                     parts[0] = parts[0].slice(0, -1);
                   }
@@ -21457,17 +21343,7 @@ var ASM_CONSTS = {
   Module["_emscripten_log"] = _emscripten_log;
 
   function _emscripten_get_compiler_setting(name) {
-      name = UTF8ToString(name);
-  
-      var ret = getCompilerSetting(name);
-      if (typeof ret === 'number') return ret;
-  
-      if (!_emscripten_get_compiler_setting.cache) _emscripten_get_compiler_setting.cache = {};
-      var cache = _emscripten_get_compiler_setting.cache;
-      var fullname = name + '__str';
-      var fullret = cache[fullname];
-      if (fullret) return fullret;
-      return cache[fullname] = allocate(intArrayFromString(ret + ''), ALLOC_NORMAL);
+      throw 'You must build with -s RETAIN_COMPILER_SETTINGS=1 for getCompilerSetting or emscripten_get_compiler_setting to work';
     }
   Module["_emscripten_get_compiler_setting"] = _emscripten_get_compiler_setting;
 
@@ -21490,25 +21366,6 @@ var ASM_CONSTS = {
 
   function _emscripten_generate_pc(frame) {
       abort('Cannot use emscripten_generate_pc (needed by __builtin_return_address) without -s USE_OFFSET_CONVERTER');
-      var match;
-  
-      if (match = /\bwasm-function\[\d+\]:(0x[0-9a-f]+)/.exec(frame)) {
-        // some engines give the binary offset directly, so we use that as return address
-        return +match[1];
-      } else if (match = /\bwasm-function\[(\d+)\]:(\d+)/.exec(frame)) {
-        // other engines only give function index and offset in the function,
-        // so we try using the offset converter. If that doesn't work,
-        // we pack index and offset into a "return address"
-        return wasmOffsetConverter.convert(+match[1], +match[2]);
-      } else if (match = /:(\d+):\d+(?:\)|$)/.exec(frame)) {
-        // if we are in js, we can use the js line number as the "return address"
-        // this should work for wasm2js and fastcomp
-        // we tag the high bit to distinguish this from wasm addresses
-        return 0x80000000 | +match[1];
-      } else {
-        // return 0 if we can't find any
-        return 0;
-      }
     }
   Module["_emscripten_generate_pc"] = _emscripten_generate_pc;
 
@@ -21573,47 +21430,8 @@ var ASM_CONSTS = {
     }
   Module["_emscripten_stack_unwind_buffer"] = _emscripten_stack_unwind_buffer;
 
-  /** @suppress{checkTypes} */
-  function withBuiltinMalloc(func) {
-      var prev_malloc = typeof _malloc !== 'undefined' ? _malloc : undefined;
-      var prev_memalign = typeof _memalign !== 'undefined' ? _memalign : undefined;
-      var prev_free = typeof _free !== 'undefined' ? _free : undefined;
-      _malloc = _emscripten_builtin_malloc;
-      _memalign = _emscripten_builtin_memalign;
-      _free = _emscripten_builtin_free;
-      try {
-        return func();
-      } finally {
-        _malloc = prev_malloc;
-        _memalign = prev_memalign;
-        _free = prev_free;
-      }
-    }
-  Module["withBuiltinMalloc"] = withBuiltinMalloc;
   function _emscripten_pc_get_function(pc) {
       abort('Cannot use emscripten_pc_get_function without -s USE_OFFSET_CONVERTER');
-      var name;
-      if (pc & 0x80000000) {
-        // If this is a JavaScript function, try looking it up in the unwind cache.
-        var frame = UNWIND_CACHE[pc];
-        if (!frame) return 0;
-  
-        var match;
-        if (match = /^\s+at (.*) \(.*\)$/.exec(frame)) {
-          name = match[1];
-        } else if (match = /^(.+?)@/.exec(frame)) {
-          name = match[1];
-        } else {
-          return 0;
-        }
-      } else {
-        name = wasmOffsetConverter.getName(pc);
-      }
-      withBuiltinMalloc(function () {
-        if (_emscripten_pc_get_function.ret) _free(_emscripten_pc_get_function.ret);
-        _emscripten_pc_get_function.ret = allocateUTF8(name);
-      });
-      return _emscripten_pc_get_function.ret;
     }
   Module["_emscripten_pc_get_function"] = _emscripten_pc_get_function;
 
@@ -21640,6 +21458,23 @@ var ASM_CONSTS = {
     }
   Module["_emscripten_pc_get_source_js"] = _emscripten_pc_get_source_js;
 
+  /** @suppress{checkTypes} */
+  function withBuiltinMalloc(func) {
+      var prev_malloc = typeof _malloc !== 'undefined' ? _malloc : undefined;
+      var prev_memalign = typeof _memalign !== 'undefined' ? _memalign : undefined;
+      var prev_free = typeof _free !== 'undefined' ? _free : undefined;
+      _malloc = _emscripten_builtin_malloc;
+      _memalign = _emscripten_builtin_memalign;
+      _free = _emscripten_builtin_free;
+      try {
+        return func();
+      } finally {
+        _malloc = prev_malloc;
+        _memalign = prev_memalign;
+        _free = prev_free;
+      }
+    }
+  Module["withBuiltinMalloc"] = withBuiltinMalloc;
   function _emscripten_pc_get_file(pc) {
       var result = _emscripten_pc_get_source_js(pc);
       if (!result) return 0;
@@ -21697,6 +21532,7 @@ var ASM_CONSTS = {
   function mainThreadEM_ASM(code, sigPtr, argbuf, sync) {
       code -= 1024;
       var args = readAsmConstArgs(sigPtr, argbuf);
+      if (!ASM_CONSTS.hasOwnProperty(code)) abort('No EM_ASM constant found at address ' + code);
       return ASM_CONSTS[code].apply(null, args);
     }
   Module["mainThreadEM_ASM"] = mainThreadEM_ASM;
@@ -21797,32 +21633,9 @@ var ASM_CONSTS = {
 
 
 
-  function dynCallLegacy(sig, ptr, args) {
-      assert(('dynCall_' + sig) in Module, 'bad function pointer type - no table for sig \'' + sig + '\'');
-      if (args && args.length) {
-        // j (64-bit integer) must be passed in as two numbers [low 32, high 32].
-        assert(args.length === sig.substring(1).replace(/j/g, '--').length);
-      } else {
-        assert(sig.length == 1);
-      }
-      var f = Module["dynCall_" + sig];
-      return args && args.length ? f.apply(null, [ptr].concat(args)) : f.call(null, ptr);
-    }
-  Module["dynCallLegacy"] = dynCallLegacy;
 
-  function dynCall(sig, ptr, args) {
-      // Without WASM_BIGINT support we cannot directly call function with i64 as
-      // part of thier signature, so we rely the dynCall functions generated by
-      // wasm-emscripten-finalize
-      if (sig.indexOf('j') != -1) {
-        return dynCallLegacy(sig, ptr, args);
-      }
-      assert(wasmTable.get(ptr), 'missing table entry in dynCall: ' + ptr);
-      return wasmTable.get(ptr).apply(null, args)
-    }
-  Module["dynCall"] = dynCall;
   function getDynCaller(sig, ptr) {
-      assert(sig.indexOf('j') >= 0, 'getDynCaller should only be called with i64 sigs')
+      assert(sig.includes('j'), 'getDynCaller should only be called with i64 sigs')
       var argCache = [];
       return function() {
         argCache.length = arguments.length;
@@ -21837,10 +21650,22 @@ var ASM_CONSTS = {
 
 
   function _emscripten_exit_with_live_runtime() {
-      noExitRuntime = true;
+      runtimeKeepalivePush();
       throw 'unwind';
     }
   Module["_emscripten_exit_with_live_runtime"] = _emscripten_exit_with_live_runtime;
+  _emscripten_exit_with_live_runtime.sig = 'v';
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -21962,7 +21787,7 @@ var ASM_CONSTS = {
 
   function _emscripten_math_hypot(count, varargs) {
       var args = [];
-      for(var i = 0; i < count; ++i) args.push(HEAPF64[(varargs>>3) + i]);
+      for (var i = 0; i < count; ++i) args.push(HEAPF64[(varargs>>3) + i]);
       return Math.hypot.apply(null, args);
     }
   Module["_emscripten_math_hypot"] = _emscripten_math_hypot;
@@ -22231,7 +22056,7 @@ var ASM_CONSTS = {
 
 
   function ___sys_setregid32(ruid, euid) {
-      if (uid !== 0) return -63;
+      if (ruid !== 0) return -63;
       return 0;
     }
   Module["___sys_setregid32"] = ___sys_setregid32;
@@ -23502,7 +23327,7 @@ var ASM_CONSTS = {
       if (!navigator.vibrate) return -1;
   
       var vibrateList = [];
-      for(var i = 0; i < numEntries; ++i) {
+      for (var i = 0; i < numEntries; ++i) {
         var msecs = HEAP32[(((msecsArray)+(i*4))>>2)];
         vibrateList.push(msecs);
       }
@@ -23576,7 +23401,7 @@ var ASM_CONSTS = {
         assert(e);
         var touches = {};
         var et = e.touches;
-        for(var i = 0; i < et.length; ++i) {
+        for (var i = 0; i < et.length; ++i) {
           var touch = et[i];
           // Verify that browser does not recycle touch objects with old stale data, but reports new ones each time.
           assert(!touch.isChanged);
@@ -23584,7 +23409,7 @@ var ASM_CONSTS = {
           touches[touch.identifier] = touch;
         }
         et = e.changedTouches;
-        for(var i = 0; i < et.length; ++i) {
+        for (var i = 0; i < et.length; ++i) {
           var touch = et[i];
           // Verify that browser does not recycle touch objects with old stale data, but reports new ones each time.
           assert(!touch.onTarget);
@@ -23592,7 +23417,7 @@ var ASM_CONSTS = {
           touches[touch.identifier] = touch;
         }
         et = e.targetTouches;
-        for(var i = 0; i < et.length; ++i) {
+        for (var i = 0; i < et.length; ++i) {
           touches[et[i].identifier].onTarget = 1;
         }
   
@@ -23605,7 +23430,7 @@ var ASM_CONSTS = {
         idx += 5; // Advance to the start of the touch array.
         var targetRect = getBoundingClientRect(target);
         var numTouches = 0;
-        for(var i in touches) {
+        for (var i in touches) {
           var t = touches[i];
           HEAP32[idx + 0] = t.identifier;
           HEAP32[idx + 1] = t.screenX;
@@ -23672,17 +23497,17 @@ var ASM_CONSTS = {
 
   function fillGamepadEventData(eventStruct, e) {
       HEAPF64[((eventStruct)>>3)] = e.timestamp;
-      for(var i = 0; i < e.axes.length; ++i) {
+      for (var i = 0; i < e.axes.length; ++i) {
         HEAPF64[(((eventStruct+i*8)+(16))>>3)] = e.axes[i];
       }
-      for(var i = 0; i < e.buttons.length; ++i) {
+      for (var i = 0; i < e.buttons.length; ++i) {
         if (typeof(e.buttons[i]) === 'object') {
           HEAPF64[(((eventStruct+i*8)+(528))>>3)] = e.buttons[i].value;
         } else {
           HEAPF64[(((eventStruct+i*8)+(528))>>3)] = e.buttons[i];
         }
       }
-      for(var i = 0; i < e.buttons.length; ++i) {
+      for (var i = 0; i < e.buttons.length; ++i) {
         if (typeof(e.buttons[i]) === 'object') {
           HEAP32[(((eventStruct+i*4)+(1040))>>2)] = e.buttons[i].pressed;
         } else {
@@ -23928,19 +23753,23 @@ var ASM_CONSTS = {
     }
   Module["_emscripten_request_animation_frame_loop"] = _emscripten_request_animation_frame_loop;
 
-  function polyfillSetImmediate() { /* nop, used for its postset to ensure setImmediate() polyfill is not duplicated between emscripten_set_immediate() and emscripten_set_immediate_loop() if application links to both of them.*/ }
+  function polyfillSetImmediate() {
+      // nop, used for its postset to ensure setImmediate() polyfill is
+      // not duplicated between emscripten_set_immediate() and
+      // emscripten_set_immediate_loop() if application links to both of them.
+    }
   Module["polyfillSetImmediate"] = polyfillSetImmediate;
 
   function _emscripten_set_immediate(cb, userData) {
       polyfillSetImmediate();
-      return setImmediate(function() {
+      return emSetImmediate(function() {
         wasmTable.get(cb)(userData);
       });
     }
   Module["_emscripten_set_immediate"] = _emscripten_set_immediate;
 
   function _emscripten_clear_immediate(id) {
-      clearImmediate(id);
+      emClearImmediate(id);
     }
   Module["_emscripten_clear_immediate"] = _emscripten_clear_immediate;
 
@@ -23948,10 +23777,10 @@ var ASM_CONSTS = {
       polyfillSetImmediate();
       function tick() {
         if (wasmTable.get(cb)(userData)) {
-          setImmediate(tick);
+          emSetImmediate(tick);
         }
       }
-      return setImmediate(tick);
+      return emSetImmediate(tick);
     }
   Module["_emscripten_set_immediate_loop"] = _emscripten_set_immediate_loop;
 
@@ -24056,41 +23885,6 @@ var ASM_CONSTS = {
 
 
 
-
-  function _args_sizes_get(pargc, pargv_buf_size) {try {
-  
-      HEAP32[((pargc)>>2)] = mainArgs.length;
-      var bufSize = 0;
-      mainArgs.forEach(function(arg) {
-        bufSize += arg.length + 1;
-      });
-      HEAP32[((pargv_buf_size)>>2)] = bufSize;
-      return 0;
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
-    return e.errno;
-  }
-  }
-  Module["_args_sizes_get"] = _args_sizes_get;
-  _args_sizes_get.sig = 'iii';
-
-  function _args_get(argv, argv_buf) {try {
-  
-      var bufSize = 0;
-      mainArgs.forEach(function(arg, i) {
-        var ptr = argv_buf + bufSize;
-        HEAP32[(((argv)+(i * 4))>>2)] = ptr;
-        writeAsciiToMemory(arg, ptr);
-        bufSize += arg.length + 1;
-      });
-      return 0;
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
-    return e.errno;
-  }
-  }
-  Module["_args_get"] = _args_get;
-  _args_get.sig = 'iii';
 
   function checkWasiClock(clock_id) {
       return clock_id == 0 ||
@@ -24229,7 +24023,6 @@ var ASM_CONSTS = {
 
 
 
-
   function _dladdr(addr, info) {
       // report all function pointers as coming from this program itself XXX not really correct in any way
       var fname = stringToNewUTF8(getExecutableName()); // XXX leak
@@ -24274,33 +24067,6 @@ var ASM_CONSTS = {
         return HEAP32[(((this.ptr)+(ptrSize))>>2)];
       };
   
-      // Get pointer which is expected to be received by catch clause in C++ code. It may be adjusted
-      // when the pointer is casted to some of the exception object base classes (e.g. when virtual
-      // inheritance is used). When a pointer is thrown this method should return the thrown pointer
-      // itself.
-      this.get_exception_ptr = function() {
-        // Work around a fastcomp bug, this code is still included for some reason in a build without
-        // exceptions support.
-        var isPointer = Module['___cxa_is_pointer_type'](
-          this.get_exception_info().get_type());
-        if (isPointer) {
-          return HEAP32[((this.get_base_ptr())>>2)];
-        }
-        var adjusted = this.get_adjusted_ptr();
-        if (adjusted !== 0) return adjusted;
-        return this.get_base_ptr();
-      };
-  
-      this.get_exception_info = function() {
-        return new ExceptionInfo(this.get_base_ptr());
-      };
-  
-      if (ptr === undefined) {
-        this.ptr = _malloc(8);
-        this.set_adjusted_ptr(0);
-      } else {
-        this.ptr = ptr;
-      }
     }
   Module["CatchInfo"] = CatchInfo;
 
@@ -24317,6 +24083,7 @@ var ASM_CONSTS = {
       }
     }
   Module["___cxa_free_exception"] = ___cxa_free_exception;
+  ___cxa_free_exception.sig = 'vi';
   function exception_decRef(info) {
       // A rethrown exception can reach refcount 0; it must not be discarded
       // Its next handler will clear the rethrown flag and addRef it, prior to
@@ -24354,7 +24121,7 @@ var ASM_CONSTS = {
         catchInfo.free();
       }
       exceptionLast = ptr;
-      throw ptr + " - Exception catching is disabled, this exception cannot be caught. Compile with -s DISABLE_EXCEPTION_CATCHING=0 or DISABLE_EXCEPTION_CATCHING=2 to catch." + " (note: in dynamic linking, if a side module wants exceptions, the main module must be built with that support)";
+      throw ptr + " - Exception catching is disabled, this exception cannot be caught. Compile with -s NO_DISABLE_EXCEPTION_CATCHING or -s EXCEPTION_CATCHING_ALLOWED=[..] to catch." + " (note: in dynamic linking, if a side module wants exceptions, the main module must be built with that support)";
     }
   Module["___cxa_rethrow"] = ___cxa_rethrow;
   ___cxa_rethrow.sig = 'v';
@@ -24363,39 +24130,6 @@ var ASM_CONSTS = {
       return type;
     }
   Module["_llvm_eh_typeid_for"] = _llvm_eh_typeid_for;
-
-  function ___cxa_begin_catch(ptr) {
-      var catchInfo = new CatchInfo(ptr);
-      var info = catchInfo.get_exception_info();
-      if (!info.get_caught()) {
-        info.set_caught(true);
-        uncaughtExceptionCount--;
-      }
-      info.set_rethrown(false);
-      exceptionCaught.push(catchInfo);
-      exception_addRef(info);
-      return catchInfo.get_exception_ptr();
-    }
-  Module["___cxa_begin_catch"] = ___cxa_begin_catch;
-
-  function ___cxa_end_catch() {
-      // Clear state flag.
-      _setThrew(0);
-      assert(exceptionCaught.length > 0);
-      // Call destructor if one is registered then clear it.
-      var catchInfo = exceptionCaught.pop();
-  
-      exception_decRef(catchInfo.get_exception_info());
-      catchInfo.free();
-      exceptionLast = 0; // XXX in decRef?
-    }
-  Module["___cxa_end_catch"] = ___cxa_end_catch;
-  ___cxa_end_catch.sig = 'v';
-
-  function ___cxa_get_exception_ptr(ptr) {
-      return new CatchInfo(ptr).get_exception_ptr();
-    }
-  Module["___cxa_get_exception_ptr"] = ___cxa_get_exception_ptr;
 
 
   function ___cxa_call_unexpected(exception) {
@@ -24407,67 +24141,31 @@ var ASM_CONSTS = {
 
 
 
-  function ___resumeException(catchInfoPtr) {
-      var catchInfo = new CatchInfo(catchInfoPtr);
-      var ptr = catchInfo.get_base_ptr();
-      if (!exceptionLast) { exceptionLast = ptr; }
-      catchInfo.free();
-      throw ptr + " - Exception catching is disabled, this exception cannot be caught. Compile with -s DISABLE_EXCEPTION_CATCHING=0 or DISABLE_EXCEPTION_CATCHING=2 to catch." + " (note: in dynamic linking, if a side module wants exceptions, the main module must be built with that support)";
-    }
+  function ___cxa_begin_catch() { abort(); }
+  Module["___cxa_begin_catch"] = ___cxa_begin_catch;
+
+  function ___cxa_end_catch() { abort(); }
+  Module["___cxa_end_catch"] = ___cxa_end_catch;
+
+  function ___resumeException() { abort(); }
   Module["___resumeException"] = ___resumeException;
-  function ___cxa_find_matching_catch() {
-      var thrown = exceptionLast;
-      if (!thrown) {
-        // just pass through the null ptr
-        setTempRet0((0) | 0); return ((0)|0);
-      }
-      var info = new ExceptionInfo(thrown);
-      var thrownType = info.get_type();
-      var catchInfo = new CatchInfo();
-      catchInfo.set_base_ptr(thrown);
-      if (!thrownType) {
-        // just pass through the thrown ptr
-        setTempRet0((0) | 0); return ((catchInfo.ptr)|0);
-      }
-      var typeArray = Array.prototype.slice.call(arguments);
-  
-      // can_catch receives a **, add indirection
-      var stackTop = stackSave();
-      var exceptionThrowBuf = stackAlloc(4);
-      HEAP32[((exceptionThrowBuf)>>2)] = thrown;
-      // The different catch blocks are denoted by different types.
-      // Due to inheritance, those types may not precisely match the
-      // type of the thrown object. Find one which matches, and
-      // return the type of the catch block which should be called.
-      for (var i = 0; i < typeArray.length; i++) {
-        var caughtType = typeArray[i];
-        if (caughtType === 0 || caughtType === thrownType) {
-          // Catch all clause matched or exactly the same type is caught
-          break;
-        }
-        if (Module['___cxa_can_catch'](caughtType, thrownType, exceptionThrowBuf)) {
-          var adjusted = HEAP32[((exceptionThrowBuf)>>2)];
-          if (thrown !== adjusted) {
-            catchInfo.set_adjusted_ptr(adjusted);
-          }
-          setTempRet0((caughtType) | 0); return ((catchInfo.ptr)|0);
-        }
-      }
-      stackRestore(stackTop);
-      setTempRet0((thrownType) | 0); return ((catchInfo.ptr)|0);
-    }
+
+  function ___cxa_find_matching_catch() { abort(); }
   Module["___cxa_find_matching_catch"] = ___cxa_find_matching_catch;
 
+  function ___cxa_get_exception_ptr() { abort(); }
+  Module["___cxa_get_exception_ptr"] = ___cxa_get_exception_ptr;
 
 
   function _emscripten_async_wget(url, file, onload, onerror) {
-      noExitRuntime = true;
+      runtimeKeepalivePush();
   
       var _url = UTF8ToString(url);
       var _file = UTF8ToString(file);
       _file = PATH_FS.resolve(_file);
       function doCallback(callback) {
         if (callback) {
+          runtimeKeepalivePop();
           var stack = stackSave();
           wasmTable.get(callback)(allocate(intArrayFromString(_file), ALLOC_STACK));
           stackRestore(stack);
@@ -24544,7 +24242,7 @@ var ASM_CONSTS = {
   _emscripten_async_wget_data.sig = 'viiii';
 
   function _emscripten_async_wget2(url, file, request, param, arg, onload, onerror, onprogress) {
-      noExitRuntime = true;
+      runtimeKeepalivePush();
   
       var _url = UTF8ToString(url);
       var _file = UTF8ToString(file);
@@ -24563,6 +24261,7 @@ var ASM_CONSTS = {
   
       // LOAD
       http.onload = function http_onload(e) {
+        runtimeKeepalivePop();
         if (http.status >= 200 && http.status < 300) {
           // if a file exists there, we overwrite it
           try {
@@ -24586,6 +24285,7 @@ var ASM_CONSTS = {
   
       // ERROR
       http.onerror = function http_onerror(e) {
+        runtimeKeepalivePop();
         if (onerror) wasmTable.get(onerror)(handle, arg, http.status);
         delete Browser.wgetRequests[handle];
       };
@@ -24600,6 +24300,7 @@ var ASM_CONSTS = {
   
       // ABORT
       http.onabort = function http_onabort(e) {
+        runtimeKeepalivePop();
         delete Browser.wgetRequests[handle];
       };
   
@@ -24686,7 +24387,7 @@ var ASM_CONSTS = {
   _emscripten_async_wget2_abort.sig = 'vi';
 
   function _emscripten_run_preload_plugins(file, onload, onerror) {
-      noExitRuntime = true;
+      runtimeKeepalivePush();
   
       var _file = UTF8ToString(file);
       var data = FS.analyzePath(_file);
@@ -24696,9 +24397,11 @@ var ASM_CONSTS = {
         PATH.basename(_file),
         new Uint8Array(data.object.contents), true, true,
         function() {
+          runtimeKeepalivePop();
           if (onload) wasmTable.get(onload)(file);
         },
         function() {
+          runtimeKeepalivePop();
           if (onerror) wasmTable.get(onerror)(file);
         },
         true // don'tCreateFile - it's already there
@@ -24709,7 +24412,7 @@ var ASM_CONSTS = {
   _emscripten_run_preload_plugins.sig = 'iiii';
 
   function _emscripten_run_preload_plugins_data(data, size, suffix, arg, onload, onerror) {
-      noExitRuntime = true;
+      runtimeKeepalivePush();
   
       var _suffix = UTF8ToString(suffix);
       if (!Browser.asyncPrepareDataCounter) Browser.asyncPrepareDataCounter = 0;
@@ -24723,9 +24426,11 @@ var ASM_CONSTS = {
         HEAPU8.subarray((data), (data + size)),
         true, true,
         function() {
+          runtimeKeepalivePop();
           if (onload) wasmTable.get(onload)(arg, cname);
         },
         function() {
+          runtimeKeepalivePop();
           if (onerror) wasmTable.get(onerror)(arg);
         },
         true // don'tCreateFile - it's already there
@@ -24735,8 +24440,6 @@ var ASM_CONSTS = {
   _emscripten_run_preload_plugins_data.sig = 'viiiiii';
 
   function _emscripten_async_run_script(script, millis) {
-      noExitRuntime = true;
-  
       // TODO: cache these to avoid generating garbage
       Browser.safeSetTimeout(function() {
         _emscripten_run_script(script);
@@ -24748,20 +24451,24 @@ var ASM_CONSTS = {
       onload = wasmTable.get(onload);
       onerror = wasmTable.get(onerror);
   
-      noExitRuntime = true;
+      runtimeKeepalivePush();
   
       assert(runDependencies === 0, 'async_load_script must be run when no other dependencies are active');
       var script = document.createElement('script');
-      if (onload) {
-        script.onload = function script_onload() {
+      script.onload = function script_onload() {
+        runtimeKeepalivePop();
+        if (onload) {
           if (runDependencies > 0) {
             dependenciesFulfilled = onload;
           } else {
             onload();
           }
-        };
-      }
-      if (onerror) script.onerror = onerror;
+        }
+      };
+      script.onerror = function() {
+        runtimeKeepalivePop();
+        if (onerror) onerror();
+      };
       script.src = UTF8ToString(url);
       document.body.appendChild(script);
     }
@@ -24827,8 +24534,6 @@ var ASM_CONSTS = {
   _emscripten_set_main_loop_expected_blockers.sig = 'vi';
 
   function _emscripten_async_call(func, arg, millis) {
-      noExitRuntime = true;
-  
       function wrapper() {
         wasmTable.get(func)(arg);
       }
@@ -24922,6 +24627,7 @@ var ASM_CONSTS = {
         if (msg.data['finalResponse']) {
           info.awaited--;
           info.callbacks[callbackId] = null; // TODO: reuse callbackIds, compress this
+          runtimeKeepalivePop();
         }
         var data = msg.data['data'];
         if (data) {
@@ -24953,12 +24659,15 @@ var ASM_CONSTS = {
   _emscripten_destroy_worker.sig = 'vi';
 
   function _emscripten_call_worker(id, funcName, data, size, callback, arg) {
-      noExitRuntime = true; // should we only do this if there is a callback?
-  
       funcName = UTF8ToString(funcName);
       var info = Browser.workers[id];
       var callbackId = -1;
       if (callback) {
+        // If we are waiting for a response from the worker we need to keep
+        // the runtime alive at least long enough to receive it.
+        // The corresponding runtimeKeepalivePop is in the `finalResponse`
+        // handler above.
+        runtimeKeepalivePush();
         callbackId = info.callbacks.length;
         info.callbacks.push({
           func: wasmTable.get(callback),
@@ -24979,39 +24688,6 @@ var ASM_CONSTS = {
     }
   Module["_emscripten_call_worker"] = _emscripten_call_worker;
   _emscripten_call_worker.sig = 'viiiiii';
-
-  function _emscripten_worker_respond_provisionally(data, size) {
-      if (workerResponded) throw 'already responded with final response!';
-      var transferObject = {
-        'callbackId': workerCallbackId,
-        'finalResponse': false,
-        'data': data ? new Uint8Array(HEAPU8.subarray((data), (data + size))) : 0
-      };
-      if (data) {
-        postMessage(transferObject, [transferObject.data.buffer]);
-      } else {
-        postMessage(transferObject);
-      }
-    }
-  Module["_emscripten_worker_respond_provisionally"] = _emscripten_worker_respond_provisionally;
-  _emscripten_worker_respond_provisionally.sig = 'vii';
-
-  function _emscripten_worker_respond(data, size) {
-      if (workerResponded) throw 'already responded with final response!';
-      workerResponded = true;
-      var transferObject = {
-        'callbackId': workerCallbackId,
-        'finalResponse': true,
-        'data': data ? new Uint8Array(HEAPU8.subarray((data), (data + size))) : 0
-      };
-      if (data) {
-        postMessage(transferObject, [transferObject.data.buffer]);
-      } else {
-        postMessage(transferObject);
-      }
-    }
-  Module["_emscripten_worker_respond"] = _emscripten_worker_respond;
-  _emscripten_worker_respond.sig = 'vii';
 
   function _emscripten_get_worker_queue_size(id) {
       var info = Browser.workers[id];
@@ -25083,7 +24759,9 @@ var ASM_CONSTS = {
         }
       };
   
-      noExitRuntime = true;
+      // FIXME(sbc): This has no corresponding Pop so will currently keep the
+      // runtime alive indefinitely.
+      runtimeKeepalivePush();
       Module['websocket']['on'](event, callback ? _callback : null);
     }
   Module["_setNetworkCallback"] = _setNetworkCallback;
@@ -25158,51 +24836,52 @@ var ASM_CONSTS = {
   _glPixelStorei.sig = 'vii';
 
   function _glGetString(name_) {
-      if (GL.stringCache[name_]) return GL.stringCache[name_];
-      var ret;
-      switch(name_) {
-        case 0x1F03 /* GL_EXTENSIONS */:
-          var exts = GLctx.getSupportedExtensions() || []; // .getSupportedExtensions() can return null if context is lost, so coerce to empty array.
-          exts = exts.concat(exts.map(function(e) { return "GL_" + e; }));
-          ret = stringToNewUTF8(exts.join(' '));
-          break;
-        case 0x1F00 /* GL_VENDOR */:
-        case 0x1F01 /* GL_RENDERER */:
-        case 0x9245 /* UNMASKED_VENDOR_WEBGL */:
-        case 0x9246 /* UNMASKED_RENDERER_WEBGL */:
-          var s = GLctx.getParameter(name_);
-          if (!s) {
-            GL.recordError(0x500/*GL_INVALID_ENUM*/);
-          }
-          ret = stringToNewUTF8(s);
-          break;
+      var ret = GL.stringCache[name_];
+      if (!ret) {
+        switch (name_) {
+          case 0x1F03 /* GL_EXTENSIONS */:
+            var exts = GLctx.getSupportedExtensions() || []; // .getSupportedExtensions() can return null if context is lost, so coerce to empty array.
+            exts = exts.concat(exts.map(function(e) { return "GL_" + e; }));
+            ret = stringToNewUTF8(exts.join(' '));
+            break;
+          case 0x1F00 /* GL_VENDOR */:
+          case 0x1F01 /* GL_RENDERER */:
+          case 0x9245 /* UNMASKED_VENDOR_WEBGL */:
+          case 0x9246 /* UNMASKED_RENDERER_WEBGL */:
+            var s = GLctx.getParameter(name_);
+            if (!s) {
+              GL.recordError(0x500/*GL_INVALID_ENUM*/);
+            }
+            ret = s && stringToNewUTF8(s);
+            break;
   
-        case 0x1F02 /* GL_VERSION */:
-          var glVersion = GLctx.getParameter(0x1F02 /*GL_VERSION*/);
-          // return GLES version string corresponding to the version of the WebGL context
-          if (GL.currentContext.version >= 2) glVersion = 'OpenGL ES 3.0 (' + glVersion + ')';
-          else
-          {
-            glVersion = 'OpenGL ES 2.0 (' + glVersion + ')';
-          }
-          ret = stringToNewUTF8(glVersion);
-          break;
-        case 0x8B8C /* GL_SHADING_LANGUAGE_VERSION */:
-          var glslVersion = GLctx.getParameter(0x8B8C /*GL_SHADING_LANGUAGE_VERSION*/);
-          // extract the version number 'N.M' from the string 'WebGL GLSL ES N.M ...'
-          var ver_re = /^WebGL GLSL ES ([0-9]\.[0-9][0-9]?)(?:$| .*)/;
-          var ver_num = glslVersion.match(ver_re);
-          if (ver_num !== null) {
-            if (ver_num[1].length == 3) ver_num[1] = ver_num[1] + '0'; // ensure minor version has 2 digits
-            glslVersion = 'OpenGL ES GLSL ES ' + ver_num[1] + ' (' + glslVersion + ')';
-          }
-          ret = stringToNewUTF8(glslVersion);
-          break;
-        default:
-          GL.recordError(0x500/*GL_INVALID_ENUM*/);
-          return 0;
+          case 0x1F02 /* GL_VERSION */:
+            var glVersion = GLctx.getParameter(0x1F02 /*GL_VERSION*/);
+            // return GLES version string corresponding to the version of the WebGL context
+            if (GL.currentContext.version >= 2) glVersion = 'OpenGL ES 3.0 (' + glVersion + ')';
+            else
+            {
+              glVersion = 'OpenGL ES 2.0 (' + glVersion + ')';
+            }
+            ret = stringToNewUTF8(glVersion);
+            break;
+          case 0x8B8C /* GL_SHADING_LANGUAGE_VERSION */:
+            var glslVersion = GLctx.getParameter(0x8B8C /*GL_SHADING_LANGUAGE_VERSION*/);
+            // extract the version number 'N.M' from the string 'WebGL GLSL ES N.M ...'
+            var ver_re = /^WebGL GLSL ES ([0-9]\.[0-9][0-9]?)(?:$| .*)/;
+            var ver_num = glslVersion.match(ver_re);
+            if (ver_num !== null) {
+              if (ver_num[1].length == 3) ver_num[1] = ver_num[1] + '0'; // ensure minor version has 2 digits
+              glslVersion = 'OpenGL ES GLSL ES ' + ver_num[1] + ' (' + glslVersion + ')';
+            }
+            ret = stringToNewUTF8(glslVersion);
+            break;
+          default:
+            GL.recordError(0x500/*GL_INVALID_ENUM*/);
+            // fall through
+        }
+        GL.stringCache[name_] = ret;
       }
-      GL.stringCache[name_] = ret;
       return ret;
     }
   Module["_glGetString"] = _glGetString;
@@ -25363,12 +25042,12 @@ var ASM_CONSTS = {
         var query = GLctx.disjointTimerQueryExt['createQueryEXT']();
         if (!query) {
           GL.recordError(0x502 /* GL_INVALID_OPERATION */);
-          while(i < n) HEAP32[(((ids)+(i++*4))>>2)] = 0;
+          while (i < n) HEAP32[(((ids)+(i++*4))>>2)] = 0;
           return;
         }
-        var id = GL.getNewId(GL.timerQueriesEXT);
+        var id = GL.getNewId(GL.queries);
         query.name = id;
-        GL.timerQueriesEXT[id] = query;
+        GL.queries[id] = query;
         HEAP32[(((ids)+(i*4))>>2)] = id;
       }
     }
@@ -25378,17 +25057,17 @@ var ASM_CONSTS = {
   function _glDeleteQueriesEXT(n, ids) {
       for (var i = 0; i < n; i++) {
         var id = HEAP32[(((ids)+(i*4))>>2)];
-        var query = GL.timerQueriesEXT[id];
+        var query = GL.queries[id];
         if (!query) continue; // GL spec: "unused names in ids are ignored, as is the name zero."
         GLctx.disjointTimerQueryExt['deleteQueryEXT'](query);
-        GL.timerQueriesEXT[id] = null;
+        GL.queries[id] = null;
       }
     }
   Module["_glDeleteQueriesEXT"] = _glDeleteQueriesEXT;
   _glDeleteQueriesEXT.sig = 'vii';
 
   function _glIsQueryEXT(id) {
-      var query = GL.timerQueriesEXT[id];
+      var query = GL.queries[id];
       if (!query) return 0;
       return GLctx.disjointTimerQueryExt['isQueryEXT'](query);
     }
@@ -25396,7 +25075,7 @@ var ASM_CONSTS = {
   _glIsQueryEXT.sig = 'ii';
 
   function _glBeginQueryEXT(target, id) {
-      GLctx.disjointTimerQueryExt['beginQueryEXT'](target, GL.timerQueriesEXT[id]);
+      GLctx.disjointTimerQueryExt['beginQueryEXT'](target, GL.queries[id]);
     }
   Module["_glBeginQueryEXT"] = _glBeginQueryEXT;
   _glBeginQueryEXT.sig = 'vii';
@@ -25408,7 +25087,7 @@ var ASM_CONSTS = {
   _glEndQueryEXT.sig = 'vi';
 
   function _glQueryCounterEXT(id, target) {
-      GLctx.disjointTimerQueryExt['queryCounterEXT'](GL.timerQueriesEXT[id], target);
+      GLctx.disjointTimerQueryExt['queryCounterEXT'](GL.queries[id], target);
     }
   Module["_glQueryCounterEXT"] = _glQueryCounterEXT;
   _glQueryCounterEXT.sig = 'vii';
@@ -25432,7 +25111,7 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var query = GL.timerQueriesEXT[id];
+      var query = GL.queries[id];
       var param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
       var ret;
       if (typeof param == 'boolean') {
@@ -25452,7 +25131,7 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var query = GL.timerQueriesEXT[id];
+      var query = GL.queries[id];
       var param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
       var ret;
       if (typeof param == 'boolean') {
@@ -25472,8 +25151,15 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var query = GL.timerQueriesEXT[id];
-      var param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
+      var query = GL.queries[id];
+      var param;
+      if (GL.currentContext.version < 2)
+      {
+        param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
+      }
+      else {
+        param = GLctx['getQueryParameter'](query, pname);
+      }
       var ret;
       if (typeof param == 'boolean') {
         ret = param ? 1 : 0;
@@ -25492,8 +25178,15 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      var query = GL.timerQueriesEXT[id];
-      var param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
+      var query = GL.queries[id];
+      var param;
+      if (GL.currentContext.version < 2)
+      {
+        param = GLctx.disjointTimerQueryExt['getQueryObjectEXT'](query, pname);
+      }
+      else {
+        param = GLctx['getQueryParameter'](query, pname);
+      }
       var ret;
       if (typeof param == 'boolean') {
         ret = param ? 1 : 0;
@@ -25574,6 +25267,7 @@ var ASM_CONSTS = {
 
 
 
+
   function _glGetVertexAttribfv(index, pname, params) {
       // N.B. This function may only be called if the vertex attribute was specified using the function glVertexAttrib*f(),
       // otherwise the results are undefined. (GLES3 spec 6.1.12)
@@ -25606,49 +25300,49 @@ var ASM_CONSTS = {
   _glGetVertexAttribPointerv.sig = 'viii';
 
   function _glUniform1f(location, v0) {
-      GLctx.uniform1f(GL.uniforms[location], v0);
+      GLctx.uniform1f(webglGetUniformLocation(location), v0);
     }
   Module["_glUniform1f"] = _glUniform1f;
   _glUniform1f.sig = 'vif';
 
   function _glUniform2f(location, v0, v1) {
-      GLctx.uniform2f(GL.uniforms[location], v0, v1);
+      GLctx.uniform2f(webglGetUniformLocation(location), v0, v1);
     }
   Module["_glUniform2f"] = _glUniform2f;
   _glUniform2f.sig = 'viff';
 
   function _glUniform3f(location, v0, v1, v2) {
-      GLctx.uniform3f(GL.uniforms[location], v0, v1, v2);
+      GLctx.uniform3f(webglGetUniformLocation(location), v0, v1, v2);
     }
   Module["_glUniform3f"] = _glUniform3f;
   _glUniform3f.sig = 'vifff';
 
   function _glUniform4f(location, v0, v1, v2, v3) {
-      GLctx.uniform4f(GL.uniforms[location], v0, v1, v2, v3);
+      GLctx.uniform4f(webglGetUniformLocation(location), v0, v1, v2, v3);
     }
   Module["_glUniform4f"] = _glUniform4f;
   _glUniform4f.sig = 'viffff';
 
   function _glUniform1i(location, v0) {
-      GLctx.uniform1i(GL.uniforms[location], v0);
+      GLctx.uniform1i(webglGetUniformLocation(location), v0);
     }
   Module["_glUniform1i"] = _glUniform1i;
   _glUniform1i.sig = 'vii';
 
   function _glUniform2i(location, v0, v1) {
-      GLctx.uniform2i(GL.uniforms[location], v0, v1);
+      GLctx.uniform2i(webglGetUniformLocation(location), v0, v1);
     }
   Module["_glUniform2i"] = _glUniform2i;
   _glUniform2i.sig = 'viii';
 
   function _glUniform3i(location, v0, v1, v2) {
-      GLctx.uniform3i(GL.uniforms[location], v0, v1, v2);
+      GLctx.uniform3i(webglGetUniformLocation(location), v0, v1, v2);
     }
   Module["_glUniform3i"] = _glUniform3i;
   _glUniform3i.sig = 'viiii';
 
   function _glUniform4i(location, v0, v1, v2, v3) {
-      GLctx.uniform4i(GL.uniforms[location], v0, v1, v2, v3);
+      GLctx.uniform4i(webglGetUniformLocation(location), v0, v1, v2, v3);
     }
   Module["_glUniform4i"] = _glUniform4i;
   _glUniform4i.sig = 'viiiii';
@@ -25657,7 +25351,7 @@ var ASM_CONSTS = {
   function _glUniform2iv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform2iv(GL.uniforms[location], HEAP32, value>>2, count*2);
+        GLctx.uniform2iv(webglGetUniformLocation(location), HEAP32, value>>2, count*2);
         return;
       }
   
@@ -25672,7 +25366,7 @@ var ASM_CONSTS = {
       {
         var view = HEAP32.subarray((value)>>2, (value+count*8)>>2);
       }
-      GLctx.uniform2iv(GL.uniforms[location], view);
+      GLctx.uniform2iv(webglGetUniformLocation(location), view);
     }
   Module["_glUniform2iv"] = _glUniform2iv;
   _glUniform2iv.sig = 'viii';
@@ -25680,7 +25374,7 @@ var ASM_CONSTS = {
   function _glUniform3iv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform3iv(GL.uniforms[location], HEAP32, value>>2, count*3);
+        GLctx.uniform3iv(webglGetUniformLocation(location), HEAP32, value>>2, count*3);
         return;
       }
   
@@ -25696,7 +25390,7 @@ var ASM_CONSTS = {
       {
         var view = HEAP32.subarray((value)>>2, (value+count*12)>>2);
       }
-      GLctx.uniform3iv(GL.uniforms[location], view);
+      GLctx.uniform3iv(webglGetUniformLocation(location), view);
     }
   Module["_glUniform3iv"] = _glUniform3iv;
   _glUniform3iv.sig = 'viii';
@@ -25704,7 +25398,7 @@ var ASM_CONSTS = {
   function _glUniform4iv(location, count, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniform4iv(GL.uniforms[location], HEAP32, value>>2, count*4);
+        GLctx.uniform4iv(webglGetUniformLocation(location), HEAP32, value>>2, count*4);
         return;
       }
   
@@ -25721,7 +25415,7 @@ var ASM_CONSTS = {
       {
         var view = HEAP32.subarray((value)>>2, (value+count*16)>>2);
       }
-      GLctx.uniform4iv(GL.uniforms[location], view);
+      GLctx.uniform4iv(webglGetUniformLocation(location), view);
     }
   Module["_glUniform4iv"] = _glUniform4iv;
   _glUniform4iv.sig = 'viii';
@@ -25733,7 +25427,7 @@ var ASM_CONSTS = {
   function _glUniformMatrix2fv(location, count, transpose, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniformMatrix2fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*4);
+        GLctx.uniformMatrix2fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*4);
         return;
       }
   
@@ -25750,7 +25444,7 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*16)>>2);
       }
-      GLctx.uniformMatrix2fv(GL.uniforms[location], !!transpose, view);
+      GLctx.uniformMatrix2fv(webglGetUniformLocation(location), !!transpose, view);
     }
   Module["_glUniformMatrix2fv"] = _glUniformMatrix2fv;
   _glUniformMatrix2fv.sig = 'viiii';
@@ -25758,7 +25452,7 @@ var ASM_CONSTS = {
   function _glUniformMatrix3fv(location, count, transpose, value) {
   
       if (GL.currentContext.version >= 2) { // WebGL 2 provides new garbage-free entry points to call to WebGL. Use those always when possible.
-        GLctx.uniformMatrix3fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*9);
+        GLctx.uniformMatrix3fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*9);
         return;
       }
   
@@ -25780,7 +25474,7 @@ var ASM_CONSTS = {
       {
         var view = HEAPF32.subarray((value)>>2, (value+count*36)>>2);
       }
-      GLctx.uniformMatrix3fv(GL.uniforms[location], !!transpose, view);
+      GLctx.uniformMatrix3fv(webglGetUniformLocation(location), !!transpose, view);
     }
   Module["_glUniformMatrix3fv"] = _glUniformMatrix3fv;
   _glUniformMatrix3fv.sig = 'viiii';
@@ -25970,82 +25664,6 @@ var ASM_CONSTS = {
 
 
 
-
-  function _gluPerspective(fov, aspect, near, far) {
-      GLImmediate.matricesModified = true;
-      GLImmediate.matrixVersion[GLImmediate.currentMatrix] = (GLImmediate.matrixVersion[GLImmediate.currentMatrix] + 1)|0;
-      GLImmediate.matrix[GLImmediate.currentMatrix] =
-        GLImmediate.matrixLib.mat4.perspective(fov, aspect, near, far,
-                                                 GLImmediate.matrix[GLImmediate.currentMatrix]);
-    }
-  Module["_gluPerspective"] = _gluPerspective;
-
-  function _gluLookAt(ex, ey, ez, cx, cy, cz, ux, uy, uz) {
-      GLImmediate.matricesModified = true;
-      GLImmediate.matrixVersion[GLImmediate.currentMatrix] = (GLImmediate.matrixVersion[GLImmediate.currentMatrix] + 1)|0;
-      GLImmediate.matrixLib.mat4.lookAt(GLImmediate.matrix[GLImmediate.currentMatrix], [ex, ey, ez],
-          [cx, cy, cz], [ux, uy, uz]);
-    }
-  Module["_gluLookAt"] = _gluLookAt;
-
-  function _gluProject(objX, objY, objZ, model, proj, view, winX, winY, winZ) {
-      // The algorithm for this functions comes from Mesa
-  
-      var inVec = new Float32Array(4);
-      var outVec = new Float32Array(4);
-      GLImmediate.matrixLib.mat4.multiplyVec4(HEAPF64.subarray((model)>>3, (model+128)>>3),
-          [objX, objY, objZ, 1.0], outVec);
-      GLImmediate.matrixLib.mat4.multiplyVec4(HEAPF64.subarray((proj)>>3, (proj+128)>>3),
-          outVec, inVec);
-      if (inVec[3] == 0.0) {
-        return 0 /* GL_FALSE */;
-      }
-      inVec[0] /= inVec[3];
-      inVec[1] /= inVec[3];
-      inVec[2] /= inVec[3];
-      // Map x, y and z to range 0-1 */
-      inVec[0] = inVec[0] * 0.5 + 0.5;
-      inVec[1] = inVec[1] * 0.5 + 0.5;
-      inVec[2] = inVec[2] * 0.5 + 0.5;
-      // Map x, y to viewport
-      inVec[0] = inVec[0] * HEAP32[(((view)+(8))>>2)] + HEAP32[((view)>>2)];
-      inVec[1] = inVec[1] * HEAP32[(((view)+(12))>>2)] + HEAP32[(((view)+(4))>>2)];
-  
-      HEAPF64[((winX)>>3)] = inVec[0];
-      HEAPF64[((winY)>>3)] = inVec[1];
-      HEAPF64[((winZ)>>3)] = inVec[2];
-  
-      return 1 /* GL_TRUE */;
-    }
-  Module["_gluProject"] = _gluProject;
-
-  function _gluUnProject(winX, winY, winZ, model, proj, view, objX, objY, objZ) {
-      var result = GLImmediate.matrixLib.mat4.unproject([winX, winY, winZ],
-          HEAPF64.subarray((model)>>3, (model+128)>>3),
-          HEAPF64.subarray((proj)>>3, (proj+128)>>3),
-          HEAP32.subarray((view)>>2, (view+16)>>2));
-  
-      if (result === null) {
-        return 0 /* GL_FALSE */;
-      }
-  
-      HEAPF64[((objX)>>3)] = result[0];
-      HEAPF64[((objY)>>3)] = result[1];
-      HEAPF64[((objZ)>>3)] = result[2];
-  
-      return 1 /* GL_TRUE */;
-    }
-  Module["_gluUnProject"] = _gluUnProject;
-
-  function _glOrtho(
-  ) {
-  if (!Module['_glOrtho']) abort("external symbol 'glOrtho' is missing. perhaps a side module was not linked in? if this function was expected to arrive from a system library, try to build the MAIN_MODULE with EMCC_FORCE_STDLIBS=1 in the environment");
-  return Module['_glOrtho'].apply(null, arguments);
-  }
-  function _gluOrtho2D(left, right, bottom, top) {
-      _glOrtho(left, right, bottom, top, -1, 1);
-    }
-  Module["_gluOrtho2D"] = _gluOrtho2D;
 
 
 
@@ -26638,77 +26256,6 @@ var ASM_CONSTS = {
 
 
 
-  function _emscripten_gluPerspective(fov, aspect, near, far) {
-      GLImmediate.matricesModified = true;
-      GLImmediate.matrixVersion[GLImmediate.currentMatrix] = (GLImmediate.matrixVersion[GLImmediate.currentMatrix] + 1)|0;
-      GLImmediate.matrix[GLImmediate.currentMatrix] =
-        GLImmediate.matrixLib.mat4.perspective(fov, aspect, near, far,
-                                                 GLImmediate.matrix[GLImmediate.currentMatrix]);
-    }
-  Module["_emscripten_gluPerspective"] = _emscripten_gluPerspective;
-
-  function _emscripten_gluLookAt(ex, ey, ez, cx, cy, cz, ux, uy, uz) {
-      GLImmediate.matricesModified = true;
-      GLImmediate.matrixVersion[GLImmediate.currentMatrix] = (GLImmediate.matrixVersion[GLImmediate.currentMatrix] + 1)|0;
-      GLImmediate.matrixLib.mat4.lookAt(GLImmediate.matrix[GLImmediate.currentMatrix], [ex, ey, ez],
-          [cx, cy, cz], [ux, uy, uz]);
-    }
-  Module["_emscripten_gluLookAt"] = _emscripten_gluLookAt;
-
-  function _emscripten_gluProject(objX, objY, objZ, model, proj, view, winX, winY, winZ) {
-      // The algorithm for this functions comes from Mesa
-  
-      var inVec = new Float32Array(4);
-      var outVec = new Float32Array(4);
-      GLImmediate.matrixLib.mat4.multiplyVec4(HEAPF64.subarray((model)>>3, (model+128)>>3),
-          [objX, objY, objZ, 1.0], outVec);
-      GLImmediate.matrixLib.mat4.multiplyVec4(HEAPF64.subarray((proj)>>3, (proj+128)>>3),
-          outVec, inVec);
-      if (inVec[3] == 0.0) {
-        return 0 /* GL_FALSE */;
-      }
-      inVec[0] /= inVec[3];
-      inVec[1] /= inVec[3];
-      inVec[2] /= inVec[3];
-      // Map x, y and z to range 0-1 */
-      inVec[0] = inVec[0] * 0.5 + 0.5;
-      inVec[1] = inVec[1] * 0.5 + 0.5;
-      inVec[2] = inVec[2] * 0.5 + 0.5;
-      // Map x, y to viewport
-      inVec[0] = inVec[0] * HEAP32[(((view)+(8))>>2)] + HEAP32[((view)>>2)];
-      inVec[1] = inVec[1] * HEAP32[(((view)+(12))>>2)] + HEAP32[(((view)+(4))>>2)];
-  
-      HEAPF64[((winX)>>3)] = inVec[0];
-      HEAPF64[((winY)>>3)] = inVec[1];
-      HEAPF64[((winZ)>>3)] = inVec[2];
-  
-      return 1 /* GL_TRUE */;
-    }
-  Module["_emscripten_gluProject"] = _emscripten_gluProject;
-
-  function _emscripten_gluUnProject(winX, winY, winZ, model, proj, view, objX, objY, objZ) {
-      var result = GLImmediate.matrixLib.mat4.unproject([winX, winY, winZ],
-          HEAPF64.subarray((model)>>3, (model+128)>>3),
-          HEAPF64.subarray((proj)>>3, (proj+128)>>3),
-          HEAP32.subarray((view)>>2, (view+16)>>2));
-  
-      if (result === null) {
-        return 0 /* GL_FALSE */;
-      }
-  
-      HEAPF64[((objX)>>3)] = result[0];
-      HEAPF64[((objY)>>3)] = result[1];
-      HEAPF64[((objZ)>>3)] = result[2];
-  
-      return 1 /* GL_TRUE */;
-    }
-  Module["_emscripten_gluUnProject"] = _emscripten_gluUnProject;
-
-  function _emscripten_gluOrtho2D(left, right, bottom, top) {
-      _glOrtho(left, right, bottom, top, -1, 1);
-    }
-  Module["_emscripten_gluOrtho2D"] = _emscripten_gluOrtho2D;
-
 
 
 
@@ -26930,7 +26477,7 @@ var ASM_CONSTS = {
       var len = arr.length;
       var writeLength = dstLength < len ? dstLength : len;
       var heap = heapType ? HEAPF32 : HEAP32;
-      for(var i = 0; i < writeLength; ++i) {
+      for (var i = 0; i < writeLength; ++i) {
         heap[(dst >> 2) + i] = arr[i];
       }
       return len;
@@ -26940,7 +26487,7 @@ var ASM_CONSTS = {
   function _emscripten_webgl_init_context_attributes(attributes) {
       assert(attributes);
       var a = attributes >> 2;
-      for(var i = 0; i < (56>>2); ++i) {
+      for (var i = 0; i < (56>>2); ++i) {
         HEAP32[a+i] = 0;
       }
   
@@ -27097,7 +26644,7 @@ var ASM_CONSTS = {
   function _emscripten_webgl_enable_extension(contextHandle, extension) {
       var context = GL.getContext(contextHandle);
       var extString = UTF8ToString(extension);
-      if (extString.indexOf('GL_') == 0) extString = extString.substr(3); // Allow enabling extensions both with "GL_" prefix and without.
+      if (extString.startsWith('GL_')) extString = extString.substr(3); // Allow enabling extensions both with "GL_" prefix and without.
   
       // Switch-board that pulls in code for all GL extensions, even if those are not used :/
       // Build with -s GL_SUPPORT_SIMPLE_ENABLE_EXTENSIONS = 0 to avoid this.
@@ -27220,13 +26767,13 @@ var ASM_CONSTS = {
   _emscripten_webgl_get_vertex_attrib_v.sig = 'iiiiii';
 
   function _emscripten_webgl_get_uniform_d(program, location) {
-      return GLctx.getUniform(GL.programs[program], GL.uniforms[location]);
+      return GLctx.getUniform(GL.programs[program], webglGetUniformLocation(location));
     }
   Module["_emscripten_webgl_get_uniform_d"] = _emscripten_webgl_get_uniform_d;
   _emscripten_webgl_get_uniform_d.sig = 'fii';
 
   function _emscripten_webgl_get_uniform_v(program, location, dst, dstLength, dstType) {
-      return writeGLArray(GLctx.getUniform(GL.programs[program], GL.uniforms[location]), dst, dstLength, dstType);
+      return writeGLArray(GLctx.getUniform(GL.programs[program], webglGetUniformLocation(location)), dst, dstLength, dstType);
     }
   Module["_emscripten_webgl_get_uniform_v"] = _emscripten_webgl_get_uniform_v;
   _emscripten_webgl_get_uniform_v.sig = 'iiiiii';
@@ -27674,7 +27221,7 @@ var ASM_CONSTS = {
             });
           }
         };
-        switch(event.type) {
+        switch (event.type) {
           case 'touchstart': case 'touchmove': {
             event.preventDefault();
   
@@ -27699,7 +27246,7 @@ var ASM_CONSTS = {
                 SDL.DOMButtons[0] = 1;
               }
               var mouseEventType;
-              switch(event.type) {
+              switch (event.type) {
                 case 'touchstart': mouseEventType = 'mousedown'; break;
                 case 'touchmove': mouseEventType = 'mousemove'; break;
               }
@@ -27726,7 +27273,7 @@ var ASM_CONSTS = {
   
             // Remove the entry in the SDL.downFingers hash
             // because the finger is no longer down.
-            for(var i = 0; i < event.changedTouches.length; i++) {
+            for (var i = 0; i < event.changedTouches.length; i++) {
               var touch = event.changedTouches[i];
               if (SDL.downFingers[touch.identifier] === true) {
                 delete SDL.downFingers[touch.identifier];
@@ -28263,22 +27810,22 @@ var ASM_CONSTS = {
         // so perform a buffer conversion for the data.
         var audio = SDL_audio();
         var numChannels = audio.channels;
-        for(var c = 0; c < numChannels; ++c) {
+        for (var c = 0; c < numChannels; ++c) {
           var channelData = dstAudioBuffer['getChannelData'](c);
           if (channelData.length != sizeSamplesPerChannel) {
             throw 'Web Audio output buffer length mismatch! Destination size: ' + channelData.length + ' samples vs expected ' + sizeSamplesPerChannel + ' samples!';
           }
           if (audio.format == 0x8010 /*AUDIO_S16LSB*/) {
-            for(var j = 0; j < sizeSamplesPerChannel; ++j) {
+            for (var j = 0; j < sizeSamplesPerChannel; ++j) {
               channelData[j] = (HEAP16[(((heapPtr)+((j*numChannels + c)*2))>>1)]) / 0x8000;
             }
           } else if (audio.format == 0x0008 /*AUDIO_U8*/) {
-            for(var j = 0; j < sizeSamplesPerChannel; ++j) {
+            for (var j = 0; j < sizeSamplesPerChannel; ++j) {
               var v = (HEAP8[(((heapPtr)+(j*numChannels + c))>>0)]);
               channelData[j] = ((v >= 0) ? v-128 : v+128) /128;
             }
           } else if (audio.format == 0x8120 /*AUDIO_F32*/) {
-            for(var j = 0; j < sizeSamplesPerChannel; ++j) {
+            for (var j = 0; j < sizeSamplesPerChannel; ++j) {
               channelData[j] = (HEAPF32[(((heapPtr)+((j*numChannels + c)*4))>>2)]);
             }
           } else {
@@ -29068,7 +28615,7 @@ var ASM_CONSTS = {
   _SDL_PushEvent.sig = 'ii';
 
   function _SDL_PeepEvents(events, requestedEventCount, action, from, to) {
-      switch(action) {
+      switch (action) {
         case 2: { // SDL_GETEVENT
           // We only handle 1 event right now
           assert(requestedEventCount == 1);
@@ -29493,7 +29040,7 @@ var ASM_CONSTS = {
         SDL.audio.queueNewAudioData = function SDL_queueNewAudioData() {
           if (!SDL.audio) return;
   
-          for(var i = 0; i < SDL.audio.numSimultaneouslyQueuedBuffers; ++i) {
+          for (var i = 0; i < SDL.audio.numSimultaneouslyQueuedBuffers; ++i) {
             // Only queue new data if we don't have enough audio data already in queue. Otherwise skip this time slot
             // and wait to queue more in the next time the callback is run.
             var secsUntilNextPlayStart = SDL.audio.nextPlayTime - SDL.audioContext['currentTime'];
@@ -30958,16 +30505,14 @@ var ASM_CONSTS = {
         if (GLUT.specialFunc || GLUT.keyboardFunc) {
           var key = GLUT.getSpecialKey(event['keyCode']);
           if (key !== null) {
-            if( GLUT.specialFunc ) {
+            if (GLUT.specialFunc) {
               event.preventDefault();
               GLUT.saveModifiers(event);
               wasmTable.get(GLUT.specialFunc)(key, Browser.mouseX, Browser.mouseY);
             }
-          }
-          else
-          {
+          } else {
             key = GLUT.getASCIIKey(event);
-            if( key !== null && GLUT.keyboardFunc ) {
+            if (key !== null && GLUT.keyboardFunc) {
               event.preventDefault();
               GLUT.saveModifiers(event);
               wasmTable.get(GLUT.keyboardFunc)(key, Browser.mouseX, Browser.mouseY);
@@ -30978,16 +30523,14 @@ var ASM_CONSTS = {
         if (GLUT.specialUpFunc || GLUT.keyboardUpFunc) {
           var key = GLUT.getSpecialKey(event['keyCode']);
           if (key !== null) {
-            if(GLUT.specialUpFunc) {
+            if (GLUT.specialUpFunc) {
               event.preventDefault ();
               GLUT.saveModifiers(event);
               wasmTable.get(GLUT.specialUpFunc)(key, Browser.mouseX, Browser.mouseY);
             }
-          }
-          else
-          {
+          } else {
             key = GLUT.getASCIIKey(event);
-            if( key !== null && GLUT.keyboardUpFunc ) {
+            if (key !== null && GLUT.keyboardUpFunc) {
               event.preventDefault ();
               GLUT.saveModifiers(event);
               wasmTable.get(GLUT.keyboardUpFunc)(key, Browser.mouseX, Browser.mouseY);
@@ -31003,7 +30546,7 @@ var ASM_CONSTS = {
             main = touches[0],
             type = "";
   
-        switch(event.type) {
+        switch (event.type) {
           case "touchstart": type = "mousedown"; break;
           case "touchmove": type = "mousemove"; break;
           case "touchend": type = "mouseup"; break;
@@ -31278,7 +30821,7 @@ var ASM_CONSTS = {
 
   function _glutSetCursor(cursor) {
       var cursorStyle = 'auto';
-      switch(cursor) {
+      switch (cursor) {
         case 0x0000: /* GLUT_CURSOR_RIGHT_ARROW */
           // No equivalent css cursor style, fallback to 'auto'
           break;
@@ -31468,7 +31011,7 @@ var ASM_CONSTS = {
   
         if (attribList) {
           // read attribList if it is non-null
-          for(;;) {
+          for (;;) {
             var param = HEAP32[((attribList)>>2)];
             if (param == 0x3021 /*EGL_ALPHA_SIZE*/) {
               var alphaSize = HEAP32[(((attribList)+(4))>>2)];
@@ -31590,7 +31133,7 @@ var ASM_CONSTS = {
         return 0;
       }
       EGL.setErrorCode(0x3000 /* EGL_SUCCESS */);
-      switch(attribute) {
+      switch (attribute) {
       case 0x3020: // EGL_BUFFER_SIZE
         HEAP32[((value)>>2)] = EGL.contextAttributes.alpha ? 32 : 24;
         return 1;
@@ -31742,7 +31285,7 @@ var ASM_CONSTS = {
       // EGL 1.4 spec says default EGL_CONTEXT_CLIENT_VERSION is GLES1, but this is not supported by Emscripten.
       // So user must pass EGL_CONTEXT_CLIENT_VERSION == 2 to initialize EGL.
       var glesContextVersion = 1;
-      for(;;) {
+      for (;;) {
         var param = HEAP32[((contextAttribs)>>2)];
         if (param == 0x3098 /*EGL_CONTEXT_CLIENT_VERSION*/) {
           glesContextVersion = HEAP32[(((contextAttribs)+(4))>>2)];
@@ -31818,7 +31361,7 @@ var ASM_CONSTS = {
         return 0;
       }
       EGL.setErrorCode(0x3000 /* EGL_SUCCESS */);
-      switch(attribute) {
+      switch (attribute) {
       case 0x3028: // EGL_CONFIG_ID
         HEAP32[((value)>>2)] = 62002;
           return 1;
@@ -31886,7 +31429,7 @@ var ASM_CONSTS = {
       }
   
       EGL.setErrorCode(0x3000 /* EGL_SUCCESS */);
-      switch(attribute) {
+      switch (attribute) {
         case 0x3028: // EGL_CONFIG_ID
           HEAP32[((value)>>2)] = 62002;
           return 1;
@@ -31924,7 +31467,7 @@ var ASM_CONSTS = {
       EGL.setErrorCode(0x3000 /* EGL_SUCCESS */);
       if (EGL.stringCache[name]) return EGL.stringCache[name];
       var ret;
-      switch(name) {
+      switch (name) {
         case 0x3053 /* EGL_VENDOR */: ret = allocateUTF8("Emscripten"); break;
         case 0x3054 /* EGL_VERSION */: ret = allocateUTF8("1.4 Emscripten EGL"); break;
         case 0x3055 /* EGL_EXTENSIONS */:  ret = allocateUTF8(""); break; // Currently not supporting any EGL extensions.
@@ -32109,11 +31652,11 @@ var ASM_CONSTS = {
         GLFW.extensions = UTF8ToString(_glGetString(0x1F03)).split(' ');
       }
   
-      if (GLFW.extensions.indexOf(extension) != -1) return 1;
+      if (GLFW.extensions.includes(extension)) return 1;
   
       // extensions from GLEmulations do not come unprefixed
       // so, try with prefix
-      return (GLFW.extensions.indexOf("GL_" + extension) != -1);
+      return (GLFW.extensions.includes("GL_" + extension));
     }
   Module["_glfwExtensionSupported"] = _glfwExtensionSupported;
   _glfwExtensionSupported.sig = 'ii';
@@ -32638,8 +32181,9 @@ var ASM_CONSTS = {
         }
       }
   
-      uuid[6] = (uuid[6] & 0x0F) | 0x40;
-      uuid[8] = (uuid[8] & 0x7F) | 0x80;
+      // Makes uuid compliant to RFC-4122
+      uuid[6] = (uuid[6] & 0x0F) | 0x40; // uuid version
+      uuid[8] = (uuid[8] & 0x3F) | 0x80; // uuid variant
       writeArrayToMemory(uuid, out);
     }
   Module["_uuid_generate"] = _uuid_generate;
@@ -32768,12 +32312,12 @@ var ASM_CONSTS = {
           GLEW.extensions = UTF8ToString(_glGetString(0x1F03)).split(' ');
         }
   
-        if (GLEW.extensions.indexOf(name) != -1)
+        if (GLEW.extensions.includes(name))
           return 1;
   
         // extensions from GLEmulations do not come unprefixed
         // so, try with prefix
-        return (GLEW.extensions.indexOf("GL_" + name) != -1);
+        return (GLEW.extensions.includes("GL_" + name));
       }};
   Module["GLEW"] = GLEW;
 
@@ -33042,7 +32586,7 @@ var ASM_CONSTS = {
         }
         return stringiCache[index];
       }
-      switch(name) {
+      switch (name) {
         case 0x1F03 /* GL_EXTENSIONS */:
           var exts = GLctx.getSupportedExtensions() || []; // .getSupportedExtensions() can return null if context is lost, so coerce to empty array.
           exts = exts.concat(exts.map(function(e) { return "GL_" + e; }));
@@ -33119,6 +32663,17 @@ var ASM_CONSTS = {
     }
   Module["_glGetBufferParameteri64v"] = _glGetBufferParameteri64v;
   _glGetBufferParameteri64v.sig = 'viii';
+
+  function _glGetBufferSubData(target, offset, size, data) {
+      if (!data) {
+        // GLES2 specification does not specify how to behave if data is a null pointer. Since calling this function does not make sense
+        // if data == null, issue a GL error to notify user about it.
+        GL.recordError(0x501 /* GL_INVALID_VALUE */);
+        return;
+      }
+      GLctx['getBufferSubData'](target, offset, HEAPU8, data, size);
+    }
+  Module["_glGetBufferSubData"] = _glGetBufferSubData;
 
   function _glInvalidateFramebuffer(target, numAttachments, attachments) {
       var list = tempFixedLengthArray[numAttachments];
@@ -33300,8 +32855,7 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      sampler = GL.samplers[sampler];
-      HEAPF32[((params)>>2)] = GLctx['getSamplerParameter'](sampler, pname);
+      HEAPF32[((params)>>2)] = GLctx['getSamplerParameter'](GL.samplers[sampler], pname);
     }
   Module["_glGetSamplerParameterfv"] = _glGetSamplerParameterfv;
   _glGetSamplerParameterfv.sig = 'viii';
@@ -33313,8 +32867,7 @@ var ASM_CONSTS = {
         GL.recordError(0x501 /* GL_INVALID_VALUE */);
         return;
       }
-      sampler = GL.samplers[sampler];
-      HEAP32[((params)>>2)] = GLctx['getSamplerParameter'](sampler, pname);
+      HEAP32[((params)>>2)] = GLctx['getSamplerParameter'](GL.samplers[sampler], pname);
     }
   Module["_glGetSamplerParameteriv"] = _glGetSamplerParameteriv;
   _glGetSamplerParameteriv.sig = 'viii';
@@ -33475,21 +33028,20 @@ var ASM_CONSTS = {
       }
       program = GL.programs[program];
   
-      switch(pname) {
-        case 0x8A41: /* GL_UNIFORM_BLOCK_NAME_LENGTH */
-          var name = GLctx['getActiveUniformBlockName'](program, uniformBlockIndex);
-          HEAP32[((params)>>2)] = name.length+1;
-          return;
-        default:
-          var result = GLctx['getActiveUniformBlockParameter'](program, uniformBlockIndex, pname);
-          if (!result) return; // If an error occurs, nothing will be written to params.
-          if (typeof result == 'number') {
-            HEAP32[((params)>>2)] = result;
-          } else {
-            for (var i = 0; i < result.length; i++) {
-              HEAP32[(((params)+(i*4))>>2)] = result[i];
-            }
-          }
+      if (pname == 0x8A41 /* GL_UNIFORM_BLOCK_NAME_LENGTH */) {
+        var name = GLctx['getActiveUniformBlockName'](program, uniformBlockIndex);
+        HEAP32[((params)>>2)] = name.length+1;
+        return;
+      }
+  
+      var result = GLctx['getActiveUniformBlockParameter'](program, uniformBlockIndex, pname);
+      if (result === null) return; // If an error occurs, nothing should be written to params.
+      if (pname == 0x8A43 /*GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES*/) {
+        for (var i = 0; i < result.length; i++) {
+          HEAP32[(((params)+(i*4))>>2)] = result[i];
+        }
+      } else {
+        HEAP32[((params)>>2)] = result;
       }
     }
   Module["_glGetActiveUniformBlockiv"] = _glGetActiveUniformBlockiv;
@@ -33641,85 +33193,85 @@ var ASM_CONSTS = {
   _glGetVertexAttribIuiv.sig = 'viii';
 
   function _glUniform1ui(location, v0) {
-      GLctx.uniform1ui(GL.uniforms[location], v0);
+      GLctx.uniform1ui(webglGetUniformLocation(location), v0);
     }
   Module["_glUniform1ui"] = _glUniform1ui;
   _glUniform1ui.sig = 'vii';
 
   function _glUniform2ui(location, v0, v1) {
-      GLctx.uniform2ui(GL.uniforms[location], v0, v1);
+      GLctx.uniform2ui(webglGetUniformLocation(location), v0, v1);
     }
   Module["_glUniform2ui"] = _glUniform2ui;
   _glUniform2ui.sig = 'viii';
 
   function _glUniform3ui(location, v0, v1, v2) {
-      GLctx.uniform3ui(GL.uniforms[location], v0, v1, v2);
+      GLctx.uniform3ui(webglGetUniformLocation(location), v0, v1, v2);
     }
   Module["_glUniform3ui"] = _glUniform3ui;
   _glUniform3ui.sig = 'viiii';
 
   function _glUniform4ui(location, v0, v1, v2, v3) {
-      GLctx.uniform4ui(GL.uniforms[location], v0, v1, v2, v3);
+      GLctx.uniform4ui(webglGetUniformLocation(location), v0, v1, v2, v3);
     }
   Module["_glUniform4ui"] = _glUniform4ui;
   _glUniform4ui.sig = 'viiiii';
 
   function _glUniform1uiv(location, count, value) {
-      GLctx.uniform1uiv(GL.uniforms[location], HEAPU32, value>>2, count);
+      GLctx.uniform1uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count);
     }
   Module["_glUniform1uiv"] = _glUniform1uiv;
   _glUniform1uiv.sig = 'viii';
 
   function _glUniform2uiv(location, count, value) {
-      GLctx.uniform2uiv(GL.uniforms[location], HEAPU32, value>>2, count*2);
+      GLctx.uniform2uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count*2);
     }
   Module["_glUniform2uiv"] = _glUniform2uiv;
   _glUniform2uiv.sig = 'viii';
 
   function _glUniform3uiv(location, count, value) {
-      GLctx.uniform3uiv(GL.uniforms[location], HEAPU32, value>>2, count*3);
+      GLctx.uniform3uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count*3);
     }
   Module["_glUniform3uiv"] = _glUniform3uiv;
   _glUniform3uiv.sig = 'viii';
 
   function _glUniform4uiv(location, count, value) {
-      GLctx.uniform4uiv(GL.uniforms[location], HEAPU32, value>>2, count*4);
+      GLctx.uniform4uiv(webglGetUniformLocation(location), HEAPU32, value>>2, count*4);
     }
   Module["_glUniform4uiv"] = _glUniform4uiv;
   _glUniform4uiv.sig = 'viii';
 
   function _glUniformMatrix2x3fv(location, count, transpose, value) {
-      GLctx.uniformMatrix2x3fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*6);
+      GLctx.uniformMatrix2x3fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*6);
     }
   Module["_glUniformMatrix2x3fv"] = _glUniformMatrix2x3fv;
   _glUniformMatrix2x3fv.sig = 'viiii';
 
   function _glUniformMatrix3x2fv(location, count, transpose, value) {
-      GLctx.uniformMatrix3x2fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*6);
+      GLctx.uniformMatrix3x2fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*6);
     }
   Module["_glUniformMatrix3x2fv"] = _glUniformMatrix3x2fv;
   _glUniformMatrix3x2fv.sig = 'viiii';
 
   function _glUniformMatrix2x4fv(location, count, transpose, value) {
-      GLctx.uniformMatrix2x4fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*8);
+      GLctx.uniformMatrix2x4fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*8);
     }
   Module["_glUniformMatrix2x4fv"] = _glUniformMatrix2x4fv;
   _glUniformMatrix2x4fv.sig = 'viiii';
 
   function _glUniformMatrix4x2fv(location, count, transpose, value) {
-      GLctx.uniformMatrix4x2fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*8);
+      GLctx.uniformMatrix4x2fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*8);
     }
   Module["_glUniformMatrix4x2fv"] = _glUniformMatrix4x2fv;
   _glUniformMatrix4x2fv.sig = 'viiii';
 
   function _glUniformMatrix3x4fv(location, count, transpose, value) {
-      GLctx.uniformMatrix3x4fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*12);
+      GLctx.uniformMatrix3x4fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*12);
     }
   Module["_glUniformMatrix3x4fv"] = _glUniformMatrix3x4fv;
   _glUniformMatrix3x4fv.sig = 'viiii';
 
   function _glUniformMatrix4x3fv(location, count, transpose, value) {
-      GLctx.uniformMatrix4x3fv(GL.uniforms[location], !!transpose, HEAPF32, value>>2, count*12);
+      GLctx.uniformMatrix4x3fv(webglGetUniformLocation(location), !!transpose, HEAPF32, value>>2, count*12);
     }
   Module["_glUniformMatrix4x3fv"] = _glUniformMatrix4x3fv;
   _glUniformMatrix4x3fv.sig = 'viiii';
@@ -33968,6 +33520,17 @@ var ASM_CONSTS = {
 
 
 
+
+  function _emscripten_glGetBufferSubData(target, offset, size, data) {
+      if (!data) {
+        // GLES2 specification does not specify how to behave if data is a null pointer. Since calling this function does not make sense
+        // if data == null, issue a GL error to notify user about it.
+        GL.recordError(0x501 /* GL_INVALID_VALUE */);
+        return;
+      }
+      GLctx['getBufferSubData'](target, offset, HEAPU8, data, size);
+    }
+  Module["_emscripten_glGetBufferSubData"] = _emscripten_glGetBufferSubData;
 
 
 
@@ -34221,7 +33784,13 @@ var __miniTempWebGLIntBuffersStorage = new Int32Array(288);
   __miniTempWebGLIntBuffers[i] = __miniTempWebGLIntBuffersStorage.subarray(0, i+1);
   }
   ;
-var __setImmediate_id_counter = 0;
+var emSetImmediate;
+  var emClearImmediate;
+  if (typeof setImmediate !== "undefined") {
+  emSetImmediate = setImmediate;
+  emClearImmediate = clearImmediate;
+  } else if (typeof addEventListener === "function") {
+  var __setImmediate_id_counter = 0;
   var __setImmediate_queue = [];
   var __setImmediate_message_id = "_si";
   function __setImmediate_cb(e) {
@@ -34231,15 +33800,14 @@ var __setImmediate_id_counter = 0;
   ++__setImmediate_id_counter;
   }
   }
-  if (typeof setImmediate === "undefined" && typeof addEventListener === "function") {
   addEventListener("message", __setImmediate_cb, true);
-  setImmediate = function(func) {
+  emSetImmediate = function(func) {
   postMessage(__setImmediate_message_id, "*");
   return __setImmediate_id_counter + __setImmediate_queue.push(func) - 1;
   }
-  clearImmediate = /**@type{function(number=)}*/(function(id) {
+  emClearImmediate = /**@type{function(number=)}*/(function(id) {
   var index = id - __setImmediate_id_counter;
-  if (index >= 0 && index < __setImmediate_queue.length) __setImmediate_queue[index] = function(){};
+  if (index >= 0 && index < __setImmediate_queue.length) __setImmediate_queue[index] = function() {};
   })
   };
 var ASSERTIONS = true;
@@ -34272,25 +33840,19 @@ function intArrayToString(array) {
 
 
 var asmLibraryArg = {
-  "_Unwind_GetIP": __Unwind_GetIP,
-  "_Unwind_GetLanguageSpecificData": __Unwind_GetLanguageSpecificData,
-  "_Unwind_GetRegionStart": __Unwind_GetRegionStart,
-  "_Unwind_SetGR": __Unwind_SetGR,
-  "_Unwind_SetIP": __Unwind_SetIP,
-  "__asctime_r": ___asctime_r,
+  "__asctime": ___asctime,
   "__assert_fail": ___assert_fail,
   "__clock_gettime": ___clock_gettime,
   "__cxa_allocate_exception": ___cxa_allocate_exception,
   "__cxa_atexit": ___cxa_atexit,
   "__cxa_throw": ___cxa_throw,
   "__gmtime_r": ___gmtime_r,
+  "__heap_base": ___heap_base,
   "__indirect_function_table": wasmTable,
   "__localtime_r": ___localtime_r,
   "__map_file": ___map_file,
-  "__memory_base": 1024,
-  "__posix_spawnx": ___posix_spawnx,
-  "__pthread_once": ___pthread_once,
-  "__stack_pointer": __stack_pointer,
+  "__memory_base": ___memory_base,
+  "__stack_pointer": ___stack_pointer,
   "__sys__newselect": ___sys__newselect,
   "__sys_accept4": ___sys_accept4,
   "__sys_access": ___sys_access,
@@ -34397,7 +33959,7 @@ var asmLibraryArg = {
   "__sys_unlinkat": ___sys_unlinkat,
   "__sys_utimensat": ___sys_utimensat,
   "__sys_wait4": ___sys_wait4,
-  "__table_base": 1,
+  "__table_base": ___table_base,
   "_exit": __exit,
   "abort": _abort,
   "alBuffer3f": _alBuffer3f,
@@ -34503,6 +34065,7 @@ var asmLibraryArg = {
   "emscripten_asm_const_int": _emscripten_asm_const_int,
   "emscripten_force_exit": _emscripten_force_exit,
   "emscripten_get_device_pixel_ratio": _emscripten_get_device_pixel_ratio,
+  "emscripten_get_heap_max": _emscripten_get_heap_max,
   "emscripten_glActiveTexture": _emscripten_glActiveTexture,
   "emscripten_glAttachShader": _emscripten_glAttachShader,
   "emscripten_glBeginQuery": _emscripten_glBeginQuery,
@@ -34868,7 +34431,6 @@ var asmLibraryArg = {
   "glfwWindowHint": _glfwWindowHint,
   "gmtime_r": _gmtime_r,
   "memory": wasmMemory,
-  "pathconf": _pathconf,
   "pthread_cleanup_pop": _pthread_cleanup_pop,
   "pthread_cleanup_push": _pthread_cleanup_push,
   "pthread_create": _pthread_create,
@@ -34879,7 +34441,6 @@ var asmLibraryArg = {
   "sigfillset": _sigfillset,
   "strftime": _strftime,
   "strftime_l": _strftime_l,
-  "sysconf": _sysconf,
   "time": _time
 };
 var asm = createWasm();
@@ -45147,6 +44708,9 @@ var _fmodl = Module["_fmodl"] = createExportWrapper("fmodl");
 var _fabsl = Module["_fabsl"] = createExportWrapper("fabsl");
 
 /** @type {function(...*):?} */
+var ___eqtf2 = Module["___eqtf2"] = createExportWrapper("__eqtf2");
+
+/** @type {function(...*):?} */
 var ___libc_get_version = Module["___libc_get_version"] = createExportWrapper("__libc_get_version");
 
 /** @type {function(...*):?} */
@@ -45391,6 +44955,33 @@ var ___crypt_sha256 = Module["___crypt_sha256"] = createExportWrapper("__crypt_s
 
 /** @type {function(...*):?} */
 var _crypt_r = Module["_crypt_r"] = createExportWrapper("crypt_r");
+
+/** @type {function(...*):?} */
+var _fpathconf = Module["_fpathconf"] = createExportWrapper("fpathconf");
+
+/** @type {function(...*):?} */
+var _pathconf = Module["_pathconf"] = createExportWrapper("pathconf");
+
+/** @type {function(...*):?} */
+var _get_nprocs_conf = Module["_get_nprocs_conf"] = createExportWrapper("get_nprocs_conf");
+
+/** @type {function(...*):?} */
+var _sysconf = Module["_sysconf"] = createExportWrapper("sysconf");
+
+/** @type {function(...*):?} */
+var _get_nprocs = Module["_get_nprocs"] = createExportWrapper("get_nprocs");
+
+/** @type {function(...*):?} */
+var _get_phys_pages = Module["_get_phys_pages"] = createExportWrapper("get_phys_pages");
+
+/** @type {function(...*):?} */
+var _get_avphys_pages = Module["_get_avphys_pages"] = createExportWrapper("get_avphys_pages");
+
+/** @type {function(...*):?} */
+var _confstr = Module["_confstr"] = createExportWrapper("confstr");
+
+/** @type {function(...*):?} */
+var _emscripten_num_logical_cores = Module["_emscripten_num_logical_cores"] = createExportWrapper("emscripten_num_logical_cores");
 
 /** @type {function(...*):?} */
 var _openat = Module["_openat"] = createExportWrapper("openat");
@@ -46452,12 +46043,6 @@ var _wait = Module["_wait"] = createExportWrapper("wait");
 var _waitpid = Module["_waitpid"] = createExportWrapper("waitpid");
 
 /** @type {function(...*):?} */
-var _posix_spawnp = Module["_posix_spawnp"] = createExportWrapper("posix_spawnp");
-
-/** @type {function(...*):?} */
-var ___execvpe = Module["___execvpe"] = createExportWrapper("__execvpe");
-
-/** @type {function(...*):?} */
 var _posix_spawnattr_getpgroup = Module["_posix_spawnattr_getpgroup"] = createExportWrapper("posix_spawnattr_getpgroup");
 
 /** @type {function(...*):?} */
@@ -46486,6 +46071,9 @@ var _execlp = Module["_execlp"] = createExportWrapper("execlp");
 
 /** @type {function(...*):?} */
 var _execvp = Module["_execvp"] = createExportWrapper("execvp");
+
+/** @type {function(...*):?} */
+var ___execvpe = Module["___execvpe"] = createExportWrapper("__execvpe");
 
 /** @type {function(...*):?} */
 var _execvpe = Module["_execvpe"] = createExportWrapper("execvpe");
@@ -46684,9 +46272,6 @@ var _ilogb = Module["_ilogb"] = createExportWrapper("ilogb");
 
 /** @type {function(...*):?} */
 var _asinl = Module["_asinl"] = createExportWrapper("asinl");
-
-/** @type {function(...*):?} */
-var ___eqtf2 = Module["___eqtf2"] = createExportWrapper("__eqtf2");
 
 /** @type {function(...*):?} */
 var _sqrtl = Module["_sqrtl"] = createExportWrapper("sqrtl");
@@ -48273,6 +47858,9 @@ var _getservbyport = Module["_getservbyport"] = createExportWrapper("getservbypo
 var _clock_settime = Module["_clock_settime"] = createExportWrapper("clock_settime");
 
 /** @type {function(...*):?} */
+var _asctime_r = Module["_asctime_r"] = createExportWrapper("asctime_r");
+
+/** @type {function(...*):?} */
 var _asctime = Module["_asctime"] = createExportWrapper("asctime");
 
 /** @type {function(...*):?} */
@@ -48340,6 +47928,9 @@ var __get_timezone = Module["__get_timezone"] = createExportWrapper("_get_timezo
 
 /** @type {function(...*):?} */
 var ___emscripten_pthread_data_constructor = Module["___emscripten_pthread_data_constructor"] = createExportWrapper("__emscripten_pthread_data_constructor");
+
+/** @type {function(...*):?} */
+var _emscripten_get_heap_size = Module["_emscripten_get_heap_size"] = createExportWrapper("emscripten_get_heap_size");
 
 /** @type {function(...*):?} */
 var _emscripten_atomic_exchange_u8 = Module["_emscripten_atomic_exchange_u8"] = createExportWrapper("emscripten_atomic_exchange_u8");
@@ -48492,6 +48083,24 @@ var _thrd_yield = Module["_thrd_yield"] = createExportWrapper("thrd_yield");
 var _call_once = Module["_call_once"] = createExportWrapper("call_once");
 
 /** @type {function(...*):?} */
+var ___pthread_once = Module["___pthread_once"] = createExportWrapper("__pthread_once");
+
+/** @type {function(...*):?} */
+var _tss_create = Module["_tss_create"] = createExportWrapper("tss_create");
+
+/** @type {function(...*):?} */
+var ___pthread_key_create = Module["___pthread_key_create"] = createExportWrapper("__pthread_key_create");
+
+/** @type {function(...*):?} */
+var _tss_delete = Module["_tss_delete"] = createExportWrapper("tss_delete");
+
+/** @type {function(...*):?} */
+var ___pthread_key_delete = Module["___pthread_key_delete"] = createExportWrapper("__pthread_key_delete");
+
+/** @type {function(...*):?} */
+var _tss_set = Module["_tss_set"] = createExportWrapper("tss_set");
+
+/** @type {function(...*):?} */
 var _strupr = Module["_strupr"] = createExportWrapper("strupr");
 
 /** @type {function(...*):?} */
@@ -48517,9 +48126,6 @@ var _strlwr = Module["_strlwr"] = createExportWrapper("strlwr");
 
 /** @type {function(...*):?} */
 var _emscripten_has_threading_support = Module["_emscripten_has_threading_support"] = createExportWrapper("emscripten_has_threading_support");
-
-/** @type {function(...*):?} */
-var _emscripten_num_logical_cores = Module["_emscripten_num_logical_cores"] = createExportWrapper("emscripten_num_logical_cores");
 
 /** @type {function(...*):?} */
 var _emscripten_force_num_logical_cores = Module["_emscripten_force_num_logical_cores"] = createExportWrapper("emscripten_force_num_logical_cores");
@@ -48570,19 +48176,10 @@ var _pthread_barrier_destroy = Module["_pthread_barrier_destroy"] = createExport
 var _pthread_barrier_wait = Module["_pthread_barrier_wait"] = createExportWrapper("pthread_barrier_wait");
 
 /** @type {function(...*):?} */
-var _pthread_key_create = Module["_pthread_key_create"] = createExportWrapper("pthread_key_create");
-
-/** @type {function(...*):?} */
-var _pthread_key_delete = Module["_pthread_key_delete"] = createExportWrapper("pthread_key_delete");
-
-/** @type {function(...*):?} */
 var _pthread_getspecific = Module["_pthread_getspecific"] = createExportWrapper("pthread_getspecific");
 
 /** @type {function(...*):?} */
 var _pthread_setspecific = Module["_pthread_setspecific"] = createExportWrapper("pthread_setspecific");
-
-/** @type {function(...*):?} */
-var _pthread_once = Module["_pthread_once"] = createExportWrapper("pthread_once");
 
 /** @type {function(...*):?} */
 var _pthread_cond_wait = Module["_pthread_cond_wait"] = createExportWrapper("pthread_cond_wait");
@@ -48755,6 +48352,15 @@ var _sem_trywait = Module["_sem_trywait"] = createExportWrapper("sem_trywait");
 
 /** @type {function(...*):?} */
 var _sem_destroy = Module["_sem_destroy"] = createExportWrapper("sem_destroy");
+
+/** @type {function(...*):?} */
+var _pthread_key_delete = Module["_pthread_key_delete"] = createExportWrapper("pthread_key_delete");
+
+/** @type {function(...*):?} */
+var _pthread_key_create = Module["_pthread_key_create"] = createExportWrapper("pthread_key_create");
+
+/** @type {function(...*):?} */
+var _pthread_once = Module["_pthread_once"] = createExportWrapper("pthread_once");
 
 /** @type {function(...*):?} */
 var ___floatuntixf = Module["___floatuntixf"] = createExportWrapper("__floatuntixf");
@@ -49052,9 +48658,6 @@ var ___floatuntidf = Module["___floatuntidf"] = createExportWrapper("__floatunti
 
 /** @type {function(...*):?} */
 var ___floattitf = Module["___floattitf"] = createExportWrapper("__floattitf");
-
-/** @type {function(...*):?} */
-var ___gcc_personality_v0 = Module["___gcc_personality_v0"] = createExportWrapper("__gcc_personality_v0");
 
 /** @type {function(...*):?} */
 var ___mulodi4 = Module["___mulodi4"] = createExportWrapper("__mulodi4");
@@ -53250,27 +52853,6 @@ var __ZNKSt3__28messagesIcE7do_openERKNS_12basic_stringIcNS_11char_traitsIcEENS_
 var __ZNKSt3__28messagesIcE6do_getEliiRKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module["__ZNKSt3__28messagesIcE6do_getEliiRKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE"] = createExportWrapper("_ZNKSt3__28messagesIcE6do_getEliiRKNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE");
 
 /** @type {function(...*):?} */
-var __ZNSt3__213back_inserterINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEENS_20back_insert_iteratorIT_EERS8_ = Module["__ZNSt3__213back_inserterINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEENS_20back_insert_iteratorIT_EERS8_"] = createExportWrapper("_ZNSt3__213back_inserterINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEENS_20back_insert_iteratorIT_EERS8_");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__216__narrow_to_utf8ILm8EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEcEET_SB_PKT0_SE_ = Module["__ZNKSt3__216__narrow_to_utf8ILm8EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEcEET_SB_PKT0_SE_"] = createExportWrapper("_ZNKSt3__216__narrow_to_utf8ILm8EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEcEET_SB_PKT0_SE_");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__217__widen_from_utf8ILm8EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEEET_SB_PKcSD_ = Module["__ZNKSt3__217__widen_from_utf8ILm8EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEEET_SB_PKcSD_"] = createExportWrapper("_ZNKSt3__217__widen_from_utf8ILm8EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEEET_SB_PKcSD_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEdeEv = Module["__ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEdeEv"] = createExportWrapper("_ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEdeEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEaSERKc = Module["__ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEaSERKc"] = createExportWrapper("_ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEaSERKc");
-
-/** @type {function(...*):?} */
-var __ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEppEv = Module["__ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEppEv"] = createExportWrapper("_ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEppEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEC2ERS6_ = Module["__ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEC2ERS6_"] = createExportWrapper("_ZNSt3__220back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEC2ERS6_");
-
-/** @type {function(...*):?} */
 var __ZNKSt3__28messagesIcE8do_closeEl = Module["__ZNKSt3__28messagesIcE8do_closeEl"] = createExportWrapper("_ZNKSt3__28messagesIcE8do_closeEl");
 
 /** @type {function(...*):?} */
@@ -53278,39 +52860,6 @@ var __ZNKSt3__28messagesIwE7do_openERKNS_12basic_stringIcNS_11char_traitsIcEENS_
 
 /** @type {function(...*):?} */
 var __ZNKSt3__28messagesIwE6do_getEliiRKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEE = Module["__ZNKSt3__28messagesIwE6do_getEliiRKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEE"] = createExportWrapper("_ZNKSt3__28messagesIwE6do_getEliiRKNS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEE");
-
-/** @type {function(...*):?} */
-var __ZNSt3__216__narrow_to_utf8ILm32EEC2Ev = Module["__ZNSt3__216__narrow_to_utf8ILm32EEC2Ev"] = createExportWrapper("_ZNSt3__216__narrow_to_utf8ILm32EEC2Ev");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5c_strEv = Module["__ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5c_strEv"] = createExportWrapper("_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5c_strEv");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__216__narrow_to_utf8ILm32EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEwEET_SB_PKT0_SE_ = Module["__ZNKSt3__216__narrow_to_utf8ILm32EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEwEET_SB_PKT0_SE_"] = createExportWrapper("_ZNKSt3__216__narrow_to_utf8ILm32EEclINS_20back_insert_iteratorINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEwEET_SB_PKT0_SE_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__217__widen_from_utf8ILm32EEC2Ev = Module["__ZNSt3__217__widen_from_utf8ILm32EEC2Ev"] = createExportWrapper("_ZNSt3__217__widen_from_utf8ILm32EEC2Ev");
-
-/** @type {function(...*):?} */
-var __ZNSt3__213back_inserterINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEENS_20back_insert_iteratorIT_EERS8_ = Module["__ZNSt3__213back_inserterINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEENS_20back_insert_iteratorIT_EERS8_"] = createExportWrapper("_ZNSt3__213back_inserterINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEENS_20back_insert_iteratorIT_EERS8_");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__217__widen_from_utf8ILm32EEclINS_20back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEEEET_SB_PKcSD_ = Module["__ZNKSt3__217__widen_from_utf8ILm32EEclINS_20back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEEEET_SB_PKcSD_"] = createExportWrapper("_ZNKSt3__217__widen_from_utf8ILm32EEclINS_20back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEEEET_SB_PKcSD_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__27codecvtIDic11__mbstate_tEC2Em = Module["__ZNSt3__27codecvtIDic11__mbstate_tEC2Em"] = createExportWrapper("_ZNSt3__27codecvtIDic11__mbstate_tEC2Em");
-
-/** @type {function(...*):?} */
-var __ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEdeEv = Module["__ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEdeEv"] = createExportWrapper("_ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEdeEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEaSEOw = Module["__ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEaSEOw"] = createExportWrapper("_ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEaSEOw");
-
-/** @type {function(...*):?} */
-var __ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEppEv = Module["__ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEppEv"] = createExportWrapper("_ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEppEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEC2ERS6_ = Module["__ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEC2ERS6_"] = createExportWrapper("_ZNSt3__220back_insert_iteratorINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEC2ERS6_");
 
 /** @type {function(...*):?} */
 var __ZNKSt3__28messagesIwE8do_closeEl = Module["__ZNKSt3__28messagesIwE8do_closeEl"] = createExportWrapper("_ZNKSt3__28messagesIwE8do_closeEl");
@@ -53485,6 +53034,9 @@ var __ZNSt3__27codecvtIwc11__mbstate_tEC2Em = Module["__ZNSt3__27codecvtIwc11__m
 
 /** @type {function(...*):?} */
 var __ZNSt3__27codecvtIDsc11__mbstate_tEC2Em = Module["__ZNSt3__27codecvtIDsc11__mbstate_tEC2Em"] = createExportWrapper("_ZNSt3__27codecvtIDsc11__mbstate_tEC2Em");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27codecvtIDic11__mbstate_tEC2Em = Module["__ZNSt3__27codecvtIDic11__mbstate_tEC2Em"] = createExportWrapper("_ZNSt3__27codecvtIDic11__mbstate_tEC2Em");
 
 /** @type {function(...*):?} */
 var __ZNSt3__28numpunctIcEC2Em = Module["__ZNSt3__28numpunctIcEC2Em"] = createExportWrapper("_ZNSt3__28numpunctIcEC2Em");
@@ -53932,6 +53484,9 @@ var __ZNSt3__214collate_bynameIwED0Ev = Module["__ZNSt3__214collate_bynameIwED0E
 
 /** @type {function(...*):?} */
 var __ZNKSt3__214collate_bynameIwE10do_compareEPKwS3_S3_S3_ = Module["__ZNKSt3__214collate_bynameIwE10do_compareEPKwS3_S3_S3_"] = createExportWrapper("_ZNKSt3__214collate_bynameIwE10do_compareEPKwS3_S3_S3_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5c_strEv = Module["__ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5c_strEv"] = createExportWrapper("_ZNKSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE5c_strEv");
 
 /** @type {function(...*):?} */
 var __ZNKSt3__214collate_bynameIwE12do_transformEPKwS3_ = Module["__ZNKSt3__214collate_bynameIwE12do_transformEPKwS3_"] = createExportWrapper("_ZNKSt3__214collate_bynameIwE12do_transformEPKwS3_");
@@ -55654,12 +55209,6 @@ var __ZNSt3__222__compressed_pair_elemINS_9allocatorIwEELi1ELb1EEC2IRKS2_vEEOT_ 
 
 /** @type {function(...*):?} */
 var __ZNKSt3__210__equal_toIwwEclERKwS3_ = Module["__ZNKSt3__210__equal_toIwwEclERKwS3_"] = createExportWrapper("_ZNKSt3__210__equal_toIwwEclERKwS3_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__29addressofINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEPT_RS7_ = Module["__ZNSt3__29addressofINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEPT_RS7_"] = createExportWrapper("_ZNSt3__29addressofINS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEPT_RS7_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__29addressofINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEEPT_RS7_ = Module["__ZNSt3__29addressofINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEEPT_RS7_"] = createExportWrapper("_ZNSt3__29addressofINS_12basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEEEEEPT_RS7_");
 
 /** @type {function(...*):?} */
 var __ZNSt3__27collateIcED1Ev = Module["__ZNSt3__27collateIcED1Ev"] = createExportWrapper("_ZNSt3__27collateIcED1Ev");
@@ -61011,6 +60560,9 @@ var _orig$fmodl = Module["_orig$fmodl"] = createExportWrapper("orig$fmodl");
 var _orig$fabsl = Module["_orig$fabsl"] = createExportWrapper("orig$fabsl");
 
 /** @type {function(...*):?} */
+var _orig$__eqtf2 = Module["_orig$__eqtf2"] = createExportWrapper("orig$__eqtf2");
+
+/** @type {function(...*):?} */
 var _orig$__intscan = Module["_orig$__intscan"] = createExportWrapper("orig$__intscan");
 
 /** @type {function(...*):?} */
@@ -61120,9 +60672,6 @@ var _orig$__gttf2 = Module["_orig$__gttf2"] = createExportWrapper("orig$__gttf2"
 
 /** @type {function(...*):?} */
 var _orig$asinl = Module["_orig$asinl"] = createExportWrapper("orig$asinl");
-
-/** @type {function(...*):?} */
-var _orig$__eqtf2 = Module["_orig$__eqtf2"] = createExportWrapper("orig$__eqtf2");
 
 /** @type {function(...*):?} */
 var _orig$sqrtl = Module["_orig$sqrtl"] = createExportWrapper("orig$sqrtl");
@@ -61564,9 +61113,6 @@ var _orig$__floatuntidf = Module["_orig$__floatuntidf"] = createExportWrapper("o
 
 /** @type {function(...*):?} */
 var _orig$__floattitf = Module["_orig$__floattitf"] = createExportWrapper("orig$__floattitf");
-
-/** @type {function(...*):?} */
-var _orig$__gcc_personality_v0 = Module["_orig$__gcc_personality_v0"] = createExportWrapper("orig$__gcc_personality_v0");
 
 /** @type {function(...*):?} */
 var _orig$__mulodi4 = Module["_orig$__mulodi4"] = createExportWrapper("orig$__mulodi4");
@@ -62012,1172 +61558,1178 @@ var _orig$_ZN10__cxxabiv119__setExceptionClassEP17_Unwind_Exceptiony = Module["_
 /** @type {function(...*):?} */
 var _orig$fminl = Module["_orig$fminl"] = createExportWrapper("orig$fminl");
 
-var __ZNSt3__24coutE = Module['__ZNSt3__24coutE'] = 297164;
-var __ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261632;
-var __ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261672;
-var __ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261740;
-var __ZNSt3__25ctypeIcE2idE = Module['__ZNSt3__25ctypeIcE2idE'] = 298312;
-var __ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 267968;
-var __ZTVNSt3__28ios_baseE = Module['__ZTVNSt3__28ios_baseE'] = 267940;
-var __ZTISt12length_error = Module['__ZTISt12length_error'] = 280664;
-var __ZTVSt12length_error = Module['__ZTVSt12length_error'] = 280644;
-var _Serial = Module['_Serial'] = 283132;
-var _Serial1 = Module['_Serial1'] = 283133;
-var _Serial2 = Module['_Serial2'] = 283134;
-var _Serial3 = Module['_Serial3'] = 283135;
-var __ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261728;
-var __ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 261688;
-var __ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 268088;
+var __ZNSt3__24coutE = Module['__ZNSt3__24coutE'] = 297724;
+var __ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262192;
+var __ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262232;
+var __ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262300;
+var __ZNSt3__25ctypeIcE2idE = Module['__ZNSt3__25ctypeIcE2idE'] = 298872;
+var __ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 268528;
+var __ZTVNSt3__28ios_baseE = Module['__ZTVNSt3__28ios_baseE'] = 268500;
+var __ZTISt12length_error = Module['__ZTISt12length_error'] = 281224;
+var __ZTVSt12length_error = Module['__ZTVSt12length_error'] = 281204;
+var _Serial = Module['_Serial'] = 283692;
+var _Serial1 = Module['_Serial1'] = 283693;
+var _Serial2 = Module['_Serial2'] = 283694;
+var _Serial3 = Module['_Serial3'] = 283695;
+var __ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262288;
+var __ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 262248;
+var __ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 268648;
 var __ZTSNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 1058;
-var __ZTVN10__cxxabiv120__si_class_type_infoE = Module['__ZTVN10__cxxabiv120__si_class_type_infoE'] = 282192;
-var __ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261804;
+var __ZTVN10__cxxabiv120__si_class_type_infoE = Module['__ZTVN10__cxxabiv120__si_class_type_infoE'] = 282752;
+var __ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262364;
 var __ZTSNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 1128;
-var __ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 268024;
-var __ZNSt3__24cerrE = Module['__ZNSt3__24cerrE'] = 297332;
-var __ZTV3Led = Module['__ZTV3Led'] = 261816;
-var __ZTV6Output = Module['__ZTV6Output'] = 261860;
-var __ZTI3Led = Module['__ZTI3Led'] = 261848;
+var __ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 268584;
+var __ZNSt3__24cerrE = Module['__ZNSt3__24cerrE'] = 297892;
+var __ZTV3Led = Module['__ZTV3Led'] = 262376;
+var __ZTV6Output = Module['__ZTV6Output'] = 262420;
+var __ZTI3Led = Module['__ZTI3Led'] = 262408;
 var __ZTS3Led = Module['__ZTS3Led'] = 1572;
 var __ZTS6Output = Module['__ZTS6Output'] = 1577;
-var __ZTI6Output = Module['__ZTI6Output'] = 261840;
-var __ZTVN10__cxxabiv117__class_type_infoE = Module['__ZTVN10__cxxabiv117__class_type_infoE'] = 282152;
+var __ZTI6Output = Module['__ZTI6Output'] = 262400;
+var __ZTVN10__cxxabiv117__class_type_infoE = Module['__ZTVN10__cxxabiv117__class_type_infoE'] = 282712;
 var ___dso_handle = Module['___dso_handle'] = 1024;
-var __ZTV3App = Module['__ZTV3App'] = 261884;
-var __ZTVN6piksel7BaseAppE = Module['__ZTVN6piksel7BaseAppE'] = 261960;
-var __ZTI3App = Module['__ZTI3App'] = 261932;
+var __ZTV3App = Module['__ZTV3App'] = 262444;
+var __ZTVN6piksel7BaseAppE = Module['__ZTVN6piksel7BaseAppE'] = 262520;
+var __ZTI3App = Module['__ZTI3App'] = 262492;
 var __ZTS3App = Module['__ZTS3App'] = 1633;
-var __ZTIN6piksel7BaseAppE = Module['__ZTIN6piksel7BaseAppE'] = 262008;
+var __ZTIN6piksel7BaseAppE = Module['__ZTIN6piksel7BaseAppE'] = 262568;
 var __ZN6piksel14USE_EMSCRIPTENE = Module['__ZN6piksel14USE_EMSCRIPTENE'] = 1713;
-var __ZN6piksel17minecraft_regularE = Module['__ZN6piksel17minecraft_regularE'] = 283592;
-var _stderr = Module['_stderr'] = 266136;
+var __ZN6piksel17minecraft_regularE = Module['__ZN6piksel17minecraft_regularE'] = 284152;
+var _stderr = Module['_stderr'] = 266696;
 var __ZN20__em_asm_sig_builderI19__em_asm_type_tupleIJEEE6bufferE = Module['__ZN20__em_asm_sig_builderI19__em_asm_type_tupleIJEEE6bufferE'] = 23241;
 var __ZTSN6piksel7BaseAppE = Module['__ZTSN6piksel7BaseAppE'] = 23803;
-var __ZN6piksel4msdfE = Module['__ZN6piksel4msdfE'] = 262664;
-var __ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262480;
-var __ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262520;
-var __ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262152;
-var __ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262212;
-var __ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 262588;
-var __ZNSt3__27codecvtIcc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIcc11__mbstate_tE2idE'] = 298320;
-var __ZTISt8bad_cast = Module['__ZTISt8bad_cast'] = 280880;
-var __ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262392;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE'] = 262252;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262312;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 262352;
-var __ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 268216;
-var __ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 268040;
+var __ZN6piksel4msdfE = Module['__ZN6piksel4msdfE'] = 263224;
+var __ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 263040;
+var __ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 263080;
+var __ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262712;
+var __ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262772;
+var __ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 263148;
+var __ZNSt3__27codecvtIcc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIcc11__mbstate_tE2idE'] = 298880;
+var __ZTISt8bad_cast = Module['__ZTISt8bad_cast'] = 281440;
+var __ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262952;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE'] = 262812;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262872;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 262912;
+var __ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 268776;
+var __ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 268600;
 var __ZTSNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 50542;
-var __ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262576;
-var __ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262536;
+var __ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 263136;
+var __ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 263096;
 var __ZTSNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 50677;
-var __ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 262652;
+var __ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 263212;
 var __ZTSNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 50725;
-var __ZTVN7msdfgen13LinearSegmentE = Module['__ZTVN7msdfgen13LinearSegmentE'] = 263192;
-var __ZTVN7msdfgen11EdgeSegmentE = Module['__ZTVN7msdfgen11EdgeSegmentE'] = 263348;
-var __ZTVN7msdfgen16QuadraticSegmentE = Module['__ZTVN7msdfgen16QuadraticSegmentE'] = 263244;
-var __ZTVN7msdfgen12CubicSegmentE = Module['__ZTVN7msdfgen12CubicSegmentE'] = 263296;
-var __ZTIN7msdfgen13LinearSegmentE = Module['__ZTIN7msdfgen13LinearSegmentE'] = 263408;
-var __ZTIN7msdfgen16QuadraticSegmentE = Module['__ZTIN7msdfgen16QuadraticSegmentE'] = 263420;
-var __ZTIN7msdfgen12CubicSegmentE = Module['__ZTIN7msdfgen12CubicSegmentE'] = 263432;
-var __ZTIN7msdfgen11EdgeSegmentE = Module['__ZTIN7msdfgen11EdgeSegmentE'] = 263400;
+var __ZTVN7msdfgen13LinearSegmentE = Module['__ZTVN7msdfgen13LinearSegmentE'] = 263752;
+var __ZTVN7msdfgen11EdgeSegmentE = Module['__ZTVN7msdfgen11EdgeSegmentE'] = 263908;
+var __ZTVN7msdfgen16QuadraticSegmentE = Module['__ZTVN7msdfgen16QuadraticSegmentE'] = 263804;
+var __ZTVN7msdfgen12CubicSegmentE = Module['__ZTVN7msdfgen12CubicSegmentE'] = 263856;
+var __ZTIN7msdfgen13LinearSegmentE = Module['__ZTIN7msdfgen13LinearSegmentE'] = 263968;
+var __ZTIN7msdfgen16QuadraticSegmentE = Module['__ZTIN7msdfgen16QuadraticSegmentE'] = 263980;
+var __ZTIN7msdfgen12CubicSegmentE = Module['__ZTIN7msdfgen12CubicSegmentE'] = 263992;
+var __ZTIN7msdfgen11EdgeSegmentE = Module['__ZTIN7msdfgen11EdgeSegmentE'] = 263960;
 var __ZTSN7msdfgen11EdgeSegmentE = Module['__ZTSN7msdfgen11EdgeSegmentE'] = 51640;
 var __ZTSN7msdfgen13LinearSegmentE = Module['__ZTSN7msdfgen13LinearSegmentE'] = 51664;
 var __ZTSN7msdfgen16QuadraticSegmentE = Module['__ZTSN7msdfgen16QuadraticSegmentE'] = 51690;
 var __ZTSN7msdfgen12CubicSegmentE = Module['__ZTSN7msdfgen12CubicSegmentE'] = 51719;
-var __ZN7msdfgen14SignedDistance8INFINITEE = Module['__ZN7msdfgen14SignedDistance8INFINITEE'] = 286256;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 263692;
-var __ZTVNSt3__219__shared_weak_countE = Module['__ZTVNSt3__219__shared_weak_countE'] = 275488;
-var __ZTVNSt3__214__shared_countE = Module['__ZTVNSt3__214__shared_countE'] = 275460;
-var __ZTVN6json118JsonNullE = Module['__ZTVN6json118JsonNullE'] = 263732;
-var __ZTVN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 263820;
-var __ZTVN6json119JsonValueE = Module['__ZTVN6json119JsonValueE'] = 263444;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 263884;
-var __ZTVN6json1111JsonBooleanE = Module['__ZTVN6json1111JsonBooleanE'] = 263924;
-var __ZTVN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE2EbEE'] = 264012;
-var __ZTVN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 264076;
-var __ZTVN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 264140;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 264204;
-var __ZTVN6json1110JsonDoubleE = Module['__ZTVN6json1110JsonDoubleE'] = 264244;
-var __ZTVN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE1EdEE'] = 264332;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 264396;
-var __ZTVN6json117JsonIntE = Module['__ZTVN6json117JsonIntE'] = 264436;
-var __ZTVN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE1EiEE'] = 264524;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 264588;
-var __ZTVN6json1110JsonStringE = Module['__ZTVN6json1110JsonStringE'] = 264628;
-var __ZTVN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 264716;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 264780;
-var __ZTVN6json119JsonArrayE = Module['__ZTVN6json119JsonArrayE'] = 263516;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 264820;
-var __ZTVN6json1110JsonObjectE = Module['__ZTVN6json1110JsonObjectE'] = 263604;
-var __ZTIN6json119JsonValueE = Module['__ZTIN6json119JsonValueE'] = 263508;
+var __ZN7msdfgen14SignedDistance8INFINITEE = Module['__ZN7msdfgen14SignedDistance8INFINITEE'] = 286816;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 264252;
+var __ZTVNSt3__219__shared_weak_countE = Module['__ZTVNSt3__219__shared_weak_countE'] = 276048;
+var __ZTVNSt3__214__shared_countE = Module['__ZTVNSt3__214__shared_countE'] = 276020;
+var __ZTVN6json118JsonNullE = Module['__ZTVN6json118JsonNullE'] = 264292;
+var __ZTVN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 264380;
+var __ZTVN6json119JsonValueE = Module['__ZTVN6json119JsonValueE'] = 264004;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 264444;
+var __ZTVN6json1111JsonBooleanE = Module['__ZTVN6json1111JsonBooleanE'] = 264484;
+var __ZTVN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE2EbEE'] = 264572;
+var __ZTVN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 264636;
+var __ZTVN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 264700;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 264764;
+var __ZTVN6json1110JsonDoubleE = Module['__ZTVN6json1110JsonDoubleE'] = 264804;
+var __ZTVN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE1EdEE'] = 264892;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 264956;
+var __ZTVN6json117JsonIntE = Module['__ZTVN6json117JsonIntE'] = 264996;
+var __ZTVN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE1EiEE'] = 265084;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 265148;
+var __ZTVN6json1110JsonStringE = Module['__ZTVN6json1110JsonStringE'] = 265188;
+var __ZTVN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 265276;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 265340;
+var __ZTVN6json119JsonArrayE = Module['__ZTVN6json119JsonArrayE'] = 264076;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 265380;
+var __ZTVN6json1110JsonObjectE = Module['__ZTVN6json1110JsonObjectE'] = 264164;
+var __ZTIN6json119JsonValueE = Module['__ZTIN6json119JsonValueE'] = 264068;
 var __ZTSN6json119JsonValueE = Module['__ZTSN6json119JsonValueE'] = 52116;
-var __ZTIN6json119JsonArrayE = Module['__ZTIN6json119JsonArrayE'] = 263592;
+var __ZTIN6json119JsonArrayE = Module['__ZTIN6json119JsonArrayE'] = 264152;
 var __ZTSN6json119JsonArrayE = Module['__ZTSN6json119JsonArrayE'] = 52136;
 var __ZTSN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 52156;
-var __ZTIN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 263580;
-var __ZTIN6json1110JsonObjectE = Module['__ZTIN6json1110JsonObjectE'] = 263680;
+var __ZTIN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 264140;
+var __ZTIN6json1110JsonObjectE = Module['__ZTIN6json1110JsonObjectE'] = 264240;
 var __ZTSN6json1110JsonObjectE = Module['__ZTSN6json1110JsonObjectE'] = 52231;
 var __ZTSN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 52253;
-var __ZTIN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 263668;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 263720;
+var __ZTIN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 264228;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 264280;
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 52475;
-var __ZTINSt3__219__shared_weak_countE = Module['__ZTINSt3__219__shared_weak_countE'] = 275516;
-var __ZTIN6json118JsonNullE = Module['__ZTIN6json118JsonNullE'] = 263808;
+var __ZTINSt3__219__shared_weak_countE = Module['__ZTINSt3__219__shared_weak_countE'] = 276076;
+var __ZTIN6json118JsonNullE = Module['__ZTIN6json118JsonNullE'] = 264368;
 var __ZTSN6json118JsonNullE = Module['__ZTSN6json118JsonNullE'] = 52545;
 var __ZTSN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 52564;
-var __ZTIN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 263796;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 263912;
+var __ZTIN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 264356;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 264472;
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 52621;
-var __ZTIN6json1111JsonBooleanE = Module['__ZTIN6json1111JsonBooleanE'] = 264000;
+var __ZTIN6json1111JsonBooleanE = Module['__ZTIN6json1111JsonBooleanE'] = 264560;
 var __ZTSN6json1111JsonBooleanE = Module['__ZTSN6json1111JsonBooleanE'] = 52695;
 var __ZTSN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE2EbEE'] = 52718;
-var __ZTIN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE2EbEE'] = 263988;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 264232;
+var __ZTIN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE2EbEE'] = 264548;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 264792;
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 53459;
-var __ZTIN6json1110JsonDoubleE = Module['__ZTIN6json1110JsonDoubleE'] = 264320;
+var __ZTIN6json1110JsonDoubleE = Module['__ZTIN6json1110JsonDoubleE'] = 264880;
 var __ZTSN6json1110JsonDoubleE = Module['__ZTSN6json1110JsonDoubleE'] = 53532;
 var __ZTSN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE1EdEE'] = 53554;
-var __ZTIN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE1EdEE'] = 264308;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 264424;
+var __ZTIN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE1EdEE'] = 264868;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 264984;
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 53596;
-var __ZTIN6json117JsonIntE = Module['__ZTIN6json117JsonIntE'] = 264512;
+var __ZTIN6json117JsonIntE = Module['__ZTIN6json117JsonIntE'] = 265072;
 var __ZTSN6json117JsonIntE = Module['__ZTSN6json117JsonIntE'] = 53665;
 var __ZTSN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE1EiEE'] = 53683;
-var __ZTIN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE1EiEE'] = 264500;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 264616;
+var __ZTIN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE1EiEE'] = 265060;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 265176;
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 53722;
-var __ZTIN6json1110JsonStringE = Module['__ZTIN6json1110JsonStringE'] = 264704;
+var __ZTIN6json1110JsonStringE = Module['__ZTIN6json1110JsonStringE'] = 265264;
 var __ZTSN6json1110JsonStringE = Module['__ZTSN6json1110JsonStringE'] = 53795;
 var __ZTSN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 53817;
-var __ZTIN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 264692;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 264808;
+var __ZTIN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 265252;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 265368;
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 53958;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 264848;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 265408;
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 54029;
-var ___c_dot_utf8 = Module['___c_dot_utf8'] = 265868;
+var ___c_dot_utf8 = Module['___c_dot_utf8'] = 266428;
 var ___c_locale = Module['___c_locale'] = 65844;
-var ___c_dot_utf8_locale = Module['___c_dot_utf8_locale'] = 265896;
-var ___libc = Module['___libc'] = 286508;
-var ___progname = Module['___progname'] = 286500;
-var ___progname_full = Module['___progname_full'] = 286504;
-var ___hwcap = Module['___hwcap'] = 286572;
-var ___sysinfo = Module['___sysinfo'] = 286576;
-var _program_invocation_short_name = Module['_program_invocation_short_name'] = 286500;
-var _program_invocation_name = Module['_program_invocation_name'] = 286504;
-var _stdout = Module['_stdout'] = 266288;
-var ___stderr_used = Module['___stderr_used'] = 266140;
-var ___stdout_used = Module['___stdout_used'] = 266292;
-var _stdin = Module['_stdin'] = 266440;
-var ___stdin_used = Module['___stdin_used'] = 266444;
-var ___environ = Module['___environ'] = 290228;
-var ___seed48 = Module['___seed48'] = 266592;
-var ___pio2_hi = Module['___pio2_hi'] = 223920;
-var ___pio2_lo = Module['___pio2_lo'] = 223936;
-var ___signgam = Module['___signgam'] = 288996;
-var _signgam = Module['_signgam'] = 288996;
-var _atanlo = Module['_atanlo'] = 229440;
-var _atanhi = Module['_atanhi'] = 229376;
-var _aT = Module['_aT'] = 229504;
-var ___optreset = Module['___optreset'] = 289388;
-var _optind = Module['_optind'] = 266808;
-var ___optpos = Module['___optpos'] = 289392;
-var _optarg = Module['_optarg'] = 289396;
-var _optopt = Module['_optopt'] = 289400;
-var _opterr = Module['_opterr'] = 266812;
-var _optreset = Module['_optreset'] = 289388;
-var ___fsmu8 = Module['___fsmu8'] = 233488;
-var __ns_flagdata = Module['__ns_flagdata'] = 234512;
-var _h_errno = Module['_h_errno'] = 289504;
-var ____environ = Module['____environ'] = 290228;
-var __environ = Module['__environ'] = 290228;
-var _environ = Module['_environ'] = 290228;
-var ___env_map = Module['___env_map'] = 290236;
-var _tzname = Module['_tzname'] = 290240;
-var _daylight = Module['_daylight'] = 290248;
-var _timezone = Module['_timezone'] = 290252;
-var ___data_end = Module['___data_end'] = 301712;
-var ___THREW__ = Module['___THREW__'] = 294420;
-var ___threwValue = Module['___threwValue'] = 294424;
-var __ZTVNSt3__212system_errorE = Module['__ZTVNSt3__212system_errorE'] = 267228;
-var __ZTVNSt3__224__generic_error_categoryE = Module['__ZTVNSt3__224__generic_error_categoryE'] = 267152;
-var __ZTINSt3__224__generic_error_categoryE = Module['__ZTINSt3__224__generic_error_categoryE'] = 267340;
-var __ZTVNSt3__223__system_error_categoryE = Module['__ZTVNSt3__223__system_error_categoryE'] = 267192;
-var __ZTINSt3__223__system_error_categoryE = Module['__ZTINSt3__223__system_error_categoryE'] = 267352;
-var __ZTINSt3__212system_errorE = Module['__ZTINSt3__212system_errorE'] = 267364;
-var __ZTVNSt3__214error_categoryE = Module['__ZTVNSt3__214error_categoryE'] = 267248;
-var __ZTINSt3__214error_categoryE = Module['__ZTINSt3__214error_categoryE'] = 267284;
-var __ZTSNSt3__214error_categoryE = Module['__ZTSNSt3__214error_categoryE'] = 236667;
-var __ZTVNSt3__212__do_messageE = Module['__ZTVNSt3__212__do_messageE'] = 267292;
-var __ZTINSt3__212__do_messageE = Module['__ZTINSt3__212__do_messageE'] = 267328;
-var __ZTSNSt3__212__do_messageE = Module['__ZTSNSt3__212__do_messageE'] = 236692;
-var __ZTSNSt3__224__generic_error_categoryE = Module['__ZTSNSt3__224__generic_error_categoryE'] = 236715;
-var __ZTSNSt3__223__system_error_categoryE = Module['__ZTSNSt3__223__system_error_categoryE'] = 236750;
-var __ZTSNSt3__212system_errorE = Module['__ZTSNSt3__212system_errorE'] = 236784;
-var __ZTISt13runtime_error = Module['__ZTISt13runtime_error'] = 280728;
-var __ZTVSt12bad_any_cast = Module['__ZTVSt12bad_any_cast'] = 267376;
-var __ZTISt12bad_any_cast = Module['__ZTISt12bad_any_cast'] = 267396;
-var __ZTSSt12bad_any_cast = Module['__ZTSSt12bad_any_cast'] = 236837;
-var __ZTVNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTVNSt12experimental15fundamentals_v112bad_any_castE'] = 267408;
-var __ZTINSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTINSt12experimental15fundamentals_v112bad_any_castE'] = 267428;
-var __ZTSNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTSNSt12experimental15fundamentals_v112bad_any_castE'] = 236854;
-var __ZNSt3__212__rs_default4__c_E = Module['__ZNSt3__212__rs_default4__c_E'] = 294436;
-var __ZTVSt18bad_variant_access = Module['__ZTVSt18bad_variant_access'] = 267440;
-var __ZTISt18bad_variant_access = Module['__ZTISt18bad_variant_access'] = 267460;
-var __ZTSSt18bad_variant_access = Module['__ZTSSt18bad_variant_access'] = 237083;
-var __ZTISt9exception = Module['__ZTISt9exception'] = 280464;
-var __ZSt7nothrow = Module['__ZSt7nothrow'] = 237106;
-var __ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 267472;
-var __ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 267536;
-var __ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 267640;
-var __ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 267688;
-var __ZNSt3__25ctypeIwE2idE = Module['__ZNSt3__25ctypeIwE2idE'] = 298304;
-var __ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 267736;
-var __ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298140;
-var __ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 267784;
-var __ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298148;
-var __ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 267852;
-var __ZTVNSt3__28ios_base7failureE = Module['__ZTVNSt3__28ios_base7failureE'] = 267920;
-var __ZNSt3__28ios_base9__xindex_E = Module['__ZNSt3__28ios_base9__xindex_E'] = 296976;
-var __ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298124;
-var __ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298132;
-var __ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 268032;
-var __ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 267600;
-var __ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 267648;
-var __ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 268064;
-var __ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 267696;
-var __ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 267744;
-var __ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 268112;
-var __ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 267792;
-var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 268136;
-var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 268176;
-var __ZTVNSt3__219__iostream_categoryE = Module['__ZTVNSt3__219__iostream_categoryE'] = 267884;
-var __ZTINSt3__219__iostream_categoryE = Module['__ZTINSt3__219__iostream_categoryE'] = 268248;
-var __ZTINSt3__28ios_base7failureE = Module['__ZTINSt3__28ios_base7failureE'] = 268260;
-var __ZNSt3__28ios_base9boolalphaE = Module['__ZNSt3__28ios_base9boolalphaE'] = 237152;
-var __ZNSt3__28ios_base3decE = Module['__ZNSt3__28ios_base3decE'] = 237156;
-var __ZNSt3__28ios_base5fixedE = Module['__ZNSt3__28ios_base5fixedE'] = 237160;
-var __ZNSt3__28ios_base3hexE = Module['__ZNSt3__28ios_base3hexE'] = 237164;
-var __ZNSt3__28ios_base8internalE = Module['__ZNSt3__28ios_base8internalE'] = 237168;
-var __ZNSt3__28ios_base4leftE = Module['__ZNSt3__28ios_base4leftE'] = 237172;
-var __ZNSt3__28ios_base3octE = Module['__ZNSt3__28ios_base3octE'] = 237176;
-var __ZNSt3__28ios_base5rightE = Module['__ZNSt3__28ios_base5rightE'] = 237180;
-var __ZNSt3__28ios_base10scientificE = Module['__ZNSt3__28ios_base10scientificE'] = 237184;
-var __ZNSt3__28ios_base8showbaseE = Module['__ZNSt3__28ios_base8showbaseE'] = 237188;
-var __ZNSt3__28ios_base9showpointE = Module['__ZNSt3__28ios_base9showpointE'] = 237192;
-var __ZNSt3__28ios_base7showposE = Module['__ZNSt3__28ios_base7showposE'] = 237196;
-var __ZNSt3__28ios_base6skipwsE = Module['__ZNSt3__28ios_base6skipwsE'] = 237200;
-var __ZNSt3__28ios_base7unitbufE = Module['__ZNSt3__28ios_base7unitbufE'] = 237204;
-var __ZNSt3__28ios_base9uppercaseE = Module['__ZNSt3__28ios_base9uppercaseE'] = 237208;
-var __ZNSt3__28ios_base11adjustfieldE = Module['__ZNSt3__28ios_base11adjustfieldE'] = 237212;
-var __ZNSt3__28ios_base9basefieldE = Module['__ZNSt3__28ios_base9basefieldE'] = 237216;
-var __ZNSt3__28ios_base10floatfieldE = Module['__ZNSt3__28ios_base10floatfieldE'] = 237220;
-var __ZNSt3__28ios_base6badbitE = Module['__ZNSt3__28ios_base6badbitE'] = 237224;
-var __ZNSt3__28ios_base6eofbitE = Module['__ZNSt3__28ios_base6eofbitE'] = 237228;
-var __ZNSt3__28ios_base7failbitE = Module['__ZNSt3__28ios_base7failbitE'] = 237232;
-var __ZNSt3__28ios_base7goodbitE = Module['__ZNSt3__28ios_base7goodbitE'] = 237236;
-var __ZNSt3__28ios_base3appE = Module['__ZNSt3__28ios_base3appE'] = 237240;
-var __ZNSt3__28ios_base3ateE = Module['__ZNSt3__28ios_base3ateE'] = 237244;
-var __ZNSt3__28ios_base6binaryE = Module['__ZNSt3__28ios_base6binaryE'] = 237248;
-var __ZNSt3__28ios_base2inE = Module['__ZNSt3__28ios_base2inE'] = 237252;
-var __ZNSt3__28ios_base3outE = Module['__ZNSt3__28ios_base3outE'] = 237256;
-var __ZNSt3__28ios_base5truncE = Module['__ZNSt3__28ios_base5truncE'] = 237260;
-var __ZTINSt3__28ios_baseE = Module['__ZTINSt3__28ios_baseE'] = 267960;
-var __ZTSNSt3__28ios_baseE = Module['__ZTSNSt3__28ios_baseE'] = 237280;
-var __ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 267984;
-var __ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 237298;
-var __ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 267996;
-var __ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 268012;
-var __ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 237340;
-var __ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 237382;
-var __ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 237431;
-var __ZTSNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 237480;
-var __ZTVN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTVN10__cxxabiv121__vmi_class_type_infoE'] = 282244;
-var __ZTSNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 237527;
-var __ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 237574;
-var __ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 237621;
-var __ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 237668;
-var __ZTSNSt3__219__iostream_categoryE = Module['__ZTSNSt3__219__iostream_categoryE'] = 237716;
-var __ZTSNSt3__28ios_base7failureE = Module['__ZTSNSt3__28ios_base7failureE'] = 237746;
-var __ZNSt3__219__start_std_streamsE = Module['__ZNSt3__219__start_std_streamsE'] = 297668;
-var __ZNSt3__23cinE = Module['__ZNSt3__23cinE'] = 296988;
-var __ZNSt3__24wcinE = Module['__ZNSt3__24wcinE'] = 297076;
-var __ZNSt3__25wcoutE = Module['__ZNSt3__25wcoutE'] = 297248;
-var __ZNSt3__24clogE = Module['__ZNSt3__24clogE'] = 297500;
-var __ZNSt3__25wcerrE = Module['__ZNSt3__25wcerrE'] = 297416;
-var __ZNSt3__25wclogE = Module['__ZNSt3__25wclogE'] = 297584;
-var __ZTVNSt3__210__stdinbufIcEE = Module['__ZTVNSt3__210__stdinbufIcEE'] = 268272;
-var __ZTVNSt3__210__stdinbufIwEE = Module['__ZTVNSt3__210__stdinbufIwEE'] = 268348;
-var __ZTVNSt3__211__stdoutbufIcEE = Module['__ZTVNSt3__211__stdoutbufIcEE'] = 268424;
-var __ZTVNSt3__211__stdoutbufIwEE = Module['__ZTVNSt3__211__stdoutbufIwEE'] = 268500;
-var __ZNSt3__27codecvtIwc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIwc11__mbstate_tE2idE'] = 298328;
-var __ZTINSt3__210__stdinbufIcEE = Module['__ZTINSt3__210__stdinbufIcEE'] = 268336;
-var __ZTSNSt3__210__stdinbufIcEE = Module['__ZTSNSt3__210__stdinbufIcEE'] = 237846;
-var __ZTINSt3__210__stdinbufIwEE = Module['__ZTINSt3__210__stdinbufIwEE'] = 268412;
-var __ZTSNSt3__210__stdinbufIwEE = Module['__ZTSNSt3__210__stdinbufIwEE'] = 237908;
-var __ZTINSt3__211__stdoutbufIcEE = Module['__ZTINSt3__211__stdoutbufIcEE'] = 268488;
-var __ZTSNSt3__211__stdoutbufIcEE = Module['__ZTSNSt3__211__stdoutbufIcEE'] = 237932;
-var __ZTINSt3__211__stdoutbufIwEE = Module['__ZTINSt3__211__stdoutbufIwEE'] = 268564;
-var __ZTSNSt3__211__stdoutbufIwEE = Module['__ZTSNSt3__211__stdoutbufIwEE'] = 237957;
-var __ZNSt3__210defer_lockE = Module['__ZNSt3__210defer_lockE'] = 237982;
-var __ZNSt3__211try_to_lockE = Module['__ZNSt3__211try_to_lockE'] = 237983;
-var __ZNSt3__210adopt_lockE = Module['__ZNSt3__210adopt_lockE'] = 237984;
-var __ZNSt3__212placeholders2_1E = Module['__ZNSt3__212placeholders2_1E'] = 238550;
-var __ZNSt3__212placeholders2_2E = Module['__ZNSt3__212placeholders2_2E'] = 238551;
-var __ZNSt3__212placeholders2_3E = Module['__ZNSt3__212placeholders2_3E'] = 238552;
-var __ZNSt3__212placeholders2_4E = Module['__ZNSt3__212placeholders2_4E'] = 238553;
-var __ZNSt3__212placeholders2_5E = Module['__ZNSt3__212placeholders2_5E'] = 238554;
-var __ZNSt3__212placeholders2_6E = Module['__ZNSt3__212placeholders2_6E'] = 238555;
-var __ZNSt3__212placeholders2_7E = Module['__ZNSt3__212placeholders2_7E'] = 238556;
-var __ZNSt3__212placeholders2_8E = Module['__ZNSt3__212placeholders2_8E'] = 238557;
-var __ZNSt3__212placeholders2_9E = Module['__ZNSt3__212placeholders2_9E'] = 238558;
-var __ZNSt3__212placeholders3_10E = Module['__ZNSt3__212placeholders3_10E'] = 238559;
-var __ZNSt3__28numpunctIcE2idE = Module['__ZNSt3__28numpunctIcE2idE'] = 298352;
-var __ZNSt3__214__num_get_base5__srcE = Module['__ZNSt3__214__num_get_base5__srcE'] = 238560;
-var __ZNSt3__28numpunctIwE2idE = Module['__ZNSt3__28numpunctIwE2idE'] = 298360;
-var __ZNSt3__210moneypunctIcLb1EE2idE = Module['__ZNSt3__210moneypunctIcLb1EE2idE'] = 298196;
-var __ZNSt3__210moneypunctIcLb0EE2idE = Module['__ZNSt3__210moneypunctIcLb0EE2idE'] = 298188;
-var __ZNSt3__210moneypunctIwLb1EE2idE = Module['__ZNSt3__210moneypunctIwLb1EE2idE'] = 298212;
-var __ZNSt3__210moneypunctIwLb0EE2idE = Module['__ZNSt3__210moneypunctIwLb0EE2idE'] = 298204;
-var __ZTVNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm32EEE'] = 269488;
-var __ZTVNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm32EEE'] = 269608;
-var __ZTVNSt3__26locale5__impE = Module['__ZTVNSt3__26locale5__impE'] = 268576;
-var __ZTVNSt3__26locale5facetE = Module['__ZTVNSt3__26locale5facetE'] = 269040;
-var __ZNSt3__27collateIcE2idE = Module['__ZNSt3__27collateIcE2idE'] = 298108;
-var __ZNSt3__27collateIwE2idE = Module['__ZNSt3__27collateIwE2idE'] = 298116;
-var __ZNSt3__27codecvtIDsc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDsc11__mbstate_tE2idE'] = 298336;
-var __ZNSt3__27codecvtIDic11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDic11__mbstate_tE2idE'] = 298344;
-var __ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298220;
-var __ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298228;
-var __ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298236;
-var __ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298244;
-var __ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298156;
-var __ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298164;
-var __ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298172;
-var __ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298180;
-var __ZNSt3__28messagesIcE2idE = Module['__ZNSt3__28messagesIcE2idE'] = 298252;
-var __ZNSt3__28messagesIwE2idE = Module['__ZNSt3__28messagesIwE2idE'] = 298260;
-var __ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 273032;
-var __ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 273092;
-var __ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 273152;
-var __ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 273212;
-var __ZTVNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb0EEE'] = 272264;
-var __ZTVNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb1EEE'] = 272332;
-var __ZTVNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb0EEE'] = 272400;
-var __ZTVNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb1EEE'] = 272468;
-var __ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271392;
-var __ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271556;
-var __ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271832;
-var __ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271868;
-var __ZTVNSt3__215messages_bynameIcEE = Module['__ZTVNSt3__215messages_bynameIcEE'] = 272944;
-var __ZTVNSt3__215messages_bynameIwEE = Module['__ZTVNSt3__215messages_bynameIwEE'] = 272988;
-var __ZNSt3__26locale2id9__next_idE = Module['__ZNSt3__26locale2id9__next_idE'] = 298300;
-var __ZTVNSt3__214collate_bynameIcEE = Module['__ZTVNSt3__214collate_bynameIcEE'] = 268596;
-var __ZTVNSt3__214collate_bynameIwEE = Module['__ZTVNSt3__214collate_bynameIwEE'] = 268628;
-var __ZTVNSt3__25ctypeIcEE = Module['__ZTVNSt3__25ctypeIcEE'] = 268660;
-var __ZTVNSt3__212ctype_bynameIcEE = Module['__ZTVNSt3__212ctype_bynameIcEE'] = 268712;
-var __ZTVNSt3__212ctype_bynameIwEE = Module['__ZTVNSt3__212ctype_bynameIwEE'] = 268764;
-var __ZTVNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIwc11__mbstate_tEE'] = 268832;
-var __ZTVNSt3__28numpunctIcEE = Module['__ZTVNSt3__28numpunctIcEE'] = 268880;
-var __ZTVNSt3__28numpunctIwEE = Module['__ZTVNSt3__28numpunctIwEE'] = 268920;
-var __ZTVNSt3__215numpunct_bynameIcEE = Module['__ZTVNSt3__215numpunct_bynameIcEE'] = 268960;
-var __ZTVNSt3__215numpunct_bynameIwEE = Module['__ZTVNSt3__215numpunct_bynameIwEE'] = 269000;
-var __ZTVNSt3__215__time_get_tempIcEE = Module['__ZTVNSt3__215__time_get_tempIcEE'] = 273344;
-var __ZTVNSt3__215__time_get_tempIwEE = Module['__ZTVNSt3__215__time_get_tempIwEE'] = 273408;
-var __ZTVNSt3__27collateIcEE = Module['__ZTVNSt3__27collateIcEE'] = 270584;
-var __ZTVNSt3__27collateIwEE = Module['__ZTVNSt3__27collateIwEE'] = 270616;
-var __ZTVNSt3__25ctypeIwEE = Module['__ZTVNSt3__25ctypeIwEE'] = 269072;
-var __ZTVNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIcc11__mbstate_tEE'] = 269180;
-var __ZTVNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDsc11__mbstate_tEE'] = 269268;
-var __ZTVNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDic11__mbstate_tEE'] = 269348;
-var __ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 270648;
-var __ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 270776;
-var __ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 270896;
-var __ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271012;
-var __ZTVNSt3__210moneypunctIcLb0EEE = Module['__ZTVNSt3__210moneypunctIcLb0EEE'] = 271904;
-var __ZTVNSt3__210moneypunctIcLb1EEE = Module['__ZTVNSt3__210moneypunctIcLb1EEE'] = 272000;
-var __ZTVNSt3__210moneypunctIwLb0EEE = Module['__ZTVNSt3__210moneypunctIwLb0EEE'] = 272088;
-var __ZTVNSt3__210moneypunctIwLb1EEE = Module['__ZTVNSt3__210moneypunctIwLb1EEE'] = 272176;
-var __ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272536;
-var __ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272604;
-var __ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272672;
-var __ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272740;
-var __ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271120;
-var __ZTVNSt3__220__time_get_c_storageIcEE = Module['__ZTVNSt3__220__time_get_c_storageIcEE'] = 273272;
-var __ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271260;
-var __ZTVNSt3__220__time_get_c_storageIwEE = Module['__ZTVNSt3__220__time_get_c_storageIwEE'] = 273308;
-var __ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271712;
-var __ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271776;
-var __ZTVNSt3__28messagesIcEE = Module['__ZTVNSt3__28messagesIcEE'] = 272808;
-var __ZTVNSt3__28messagesIwEE = Module['__ZTVNSt3__28messagesIwEE'] = 272880;
-var __ZNSt3__210moneypunctIcLb0EE4intlE = Module['__ZNSt3__210moneypunctIcLb0EE4intlE'] = 238816;
-var __ZNSt3__210moneypunctIcLb1EE4intlE = Module['__ZNSt3__210moneypunctIcLb1EE4intlE'] = 238817;
-var __ZNSt3__210moneypunctIwLb0EE4intlE = Module['__ZNSt3__210moneypunctIwLb0EE4intlE'] = 238818;
-var __ZNSt3__210moneypunctIwLb1EE4intlE = Module['__ZNSt3__210moneypunctIwLb1EE4intlE'] = 238819;
-var __ZNSt3__26locale4noneE = Module['__ZNSt3__26locale4noneE'] = 238844;
-var __ZNSt3__26locale7collateE = Module['__ZNSt3__26locale7collateE'] = 238848;
-var __ZNSt3__26locale5ctypeE = Module['__ZNSt3__26locale5ctypeE'] = 238852;
-var __ZNSt3__26locale8monetaryE = Module['__ZNSt3__26locale8monetaryE'] = 238856;
-var __ZNSt3__26locale7numericE = Module['__ZNSt3__26locale7numericE'] = 238860;
-var __ZNSt3__26locale4timeE = Module['__ZNSt3__26locale4timeE'] = 238864;
-var __ZNSt3__26locale8messagesE = Module['__ZNSt3__26locale8messagesE'] = 238868;
-var __ZNSt3__26locale3allE = Module['__ZNSt3__26locale3allE'] = 238872;
-var __ZTINSt3__26locale5__impE = Module['__ZTINSt3__26locale5__impE'] = 270420;
-var __ZTINSt3__214collate_bynameIcEE = Module['__ZTINSt3__214collate_bynameIcEE'] = 270444;
-var __ZTINSt3__214collate_bynameIwEE = Module['__ZTINSt3__214collate_bynameIwEE'] = 270468;
-var __ZNSt3__210ctype_base5spaceE = Module['__ZNSt3__210ctype_base5spaceE'] = 239018;
-var __ZNSt3__210ctype_base5printE = Module['__ZNSt3__210ctype_base5printE'] = 239020;
-var __ZNSt3__210ctype_base5cntrlE = Module['__ZNSt3__210ctype_base5cntrlE'] = 239022;
-var __ZNSt3__210ctype_base5upperE = Module['__ZNSt3__210ctype_base5upperE'] = 239024;
-var __ZNSt3__210ctype_base5lowerE = Module['__ZNSt3__210ctype_base5lowerE'] = 239026;
-var __ZNSt3__210ctype_base5alphaE = Module['__ZNSt3__210ctype_base5alphaE'] = 239028;
-var __ZNSt3__210ctype_base5digitE = Module['__ZNSt3__210ctype_base5digitE'] = 239030;
-var __ZNSt3__210ctype_base5punctE = Module['__ZNSt3__210ctype_base5punctE'] = 239032;
-var __ZNSt3__210ctype_base6xdigitE = Module['__ZNSt3__210ctype_base6xdigitE'] = 239034;
-var __ZNSt3__210ctype_base5blankE = Module['__ZNSt3__210ctype_base5blankE'] = 239036;
-var __ZNSt3__210ctype_base5alnumE = Module['__ZNSt3__210ctype_base5alnumE'] = 239038;
-var __ZNSt3__210ctype_base5graphE = Module['__ZNSt3__210ctype_base5graphE'] = 239040;
-var __ZTINSt3__25ctypeIcEE = Module['__ZTINSt3__25ctypeIcEE'] = 270480;
-var __ZTINSt3__212ctype_bynameIcEE = Module['__ZTINSt3__212ctype_bynameIcEE'] = 270512;
-var __ZTINSt3__212ctype_bynameIwEE = Module['__ZTINSt3__212ctype_bynameIwEE'] = 270524;
-var __ZTINSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIwc11__mbstate_tEE'] = 269716;
-var __ZTINSt3__28numpunctIcEE = Module['__ZTINSt3__28numpunctIcEE'] = 270536;
-var __ZTINSt3__28numpunctIwEE = Module['__ZTINSt3__28numpunctIwEE'] = 270548;
-var __ZTINSt3__215numpunct_bynameIcEE = Module['__ZTINSt3__215numpunct_bynameIcEE'] = 270560;
-var __ZTINSt3__215numpunct_bynameIwEE = Module['__ZTINSt3__215numpunct_bynameIwEE'] = 270572;
-var __ZTINSt3__26locale5facetE = Module['__ZTINSt3__26locale5facetE'] = 269060;
-var __ZTSNSt3__26locale5facetE = Module['__ZTSNSt3__26locale5facetE'] = 239844;
-var __ZTINSt3__214__shared_countE = Module['__ZTINSt3__214__shared_countE'] = 275480;
-var __ZTINSt3__25ctypeIwEE = Module['__ZTINSt3__25ctypeIwEE'] = 269148;
-var __ZTSNSt3__25ctypeIwEE = Module['__ZTSNSt3__25ctypeIwEE'] = 239866;
-var __ZTSNSt3__210ctype_baseE = Module['__ZTSNSt3__210ctype_baseE'] = 239884;
-var __ZTINSt3__210ctype_baseE = Module['__ZTINSt3__210ctype_baseE'] = 269140;
-var __ZTINSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIcc11__mbstate_tEE'] = 269236;
-var __ZTSNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIcc11__mbstate_tEE'] = 239905;
-var __ZTSNSt3__212codecvt_baseE = Module['__ZTSNSt3__212codecvt_baseE'] = 239939;
-var __ZTINSt3__212codecvt_baseE = Module['__ZTINSt3__212codecvt_baseE'] = 269228;
-var __ZTINSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDsc11__mbstate_tEE'] = 269316;
-var __ZTSNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDsc11__mbstate_tEE'] = 239962;
-var __ZTINSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDic11__mbstate_tEE'] = 269396;
-var __ZTSNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDic11__mbstate_tEE'] = 239997;
-var __ZTVNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm16EEE'] = 269428;
-var __ZTINSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm16EEE'] = 269476;
-var __ZTSNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm16EEE'] = 240032;
-var __ZTINSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm32EEE'] = 269536;
-var __ZTSNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm32EEE'] = 240066;
-var __ZTVNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm16EEE'] = 269548;
-var __ZTINSt3__217__widen_from_utf8ILm16EEE = Module['__ZTINSt3__217__widen_from_utf8ILm16EEE'] = 269596;
-var __ZTSNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm16EEE'] = 240100;
-var __ZTINSt3__217__widen_from_utf8ILm32EEE = Module['__ZTINSt3__217__widen_from_utf8ILm32EEE'] = 269656;
-var __ZTSNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm32EEE'] = 240135;
-var __ZTVNSt3__214__codecvt_utf8IwEE = Module['__ZTVNSt3__214__codecvt_utf8IwEE'] = 269668;
-var __ZTINSt3__214__codecvt_utf8IwEE = Module['__ZTINSt3__214__codecvt_utf8IwEE'] = 269748;
-var __ZTSNSt3__214__codecvt_utf8IwEE = Module['__ZTSNSt3__214__codecvt_utf8IwEE'] = 240170;
-var __ZTSNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIwc11__mbstate_tEE'] = 240198;
-var __ZTVNSt3__214__codecvt_utf8IDsEE = Module['__ZTVNSt3__214__codecvt_utf8IDsEE'] = 269760;
-var __ZTINSt3__214__codecvt_utf8IDsEE = Module['__ZTINSt3__214__codecvt_utf8IDsEE'] = 269808;
-var __ZTSNSt3__214__codecvt_utf8IDsEE = Module['__ZTSNSt3__214__codecvt_utf8IDsEE'] = 240232;
-var __ZTVNSt3__214__codecvt_utf8IDiEE = Module['__ZTVNSt3__214__codecvt_utf8IDiEE'] = 269820;
-var __ZTINSt3__214__codecvt_utf8IDiEE = Module['__ZTINSt3__214__codecvt_utf8IDiEE'] = 269868;
-var __ZTSNSt3__214__codecvt_utf8IDiEE = Module['__ZTSNSt3__214__codecvt_utf8IDiEE'] = 240261;
-var __ZTVNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb0EEE'] = 269880;
-var __ZTINSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb0EEE'] = 269928;
-var __ZTSNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb0EEE'] = 240290;
-var __ZTVNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb1EEE'] = 269940;
-var __ZTINSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb1EEE'] = 269988;
-var __ZTSNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb1EEE'] = 240323;
-var __ZTVNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb0EEE'] = 270000;
-var __ZTINSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb0EEE'] = 270048;
-var __ZTSNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb0EEE'] = 240356;
-var __ZTVNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb1EEE'] = 270060;
-var __ZTINSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb1EEE'] = 270108;
-var __ZTSNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb1EEE'] = 240390;
-var __ZTVNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb0EEE'] = 270120;
-var __ZTINSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb0EEE'] = 270168;
-var __ZTSNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb0EEE'] = 240424;
-var __ZTVNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb1EEE'] = 270180;
-var __ZTINSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb1EEE'] = 270228;
-var __ZTSNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb1EEE'] = 240458;
-var __ZTVNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IwEE'] = 270240;
-var __ZTINSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IwEE'] = 270288;
-var __ZTSNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IwEE'] = 240492;
-var __ZTVNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDiEE'] = 270300;
-var __ZTINSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDiEE'] = 270348;
-var __ZTSNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDiEE'] = 240526;
-var __ZTVNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDsEE'] = 270360;
-var __ZTINSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDsEE'] = 270408;
-var __ZTSNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDsEE'] = 240561;
-var __ZTSNSt3__26locale5__impE = Module['__ZTSNSt3__26locale5__impE'] = 240596;
-var __ZTSNSt3__214collate_bynameIcEE = Module['__ZTSNSt3__214collate_bynameIcEE'] = 240618;
-var __ZTSNSt3__27collateIcEE = Module['__ZTSNSt3__27collateIcEE'] = 240646;
-var __ZTINSt3__27collateIcEE = Module['__ZTINSt3__27collateIcEE'] = 270432;
-var __ZTSNSt3__214collate_bynameIwEE = Module['__ZTSNSt3__214collate_bynameIwEE'] = 240666;
-var __ZTSNSt3__27collateIwEE = Module['__ZTSNSt3__27collateIwEE'] = 240694;
-var __ZTINSt3__27collateIwEE = Module['__ZTINSt3__27collateIwEE'] = 270456;
-var __ZTSNSt3__25ctypeIcEE = Module['__ZTSNSt3__25ctypeIcEE'] = 240714;
-var __ZTSNSt3__212ctype_bynameIcEE = Module['__ZTSNSt3__212ctype_bynameIcEE'] = 240732;
-var __ZTSNSt3__212ctype_bynameIwEE = Module['__ZTSNSt3__212ctype_bynameIwEE'] = 240758;
-var __ZTSNSt3__28numpunctIcEE = Module['__ZTSNSt3__28numpunctIcEE'] = 240784;
-var __ZTSNSt3__28numpunctIwEE = Module['__ZTSNSt3__28numpunctIwEE'] = 240805;
-var __ZTSNSt3__215numpunct_bynameIcEE = Module['__ZTSNSt3__215numpunct_bynameIcEE'] = 240826;
-var __ZTSNSt3__215numpunct_bynameIwEE = Module['__ZTSNSt3__215numpunct_bynameIwEE'] = 240855;
-var __ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 270744;
-var __ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 240884;
-var __ZTSNSt3__29__num_getIcEE = Module['__ZTSNSt3__29__num_getIcEE'] = 240952;
-var __ZTSNSt3__214__num_get_baseE = Module['__ZTSNSt3__214__num_get_baseE'] = 240974;
-var __ZTINSt3__214__num_get_baseE = Module['__ZTINSt3__214__num_get_baseE'] = 270712;
-var __ZTINSt3__29__num_getIcEE = Module['__ZTINSt3__29__num_getIcEE'] = 270720;
-var __ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 270864;
-var __ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 240999;
-var __ZTSNSt3__29__num_getIwEE = Module['__ZTSNSt3__29__num_getIwEE'] = 241067;
-var __ZTINSt3__29__num_getIwEE = Module['__ZTINSt3__29__num_getIwEE'] = 270840;
-var __ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 270980;
-var __ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241089;
-var __ZTSNSt3__29__num_putIcEE = Module['__ZTSNSt3__29__num_putIcEE'] = 241157;
-var __ZTSNSt3__214__num_put_baseE = Module['__ZTSNSt3__214__num_put_baseE'] = 241179;
-var __ZTINSt3__214__num_put_baseE = Module['__ZTINSt3__214__num_put_baseE'] = 270948;
-var __ZTINSt3__29__num_putIcEE = Module['__ZTINSt3__29__num_putIcEE'] = 270956;
-var __ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271088;
-var __ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241204;
-var __ZTSNSt3__29__num_putIwEE = Module['__ZTSNSt3__29__num_putIwEE'] = 241272;
-var __ZTINSt3__29__num_putIwEE = Module['__ZTINSt3__29__num_putIwEE'] = 271064;
-var __ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271220;
-var __ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241294;
-var __ZTSNSt3__29time_baseE = Module['__ZTSNSt3__29time_baseE'] = 241363;
-var __ZTINSt3__29time_baseE = Module['__ZTINSt3__29time_baseE'] = 271204;
-var __ZTSNSt3__220__time_get_c_storageIcEE = Module['__ZTSNSt3__220__time_get_c_storageIcEE'] = 241382;
-var __ZTINSt3__220__time_get_c_storageIcEE = Module['__ZTINSt3__220__time_get_c_storageIcEE'] = 271212;
-var __ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271352;
-var __ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241416;
-var __ZTSNSt3__220__time_get_c_storageIwEE = Module['__ZTSNSt3__220__time_get_c_storageIwEE'] = 241485;
-var __ZTINSt3__220__time_get_c_storageIwEE = Module['__ZTINSt3__220__time_get_c_storageIwEE'] = 271344;
-var __ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271524;
-var __ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241519;
-var __ZTSNSt3__218__time_get_storageIcEE = Module['__ZTSNSt3__218__time_get_storageIcEE'] = 241596;
-var __ZTSNSt3__210__time_getE = Module['__ZTSNSt3__210__time_getE'] = 241628;
-var __ZTINSt3__210__time_getE = Module['__ZTINSt3__210__time_getE'] = 271504;
-var __ZTINSt3__218__time_get_storageIcEE = Module['__ZTINSt3__218__time_get_storageIcEE'] = 271512;
-var __ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271680;
-var __ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241649;
-var __ZTSNSt3__218__time_get_storageIwEE = Module['__ZTSNSt3__218__time_get_storageIwEE'] = 241726;
-var __ZTINSt3__218__time_get_storageIwEE = Module['__ZTINSt3__218__time_get_storageIwEE'] = 271668;
-var __ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271744;
-var __ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241758;
-var __ZTSNSt3__210__time_putE = Module['__ZTSNSt3__210__time_putE'] = 241827;
-var __ZTINSt3__210__time_putE = Module['__ZTINSt3__210__time_putE'] = 271736;
-var __ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271800;
-var __ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241848;
-var __ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271856;
-var __ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241917;
-var __ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271892;
-var __ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241994;
-var __ZTINSt3__210moneypunctIcLb0EEE = Module['__ZTINSt3__210moneypunctIcLb0EEE'] = 271968;
-var __ZTSNSt3__210moneypunctIcLb0EEE = Module['__ZTSNSt3__210moneypunctIcLb0EEE'] = 242071;
-var __ZTSNSt3__210money_baseE = Module['__ZTSNSt3__210money_baseE'] = 242099;
-var __ZTINSt3__210money_baseE = Module['__ZTINSt3__210money_baseE'] = 271960;
-var __ZTINSt3__210moneypunctIcLb1EEE = Module['__ZTINSt3__210moneypunctIcLb1EEE'] = 272056;
-var __ZTSNSt3__210moneypunctIcLb1EEE = Module['__ZTSNSt3__210moneypunctIcLb1EEE'] = 242120;
-var __ZTINSt3__210moneypunctIwLb0EEE = Module['__ZTINSt3__210moneypunctIwLb0EEE'] = 272144;
-var __ZTSNSt3__210moneypunctIwLb0EEE = Module['__ZTSNSt3__210moneypunctIwLb0EEE'] = 242148;
-var __ZTINSt3__210moneypunctIwLb1EEE = Module['__ZTINSt3__210moneypunctIwLb1EEE'] = 272232;
-var __ZTSNSt3__210moneypunctIwLb1EEE = Module['__ZTSNSt3__210moneypunctIwLb1EEE'] = 242176;
-var __ZTINSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb0EEE'] = 272320;
-var __ZTSNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb0EEE'] = 242204;
-var __ZTINSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb1EEE'] = 272388;
-var __ZTSNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb1EEE'] = 242239;
-var __ZTINSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb0EEE'] = 272456;
-var __ZTSNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb0EEE'] = 242274;
-var __ZTINSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb1EEE'] = 272524;
-var __ZTSNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb1EEE'] = 242309;
-var __ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272572;
-var __ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242344;
-var __ZTSNSt3__211__money_getIcEE = Module['__ZTSNSt3__211__money_getIcEE'] = 242414;
-var __ZTINSt3__211__money_getIcEE = Module['__ZTINSt3__211__money_getIcEE'] = 272564;
-var __ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272640;
-var __ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242439;
-var __ZTSNSt3__211__money_getIwEE = Module['__ZTSNSt3__211__money_getIwEE'] = 242509;
-var __ZTINSt3__211__money_getIwEE = Module['__ZTINSt3__211__money_getIwEE'] = 272632;
-var __ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272708;
-var __ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242534;
-var __ZTSNSt3__211__money_putIcEE = Module['__ZTSNSt3__211__money_putIcEE'] = 242604;
-var __ZTINSt3__211__money_putIcEE = Module['__ZTINSt3__211__money_putIcEE'] = 272700;
-var __ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272776;
-var __ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242629;
-var __ZTSNSt3__211__money_putIwEE = Module['__ZTSNSt3__211__money_putIwEE'] = 242699;
-var __ZTINSt3__211__money_putIwEE = Module['__ZTINSt3__211__money_putIwEE'] = 272768;
-var __ZTINSt3__28messagesIcEE = Module['__ZTINSt3__28messagesIcEE'] = 272848;
-var __ZTSNSt3__28messagesIcEE = Module['__ZTSNSt3__28messagesIcEE'] = 242724;
-var __ZTSNSt3__213messages_baseE = Module['__ZTSNSt3__213messages_baseE'] = 242745;
-var __ZTINSt3__213messages_baseE = Module['__ZTINSt3__213messages_baseE'] = 272840;
-var __ZTINSt3__28messagesIwEE = Module['__ZTINSt3__28messagesIwEE'] = 272912;
-var __ZTSNSt3__28messagesIwEE = Module['__ZTSNSt3__28messagesIwEE'] = 242769;
-var __ZTINSt3__215messages_bynameIcEE = Module['__ZTINSt3__215messages_bynameIcEE'] = 272976;
-var __ZTSNSt3__215messages_bynameIcEE = Module['__ZTSNSt3__215messages_bynameIcEE'] = 242790;
-var __ZTINSt3__215messages_bynameIwEE = Module['__ZTINSt3__215messages_bynameIwEE'] = 273020;
-var __ZTSNSt3__215messages_bynameIwEE = Module['__ZTSNSt3__215messages_bynameIwEE'] = 242819;
-var __ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 273080;
-var __ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 242848;
-var __ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 273140;
-var __ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 242890;
-var __ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 273200;
-var __ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 242932;
-var __ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 273260;
-var __ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 242975;
-var __ZTINSt3__215__time_get_tempIcEE = Module['__ZTINSt3__215__time_get_tempIcEE'] = 273396;
-var __ZTSNSt3__215__time_get_tempIcEE = Module['__ZTSNSt3__215__time_get_tempIcEE'] = 244196;
-var __ZTINSt3__215__time_get_tempIwEE = Module['__ZTINSt3__215__time_get_tempIwEE'] = 273476;
-var __ZTSNSt3__215__time_get_tempIwEE = Module['__ZTSNSt3__215__time_get_tempIwEE'] = 244225;
-var __ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE = Module['__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE'] = 244268;
-var __ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE = Module['__ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE'] = 244272;
-var __ZTVNSt3__212future_errorE = Module['__ZTVNSt3__212future_errorE'] = 273528;
-var __ZTVNSt3__217__assoc_sub_stateE = Module['__ZTVNSt3__217__assoc_sub_stateE'] = 273548;
-var __ZTVNSt3__223__future_error_categoryE = Module['__ZTVNSt3__223__future_error_categoryE'] = 273492;
-var __ZTINSt3__223__future_error_categoryE = Module['__ZTINSt3__223__future_error_categoryE'] = 273584;
-var __ZTINSt3__212future_errorE = Module['__ZTINSt3__212future_errorE'] = 273596;
-var __ZTINSt3__217__assoc_sub_stateE = Module['__ZTINSt3__217__assoc_sub_stateE'] = 273572;
-var __ZTSNSt3__217__assoc_sub_stateE = Module['__ZTSNSt3__217__assoc_sub_stateE'] = 245001;
-var __ZTSNSt3__223__future_error_categoryE = Module['__ZTSNSt3__223__future_error_categoryE'] = 245029;
-var __ZTSNSt3__212future_errorE = Module['__ZTSNSt3__212future_errorE'] = 245063;
-var __ZTISt11logic_error = Module['__ZTISt11logic_error'] = 280588;
-var __ZTVSt19bad_optional_access = Module['__ZTVSt19bad_optional_access'] = 273628;
-var __ZTISt19bad_optional_access = Module['__ZTISt19bad_optional_access'] = 273648;
-var __ZTSSt19bad_optional_access = Module['__ZTSSt19bad_optional_access'] = 245138;
-var __ZTVNSt12experimental19bad_optional_accessE = Module['__ZTVNSt12experimental19bad_optional_accessE'] = 273660;
-var __ZTINSt12experimental19bad_optional_accessE = Module['__ZTINSt12experimental19bad_optional_accessE'] = 273680;
-var __ZTSNSt12experimental19bad_optional_accessE = Module['__ZTSNSt12experimental19bad_optional_accessE'] = 245162;
-var __ZTVNSt3__217bad_function_callE = Module['__ZTVNSt3__217bad_function_callE'] = 273692;
-var __ZTINSt3__217bad_function_callE = Module['__ZTINSt3__217bad_function_callE'] = 273712;
-var __ZTSNSt3__217bad_function_callE = Module['__ZTSNSt3__217bad_function_callE'] = 245225;
-var __ZNSt3__26chrono12system_clock9is_steadyE = Module['__ZNSt3__26chrono12system_clock9is_steadyE'] = 245253;
-var __ZNSt3__26chrono12steady_clock9is_steadyE = Module['__ZNSt3__26chrono12steady_clock9is_steadyE'] = 245291;
-var __ZTVSt16nested_exception = Module['__ZTVSt16nested_exception'] = 273724;
-var __ZTISt16nested_exception = Module['__ZTISt16nested_exception'] = 273740;
-var __ZTSSt16nested_exception = Module['__ZTSSt16nested_exception'] = 245330;
-var __ZTVNSt3__211regex_errorE = Module['__ZTVNSt3__211regex_errorE'] = 273748;
-var __ZTINSt3__211regex_errorE = Module['__ZTINSt3__211regex_errorE'] = 274792;
-var __ZTSNSt3__211regex_errorE = Module['__ZTSNSt3__211regex_errorE'] = 245351;
-var __ZNSt3__223__libcpp_debug_functionE = Module['__ZNSt3__223__libcpp_debug_functionE'] = 274872;
-var __ZTVNSt3__28__c_nodeE = Module['__ZTVNSt3__28__c_nodeE'] = 274876;
-var __ZTINSt3__28__c_nodeE = Module['__ZTINSt3__28__c_nodeE'] = 274908;
-var __ZTSNSt3__28__c_nodeE = Module['__ZTSNSt3__28__c_nodeE'] = 247564;
-var __ZTVNSt3__212strstreambufE = Module['__ZTVNSt3__212strstreambufE'] = 274916;
-var __ZTTNSt3__210istrstreamE = Module['__ZTTNSt3__210istrstreamE'] = 275020;
-var __ZTTNSt3__210ostrstreamE = Module['__ZTTNSt3__210ostrstreamE'] = 275076;
-var __ZTTNSt3__29strstreamE = Module['__ZTTNSt3__29strstreamE'] = 275152;
-var __ZTINSt3__212strstreambufE = Module['__ZTINSt3__212strstreambufE'] = 275192;
-var __ZTVNSt3__210istrstreamE = Module['__ZTVNSt3__210istrstreamE'] = 274980;
-var __ZTINSt3__210istrstreamE = Module['__ZTINSt3__210istrstreamE'] = 275244;
-var __ZTCNSt3__210istrstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__210istrstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE'] = 275204;
-var __ZTVNSt3__210ostrstreamE = Module['__ZTVNSt3__210ostrstreamE'] = 275036;
-var __ZTINSt3__210ostrstreamE = Module['__ZTINSt3__210ostrstreamE'] = 275296;
-var __ZTCNSt3__210ostrstreamE0_NS_13basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__210ostrstreamE0_NS_13basic_ostreamIcNS_11char_traitsIcEEEE'] = 275256;
-var __ZTVNSt3__29strstreamE = Module['__ZTVNSt3__29strstreamE'] = 275092;
-var __ZTINSt3__29strstreamE = Module['__ZTINSt3__29strstreamE'] = 275448;
-var __ZTCNSt3__29strstreamE0_NS_14basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE0_NS_14basic_iostreamIcNS_11char_traitsIcEEEE'] = 275308;
-var __ZTCNSt3__29strstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE'] = 275368;
-var __ZTCNSt3__29strstreamE8_NS_13basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE8_NS_13basic_ostreamIcNS_11char_traitsIcEEEE'] = 275408;
-var __ZTSNSt3__212strstreambufE = Module['__ZTSNSt3__212strstreambufE'] = 247582;
-var __ZTSNSt3__210istrstreamE = Module['__ZTSNSt3__210istrstreamE'] = 247605;
-var __ZTSNSt3__210ostrstreamE = Module['__ZTSNSt3__210ostrstreamE'] = 247626;
-var __ZTSNSt3__29strstreamE = Module['__ZTSNSt3__29strstreamE'] = 247647;
-var __ZTVSt11logic_error = Module['__ZTVSt11logic_error'] = 280528;
-var __ZTVSt9exception = Module['__ZTVSt9exception'] = 280444;
-var __ZTVSt13runtime_error = Module['__ZTVSt13runtime_error'] = 280548;
-var __ZNSt3__219piecewise_constructE = Module['__ZNSt3__219piecewise_constructE'] = 247673;
-var __ZNSt3__213allocator_argE = Module['__ZNSt3__213allocator_argE'] = 247674;
-var __ZTSNSt3__214__shared_countE = Module['__ZTSNSt3__214__shared_countE'] = 247688;
-var __ZTSNSt3__219__shared_weak_countE = Module['__ZTSNSt3__219__shared_weak_countE'] = 247713;
-var __ZTVNSt3__212bad_weak_ptrE = Module['__ZTVNSt3__212bad_weak_ptrE'] = 275540;
-var __ZTINSt3__212bad_weak_ptrE = Module['__ZTINSt3__212bad_weak_ptrE'] = 275560;
-var __ZTSNSt3__212bad_weak_ptrE = Module['__ZTSNSt3__212bad_weak_ptrE'] = 247743;
-var __ZTVNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTVNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 275572;
-var __ZTINSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTINSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 275644;
-var __ZTVNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTVNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 275600;
-var __ZTINSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTINSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 275656;
-var __ZTSNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTSNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 247766;
-var __ZTSNSt12experimental15fundamentals_v13pmr15memory_resourceE = Module['__ZTSNSt12experimental15fundamentals_v13pmr15memory_resourceE'] = 247840;
-var __ZTINSt12experimental15fundamentals_v13pmr15memory_resourceE = Module['__ZTINSt12experimental15fundamentals_v13pmr15memory_resourceE'] = 275636;
-var __ZTSNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTSNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 247897;
-var __ZTVNSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTVNSt3__24__fs10filesystem16filesystem_errorE'] = 275672;
-var __ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 275908;
-var __ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 275948;
-var __ZNSt3__24__fs10filesystem16_FilesystemClock9is_steadyE = Module['__ZNSt3__24__fs10filesystem16_FilesystemClock9is_steadyE'] = 247965;
-var __ZTINSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTINSt3__24__fs10filesystem16filesystem_errorE'] = 275712;
-var __ZNSt3__24__fs10filesystem4path19preferred_separatorE = Module['__ZNSt3__24__fs10filesystem4path19preferred_separatorE'] = 248448;
-var __ZTSNSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTSNSt3__24__fs10filesystem16filesystem_errorE'] = 248452;
-var __ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 276004;
-var __ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 275964;
-var __ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 248848;
-var __ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 276016;
-var __ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 276056;
-var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 276044;
-var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 249184;
-var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 276084;
-var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 249278;
-var ___cxa_unexpected_handler = Module['___cxa_unexpected_handler'] = 276100;
-var ___cxa_terminate_handler = Module['___cxa_terminate_handler'] = 276096;
-var ___cxa_new_handler = Module['___cxa_new_handler'] = 300696;
-var __ZTVSt9bad_alloc = Module['__ZTVSt9bad_alloc'] = 280404;
-var __ZTVSt20bad_array_new_length = Module['__ZTVSt20bad_array_new_length'] = 280424;
-var __ZTISt9bad_alloc = Module['__ZTISt9bad_alloc'] = 280504;
-var __ZTISt20bad_array_new_length = Module['__ZTISt20bad_array_new_length'] = 280516;
-var __ZTSSt9exception = Module['__ZTSSt9exception'] = 256088;
-var __ZTVSt13bad_exception = Module['__ZTVSt13bad_exception'] = 280472;
-var __ZTISt13bad_exception = Module['__ZTISt13bad_exception'] = 280492;
-var __ZTSSt13bad_exception = Module['__ZTSSt13bad_exception'] = 256101;
-var __ZTSSt9bad_alloc = Module['__ZTSSt9bad_alloc'] = 256119;
-var __ZTSSt20bad_array_new_length = Module['__ZTSSt20bad_array_new_length'] = 256132;
-var __ZTVSt12domain_error = Module['__ZTVSt12domain_error'] = 280568;
-var __ZTISt12domain_error = Module['__ZTISt12domain_error'] = 280600;
-var __ZTSSt12domain_error = Module['__ZTSSt12domain_error'] = 256157;
-var __ZTSSt11logic_error = Module['__ZTSSt11logic_error'] = 256174;
-var __ZTVSt16invalid_argument = Module['__ZTVSt16invalid_argument'] = 280612;
-var __ZTISt16invalid_argument = Module['__ZTISt16invalid_argument'] = 280632;
-var __ZTSSt16invalid_argument = Module['__ZTSSt16invalid_argument'] = 256190;
-var __ZTSSt12length_error = Module['__ZTSSt12length_error'] = 256211;
-var __ZTVSt12out_of_range = Module['__ZTVSt12out_of_range'] = 280676;
-var __ZTISt12out_of_range = Module['__ZTISt12out_of_range'] = 280696;
-var __ZTSSt12out_of_range = Module['__ZTSSt12out_of_range'] = 256228;
-var __ZTVSt11range_error = Module['__ZTVSt11range_error'] = 280708;
-var __ZTISt11range_error = Module['__ZTISt11range_error'] = 280740;
-var __ZTSSt11range_error = Module['__ZTSSt11range_error'] = 256245;
-var __ZTSSt13runtime_error = Module['__ZTSSt13runtime_error'] = 256261;
-var __ZTVSt14overflow_error = Module['__ZTVSt14overflow_error'] = 280752;
-var __ZTISt14overflow_error = Module['__ZTISt14overflow_error'] = 280772;
-var __ZTSSt14overflow_error = Module['__ZTSSt14overflow_error'] = 256279;
-var __ZTVSt15underflow_error = Module['__ZTVSt15underflow_error'] = 280784;
-var __ZTISt15underflow_error = Module['__ZTISt15underflow_error'] = 280804;
-var __ZTSSt15underflow_error = Module['__ZTSSt15underflow_error'] = 256298;
-var __ZTVSt8bad_cast = Module['__ZTVSt8bad_cast'] = 280816;
-var __ZTVSt10bad_typeid = Module['__ZTVSt10bad_typeid'] = 280836;
-var __ZTISt10bad_typeid = Module['__ZTISt10bad_typeid'] = 280892;
-var __ZTVSt9type_info = Module['__ZTVSt9type_info'] = 280856;
-var __ZTISt9type_info = Module['__ZTISt9type_info'] = 280872;
-var __ZTSSt9type_info = Module['__ZTSSt9type_info'] = 256348;
-var __ZTSSt8bad_cast = Module['__ZTSSt8bad_cast'] = 256361;
-var __ZTSSt10bad_typeid = Module['__ZTSSt10bad_typeid'] = 256373;
-var __ZTIN10__cxxabiv117__class_type_infoE = Module['__ZTIN10__cxxabiv117__class_type_infoE'] = 280916;
-var __ZTIN10__cxxabiv116__shim_type_infoE = Module['__ZTIN10__cxxabiv116__shim_type_infoE'] = 280904;
-var __ZTIN10__cxxabiv117__pbase_type_infoE = Module['__ZTIN10__cxxabiv117__pbase_type_infoE'] = 280928;
-var __ZTIDn = Module['__ZTIDn'] = 281084;
-var __ZTIN10__cxxabiv119__pointer_type_infoE = Module['__ZTIN10__cxxabiv119__pointer_type_infoE'] = 280940;
-var __ZTIv = Module['__ZTIv'] = 281044;
-var __ZTIN10__cxxabiv120__function_type_infoE = Module['__ZTIN10__cxxabiv120__function_type_infoE'] = 280952;
-var __ZTIN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTIN10__cxxabiv129__pointer_to_member_type_infoE'] = 280964;
-var __ZTSN10__cxxabiv116__shim_type_infoE = Module['__ZTSN10__cxxabiv116__shim_type_infoE'] = 256388;
-var __ZTSN10__cxxabiv117__class_type_infoE = Module['__ZTSN10__cxxabiv117__class_type_infoE'] = 256421;
-var __ZTSN10__cxxabiv117__pbase_type_infoE = Module['__ZTSN10__cxxabiv117__pbase_type_infoE'] = 256455;
-var __ZTSN10__cxxabiv119__pointer_type_infoE = Module['__ZTSN10__cxxabiv119__pointer_type_infoE'] = 256489;
-var __ZTSN10__cxxabiv120__function_type_infoE = Module['__ZTSN10__cxxabiv120__function_type_infoE'] = 256525;
-var __ZTSN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTSN10__cxxabiv129__pointer_to_member_type_infoE'] = 256562;
-var __ZTVN10__cxxabiv116__shim_type_infoE = Module['__ZTVN10__cxxabiv116__shim_type_infoE'] = 280976;
-var __ZTVN10__cxxabiv123__fundamental_type_infoE = Module['__ZTVN10__cxxabiv123__fundamental_type_infoE'] = 281004;
-var __ZTIN10__cxxabiv123__fundamental_type_infoE = Module['__ZTIN10__cxxabiv123__fundamental_type_infoE'] = 281032;
-var __ZTSN10__cxxabiv123__fundamental_type_infoE = Module['__ZTSN10__cxxabiv123__fundamental_type_infoE'] = 256620;
-var __ZTSv = Module['__ZTSv'] = 256660;
-var __ZTSPv = Module['__ZTSPv'] = 256662;
-var __ZTIPv = Module['__ZTIPv'] = 281052;
-var __ZTVN10__cxxabiv119__pointer_type_infoE = Module['__ZTVN10__cxxabiv119__pointer_type_infoE'] = 282324;
-var __ZTSPKv = Module['__ZTSPKv'] = 256665;
-var __ZTIPKv = Module['__ZTIPKv'] = 281068;
-var __ZTSDn = Module['__ZTSDn'] = 256669;
-var __ZTSPDn = Module['__ZTSPDn'] = 256672;
-var __ZTIPDn = Module['__ZTIPDn'] = 281092;
-var __ZTSPKDn = Module['__ZTSPKDn'] = 256676;
-var __ZTIPKDn = Module['__ZTIPKDn'] = 281108;
-var __ZTSb = Module['__ZTSb'] = 256681;
-var __ZTIb = Module['__ZTIb'] = 281124;
-var __ZTSPb = Module['__ZTSPb'] = 256683;
-var __ZTIPb = Module['__ZTIPb'] = 281132;
-var __ZTSPKb = Module['__ZTSPKb'] = 256686;
-var __ZTIPKb = Module['__ZTIPKb'] = 281148;
-var __ZTSw = Module['__ZTSw'] = 256690;
-var __ZTIw = Module['__ZTIw'] = 281164;
-var __ZTSPw = Module['__ZTSPw'] = 256692;
-var __ZTIPw = Module['__ZTIPw'] = 281172;
-var __ZTSPKw = Module['__ZTSPKw'] = 256695;
-var __ZTIPKw = Module['__ZTIPKw'] = 281188;
-var __ZTSc = Module['__ZTSc'] = 256699;
-var __ZTIc = Module['__ZTIc'] = 281204;
-var __ZTSPc = Module['__ZTSPc'] = 256701;
-var __ZTIPc = Module['__ZTIPc'] = 281212;
-var __ZTSPKc = Module['__ZTSPKc'] = 256704;
-var __ZTIPKc = Module['__ZTIPKc'] = 281228;
-var __ZTSh = Module['__ZTSh'] = 256708;
-var __ZTIh = Module['__ZTIh'] = 281244;
-var __ZTSPh = Module['__ZTSPh'] = 256710;
-var __ZTIPh = Module['__ZTIPh'] = 281252;
-var __ZTSPKh = Module['__ZTSPKh'] = 256713;
-var __ZTIPKh = Module['__ZTIPKh'] = 281268;
-var __ZTSa = Module['__ZTSa'] = 256717;
-var __ZTIa = Module['__ZTIa'] = 281284;
-var __ZTSPa = Module['__ZTSPa'] = 256719;
-var __ZTIPa = Module['__ZTIPa'] = 281292;
-var __ZTSPKa = Module['__ZTSPKa'] = 256722;
-var __ZTIPKa = Module['__ZTIPKa'] = 281308;
-var __ZTSs = Module['__ZTSs'] = 256726;
-var __ZTIs = Module['__ZTIs'] = 281324;
-var __ZTSPs = Module['__ZTSPs'] = 256728;
-var __ZTIPs = Module['__ZTIPs'] = 281332;
-var __ZTSPKs = Module['__ZTSPKs'] = 256731;
-var __ZTIPKs = Module['__ZTIPKs'] = 281348;
-var __ZTSt = Module['__ZTSt'] = 256735;
-var __ZTIt = Module['__ZTIt'] = 281364;
-var __ZTSPt = Module['__ZTSPt'] = 256737;
-var __ZTIPt = Module['__ZTIPt'] = 281372;
-var __ZTSPKt = Module['__ZTSPKt'] = 256740;
-var __ZTIPKt = Module['__ZTIPKt'] = 281388;
-var __ZTSi = Module['__ZTSi'] = 256744;
-var __ZTIi = Module['__ZTIi'] = 281404;
-var __ZTSPi = Module['__ZTSPi'] = 256746;
-var __ZTIPi = Module['__ZTIPi'] = 281412;
-var __ZTSPKi = Module['__ZTSPKi'] = 256749;
-var __ZTIPKi = Module['__ZTIPKi'] = 281428;
-var __ZTSj = Module['__ZTSj'] = 256753;
-var __ZTIj = Module['__ZTIj'] = 281444;
-var __ZTSPj = Module['__ZTSPj'] = 256755;
-var __ZTIPj = Module['__ZTIPj'] = 281452;
-var __ZTSPKj = Module['__ZTSPKj'] = 256758;
-var __ZTIPKj = Module['__ZTIPKj'] = 281468;
-var __ZTSl = Module['__ZTSl'] = 256762;
-var __ZTIl = Module['__ZTIl'] = 281484;
-var __ZTSPl = Module['__ZTSPl'] = 256764;
-var __ZTIPl = Module['__ZTIPl'] = 281492;
-var __ZTSPKl = Module['__ZTSPKl'] = 256767;
-var __ZTIPKl = Module['__ZTIPKl'] = 281508;
-var __ZTSm = Module['__ZTSm'] = 256771;
-var __ZTIm = Module['__ZTIm'] = 281524;
-var __ZTSPm = Module['__ZTSPm'] = 256773;
-var __ZTIPm = Module['__ZTIPm'] = 281532;
-var __ZTSPKm = Module['__ZTSPKm'] = 256776;
-var __ZTIPKm = Module['__ZTIPKm'] = 281548;
-var __ZTSx = Module['__ZTSx'] = 256780;
-var __ZTIx = Module['__ZTIx'] = 281564;
-var __ZTSPx = Module['__ZTSPx'] = 256782;
-var __ZTIPx = Module['__ZTIPx'] = 281572;
-var __ZTSPKx = Module['__ZTSPKx'] = 256785;
-var __ZTIPKx = Module['__ZTIPKx'] = 281588;
-var __ZTSy = Module['__ZTSy'] = 256789;
-var __ZTIy = Module['__ZTIy'] = 281604;
-var __ZTSPy = Module['__ZTSPy'] = 256791;
-var __ZTIPy = Module['__ZTIPy'] = 281612;
-var __ZTSPKy = Module['__ZTSPKy'] = 256794;
-var __ZTIPKy = Module['__ZTIPKy'] = 281628;
-var __ZTSn = Module['__ZTSn'] = 256798;
-var __ZTIn = Module['__ZTIn'] = 281644;
-var __ZTSPn = Module['__ZTSPn'] = 256800;
-var __ZTIPn = Module['__ZTIPn'] = 281652;
-var __ZTSPKn = Module['__ZTSPKn'] = 256803;
-var __ZTIPKn = Module['__ZTIPKn'] = 281668;
-var __ZTSo = Module['__ZTSo'] = 256807;
-var __ZTIo = Module['__ZTIo'] = 281684;
-var __ZTSPo = Module['__ZTSPo'] = 256809;
-var __ZTIPo = Module['__ZTIPo'] = 281692;
-var __ZTSPKo = Module['__ZTSPKo'] = 256812;
-var __ZTIPKo = Module['__ZTIPKo'] = 281708;
-var __ZTSDh = Module['__ZTSDh'] = 256816;
-var __ZTIDh = Module['__ZTIDh'] = 281724;
-var __ZTSPDh = Module['__ZTSPDh'] = 256819;
-var __ZTIPDh = Module['__ZTIPDh'] = 281732;
-var __ZTSPKDh = Module['__ZTSPKDh'] = 256823;
-var __ZTIPKDh = Module['__ZTIPKDh'] = 281748;
-var __ZTSf = Module['__ZTSf'] = 256828;
-var __ZTIf = Module['__ZTIf'] = 281764;
-var __ZTSPf = Module['__ZTSPf'] = 256830;
-var __ZTIPf = Module['__ZTIPf'] = 281772;
-var __ZTSPKf = Module['__ZTSPKf'] = 256833;
-var __ZTIPKf = Module['__ZTIPKf'] = 281788;
-var __ZTSd = Module['__ZTSd'] = 256837;
-var __ZTId = Module['__ZTId'] = 281804;
-var __ZTSPd = Module['__ZTSPd'] = 256839;
-var __ZTIPd = Module['__ZTIPd'] = 281812;
-var __ZTSPKd = Module['__ZTSPKd'] = 256842;
-var __ZTIPKd = Module['__ZTIPKd'] = 281828;
-var __ZTSe = Module['__ZTSe'] = 256846;
-var __ZTIe = Module['__ZTIe'] = 281844;
-var __ZTSPe = Module['__ZTSPe'] = 256848;
-var __ZTIPe = Module['__ZTIPe'] = 281852;
-var __ZTSPKe = Module['__ZTSPKe'] = 256851;
-var __ZTIPKe = Module['__ZTIPKe'] = 281868;
-var __ZTSg = Module['__ZTSg'] = 256855;
-var __ZTIg = Module['__ZTIg'] = 281884;
-var __ZTSPg = Module['__ZTSPg'] = 256857;
-var __ZTIPg = Module['__ZTIPg'] = 281892;
-var __ZTSPKg = Module['__ZTSPKg'] = 256860;
-var __ZTIPKg = Module['__ZTIPKg'] = 281908;
-var __ZTSDu = Module['__ZTSDu'] = 256864;
-var __ZTIDu = Module['__ZTIDu'] = 281924;
-var __ZTSPDu = Module['__ZTSPDu'] = 256867;
-var __ZTIPDu = Module['__ZTIPDu'] = 281932;
-var __ZTSPKDu = Module['__ZTSPKDu'] = 256871;
-var __ZTIPKDu = Module['__ZTIPKDu'] = 281948;
-var __ZTSDs = Module['__ZTSDs'] = 256876;
-var __ZTIDs = Module['__ZTIDs'] = 281964;
-var __ZTSPDs = Module['__ZTSPDs'] = 256879;
-var __ZTIPDs = Module['__ZTIPDs'] = 281972;
-var __ZTSPKDs = Module['__ZTSPKDs'] = 256883;
-var __ZTIPKDs = Module['__ZTIPKDs'] = 281988;
-var __ZTSDi = Module['__ZTSDi'] = 256888;
-var __ZTIDi = Module['__ZTIDi'] = 282004;
-var __ZTSPDi = Module['__ZTSPDi'] = 256891;
-var __ZTIPDi = Module['__ZTIPDi'] = 282012;
-var __ZTSPKDi = Module['__ZTSPKDi'] = 256895;
-var __ZTIPKDi = Module['__ZTIPKDi'] = 282028;
-var __ZTVN10__cxxabiv117__array_type_infoE = Module['__ZTVN10__cxxabiv117__array_type_infoE'] = 282044;
-var __ZTIN10__cxxabiv117__array_type_infoE = Module['__ZTIN10__cxxabiv117__array_type_infoE'] = 282072;
-var __ZTSN10__cxxabiv117__array_type_infoE = Module['__ZTSN10__cxxabiv117__array_type_infoE'] = 256900;
-var __ZTVN10__cxxabiv120__function_type_infoE = Module['__ZTVN10__cxxabiv120__function_type_infoE'] = 282084;
-var __ZTVN10__cxxabiv116__enum_type_infoE = Module['__ZTVN10__cxxabiv116__enum_type_infoE'] = 282112;
-var __ZTIN10__cxxabiv116__enum_type_infoE = Module['__ZTIN10__cxxabiv116__enum_type_infoE'] = 282140;
-var __ZTSN10__cxxabiv116__enum_type_infoE = Module['__ZTSN10__cxxabiv116__enum_type_infoE'] = 256934;
-var __ZTIN10__cxxabiv120__si_class_type_infoE = Module['__ZTIN10__cxxabiv120__si_class_type_infoE'] = 282232;
-var __ZTSN10__cxxabiv120__si_class_type_infoE = Module['__ZTSN10__cxxabiv120__si_class_type_infoE'] = 256967;
-var __ZTIN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTIN10__cxxabiv121__vmi_class_type_infoE'] = 282284;
-var __ZTSN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTSN10__cxxabiv121__vmi_class_type_infoE'] = 257004;
-var __ZTVN10__cxxabiv117__pbase_type_infoE = Module['__ZTVN10__cxxabiv117__pbase_type_infoE'] = 282296;
-var __ZTVN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTVN10__cxxabiv129__pointer_to_member_type_infoE'] = 282352;
-var _in6addr_any = Module['_in6addr_any'] = 261596;
-var _in6addr_loopback = Module['_in6addr_loopback'] = 261612;
+var ___c_dot_utf8_locale = Module['___c_dot_utf8_locale'] = 266456;
+var ___libc = Module['___libc'] = 287068;
+var ___progname = Module['___progname'] = 287060;
+var ___progname_full = Module['___progname_full'] = 287064;
+var ___hwcap = Module['___hwcap'] = 287132;
+var ___sysinfo = Module['___sysinfo'] = 287136;
+var _program_invocation_short_name = Module['_program_invocation_short_name'] = 287060;
+var _program_invocation_name = Module['_program_invocation_name'] = 287064;
+var _stdout = Module['_stdout'] = 266848;
+var ___stderr_used = Module['___stderr_used'] = 266700;
+var ___stdout_used = Module['___stdout_used'] = 266852;
+var _stdin = Module['_stdin'] = 267000;
+var ___stdin_used = Module['___stdin_used'] = 267004;
+var ___environ = Module['___environ'] = 290788;
+var ___seed48 = Module['___seed48'] = 267152;
+var ___pio2_hi = Module['___pio2_hi'] = 224592;
+var ___pio2_lo = Module['___pio2_lo'] = 224608;
+var ___signgam = Module['___signgam'] = 289556;
+var _signgam = Module['_signgam'] = 289556;
+var _atanlo = Module['_atanlo'] = 230112;
+var _atanhi = Module['_atanhi'] = 230048;
+var _aT = Module['_aT'] = 230176;
+var ___optreset = Module['___optreset'] = 289948;
+var _optind = Module['_optind'] = 267368;
+var ___optpos = Module['___optpos'] = 289952;
+var _optarg = Module['_optarg'] = 289956;
+var _optopt = Module['_optopt'] = 289960;
+var _opterr = Module['_opterr'] = 267372;
+var _optreset = Module['_optreset'] = 289948;
+var ___fsmu8 = Module['___fsmu8'] = 234160;
+var __ns_flagdata = Module['__ns_flagdata'] = 235184;
+var _h_errno = Module['_h_errno'] = 290064;
+var ____environ = Module['____environ'] = 290788;
+var __environ = Module['__environ'] = 290788;
+var _environ = Module['_environ'] = 290788;
+var ___env_map = Module['___env_map'] = 290796;
+var _tzname = Module['_tzname'] = 290800;
+var _daylight = Module['_daylight'] = 290808;
+var _timezone = Module['_timezone'] = 290812;
+var ___data_end = Module['___data_end'] = 302272;
+var ___THREW__ = Module['___THREW__'] = 294980;
+var ___threwValue = Module['___threwValue'] = 294984;
+var __ZTVNSt3__212system_errorE = Module['__ZTVNSt3__212system_errorE'] = 267788;
+var __ZTVNSt3__224__generic_error_categoryE = Module['__ZTVNSt3__224__generic_error_categoryE'] = 267712;
+var __ZTINSt3__224__generic_error_categoryE = Module['__ZTINSt3__224__generic_error_categoryE'] = 267900;
+var __ZTVNSt3__223__system_error_categoryE = Module['__ZTVNSt3__223__system_error_categoryE'] = 267752;
+var __ZTINSt3__223__system_error_categoryE = Module['__ZTINSt3__223__system_error_categoryE'] = 267912;
+var __ZTINSt3__212system_errorE = Module['__ZTINSt3__212system_errorE'] = 267924;
+var __ZTVNSt3__214error_categoryE = Module['__ZTVNSt3__214error_categoryE'] = 267808;
+var __ZTINSt3__214error_categoryE = Module['__ZTINSt3__214error_categoryE'] = 267844;
+var __ZTSNSt3__214error_categoryE = Module['__ZTSNSt3__214error_categoryE'] = 237222;
+var __ZTVNSt3__212__do_messageE = Module['__ZTVNSt3__212__do_messageE'] = 267852;
+var __ZTINSt3__212__do_messageE = Module['__ZTINSt3__212__do_messageE'] = 267888;
+var __ZTSNSt3__212__do_messageE = Module['__ZTSNSt3__212__do_messageE'] = 237247;
+var __ZTSNSt3__224__generic_error_categoryE = Module['__ZTSNSt3__224__generic_error_categoryE'] = 237270;
+var __ZTSNSt3__223__system_error_categoryE = Module['__ZTSNSt3__223__system_error_categoryE'] = 237305;
+var __ZTSNSt3__212system_errorE = Module['__ZTSNSt3__212system_errorE'] = 237339;
+var __ZTISt13runtime_error = Module['__ZTISt13runtime_error'] = 281288;
+var __ZTVSt12bad_any_cast = Module['__ZTVSt12bad_any_cast'] = 267936;
+var __ZTISt12bad_any_cast = Module['__ZTISt12bad_any_cast'] = 267956;
+var __ZTSSt12bad_any_cast = Module['__ZTSSt12bad_any_cast'] = 237392;
+var __ZTVNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTVNSt12experimental15fundamentals_v112bad_any_castE'] = 267968;
+var __ZTINSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTINSt12experimental15fundamentals_v112bad_any_castE'] = 267988;
+var __ZTSNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTSNSt12experimental15fundamentals_v112bad_any_castE'] = 237409;
+var __ZNSt3__212__rs_default4__c_E = Module['__ZNSt3__212__rs_default4__c_E'] = 294996;
+var __ZTVSt18bad_variant_access = Module['__ZTVSt18bad_variant_access'] = 268000;
+var __ZTISt18bad_variant_access = Module['__ZTISt18bad_variant_access'] = 268020;
+var __ZTSSt18bad_variant_access = Module['__ZTSSt18bad_variant_access'] = 237638;
+var __ZTISt9exception = Module['__ZTISt9exception'] = 281024;
+var __ZSt7nothrow = Module['__ZSt7nothrow'] = 237661;
+var __ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 268032;
+var __ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 268096;
+var __ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 268200;
+var __ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 268248;
+var __ZNSt3__25ctypeIwE2idE = Module['__ZNSt3__25ctypeIwE2idE'] = 298864;
+var __ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 268296;
+var __ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298700;
+var __ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 268344;
+var __ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298708;
+var __ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 268412;
+var __ZTVNSt3__28ios_base7failureE = Module['__ZTVNSt3__28ios_base7failureE'] = 268480;
+var __ZNSt3__28ios_base9__xindex_E = Module['__ZNSt3__28ios_base9__xindex_E'] = 297536;
+var __ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298684;
+var __ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298692;
+var __ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 268592;
+var __ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 268160;
+var __ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 268208;
+var __ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 268624;
+var __ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 268256;
+var __ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 268304;
+var __ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 268672;
+var __ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 268352;
+var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 268696;
+var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 268736;
+var __ZTVNSt3__219__iostream_categoryE = Module['__ZTVNSt3__219__iostream_categoryE'] = 268444;
+var __ZTINSt3__219__iostream_categoryE = Module['__ZTINSt3__219__iostream_categoryE'] = 268808;
+var __ZTINSt3__28ios_base7failureE = Module['__ZTINSt3__28ios_base7failureE'] = 268820;
+var __ZNSt3__28ios_base9boolalphaE = Module['__ZNSt3__28ios_base9boolalphaE'] = 237708;
+var __ZNSt3__28ios_base3decE = Module['__ZNSt3__28ios_base3decE'] = 237712;
+var __ZNSt3__28ios_base5fixedE = Module['__ZNSt3__28ios_base5fixedE'] = 237716;
+var __ZNSt3__28ios_base3hexE = Module['__ZNSt3__28ios_base3hexE'] = 237720;
+var __ZNSt3__28ios_base8internalE = Module['__ZNSt3__28ios_base8internalE'] = 237724;
+var __ZNSt3__28ios_base4leftE = Module['__ZNSt3__28ios_base4leftE'] = 237728;
+var __ZNSt3__28ios_base3octE = Module['__ZNSt3__28ios_base3octE'] = 237732;
+var __ZNSt3__28ios_base5rightE = Module['__ZNSt3__28ios_base5rightE'] = 237736;
+var __ZNSt3__28ios_base10scientificE = Module['__ZNSt3__28ios_base10scientificE'] = 237740;
+var __ZNSt3__28ios_base8showbaseE = Module['__ZNSt3__28ios_base8showbaseE'] = 237744;
+var __ZNSt3__28ios_base9showpointE = Module['__ZNSt3__28ios_base9showpointE'] = 237748;
+var __ZNSt3__28ios_base7showposE = Module['__ZNSt3__28ios_base7showposE'] = 237752;
+var __ZNSt3__28ios_base6skipwsE = Module['__ZNSt3__28ios_base6skipwsE'] = 237756;
+var __ZNSt3__28ios_base7unitbufE = Module['__ZNSt3__28ios_base7unitbufE'] = 237760;
+var __ZNSt3__28ios_base9uppercaseE = Module['__ZNSt3__28ios_base9uppercaseE'] = 237764;
+var __ZNSt3__28ios_base11adjustfieldE = Module['__ZNSt3__28ios_base11adjustfieldE'] = 237768;
+var __ZNSt3__28ios_base9basefieldE = Module['__ZNSt3__28ios_base9basefieldE'] = 237772;
+var __ZNSt3__28ios_base10floatfieldE = Module['__ZNSt3__28ios_base10floatfieldE'] = 237776;
+var __ZNSt3__28ios_base6badbitE = Module['__ZNSt3__28ios_base6badbitE'] = 237780;
+var __ZNSt3__28ios_base6eofbitE = Module['__ZNSt3__28ios_base6eofbitE'] = 237784;
+var __ZNSt3__28ios_base7failbitE = Module['__ZNSt3__28ios_base7failbitE'] = 237788;
+var __ZNSt3__28ios_base7goodbitE = Module['__ZNSt3__28ios_base7goodbitE'] = 237792;
+var __ZNSt3__28ios_base3appE = Module['__ZNSt3__28ios_base3appE'] = 237796;
+var __ZNSt3__28ios_base3ateE = Module['__ZNSt3__28ios_base3ateE'] = 237800;
+var __ZNSt3__28ios_base6binaryE = Module['__ZNSt3__28ios_base6binaryE'] = 237804;
+var __ZNSt3__28ios_base2inE = Module['__ZNSt3__28ios_base2inE'] = 237808;
+var __ZNSt3__28ios_base3outE = Module['__ZNSt3__28ios_base3outE'] = 237812;
+var __ZNSt3__28ios_base5truncE = Module['__ZNSt3__28ios_base5truncE'] = 237816;
+var __ZTINSt3__28ios_baseE = Module['__ZTINSt3__28ios_baseE'] = 268520;
+var __ZTSNSt3__28ios_baseE = Module['__ZTSNSt3__28ios_baseE'] = 237836;
+var __ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 268544;
+var __ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 237854;
+var __ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 268556;
+var __ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 268572;
+var __ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 237896;
+var __ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 237938;
+var __ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 237987;
+var __ZTSNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 238036;
+var __ZTVN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTVN10__cxxabiv121__vmi_class_type_infoE'] = 282804;
+var __ZTSNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 238083;
+var __ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 238130;
+var __ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 238177;
+var __ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 238224;
+var __ZTSNSt3__219__iostream_categoryE = Module['__ZTSNSt3__219__iostream_categoryE'] = 238272;
+var __ZTSNSt3__28ios_base7failureE = Module['__ZTSNSt3__28ios_base7failureE'] = 238302;
+var __ZNSt3__219__start_std_streamsE = Module['__ZNSt3__219__start_std_streamsE'] = 298228;
+var __ZNSt3__23cinE = Module['__ZNSt3__23cinE'] = 297548;
+var __ZNSt3__24wcinE = Module['__ZNSt3__24wcinE'] = 297636;
+var __ZNSt3__25wcoutE = Module['__ZNSt3__25wcoutE'] = 297808;
+var __ZNSt3__24clogE = Module['__ZNSt3__24clogE'] = 298060;
+var __ZNSt3__25wcerrE = Module['__ZNSt3__25wcerrE'] = 297976;
+var __ZNSt3__25wclogE = Module['__ZNSt3__25wclogE'] = 298144;
+var __ZTVNSt3__210__stdinbufIcEE = Module['__ZTVNSt3__210__stdinbufIcEE'] = 268832;
+var __ZTVNSt3__210__stdinbufIwEE = Module['__ZTVNSt3__210__stdinbufIwEE'] = 268908;
+var __ZTVNSt3__211__stdoutbufIcEE = Module['__ZTVNSt3__211__stdoutbufIcEE'] = 268984;
+var __ZTVNSt3__211__stdoutbufIwEE = Module['__ZTVNSt3__211__stdoutbufIwEE'] = 269060;
+var __ZNSt3__27codecvtIwc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIwc11__mbstate_tE2idE'] = 298888;
+var __ZTINSt3__210__stdinbufIcEE = Module['__ZTINSt3__210__stdinbufIcEE'] = 268896;
+var __ZTSNSt3__210__stdinbufIcEE = Module['__ZTSNSt3__210__stdinbufIcEE'] = 238402;
+var __ZTINSt3__210__stdinbufIwEE = Module['__ZTINSt3__210__stdinbufIwEE'] = 268972;
+var __ZTSNSt3__210__stdinbufIwEE = Module['__ZTSNSt3__210__stdinbufIwEE'] = 238464;
+var __ZTINSt3__211__stdoutbufIcEE = Module['__ZTINSt3__211__stdoutbufIcEE'] = 269048;
+var __ZTSNSt3__211__stdoutbufIcEE = Module['__ZTSNSt3__211__stdoutbufIcEE'] = 238488;
+var __ZTINSt3__211__stdoutbufIwEE = Module['__ZTINSt3__211__stdoutbufIwEE'] = 269124;
+var __ZTSNSt3__211__stdoutbufIwEE = Module['__ZTSNSt3__211__stdoutbufIwEE'] = 238513;
+var __ZNSt3__210defer_lockE = Module['__ZNSt3__210defer_lockE'] = 238538;
+var __ZNSt3__211try_to_lockE = Module['__ZNSt3__211try_to_lockE'] = 238539;
+var __ZNSt3__210adopt_lockE = Module['__ZNSt3__210adopt_lockE'] = 238540;
+var __ZNSt3__212placeholders2_1E = Module['__ZNSt3__212placeholders2_1E'] = 239110;
+var __ZNSt3__212placeholders2_2E = Module['__ZNSt3__212placeholders2_2E'] = 239111;
+var __ZNSt3__212placeholders2_3E = Module['__ZNSt3__212placeholders2_3E'] = 239112;
+var __ZNSt3__212placeholders2_4E = Module['__ZNSt3__212placeholders2_4E'] = 239113;
+var __ZNSt3__212placeholders2_5E = Module['__ZNSt3__212placeholders2_5E'] = 239114;
+var __ZNSt3__212placeholders2_6E = Module['__ZNSt3__212placeholders2_6E'] = 239115;
+var __ZNSt3__212placeholders2_7E = Module['__ZNSt3__212placeholders2_7E'] = 239116;
+var __ZNSt3__212placeholders2_8E = Module['__ZNSt3__212placeholders2_8E'] = 239117;
+var __ZNSt3__212placeholders2_9E = Module['__ZNSt3__212placeholders2_9E'] = 239118;
+var __ZNSt3__212placeholders3_10E = Module['__ZNSt3__212placeholders3_10E'] = 239119;
+var __ZNSt3__28numpunctIcE2idE = Module['__ZNSt3__28numpunctIcE2idE'] = 298912;
+var __ZNSt3__214__num_get_base5__srcE = Module['__ZNSt3__214__num_get_base5__srcE'] = 239120;
+var __ZNSt3__28numpunctIwE2idE = Module['__ZNSt3__28numpunctIwE2idE'] = 298920;
+var __ZNSt3__210moneypunctIcLb1EE2idE = Module['__ZNSt3__210moneypunctIcLb1EE2idE'] = 298756;
+var __ZNSt3__210moneypunctIcLb0EE2idE = Module['__ZNSt3__210moneypunctIcLb0EE2idE'] = 298748;
+var __ZNSt3__210moneypunctIwLb1EE2idE = Module['__ZNSt3__210moneypunctIwLb1EE2idE'] = 298772;
+var __ZNSt3__210moneypunctIwLb0EE2idE = Module['__ZNSt3__210moneypunctIwLb0EE2idE'] = 298764;
+var __ZTVNSt3__26locale5__impE = Module['__ZTVNSt3__26locale5__impE'] = 269136;
+var __ZTVNSt3__26locale5facetE = Module['__ZTVNSt3__26locale5facetE'] = 269600;
+var __ZNSt3__27collateIcE2idE = Module['__ZNSt3__27collateIcE2idE'] = 298668;
+var __ZNSt3__27collateIwE2idE = Module['__ZNSt3__27collateIwE2idE'] = 298676;
+var __ZNSt3__27codecvtIDsc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDsc11__mbstate_tE2idE'] = 298896;
+var __ZNSt3__27codecvtIDic11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDic11__mbstate_tE2idE'] = 298904;
+var __ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298780;
+var __ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298788;
+var __ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298796;
+var __ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298804;
+var __ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298716;
+var __ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298724;
+var __ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298732;
+var __ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298740;
+var __ZNSt3__28messagesIcE2idE = Module['__ZNSt3__28messagesIcE2idE'] = 298812;
+var __ZNSt3__28messagesIwE2idE = Module['__ZNSt3__28messagesIwE2idE'] = 298820;
+var __ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 273592;
+var __ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 273652;
+var __ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 273712;
+var __ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 273772;
+var __ZTVNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb0EEE'] = 272824;
+var __ZTVNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb1EEE'] = 272892;
+var __ZTVNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb0EEE'] = 272960;
+var __ZTVNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb1EEE'] = 273028;
+var __ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271952;
+var __ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272116;
+var __ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272392;
+var __ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272428;
+var __ZTVNSt3__215messages_bynameIcEE = Module['__ZTVNSt3__215messages_bynameIcEE'] = 273504;
+var __ZTVNSt3__215messages_bynameIwEE = Module['__ZTVNSt3__215messages_bynameIwEE'] = 273548;
+var __ZNSt3__26locale2id9__next_idE = Module['__ZNSt3__26locale2id9__next_idE'] = 298860;
+var __ZTVNSt3__214collate_bynameIcEE = Module['__ZTVNSt3__214collate_bynameIcEE'] = 269156;
+var __ZTVNSt3__214collate_bynameIwEE = Module['__ZTVNSt3__214collate_bynameIwEE'] = 269188;
+var __ZTVNSt3__25ctypeIcEE = Module['__ZTVNSt3__25ctypeIcEE'] = 269220;
+var __ZTVNSt3__212ctype_bynameIcEE = Module['__ZTVNSt3__212ctype_bynameIcEE'] = 269272;
+var __ZTVNSt3__212ctype_bynameIwEE = Module['__ZTVNSt3__212ctype_bynameIwEE'] = 269324;
+var __ZTVNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIwc11__mbstate_tEE'] = 269392;
+var __ZTVNSt3__28numpunctIcEE = Module['__ZTVNSt3__28numpunctIcEE'] = 269440;
+var __ZTVNSt3__28numpunctIwEE = Module['__ZTVNSt3__28numpunctIwEE'] = 269480;
+var __ZTVNSt3__215numpunct_bynameIcEE = Module['__ZTVNSt3__215numpunct_bynameIcEE'] = 269520;
+var __ZTVNSt3__215numpunct_bynameIwEE = Module['__ZTVNSt3__215numpunct_bynameIwEE'] = 269560;
+var __ZTVNSt3__215__time_get_tempIcEE = Module['__ZTVNSt3__215__time_get_tempIcEE'] = 273904;
+var __ZTVNSt3__215__time_get_tempIwEE = Module['__ZTVNSt3__215__time_get_tempIwEE'] = 273968;
+var __ZTVNSt3__27collateIcEE = Module['__ZTVNSt3__27collateIcEE'] = 271144;
+var __ZTVNSt3__27collateIwEE = Module['__ZTVNSt3__27collateIwEE'] = 271176;
+var __ZTVNSt3__25ctypeIwEE = Module['__ZTVNSt3__25ctypeIwEE'] = 269632;
+var __ZTVNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIcc11__mbstate_tEE'] = 269740;
+var __ZTVNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDsc11__mbstate_tEE'] = 269828;
+var __ZTVNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDic11__mbstate_tEE'] = 269908;
+var __ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271208;
+var __ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271336;
+var __ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271456;
+var __ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271572;
+var __ZTVNSt3__210moneypunctIcLb0EEE = Module['__ZTVNSt3__210moneypunctIcLb0EEE'] = 272464;
+var __ZTVNSt3__210moneypunctIcLb1EEE = Module['__ZTVNSt3__210moneypunctIcLb1EEE'] = 272560;
+var __ZTVNSt3__210moneypunctIwLb0EEE = Module['__ZTVNSt3__210moneypunctIwLb0EEE'] = 272648;
+var __ZTVNSt3__210moneypunctIwLb1EEE = Module['__ZTVNSt3__210moneypunctIwLb1EEE'] = 272736;
+var __ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 273096;
+var __ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 273164;
+var __ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 273232;
+var __ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 273300;
+var __ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271680;
+var __ZTVNSt3__220__time_get_c_storageIcEE = Module['__ZTVNSt3__220__time_get_c_storageIcEE'] = 273832;
+var __ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271820;
+var __ZTVNSt3__220__time_get_c_storageIwEE = Module['__ZTVNSt3__220__time_get_c_storageIwEE'] = 273868;
+var __ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272272;
+var __ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272336;
+var __ZTVNSt3__28messagesIcEE = Module['__ZTVNSt3__28messagesIcEE'] = 273368;
+var __ZTVNSt3__28messagesIwEE = Module['__ZTVNSt3__28messagesIwEE'] = 273440;
+var __ZNSt3__210moneypunctIcLb0EE4intlE = Module['__ZNSt3__210moneypunctIcLb0EE4intlE'] = 239376;
+var __ZNSt3__210moneypunctIcLb1EE4intlE = Module['__ZNSt3__210moneypunctIcLb1EE4intlE'] = 239377;
+var __ZNSt3__210moneypunctIwLb0EE4intlE = Module['__ZNSt3__210moneypunctIwLb0EE4intlE'] = 239378;
+var __ZNSt3__210moneypunctIwLb1EE4intlE = Module['__ZNSt3__210moneypunctIwLb1EE4intlE'] = 239379;
+var __ZNSt3__26locale4noneE = Module['__ZNSt3__26locale4noneE'] = 239404;
+var __ZNSt3__26locale7collateE = Module['__ZNSt3__26locale7collateE'] = 239408;
+var __ZNSt3__26locale5ctypeE = Module['__ZNSt3__26locale5ctypeE'] = 239412;
+var __ZNSt3__26locale8monetaryE = Module['__ZNSt3__26locale8monetaryE'] = 239416;
+var __ZNSt3__26locale7numericE = Module['__ZNSt3__26locale7numericE'] = 239420;
+var __ZNSt3__26locale4timeE = Module['__ZNSt3__26locale4timeE'] = 239424;
+var __ZNSt3__26locale8messagesE = Module['__ZNSt3__26locale8messagesE'] = 239428;
+var __ZNSt3__26locale3allE = Module['__ZNSt3__26locale3allE'] = 239432;
+var __ZTINSt3__26locale5__impE = Module['__ZTINSt3__26locale5__impE'] = 270980;
+var __ZTINSt3__214collate_bynameIcEE = Module['__ZTINSt3__214collate_bynameIcEE'] = 271004;
+var __ZTINSt3__214collate_bynameIwEE = Module['__ZTINSt3__214collate_bynameIwEE'] = 271028;
+var __ZNSt3__210ctype_base5spaceE = Module['__ZNSt3__210ctype_base5spaceE'] = 239578;
+var __ZNSt3__210ctype_base5printE = Module['__ZNSt3__210ctype_base5printE'] = 239580;
+var __ZNSt3__210ctype_base5cntrlE = Module['__ZNSt3__210ctype_base5cntrlE'] = 239582;
+var __ZNSt3__210ctype_base5upperE = Module['__ZNSt3__210ctype_base5upperE'] = 239584;
+var __ZNSt3__210ctype_base5lowerE = Module['__ZNSt3__210ctype_base5lowerE'] = 239586;
+var __ZNSt3__210ctype_base5alphaE = Module['__ZNSt3__210ctype_base5alphaE'] = 239588;
+var __ZNSt3__210ctype_base5digitE = Module['__ZNSt3__210ctype_base5digitE'] = 239590;
+var __ZNSt3__210ctype_base5punctE = Module['__ZNSt3__210ctype_base5punctE'] = 239592;
+var __ZNSt3__210ctype_base6xdigitE = Module['__ZNSt3__210ctype_base6xdigitE'] = 239594;
+var __ZNSt3__210ctype_base5blankE = Module['__ZNSt3__210ctype_base5blankE'] = 239596;
+var __ZNSt3__210ctype_base5alnumE = Module['__ZNSt3__210ctype_base5alnumE'] = 239598;
+var __ZNSt3__210ctype_base5graphE = Module['__ZNSt3__210ctype_base5graphE'] = 239600;
+var __ZTINSt3__25ctypeIcEE = Module['__ZTINSt3__25ctypeIcEE'] = 271040;
+var __ZTINSt3__212ctype_bynameIcEE = Module['__ZTINSt3__212ctype_bynameIcEE'] = 271072;
+var __ZTINSt3__212ctype_bynameIwEE = Module['__ZTINSt3__212ctype_bynameIwEE'] = 271084;
+var __ZTINSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIwc11__mbstate_tEE'] = 270276;
+var __ZTINSt3__28numpunctIcEE = Module['__ZTINSt3__28numpunctIcEE'] = 271096;
+var __ZTINSt3__28numpunctIwEE = Module['__ZTINSt3__28numpunctIwEE'] = 271108;
+var __ZTINSt3__215numpunct_bynameIcEE = Module['__ZTINSt3__215numpunct_bynameIcEE'] = 271120;
+var __ZTINSt3__215numpunct_bynameIwEE = Module['__ZTINSt3__215numpunct_bynameIwEE'] = 271132;
+var __ZTINSt3__26locale5facetE = Module['__ZTINSt3__26locale5facetE'] = 269620;
+var __ZTSNSt3__26locale5facetE = Module['__ZTSNSt3__26locale5facetE'] = 240404;
+var __ZTINSt3__214__shared_countE = Module['__ZTINSt3__214__shared_countE'] = 276040;
+var __ZTINSt3__25ctypeIwEE = Module['__ZTINSt3__25ctypeIwEE'] = 269708;
+var __ZTSNSt3__25ctypeIwEE = Module['__ZTSNSt3__25ctypeIwEE'] = 240426;
+var __ZTSNSt3__210ctype_baseE = Module['__ZTSNSt3__210ctype_baseE'] = 240444;
+var __ZTINSt3__210ctype_baseE = Module['__ZTINSt3__210ctype_baseE'] = 269700;
+var __ZTINSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIcc11__mbstate_tEE'] = 269796;
+var __ZTSNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIcc11__mbstate_tEE'] = 240465;
+var __ZTSNSt3__212codecvt_baseE = Module['__ZTSNSt3__212codecvt_baseE'] = 240499;
+var __ZTINSt3__212codecvt_baseE = Module['__ZTINSt3__212codecvt_baseE'] = 269788;
+var __ZTINSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDsc11__mbstate_tEE'] = 269876;
+var __ZTSNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDsc11__mbstate_tEE'] = 240522;
+var __ZTINSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDic11__mbstate_tEE'] = 269956;
+var __ZTSNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDic11__mbstate_tEE'] = 240557;
+var __ZTVNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm16EEE'] = 269988;
+var __ZTINSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm16EEE'] = 270036;
+var __ZTSNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm16EEE'] = 240592;
+var __ZTVNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm32EEE'] = 270048;
+var __ZTINSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm32EEE'] = 270096;
+var __ZTSNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm32EEE'] = 240626;
+var __ZTVNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm16EEE'] = 270108;
+var __ZTINSt3__217__widen_from_utf8ILm16EEE = Module['__ZTINSt3__217__widen_from_utf8ILm16EEE'] = 270156;
+var __ZTSNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm16EEE'] = 240660;
+var __ZTVNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm32EEE'] = 270168;
+var __ZTINSt3__217__widen_from_utf8ILm32EEE = Module['__ZTINSt3__217__widen_from_utf8ILm32EEE'] = 270216;
+var __ZTSNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm32EEE'] = 240695;
+var __ZTVNSt3__214__codecvt_utf8IwEE = Module['__ZTVNSt3__214__codecvt_utf8IwEE'] = 270228;
+var __ZTINSt3__214__codecvt_utf8IwEE = Module['__ZTINSt3__214__codecvt_utf8IwEE'] = 270308;
+var __ZTSNSt3__214__codecvt_utf8IwEE = Module['__ZTSNSt3__214__codecvt_utf8IwEE'] = 240730;
+var __ZTSNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIwc11__mbstate_tEE'] = 240758;
+var __ZTVNSt3__214__codecvt_utf8IDsEE = Module['__ZTVNSt3__214__codecvt_utf8IDsEE'] = 270320;
+var __ZTINSt3__214__codecvt_utf8IDsEE = Module['__ZTINSt3__214__codecvt_utf8IDsEE'] = 270368;
+var __ZTSNSt3__214__codecvt_utf8IDsEE = Module['__ZTSNSt3__214__codecvt_utf8IDsEE'] = 240792;
+var __ZTVNSt3__214__codecvt_utf8IDiEE = Module['__ZTVNSt3__214__codecvt_utf8IDiEE'] = 270380;
+var __ZTINSt3__214__codecvt_utf8IDiEE = Module['__ZTINSt3__214__codecvt_utf8IDiEE'] = 270428;
+var __ZTSNSt3__214__codecvt_utf8IDiEE = Module['__ZTSNSt3__214__codecvt_utf8IDiEE'] = 240821;
+var __ZTVNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb0EEE'] = 270440;
+var __ZTINSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb0EEE'] = 270488;
+var __ZTSNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb0EEE'] = 240850;
+var __ZTVNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb1EEE'] = 270500;
+var __ZTINSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb1EEE'] = 270548;
+var __ZTSNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb1EEE'] = 240883;
+var __ZTVNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb0EEE'] = 270560;
+var __ZTINSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb0EEE'] = 270608;
+var __ZTSNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb0EEE'] = 240916;
+var __ZTVNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb1EEE'] = 270620;
+var __ZTINSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb1EEE'] = 270668;
+var __ZTSNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb1EEE'] = 240950;
+var __ZTVNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb0EEE'] = 270680;
+var __ZTINSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb0EEE'] = 270728;
+var __ZTSNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb0EEE'] = 240984;
+var __ZTVNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb1EEE'] = 270740;
+var __ZTINSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb1EEE'] = 270788;
+var __ZTSNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb1EEE'] = 241018;
+var __ZTVNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IwEE'] = 270800;
+var __ZTINSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IwEE'] = 270848;
+var __ZTSNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IwEE'] = 241052;
+var __ZTVNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDiEE'] = 270860;
+var __ZTINSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDiEE'] = 270908;
+var __ZTSNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDiEE'] = 241086;
+var __ZTVNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDsEE'] = 270920;
+var __ZTINSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDsEE'] = 270968;
+var __ZTSNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDsEE'] = 241121;
+var __ZTSNSt3__26locale5__impE = Module['__ZTSNSt3__26locale5__impE'] = 241156;
+var __ZTSNSt3__214collate_bynameIcEE = Module['__ZTSNSt3__214collate_bynameIcEE'] = 241178;
+var __ZTSNSt3__27collateIcEE = Module['__ZTSNSt3__27collateIcEE'] = 241206;
+var __ZTINSt3__27collateIcEE = Module['__ZTINSt3__27collateIcEE'] = 270992;
+var __ZTSNSt3__214collate_bynameIwEE = Module['__ZTSNSt3__214collate_bynameIwEE'] = 241226;
+var __ZTSNSt3__27collateIwEE = Module['__ZTSNSt3__27collateIwEE'] = 241254;
+var __ZTINSt3__27collateIwEE = Module['__ZTINSt3__27collateIwEE'] = 271016;
+var __ZTSNSt3__25ctypeIcEE = Module['__ZTSNSt3__25ctypeIcEE'] = 241274;
+var __ZTSNSt3__212ctype_bynameIcEE = Module['__ZTSNSt3__212ctype_bynameIcEE'] = 241292;
+var __ZTSNSt3__212ctype_bynameIwEE = Module['__ZTSNSt3__212ctype_bynameIwEE'] = 241318;
+var __ZTSNSt3__28numpunctIcEE = Module['__ZTSNSt3__28numpunctIcEE'] = 241344;
+var __ZTSNSt3__28numpunctIwEE = Module['__ZTSNSt3__28numpunctIwEE'] = 241365;
+var __ZTSNSt3__215numpunct_bynameIcEE = Module['__ZTSNSt3__215numpunct_bynameIcEE'] = 241386;
+var __ZTSNSt3__215numpunct_bynameIwEE = Module['__ZTSNSt3__215numpunct_bynameIwEE'] = 241415;
+var __ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271304;
+var __ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241444;
+var __ZTSNSt3__29__num_getIcEE = Module['__ZTSNSt3__29__num_getIcEE'] = 241512;
+var __ZTSNSt3__214__num_get_baseE = Module['__ZTSNSt3__214__num_get_baseE'] = 241534;
+var __ZTINSt3__214__num_get_baseE = Module['__ZTINSt3__214__num_get_baseE'] = 271272;
+var __ZTINSt3__29__num_getIcEE = Module['__ZTINSt3__29__num_getIcEE'] = 271280;
+var __ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271424;
+var __ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241559;
+var __ZTSNSt3__29__num_getIwEE = Module['__ZTSNSt3__29__num_getIwEE'] = 241627;
+var __ZTINSt3__29__num_getIwEE = Module['__ZTINSt3__29__num_getIwEE'] = 271400;
+var __ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271540;
+var __ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241649;
+var __ZTSNSt3__29__num_putIcEE = Module['__ZTSNSt3__29__num_putIcEE'] = 241717;
+var __ZTSNSt3__214__num_put_baseE = Module['__ZTSNSt3__214__num_put_baseE'] = 241739;
+var __ZTINSt3__214__num_put_baseE = Module['__ZTINSt3__214__num_put_baseE'] = 271508;
+var __ZTINSt3__29__num_putIcEE = Module['__ZTINSt3__29__num_putIcEE'] = 271516;
+var __ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271648;
+var __ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241764;
+var __ZTSNSt3__29__num_putIwEE = Module['__ZTSNSt3__29__num_putIwEE'] = 241832;
+var __ZTINSt3__29__num_putIwEE = Module['__ZTINSt3__29__num_putIwEE'] = 271624;
+var __ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271780;
+var __ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241854;
+var __ZTSNSt3__29time_baseE = Module['__ZTSNSt3__29time_baseE'] = 241923;
+var __ZTINSt3__29time_baseE = Module['__ZTINSt3__29time_baseE'] = 271764;
+var __ZTSNSt3__220__time_get_c_storageIcEE = Module['__ZTSNSt3__220__time_get_c_storageIcEE'] = 241942;
+var __ZTINSt3__220__time_get_c_storageIcEE = Module['__ZTINSt3__220__time_get_c_storageIcEE'] = 271772;
+var __ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271912;
+var __ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241976;
+var __ZTSNSt3__220__time_get_c_storageIwEE = Module['__ZTSNSt3__220__time_get_c_storageIwEE'] = 242045;
+var __ZTINSt3__220__time_get_c_storageIwEE = Module['__ZTINSt3__220__time_get_c_storageIwEE'] = 271904;
+var __ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272084;
+var __ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242079;
+var __ZTSNSt3__218__time_get_storageIcEE = Module['__ZTSNSt3__218__time_get_storageIcEE'] = 242156;
+var __ZTSNSt3__210__time_getE = Module['__ZTSNSt3__210__time_getE'] = 242188;
+var __ZTINSt3__210__time_getE = Module['__ZTINSt3__210__time_getE'] = 272064;
+var __ZTINSt3__218__time_get_storageIcEE = Module['__ZTINSt3__218__time_get_storageIcEE'] = 272072;
+var __ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272240;
+var __ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242209;
+var __ZTSNSt3__218__time_get_storageIwEE = Module['__ZTSNSt3__218__time_get_storageIwEE'] = 242286;
+var __ZTINSt3__218__time_get_storageIwEE = Module['__ZTINSt3__218__time_get_storageIwEE'] = 272228;
+var __ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272304;
+var __ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242318;
+var __ZTSNSt3__210__time_putE = Module['__ZTSNSt3__210__time_putE'] = 242387;
+var __ZTINSt3__210__time_putE = Module['__ZTINSt3__210__time_putE'] = 272296;
+var __ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272360;
+var __ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242408;
+var __ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272416;
+var __ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242477;
+var __ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272452;
+var __ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242554;
+var __ZTINSt3__210moneypunctIcLb0EEE = Module['__ZTINSt3__210moneypunctIcLb0EEE'] = 272528;
+var __ZTSNSt3__210moneypunctIcLb0EEE = Module['__ZTSNSt3__210moneypunctIcLb0EEE'] = 242631;
+var __ZTSNSt3__210money_baseE = Module['__ZTSNSt3__210money_baseE'] = 242659;
+var __ZTINSt3__210money_baseE = Module['__ZTINSt3__210money_baseE'] = 272520;
+var __ZTINSt3__210moneypunctIcLb1EEE = Module['__ZTINSt3__210moneypunctIcLb1EEE'] = 272616;
+var __ZTSNSt3__210moneypunctIcLb1EEE = Module['__ZTSNSt3__210moneypunctIcLb1EEE'] = 242680;
+var __ZTINSt3__210moneypunctIwLb0EEE = Module['__ZTINSt3__210moneypunctIwLb0EEE'] = 272704;
+var __ZTSNSt3__210moneypunctIwLb0EEE = Module['__ZTSNSt3__210moneypunctIwLb0EEE'] = 242708;
+var __ZTINSt3__210moneypunctIwLb1EEE = Module['__ZTINSt3__210moneypunctIwLb1EEE'] = 272792;
+var __ZTSNSt3__210moneypunctIwLb1EEE = Module['__ZTSNSt3__210moneypunctIwLb1EEE'] = 242736;
+var __ZTINSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb0EEE'] = 272880;
+var __ZTSNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb0EEE'] = 242764;
+var __ZTINSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb1EEE'] = 272948;
+var __ZTSNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb1EEE'] = 242799;
+var __ZTINSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb0EEE'] = 273016;
+var __ZTSNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb0EEE'] = 242834;
+var __ZTINSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb1EEE'] = 273084;
+var __ZTSNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb1EEE'] = 242869;
+var __ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 273132;
+var __ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242904;
+var __ZTSNSt3__211__money_getIcEE = Module['__ZTSNSt3__211__money_getIcEE'] = 242974;
+var __ZTINSt3__211__money_getIcEE = Module['__ZTINSt3__211__money_getIcEE'] = 273124;
+var __ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 273200;
+var __ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242999;
+var __ZTSNSt3__211__money_getIwEE = Module['__ZTSNSt3__211__money_getIwEE'] = 243069;
+var __ZTINSt3__211__money_getIwEE = Module['__ZTINSt3__211__money_getIwEE'] = 273192;
+var __ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 273268;
+var __ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 243094;
+var __ZTSNSt3__211__money_putIcEE = Module['__ZTSNSt3__211__money_putIcEE'] = 243164;
+var __ZTINSt3__211__money_putIcEE = Module['__ZTINSt3__211__money_putIcEE'] = 273260;
+var __ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 273336;
+var __ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 243189;
+var __ZTSNSt3__211__money_putIwEE = Module['__ZTSNSt3__211__money_putIwEE'] = 243259;
+var __ZTINSt3__211__money_putIwEE = Module['__ZTINSt3__211__money_putIwEE'] = 273328;
+var __ZTINSt3__28messagesIcEE = Module['__ZTINSt3__28messagesIcEE'] = 273408;
+var __ZTSNSt3__28messagesIcEE = Module['__ZTSNSt3__28messagesIcEE'] = 243284;
+var __ZTSNSt3__213messages_baseE = Module['__ZTSNSt3__213messages_baseE'] = 243305;
+var __ZTINSt3__213messages_baseE = Module['__ZTINSt3__213messages_baseE'] = 273400;
+var __ZTINSt3__28messagesIwEE = Module['__ZTINSt3__28messagesIwEE'] = 273472;
+var __ZTSNSt3__28messagesIwEE = Module['__ZTSNSt3__28messagesIwEE'] = 243329;
+var __ZTINSt3__215messages_bynameIcEE = Module['__ZTINSt3__215messages_bynameIcEE'] = 273536;
+var __ZTSNSt3__215messages_bynameIcEE = Module['__ZTSNSt3__215messages_bynameIcEE'] = 243350;
+var __ZTINSt3__215messages_bynameIwEE = Module['__ZTINSt3__215messages_bynameIwEE'] = 273580;
+var __ZTSNSt3__215messages_bynameIwEE = Module['__ZTSNSt3__215messages_bynameIwEE'] = 243379;
+var __ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 273640;
+var __ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 243408;
+var __ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 273700;
+var __ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 243450;
+var __ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 273760;
+var __ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 243492;
+var __ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 273820;
+var __ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 243535;
+var __ZTINSt3__215__time_get_tempIcEE = Module['__ZTINSt3__215__time_get_tempIcEE'] = 273956;
+var __ZTSNSt3__215__time_get_tempIcEE = Module['__ZTSNSt3__215__time_get_tempIcEE'] = 244756;
+var __ZTINSt3__215__time_get_tempIwEE = Module['__ZTINSt3__215__time_get_tempIwEE'] = 274036;
+var __ZTSNSt3__215__time_get_tempIwEE = Module['__ZTSNSt3__215__time_get_tempIwEE'] = 244785;
+var __ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE = Module['__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE'] = 244828;
+var __ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE = Module['__ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE'] = 244832;
+var __ZTVNSt3__212future_errorE = Module['__ZTVNSt3__212future_errorE'] = 274088;
+var __ZTVNSt3__217__assoc_sub_stateE = Module['__ZTVNSt3__217__assoc_sub_stateE'] = 274108;
+var __ZTVNSt3__223__future_error_categoryE = Module['__ZTVNSt3__223__future_error_categoryE'] = 274052;
+var __ZTINSt3__223__future_error_categoryE = Module['__ZTINSt3__223__future_error_categoryE'] = 274144;
+var __ZTINSt3__212future_errorE = Module['__ZTINSt3__212future_errorE'] = 274156;
+var __ZTINSt3__217__assoc_sub_stateE = Module['__ZTINSt3__217__assoc_sub_stateE'] = 274132;
+var __ZTSNSt3__217__assoc_sub_stateE = Module['__ZTSNSt3__217__assoc_sub_stateE'] = 245561;
+var __ZTSNSt3__223__future_error_categoryE = Module['__ZTSNSt3__223__future_error_categoryE'] = 245589;
+var __ZTSNSt3__212future_errorE = Module['__ZTSNSt3__212future_errorE'] = 245623;
+var __ZTISt11logic_error = Module['__ZTISt11logic_error'] = 281148;
+var __ZTVSt19bad_optional_access = Module['__ZTVSt19bad_optional_access'] = 274188;
+var __ZTISt19bad_optional_access = Module['__ZTISt19bad_optional_access'] = 274208;
+var __ZTSSt19bad_optional_access = Module['__ZTSSt19bad_optional_access'] = 245698;
+var __ZTVNSt12experimental19bad_optional_accessE = Module['__ZTVNSt12experimental19bad_optional_accessE'] = 274220;
+var __ZTINSt12experimental19bad_optional_accessE = Module['__ZTINSt12experimental19bad_optional_accessE'] = 274240;
+var __ZTSNSt12experimental19bad_optional_accessE = Module['__ZTSNSt12experimental19bad_optional_accessE'] = 245722;
+var __ZTVNSt3__217bad_function_callE = Module['__ZTVNSt3__217bad_function_callE'] = 274252;
+var __ZTINSt3__217bad_function_callE = Module['__ZTINSt3__217bad_function_callE'] = 274272;
+var __ZTSNSt3__217bad_function_callE = Module['__ZTSNSt3__217bad_function_callE'] = 245785;
+var __ZNSt3__26chrono12system_clock9is_steadyE = Module['__ZNSt3__26chrono12system_clock9is_steadyE'] = 245813;
+var __ZNSt3__26chrono12steady_clock9is_steadyE = Module['__ZNSt3__26chrono12steady_clock9is_steadyE'] = 245851;
+var __ZTVSt16nested_exception = Module['__ZTVSt16nested_exception'] = 274284;
+var __ZTISt16nested_exception = Module['__ZTISt16nested_exception'] = 274300;
+var __ZTSSt16nested_exception = Module['__ZTSSt16nested_exception'] = 245890;
+var __ZTVNSt3__211regex_errorE = Module['__ZTVNSt3__211regex_errorE'] = 274308;
+var __ZTINSt3__211regex_errorE = Module['__ZTINSt3__211regex_errorE'] = 275352;
+var __ZTSNSt3__211regex_errorE = Module['__ZTSNSt3__211regex_errorE'] = 245911;
+var __ZNSt3__223__libcpp_debug_functionE = Module['__ZNSt3__223__libcpp_debug_functionE'] = 275432;
+var __ZTVNSt3__28__c_nodeE = Module['__ZTVNSt3__28__c_nodeE'] = 275436;
+var __ZTINSt3__28__c_nodeE = Module['__ZTINSt3__28__c_nodeE'] = 275468;
+var __ZTSNSt3__28__c_nodeE = Module['__ZTSNSt3__28__c_nodeE'] = 248124;
+var __ZTVNSt3__212strstreambufE = Module['__ZTVNSt3__212strstreambufE'] = 275476;
+var __ZTTNSt3__210istrstreamE = Module['__ZTTNSt3__210istrstreamE'] = 275580;
+var __ZTTNSt3__210ostrstreamE = Module['__ZTTNSt3__210ostrstreamE'] = 275636;
+var __ZTTNSt3__29strstreamE = Module['__ZTTNSt3__29strstreamE'] = 275712;
+var __ZTINSt3__212strstreambufE = Module['__ZTINSt3__212strstreambufE'] = 275752;
+var __ZTVNSt3__210istrstreamE = Module['__ZTVNSt3__210istrstreamE'] = 275540;
+var __ZTINSt3__210istrstreamE = Module['__ZTINSt3__210istrstreamE'] = 275804;
+var __ZTCNSt3__210istrstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__210istrstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE'] = 275764;
+var __ZTVNSt3__210ostrstreamE = Module['__ZTVNSt3__210ostrstreamE'] = 275596;
+var __ZTINSt3__210ostrstreamE = Module['__ZTINSt3__210ostrstreamE'] = 275856;
+var __ZTCNSt3__210ostrstreamE0_NS_13basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__210ostrstreamE0_NS_13basic_ostreamIcNS_11char_traitsIcEEEE'] = 275816;
+var __ZTVNSt3__29strstreamE = Module['__ZTVNSt3__29strstreamE'] = 275652;
+var __ZTINSt3__29strstreamE = Module['__ZTINSt3__29strstreamE'] = 276008;
+var __ZTCNSt3__29strstreamE0_NS_14basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE0_NS_14basic_iostreamIcNS_11char_traitsIcEEEE'] = 275868;
+var __ZTCNSt3__29strstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE'] = 275928;
+var __ZTCNSt3__29strstreamE8_NS_13basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE8_NS_13basic_ostreamIcNS_11char_traitsIcEEEE'] = 275968;
+var __ZTSNSt3__212strstreambufE = Module['__ZTSNSt3__212strstreambufE'] = 248142;
+var __ZTSNSt3__210istrstreamE = Module['__ZTSNSt3__210istrstreamE'] = 248165;
+var __ZTSNSt3__210ostrstreamE = Module['__ZTSNSt3__210ostrstreamE'] = 248186;
+var __ZTSNSt3__29strstreamE = Module['__ZTSNSt3__29strstreamE'] = 248207;
+var __ZTVSt11logic_error = Module['__ZTVSt11logic_error'] = 281088;
+var __ZTVSt9exception = Module['__ZTVSt9exception'] = 281004;
+var __ZTVSt13runtime_error = Module['__ZTVSt13runtime_error'] = 281108;
+var __ZNSt3__219piecewise_constructE = Module['__ZNSt3__219piecewise_constructE'] = 248233;
+var __ZNSt3__213allocator_argE = Module['__ZNSt3__213allocator_argE'] = 248234;
+var __ZTSNSt3__214__shared_countE = Module['__ZTSNSt3__214__shared_countE'] = 248248;
+var __ZTSNSt3__219__shared_weak_countE = Module['__ZTSNSt3__219__shared_weak_countE'] = 248273;
+var __ZTVNSt3__212bad_weak_ptrE = Module['__ZTVNSt3__212bad_weak_ptrE'] = 276100;
+var __ZTINSt3__212bad_weak_ptrE = Module['__ZTINSt3__212bad_weak_ptrE'] = 276120;
+var __ZTSNSt3__212bad_weak_ptrE = Module['__ZTSNSt3__212bad_weak_ptrE'] = 248303;
+var __ZTVNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTVNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 276132;
+var __ZTINSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTINSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 276204;
+var __ZTVNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTVNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 276160;
+var __ZTINSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTINSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 276216;
+var __ZTSNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTSNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 248326;
+var __ZTSNSt12experimental15fundamentals_v13pmr15memory_resourceE = Module['__ZTSNSt12experimental15fundamentals_v13pmr15memory_resourceE'] = 248400;
+var __ZTINSt12experimental15fundamentals_v13pmr15memory_resourceE = Module['__ZTINSt12experimental15fundamentals_v13pmr15memory_resourceE'] = 276196;
+var __ZTSNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTSNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 248457;
+var __ZTVNSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTVNSt3__24__fs10filesystem16filesystem_errorE'] = 276232;
+var __ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 276468;
+var __ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 276508;
+var __ZNSt3__24__fs10filesystem16_FilesystemClock9is_steadyE = Module['__ZNSt3__24__fs10filesystem16_FilesystemClock9is_steadyE'] = 248525;
+var __ZTINSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTINSt3__24__fs10filesystem16filesystem_errorE'] = 276272;
+var __ZNSt3__24__fs10filesystem4path19preferred_separatorE = Module['__ZNSt3__24__fs10filesystem4path19preferred_separatorE'] = 249008;
+var __ZTSNSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTSNSt3__24__fs10filesystem16filesystem_errorE'] = 249012;
+var __ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 276564;
+var __ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 276524;
+var __ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 249408;
+var __ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 276576;
+var __ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 276616;
+var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 276604;
+var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 249744;
+var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 276644;
+var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 249838;
+var ___cxa_unexpected_handler = Module['___cxa_unexpected_handler'] = 276660;
+var ___cxa_terminate_handler = Module['___cxa_terminate_handler'] = 276656;
+var ___cxa_new_handler = Module['___cxa_new_handler'] = 301256;
+var __ZTVSt9bad_alloc = Module['__ZTVSt9bad_alloc'] = 280964;
+var __ZTVSt20bad_array_new_length = Module['__ZTVSt20bad_array_new_length'] = 280984;
+var __ZTISt9bad_alloc = Module['__ZTISt9bad_alloc'] = 281064;
+var __ZTISt20bad_array_new_length = Module['__ZTISt20bad_array_new_length'] = 281076;
+var __ZTSSt9exception = Module['__ZTSSt9exception'] = 256648;
+var __ZTVSt13bad_exception = Module['__ZTVSt13bad_exception'] = 281032;
+var __ZTISt13bad_exception = Module['__ZTISt13bad_exception'] = 281052;
+var __ZTSSt13bad_exception = Module['__ZTSSt13bad_exception'] = 256661;
+var __ZTSSt9bad_alloc = Module['__ZTSSt9bad_alloc'] = 256679;
+var __ZTSSt20bad_array_new_length = Module['__ZTSSt20bad_array_new_length'] = 256692;
+var __ZTVSt12domain_error = Module['__ZTVSt12domain_error'] = 281128;
+var __ZTISt12domain_error = Module['__ZTISt12domain_error'] = 281160;
+var __ZTSSt12domain_error = Module['__ZTSSt12domain_error'] = 256717;
+var __ZTSSt11logic_error = Module['__ZTSSt11logic_error'] = 256734;
+var __ZTVSt16invalid_argument = Module['__ZTVSt16invalid_argument'] = 281172;
+var __ZTISt16invalid_argument = Module['__ZTISt16invalid_argument'] = 281192;
+var __ZTSSt16invalid_argument = Module['__ZTSSt16invalid_argument'] = 256750;
+var __ZTSSt12length_error = Module['__ZTSSt12length_error'] = 256771;
+var __ZTVSt12out_of_range = Module['__ZTVSt12out_of_range'] = 281236;
+var __ZTISt12out_of_range = Module['__ZTISt12out_of_range'] = 281256;
+var __ZTSSt12out_of_range = Module['__ZTSSt12out_of_range'] = 256788;
+var __ZTVSt11range_error = Module['__ZTVSt11range_error'] = 281268;
+var __ZTISt11range_error = Module['__ZTISt11range_error'] = 281300;
+var __ZTSSt11range_error = Module['__ZTSSt11range_error'] = 256805;
+var __ZTSSt13runtime_error = Module['__ZTSSt13runtime_error'] = 256821;
+var __ZTVSt14overflow_error = Module['__ZTVSt14overflow_error'] = 281312;
+var __ZTISt14overflow_error = Module['__ZTISt14overflow_error'] = 281332;
+var __ZTSSt14overflow_error = Module['__ZTSSt14overflow_error'] = 256839;
+var __ZTVSt15underflow_error = Module['__ZTVSt15underflow_error'] = 281344;
+var __ZTISt15underflow_error = Module['__ZTISt15underflow_error'] = 281364;
+var __ZTSSt15underflow_error = Module['__ZTSSt15underflow_error'] = 256858;
+var __ZTVSt8bad_cast = Module['__ZTVSt8bad_cast'] = 281376;
+var __ZTVSt10bad_typeid = Module['__ZTVSt10bad_typeid'] = 281396;
+var __ZTISt10bad_typeid = Module['__ZTISt10bad_typeid'] = 281452;
+var __ZTVSt9type_info = Module['__ZTVSt9type_info'] = 281416;
+var __ZTISt9type_info = Module['__ZTISt9type_info'] = 281432;
+var __ZTSSt9type_info = Module['__ZTSSt9type_info'] = 256908;
+var __ZTSSt8bad_cast = Module['__ZTSSt8bad_cast'] = 256921;
+var __ZTSSt10bad_typeid = Module['__ZTSSt10bad_typeid'] = 256933;
+var __ZTIN10__cxxabiv117__class_type_infoE = Module['__ZTIN10__cxxabiv117__class_type_infoE'] = 281476;
+var __ZTIN10__cxxabiv116__shim_type_infoE = Module['__ZTIN10__cxxabiv116__shim_type_infoE'] = 281464;
+var __ZTIN10__cxxabiv117__pbase_type_infoE = Module['__ZTIN10__cxxabiv117__pbase_type_infoE'] = 281488;
+var __ZTIDn = Module['__ZTIDn'] = 281644;
+var __ZTIN10__cxxabiv119__pointer_type_infoE = Module['__ZTIN10__cxxabiv119__pointer_type_infoE'] = 281500;
+var __ZTIv = Module['__ZTIv'] = 281604;
+var __ZTIN10__cxxabiv120__function_type_infoE = Module['__ZTIN10__cxxabiv120__function_type_infoE'] = 281512;
+var __ZTIN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTIN10__cxxabiv129__pointer_to_member_type_infoE'] = 281524;
+var __ZTSN10__cxxabiv116__shim_type_infoE = Module['__ZTSN10__cxxabiv116__shim_type_infoE'] = 256948;
+var __ZTSN10__cxxabiv117__class_type_infoE = Module['__ZTSN10__cxxabiv117__class_type_infoE'] = 256981;
+var __ZTSN10__cxxabiv117__pbase_type_infoE = Module['__ZTSN10__cxxabiv117__pbase_type_infoE'] = 257015;
+var __ZTSN10__cxxabiv119__pointer_type_infoE = Module['__ZTSN10__cxxabiv119__pointer_type_infoE'] = 257049;
+var __ZTSN10__cxxabiv120__function_type_infoE = Module['__ZTSN10__cxxabiv120__function_type_infoE'] = 257085;
+var __ZTSN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTSN10__cxxabiv129__pointer_to_member_type_infoE'] = 257122;
+var __ZTVN10__cxxabiv116__shim_type_infoE = Module['__ZTVN10__cxxabiv116__shim_type_infoE'] = 281536;
+var __ZTVN10__cxxabiv123__fundamental_type_infoE = Module['__ZTVN10__cxxabiv123__fundamental_type_infoE'] = 281564;
+var __ZTIN10__cxxabiv123__fundamental_type_infoE = Module['__ZTIN10__cxxabiv123__fundamental_type_infoE'] = 281592;
+var __ZTSN10__cxxabiv123__fundamental_type_infoE = Module['__ZTSN10__cxxabiv123__fundamental_type_infoE'] = 257180;
+var __ZTSv = Module['__ZTSv'] = 257220;
+var __ZTSPv = Module['__ZTSPv'] = 257222;
+var __ZTIPv = Module['__ZTIPv'] = 281612;
+var __ZTVN10__cxxabiv119__pointer_type_infoE = Module['__ZTVN10__cxxabiv119__pointer_type_infoE'] = 282884;
+var __ZTSPKv = Module['__ZTSPKv'] = 257225;
+var __ZTIPKv = Module['__ZTIPKv'] = 281628;
+var __ZTSDn = Module['__ZTSDn'] = 257229;
+var __ZTSPDn = Module['__ZTSPDn'] = 257232;
+var __ZTIPDn = Module['__ZTIPDn'] = 281652;
+var __ZTSPKDn = Module['__ZTSPKDn'] = 257236;
+var __ZTIPKDn = Module['__ZTIPKDn'] = 281668;
+var __ZTSb = Module['__ZTSb'] = 257241;
+var __ZTIb = Module['__ZTIb'] = 281684;
+var __ZTSPb = Module['__ZTSPb'] = 257243;
+var __ZTIPb = Module['__ZTIPb'] = 281692;
+var __ZTSPKb = Module['__ZTSPKb'] = 257246;
+var __ZTIPKb = Module['__ZTIPKb'] = 281708;
+var __ZTSw = Module['__ZTSw'] = 257250;
+var __ZTIw = Module['__ZTIw'] = 281724;
+var __ZTSPw = Module['__ZTSPw'] = 257252;
+var __ZTIPw = Module['__ZTIPw'] = 281732;
+var __ZTSPKw = Module['__ZTSPKw'] = 257255;
+var __ZTIPKw = Module['__ZTIPKw'] = 281748;
+var __ZTSc = Module['__ZTSc'] = 257259;
+var __ZTIc = Module['__ZTIc'] = 281764;
+var __ZTSPc = Module['__ZTSPc'] = 257261;
+var __ZTIPc = Module['__ZTIPc'] = 281772;
+var __ZTSPKc = Module['__ZTSPKc'] = 257264;
+var __ZTIPKc = Module['__ZTIPKc'] = 281788;
+var __ZTSh = Module['__ZTSh'] = 257268;
+var __ZTIh = Module['__ZTIh'] = 281804;
+var __ZTSPh = Module['__ZTSPh'] = 257270;
+var __ZTIPh = Module['__ZTIPh'] = 281812;
+var __ZTSPKh = Module['__ZTSPKh'] = 257273;
+var __ZTIPKh = Module['__ZTIPKh'] = 281828;
+var __ZTSa = Module['__ZTSa'] = 257277;
+var __ZTIa = Module['__ZTIa'] = 281844;
+var __ZTSPa = Module['__ZTSPa'] = 257279;
+var __ZTIPa = Module['__ZTIPa'] = 281852;
+var __ZTSPKa = Module['__ZTSPKa'] = 257282;
+var __ZTIPKa = Module['__ZTIPKa'] = 281868;
+var __ZTSs = Module['__ZTSs'] = 257286;
+var __ZTIs = Module['__ZTIs'] = 281884;
+var __ZTSPs = Module['__ZTSPs'] = 257288;
+var __ZTIPs = Module['__ZTIPs'] = 281892;
+var __ZTSPKs = Module['__ZTSPKs'] = 257291;
+var __ZTIPKs = Module['__ZTIPKs'] = 281908;
+var __ZTSt = Module['__ZTSt'] = 257295;
+var __ZTIt = Module['__ZTIt'] = 281924;
+var __ZTSPt = Module['__ZTSPt'] = 257297;
+var __ZTIPt = Module['__ZTIPt'] = 281932;
+var __ZTSPKt = Module['__ZTSPKt'] = 257300;
+var __ZTIPKt = Module['__ZTIPKt'] = 281948;
+var __ZTSi = Module['__ZTSi'] = 257304;
+var __ZTIi = Module['__ZTIi'] = 281964;
+var __ZTSPi = Module['__ZTSPi'] = 257306;
+var __ZTIPi = Module['__ZTIPi'] = 281972;
+var __ZTSPKi = Module['__ZTSPKi'] = 257309;
+var __ZTIPKi = Module['__ZTIPKi'] = 281988;
+var __ZTSj = Module['__ZTSj'] = 257313;
+var __ZTIj = Module['__ZTIj'] = 282004;
+var __ZTSPj = Module['__ZTSPj'] = 257315;
+var __ZTIPj = Module['__ZTIPj'] = 282012;
+var __ZTSPKj = Module['__ZTSPKj'] = 257318;
+var __ZTIPKj = Module['__ZTIPKj'] = 282028;
+var __ZTSl = Module['__ZTSl'] = 257322;
+var __ZTIl = Module['__ZTIl'] = 282044;
+var __ZTSPl = Module['__ZTSPl'] = 257324;
+var __ZTIPl = Module['__ZTIPl'] = 282052;
+var __ZTSPKl = Module['__ZTSPKl'] = 257327;
+var __ZTIPKl = Module['__ZTIPKl'] = 282068;
+var __ZTSm = Module['__ZTSm'] = 257331;
+var __ZTIm = Module['__ZTIm'] = 282084;
+var __ZTSPm = Module['__ZTSPm'] = 257333;
+var __ZTIPm = Module['__ZTIPm'] = 282092;
+var __ZTSPKm = Module['__ZTSPKm'] = 257336;
+var __ZTIPKm = Module['__ZTIPKm'] = 282108;
+var __ZTSx = Module['__ZTSx'] = 257340;
+var __ZTIx = Module['__ZTIx'] = 282124;
+var __ZTSPx = Module['__ZTSPx'] = 257342;
+var __ZTIPx = Module['__ZTIPx'] = 282132;
+var __ZTSPKx = Module['__ZTSPKx'] = 257345;
+var __ZTIPKx = Module['__ZTIPKx'] = 282148;
+var __ZTSy = Module['__ZTSy'] = 257349;
+var __ZTIy = Module['__ZTIy'] = 282164;
+var __ZTSPy = Module['__ZTSPy'] = 257351;
+var __ZTIPy = Module['__ZTIPy'] = 282172;
+var __ZTSPKy = Module['__ZTSPKy'] = 257354;
+var __ZTIPKy = Module['__ZTIPKy'] = 282188;
+var __ZTSn = Module['__ZTSn'] = 257358;
+var __ZTIn = Module['__ZTIn'] = 282204;
+var __ZTSPn = Module['__ZTSPn'] = 257360;
+var __ZTIPn = Module['__ZTIPn'] = 282212;
+var __ZTSPKn = Module['__ZTSPKn'] = 257363;
+var __ZTIPKn = Module['__ZTIPKn'] = 282228;
+var __ZTSo = Module['__ZTSo'] = 257367;
+var __ZTIo = Module['__ZTIo'] = 282244;
+var __ZTSPo = Module['__ZTSPo'] = 257369;
+var __ZTIPo = Module['__ZTIPo'] = 282252;
+var __ZTSPKo = Module['__ZTSPKo'] = 257372;
+var __ZTIPKo = Module['__ZTIPKo'] = 282268;
+var __ZTSDh = Module['__ZTSDh'] = 257376;
+var __ZTIDh = Module['__ZTIDh'] = 282284;
+var __ZTSPDh = Module['__ZTSPDh'] = 257379;
+var __ZTIPDh = Module['__ZTIPDh'] = 282292;
+var __ZTSPKDh = Module['__ZTSPKDh'] = 257383;
+var __ZTIPKDh = Module['__ZTIPKDh'] = 282308;
+var __ZTSf = Module['__ZTSf'] = 257388;
+var __ZTIf = Module['__ZTIf'] = 282324;
+var __ZTSPf = Module['__ZTSPf'] = 257390;
+var __ZTIPf = Module['__ZTIPf'] = 282332;
+var __ZTSPKf = Module['__ZTSPKf'] = 257393;
+var __ZTIPKf = Module['__ZTIPKf'] = 282348;
+var __ZTSd = Module['__ZTSd'] = 257397;
+var __ZTId = Module['__ZTId'] = 282364;
+var __ZTSPd = Module['__ZTSPd'] = 257399;
+var __ZTIPd = Module['__ZTIPd'] = 282372;
+var __ZTSPKd = Module['__ZTSPKd'] = 257402;
+var __ZTIPKd = Module['__ZTIPKd'] = 282388;
+var __ZTSe = Module['__ZTSe'] = 257406;
+var __ZTIe = Module['__ZTIe'] = 282404;
+var __ZTSPe = Module['__ZTSPe'] = 257408;
+var __ZTIPe = Module['__ZTIPe'] = 282412;
+var __ZTSPKe = Module['__ZTSPKe'] = 257411;
+var __ZTIPKe = Module['__ZTIPKe'] = 282428;
+var __ZTSg = Module['__ZTSg'] = 257415;
+var __ZTIg = Module['__ZTIg'] = 282444;
+var __ZTSPg = Module['__ZTSPg'] = 257417;
+var __ZTIPg = Module['__ZTIPg'] = 282452;
+var __ZTSPKg = Module['__ZTSPKg'] = 257420;
+var __ZTIPKg = Module['__ZTIPKg'] = 282468;
+var __ZTSDu = Module['__ZTSDu'] = 257424;
+var __ZTIDu = Module['__ZTIDu'] = 282484;
+var __ZTSPDu = Module['__ZTSPDu'] = 257427;
+var __ZTIPDu = Module['__ZTIPDu'] = 282492;
+var __ZTSPKDu = Module['__ZTSPKDu'] = 257431;
+var __ZTIPKDu = Module['__ZTIPKDu'] = 282508;
+var __ZTSDs = Module['__ZTSDs'] = 257436;
+var __ZTIDs = Module['__ZTIDs'] = 282524;
+var __ZTSPDs = Module['__ZTSPDs'] = 257439;
+var __ZTIPDs = Module['__ZTIPDs'] = 282532;
+var __ZTSPKDs = Module['__ZTSPKDs'] = 257443;
+var __ZTIPKDs = Module['__ZTIPKDs'] = 282548;
+var __ZTSDi = Module['__ZTSDi'] = 257448;
+var __ZTIDi = Module['__ZTIDi'] = 282564;
+var __ZTSPDi = Module['__ZTSPDi'] = 257451;
+var __ZTIPDi = Module['__ZTIPDi'] = 282572;
+var __ZTSPKDi = Module['__ZTSPKDi'] = 257455;
+var __ZTIPKDi = Module['__ZTIPKDi'] = 282588;
+var __ZTVN10__cxxabiv117__array_type_infoE = Module['__ZTVN10__cxxabiv117__array_type_infoE'] = 282604;
+var __ZTIN10__cxxabiv117__array_type_infoE = Module['__ZTIN10__cxxabiv117__array_type_infoE'] = 282632;
+var __ZTSN10__cxxabiv117__array_type_infoE = Module['__ZTSN10__cxxabiv117__array_type_infoE'] = 257460;
+var __ZTVN10__cxxabiv120__function_type_infoE = Module['__ZTVN10__cxxabiv120__function_type_infoE'] = 282644;
+var __ZTVN10__cxxabiv116__enum_type_infoE = Module['__ZTVN10__cxxabiv116__enum_type_infoE'] = 282672;
+var __ZTIN10__cxxabiv116__enum_type_infoE = Module['__ZTIN10__cxxabiv116__enum_type_infoE'] = 282700;
+var __ZTSN10__cxxabiv116__enum_type_infoE = Module['__ZTSN10__cxxabiv116__enum_type_infoE'] = 257494;
+var __ZTIN10__cxxabiv120__si_class_type_infoE = Module['__ZTIN10__cxxabiv120__si_class_type_infoE'] = 282792;
+var __ZTSN10__cxxabiv120__si_class_type_infoE = Module['__ZTSN10__cxxabiv120__si_class_type_infoE'] = 257527;
+var __ZTIN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTIN10__cxxabiv121__vmi_class_type_infoE'] = 282844;
+var __ZTSN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTSN10__cxxabiv121__vmi_class_type_infoE'] = 257564;
+var __ZTVN10__cxxabiv117__pbase_type_infoE = Module['__ZTVN10__cxxabiv117__pbase_type_infoE'] = 282856;
+var __ZTVN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTVN10__cxxabiv129__pointer_to_member_type_infoE'] = 282912;
+var _in6addr_any = Module['_in6addr_any'] = 262156;
+var _in6addr_loopback = Module['_in6addr_loopback'] = 262172;
 
 
 
 // === Auto-generated postamble setup entry stuff ===
 
-if (!Object.getOwnPropertyDescriptor(Module, "intArrayFromString")) Module["intArrayFromString"] = function() { abort("'intArrayFromString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "intArrayToString")) Module["intArrayToString"] = function() { abort("'intArrayToString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "ccall")) Module["ccall"] = function() { abort("'ccall' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "cwrap")) Module["cwrap"] = function() { abort("'cwrap' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "setValue")) Module["setValue"] = function() { abort("'setValue' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getValue")) Module["getValue"] = function() { abort("'getValue' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "intArrayFromString")) Module["intArrayFromString"] = function() { abort("'intArrayFromString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "intArrayToString")) Module["intArrayToString"] = function() { abort("'intArrayToString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "ccall")) Module["ccall"] = function() { abort("'ccall' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "cwrap")) Module["cwrap"] = function() { abort("'cwrap' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "setValue")) Module["setValue"] = function() { abort("'setValue' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getValue")) Module["getValue"] = function() { abort("'getValue' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 Module["allocate"] = allocate;
-if (!Object.getOwnPropertyDescriptor(Module, "UTF8ArrayToString")) Module["UTF8ArrayToString"] = function() { abort("'UTF8ArrayToString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "UTF8ToString")) Module["UTF8ToString"] = function() { abort("'UTF8ToString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stringToUTF8Array")) Module["stringToUTF8Array"] = function() { abort("'stringToUTF8Array' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stringToUTF8")) Module["stringToUTF8"] = function() { abort("'stringToUTF8' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "lengthBytesUTF8")) Module["lengthBytesUTF8"] = function() { abort("'lengthBytesUTF8' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stackTrace")) Module["stackTrace"] = function() { abort("'stackTrace' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "addOnPreRun")) Module["addOnPreRun"] = function() { abort("'addOnPreRun' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "addOnInit")) Module["addOnInit"] = function() { abort("'addOnInit' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "addOnPreMain")) Module["addOnPreMain"] = function() { abort("'addOnPreMain' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "UTF8ArrayToString")) Module["UTF8ArrayToString"] = function() { abort("'UTF8ArrayToString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "UTF8ToString")) Module["UTF8ToString"] = function() { abort("'UTF8ToString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stringToUTF8Array")) Module["stringToUTF8Array"] = function() { abort("'stringToUTF8Array' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stringToUTF8")) Module["stringToUTF8"] = function() { abort("'stringToUTF8' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "lengthBytesUTF8")) Module["lengthBytesUTF8"] = function() { abort("'lengthBytesUTF8' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stackTrace")) Module["stackTrace"] = function() { abort("'stackTrace' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "addOnPreRun")) Module["addOnPreRun"] = function() { abort("'addOnPreRun' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "addOnInit")) Module["addOnInit"] = function() { abort("'addOnInit' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "addOnPreMain")) Module["addOnPreMain"] = function() { abort("'addOnPreMain' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 Module["addOnExit"] = addOnExit;
-if (!Object.getOwnPropertyDescriptor(Module, "addOnPostRun")) Module["addOnPostRun"] = function() { abort("'addOnPostRun' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeStringToMemory")) Module["writeStringToMemory"] = function() { abort("'writeStringToMemory' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeArrayToMemory")) Module["writeArrayToMemory"] = function() { abort("'writeArrayToMemory' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeAsciiToMemory")) Module["writeAsciiToMemory"] = function() { abort("'writeAsciiToMemory' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "addOnPostRun")) Module["addOnPostRun"] = function() { abort("'addOnPostRun' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeStringToMemory")) Module["writeStringToMemory"] = function() { abort("'writeStringToMemory' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeArrayToMemory")) Module["writeArrayToMemory"] = function() { abort("'writeArrayToMemory' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeAsciiToMemory")) Module["writeAsciiToMemory"] = function() { abort("'writeAsciiToMemory' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 Module["addRunDependency"] = addRunDependency;
 Module["removeRunDependency"] = removeRunDependency;
-if (!Object.getOwnPropertyDescriptor(Module, "FS_createFolder")) Module["FS_createFolder"] = function() { abort("'FS_createFolder' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "FS_createFolder")) Module["FS_createFolder"] = function() { abort("'FS_createFolder' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 Module["FS_createPath"] = FS.createPath;
 Module["FS_createDataFile"] = FS.createDataFile;
 Module["FS_createPreloadedFile"] = FS.createPreloadedFile;
 Module["FS_createLazyFile"] = FS.createLazyFile;
-if (!Object.getOwnPropertyDescriptor(Module, "FS_createLink")) Module["FS_createLink"] = function() { abort("'FS_createLink' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "FS_createLink")) Module["FS_createLink"] = function() { abort("'FS_createLink' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 Module["FS_createDevice"] = FS.createDevice;
 Module["FS_unlink"] = FS.unlink;
-if (!Object.getOwnPropertyDescriptor(Module, "getLEB")) Module["getLEB"] = function() { abort("'getLEB' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getFunctionTables")) Module["getFunctionTables"] = function() { abort("'getFunctionTables' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "alignFunctionTables")) Module["alignFunctionTables"] = function() { abort("'alignFunctionTables' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerFunctions")) Module["registerFunctions"] = function() { abort("'registerFunctions' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "addFunction")) Module["addFunction"] = function() { abort("'addFunction' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "removeFunction")) Module["removeFunction"] = function() { abort("'removeFunction' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getFuncWrapper")) Module["getFuncWrapper"] = function() { abort("'getFuncWrapper' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "prettyPrint")) Module["prettyPrint"] = function() { abort("'prettyPrint' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "makeBigInt")) Module["makeBigInt"] = function() { abort("'makeBigInt' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "dynCall")) Module["dynCall"] = function() { abort("'dynCall' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getCompilerSetting")) Module["getCompilerSetting"] = function() { abort("'getCompilerSetting' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "print")) Module["print"] = function() { abort("'print' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "printErr")) Module["printErr"] = function() { abort("'printErr' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getTempRet0")) Module["getTempRet0"] = function() { abort("'getTempRet0' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "setTempRet0")) Module["setTempRet0"] = function() { abort("'setTempRet0' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "callMain")) Module["callMain"] = function() { abort("'callMain' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "abort")) Module["abort"] = function() { abort("'abort' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stringToNewUTF8")) Module["stringToNewUTF8"] = function() { abort("'stringToNewUTF8' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "setFileTime")) Module["setFileTime"] = function() { abort("'setFileTime' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "abortOnCannotGrowMemory")) Module["abortOnCannotGrowMemory"] = function() { abort("'abortOnCannotGrowMemory' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "emscripten_realloc_buffer")) Module["emscripten_realloc_buffer"] = function() { abort("'emscripten_realloc_buffer' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "ENV")) Module["ENV"] = function() { abort("'ENV' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "ERRNO_CODES")) Module["ERRNO_CODES"] = function() { abort("'ERRNO_CODES' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "ERRNO_MESSAGES")) Module["ERRNO_MESSAGES"] = function() { abort("'ERRNO_MESSAGES' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "setErrNo")) Module["setErrNo"] = function() { abort("'setErrNo' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "inetPton4")) Module["inetPton4"] = function() { abort("'inetPton4' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "inetNtop4")) Module["inetNtop4"] = function() { abort("'inetNtop4' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "inetPton6")) Module["inetPton6"] = function() { abort("'inetPton6' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "inetNtop6")) Module["inetNtop6"] = function() { abort("'inetNtop6' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "readSockaddr")) Module["readSockaddr"] = function() { abort("'readSockaddr' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeSockaddr")) Module["writeSockaddr"] = function() { abort("'writeSockaddr' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "DNS")) Module["DNS"] = function() { abort("'DNS' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getHostByName")) Module["getHostByName"] = function() { abort("'getHostByName' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "GAI_ERRNO_MESSAGES")) Module["GAI_ERRNO_MESSAGES"] = function() { abort("'GAI_ERRNO_MESSAGES' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "Protocols")) Module["Protocols"] = function() { abort("'Protocols' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "Sockets")) Module["Sockets"] = function() { abort("'Sockets' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getRandomDevice")) Module["getRandomDevice"] = function() { abort("'getRandomDevice' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "traverseStack")) Module["traverseStack"] = function() { abort("'traverseStack' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "UNWIND_CACHE")) Module["UNWIND_CACHE"] = function() { abort("'UNWIND_CACHE' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "withBuiltinMalloc")) Module["withBuiltinMalloc"] = function() { abort("'withBuiltinMalloc' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "readAsmConstArgsArray")) Module["readAsmConstArgsArray"] = function() { abort("'readAsmConstArgsArray' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "readAsmConstArgs")) Module["readAsmConstArgs"] = function() { abort("'readAsmConstArgs' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "mainThreadEM_ASM")) Module["mainThreadEM_ASM"] = function() { abort("'mainThreadEM_ASM' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "jstoi_q")) Module["jstoi_q"] = function() { abort("'jstoi_q' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "jstoi_s")) Module["jstoi_s"] = function() { abort("'jstoi_s' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getExecutableName")) Module["getExecutableName"] = function() { abort("'getExecutableName' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "listenOnce")) Module["listenOnce"] = function() { abort("'listenOnce' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "autoResumeAudioContext")) Module["autoResumeAudioContext"] = function() { abort("'autoResumeAudioContext' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "dynCallLegacy")) Module["dynCallLegacy"] = function() { abort("'dynCallLegacy' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getDynCaller")) Module["getDynCaller"] = function() { abort("'getDynCaller' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "dynCall")) Module["dynCall"] = function() { abort("'dynCall' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "callRuntimeCallbacks")) Module["callRuntimeCallbacks"] = function() { abort("'callRuntimeCallbacks' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "reallyNegative")) Module["reallyNegative"] = function() { abort("'reallyNegative' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "unSign")) Module["unSign"] = function() { abort("'unSign' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "reSign")) Module["reSign"] = function() { abort("'reSign' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "formatString")) Module["formatString"] = function() { abort("'formatString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "PATH")) Module["PATH"] = function() { abort("'PATH' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "PATH_FS")) Module["PATH_FS"] = function() { abort("'PATH_FS' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "SYSCALLS")) Module["SYSCALLS"] = function() { abort("'SYSCALLS' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "syscallMmap2")) Module["syscallMmap2"] = function() { abort("'syscallMmap2' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "syscallMunmap")) Module["syscallMunmap"] = function() { abort("'syscallMunmap' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getSocketFromFD")) Module["getSocketFromFD"] = function() { abort("'getSocketFromFD' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getSocketAddress")) Module["getSocketAddress"] = function() { abort("'getSocketAddress' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "JSEvents")) Module["JSEvents"] = function() { abort("'JSEvents' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerKeyEventCallback")) Module["registerKeyEventCallback"] = function() { abort("'registerKeyEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "specialHTMLTargets")) Module["specialHTMLTargets"] = function() { abort("'specialHTMLTargets' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "maybeCStringToJsString")) Module["maybeCStringToJsString"] = function() { abort("'maybeCStringToJsString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "findEventTarget")) Module["findEventTarget"] = function() { abort("'findEventTarget' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "findCanvasEventTarget")) Module["findCanvasEventTarget"] = function() { abort("'findCanvasEventTarget' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getBoundingClientRect")) Module["getBoundingClientRect"] = function() { abort("'getBoundingClientRect' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillMouseEventData")) Module["fillMouseEventData"] = function() { abort("'fillMouseEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerMouseEventCallback")) Module["registerMouseEventCallback"] = function() { abort("'registerMouseEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerWheelEventCallback")) Module["registerWheelEventCallback"] = function() { abort("'registerWheelEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerUiEventCallback")) Module["registerUiEventCallback"] = function() { abort("'registerUiEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerFocusEventCallback")) Module["registerFocusEventCallback"] = function() { abort("'registerFocusEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillDeviceOrientationEventData")) Module["fillDeviceOrientationEventData"] = function() { abort("'fillDeviceOrientationEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerDeviceOrientationEventCallback")) Module["registerDeviceOrientationEventCallback"] = function() { abort("'registerDeviceOrientationEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillDeviceMotionEventData")) Module["fillDeviceMotionEventData"] = function() { abort("'fillDeviceMotionEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerDeviceMotionEventCallback")) Module["registerDeviceMotionEventCallback"] = function() { abort("'registerDeviceMotionEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "screenOrientation")) Module["screenOrientation"] = function() { abort("'screenOrientation' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillOrientationChangeEventData")) Module["fillOrientationChangeEventData"] = function() { abort("'fillOrientationChangeEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerOrientationChangeEventCallback")) Module["registerOrientationChangeEventCallback"] = function() { abort("'registerOrientationChangeEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillFullscreenChangeEventData")) Module["fillFullscreenChangeEventData"] = function() { abort("'fillFullscreenChangeEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerFullscreenChangeEventCallback")) Module["registerFullscreenChangeEventCallback"] = function() { abort("'registerFullscreenChangeEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerRestoreOldStyle")) Module["registerRestoreOldStyle"] = function() { abort("'registerRestoreOldStyle' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "hideEverythingExceptGivenElement")) Module["hideEverythingExceptGivenElement"] = function() { abort("'hideEverythingExceptGivenElement' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "restoreHiddenElements")) Module["restoreHiddenElements"] = function() { abort("'restoreHiddenElements' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "setLetterbox")) Module["setLetterbox"] = function() { abort("'setLetterbox' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "currentFullscreenStrategy")) Module["currentFullscreenStrategy"] = function() { abort("'currentFullscreenStrategy' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "restoreOldWindowedStyle")) Module["restoreOldWindowedStyle"] = function() { abort("'restoreOldWindowedStyle' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "softFullscreenResizeWebGLRenderTarget")) Module["softFullscreenResizeWebGLRenderTarget"] = function() { abort("'softFullscreenResizeWebGLRenderTarget' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "doRequestFullscreen")) Module["doRequestFullscreen"] = function() { abort("'doRequestFullscreen' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillPointerlockChangeEventData")) Module["fillPointerlockChangeEventData"] = function() { abort("'fillPointerlockChangeEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerPointerlockChangeEventCallback")) Module["registerPointerlockChangeEventCallback"] = function() { abort("'registerPointerlockChangeEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerPointerlockErrorEventCallback")) Module["registerPointerlockErrorEventCallback"] = function() { abort("'registerPointerlockErrorEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "requestPointerLock")) Module["requestPointerLock"] = function() { abort("'requestPointerLock' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillVisibilityChangeEventData")) Module["fillVisibilityChangeEventData"] = function() { abort("'fillVisibilityChangeEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerVisibilityChangeEventCallback")) Module["registerVisibilityChangeEventCallback"] = function() { abort("'registerVisibilityChangeEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerTouchEventCallback")) Module["registerTouchEventCallback"] = function() { abort("'registerTouchEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillGamepadEventData")) Module["fillGamepadEventData"] = function() { abort("'fillGamepadEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerGamepadEventCallback")) Module["registerGamepadEventCallback"] = function() { abort("'registerGamepadEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerBeforeUnloadEventCallback")) Module["registerBeforeUnloadEventCallback"] = function() { abort("'registerBeforeUnloadEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fillBatteryEventData")) Module["fillBatteryEventData"] = function() { abort("'fillBatteryEventData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "battery")) Module["battery"] = function() { abort("'battery' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "registerBatteryEventCallback")) Module["registerBatteryEventCallback"] = function() { abort("'registerBatteryEventCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "setCanvasElementSize")) Module["setCanvasElementSize"] = function() { abort("'setCanvasElementSize' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getCanvasElementSize")) Module["getCanvasElementSize"] = function() { abort("'getCanvasElementSize' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "polyfillSetImmediate")) Module["polyfillSetImmediate"] = function() { abort("'polyfillSetImmediate' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "demangle")) Module["demangle"] = function() { abort("'demangle' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "demangleAll")) Module["demangleAll"] = function() { abort("'demangleAll' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "jsStackTrace")) Module["jsStackTrace"] = function() { abort("'jsStackTrace' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stackTrace")) Module["stackTrace"] = function() { abort("'stackTrace' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getEnvStrings")) Module["getEnvStrings"] = function() { abort("'getEnvStrings' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "checkWasiClock")) Module["checkWasiClock"] = function() { abort("'checkWasiClock' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToI64")) Module["writeI53ToI64"] = function() { abort("'writeI53ToI64' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToI64Clamped")) Module["writeI53ToI64Clamped"] = function() { abort("'writeI53ToI64Clamped' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToI64Signaling")) Module["writeI53ToI64Signaling"] = function() { abort("'writeI53ToI64Signaling' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToU64Clamped")) Module["writeI53ToU64Clamped"] = function() { abort("'writeI53ToU64Clamped' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToU64Signaling")) Module["writeI53ToU64Signaling"] = function() { abort("'writeI53ToU64Signaling' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "readI53FromI64")) Module["readI53FromI64"] = function() { abort("'readI53FromI64' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "readI53FromU64")) Module["readI53FromU64"] = function() { abort("'readI53FromU64' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "convertI32PairToI53")) Module["convertI32PairToI53"] = function() { abort("'convertI32PairToI53' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "convertU32PairToI53")) Module["convertU32PairToI53"] = function() { abort("'convertU32PairToI53' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "asmjsMangle")) Module["asmjsMangle"] = function() { abort("'asmjsMangle' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "resolveGlobalSymbol")) Module["resolveGlobalSymbol"] = function() { abort("'resolveGlobalSymbol' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "GOT")) Module["GOT"] = function() { abort("'GOT' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "GOTHandler")) Module["GOTHandler"] = function() { abort("'GOTHandler' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "isInternalSym")) Module["isInternalSym"] = function() { abort("'isInternalSym' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "updateGOT")) Module["updateGOT"] = function() { abort("'updateGOT' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "relocateExports")) Module["relocateExports"] = function() { abort("'relocateExports' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "reportUndefinedSymbols")) Module["reportUndefinedSymbols"] = function() { abort("'reportUndefinedSymbols' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "DLFCN")) Module["DLFCN"] = function() { abort("'DLFCN' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "LDSO")) Module["LDSO"] = function() { abort("'LDSO' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "createInvokeFunction")) Module["createInvokeFunction"] = function() { abort("'createInvokeFunction' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getMemory")) Module["getMemory"] = function() { abort("'getMemory' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "fetchBinary")) Module["fetchBinary"] = function() { abort("'fetchBinary' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getDylinkMetadata")) Module["getDylinkMetadata"] = function() { abort("'getDylinkMetadata' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "mergeLibSymbols")) Module["mergeLibSymbols"] = function() { abort("'mergeLibSymbols' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "loadWebAssemblyModule")) Module["loadWebAssemblyModule"] = function() { abort("'loadWebAssemblyModule' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "loadDynamicLibrary")) Module["loadDynamicLibrary"] = function() { abort("'loadDynamicLibrary' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "preloadDylibs")) Module["preloadDylibs"] = function() { abort("'preloadDylibs' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "uncaughtExceptionCount")) Module["uncaughtExceptionCount"] = function() { abort("'uncaughtExceptionCount' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "exceptionLast")) Module["exceptionLast"] = function() { abort("'exceptionLast' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "exceptionCaught")) Module["exceptionCaught"] = function() { abort("'exceptionCaught' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "ExceptionInfoAttrs")) Module["ExceptionInfoAttrs"] = function() { abort("'ExceptionInfoAttrs' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "ExceptionInfo")) Module["ExceptionInfo"] = function() { abort("'ExceptionInfo' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "CatchInfo")) Module["CatchInfo"] = function() { abort("'CatchInfo' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "exception_addRef")) Module["exception_addRef"] = function() { abort("'exception_addRef' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "exception_decRef")) Module["exception_decRef"] = function() { abort("'exception_decRef' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "Browser")) Module["Browser"] = function() { abort("'Browser' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "funcWrappers")) Module["funcWrappers"] = function() { abort("'funcWrappers' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getFuncWrapper")) Module["getFuncWrapper"] = function() { abort("'getFuncWrapper' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "setMainLoop")) Module["setMainLoop"] = function() { abort("'setMainLoop' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "FS")) Module["FS"] = function() { abort("'FS' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "mmapAlloc")) Module["mmapAlloc"] = function() { abort("'mmapAlloc' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "MEMFS")) Module["MEMFS"] = function() { abort("'MEMFS' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "TTY")) Module["TTY"] = function() { abort("'TTY' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "PIPEFS")) Module["PIPEFS"] = function() { abort("'PIPEFS' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "SOCKFS")) Module["SOCKFS"] = function() { abort("'SOCKFS' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "_setNetworkCallback")) Module["_setNetworkCallback"] = function() { abort("'_setNetworkCallback' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "tempFixedLengthArray")) Module["tempFixedLengthArray"] = function() { abort("'tempFixedLengthArray' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "miniTempWebGLFloatBuffers")) Module["miniTempWebGLFloatBuffers"] = function() { abort("'miniTempWebGLFloatBuffers' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "heapObjectForWebGLType")) Module["heapObjectForWebGLType"] = function() { abort("'heapObjectForWebGLType' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "heapAccessShiftForWebGLHeap")) Module["heapAccessShiftForWebGLHeap"] = function() { abort("'heapAccessShiftForWebGLHeap' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "GL")) Module["GL"] = function() { abort("'GL' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGet")) Module["emscriptenWebGLGet"] = function() { abort("'emscriptenWebGLGet' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "computeUnpackAlignedImageSize")) Module["computeUnpackAlignedImageSize"] = function() { abort("'computeUnpackAlignedImageSize' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetTexPixelData")) Module["emscriptenWebGLGetTexPixelData"] = function() { abort("'emscriptenWebGLGetTexPixelData' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetUniform")) Module["emscriptenWebGLGetUniform"] = function() { abort("'emscriptenWebGLGetUniform' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetVertexAttrib")) Module["emscriptenWebGLGetVertexAttrib"] = function() { abort("'emscriptenWebGLGetVertexAttrib' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetBufferBinding")) Module["emscriptenWebGLGetBufferBinding"] = function() { abort("'emscriptenWebGLGetBufferBinding' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLValidateMapBufferTarget")) Module["emscriptenWebGLValidateMapBufferTarget"] = function() { abort("'emscriptenWebGLValidateMapBufferTarget' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "writeGLArray")) Module["writeGLArray"] = function() { abort("'writeGLArray' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "AL")) Module["AL"] = function() { abort("'AL' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "SDL_unicode")) Module["SDL_unicode"] = function() { abort("'SDL_unicode' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "SDL_ttfContext")) Module["SDL_ttfContext"] = function() { abort("'SDL_ttfContext' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "SDL_audio")) Module["SDL_audio"] = function() { abort("'SDL_audio' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "SDL")) Module["SDL"] = function() { abort("'SDL' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "SDL_gfx")) Module["SDL_gfx"] = function() { abort("'SDL_gfx' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "GLUT")) Module["GLUT"] = function() { abort("'GLUT' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "EGL")) Module["EGL"] = function() { abort("'EGL' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "GLFW_Window")) Module["GLFW_Window"] = function() { abort("'GLFW_Window' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "GLFW")) Module["GLFW"] = function() { abort("'GLFW' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "GLEW")) Module["GLEW"] = function() { abort("'GLEW' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "IDBStore")) Module["IDBStore"] = function() { abort("'IDBStore' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "runAndAbortIfError")) Module["runAndAbortIfError"] = function() { abort("'runAndAbortIfError' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetIndexed")) Module["emscriptenWebGLGetIndexed"] = function() { abort("'emscriptenWebGLGetIndexed' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "warnOnce")) Module["warnOnce"] = function() { abort("'warnOnce' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stackSave")) Module["stackSave"] = function() { abort("'stackSave' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stackRestore")) Module["stackRestore"] = function() { abort("'stackRestore' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stackAlloc")) Module["stackAlloc"] = function() { abort("'stackAlloc' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "AsciiToString")) Module["AsciiToString"] = function() { abort("'AsciiToString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stringToAscii")) Module["stringToAscii"] = function() { abort("'stringToAscii' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "UTF16ToString")) Module["UTF16ToString"] = function() { abort("'UTF16ToString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stringToUTF16")) Module["stringToUTF16"] = function() { abort("'stringToUTF16' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "lengthBytesUTF16")) Module["lengthBytesUTF16"] = function() { abort("'lengthBytesUTF16' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "UTF32ToString")) Module["UTF32ToString"] = function() { abort("'UTF32ToString' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "stringToUTF32")) Module["stringToUTF32"] = function() { abort("'stringToUTF32' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "lengthBytesUTF32")) Module["lengthBytesUTF32"] = function() { abort("'lengthBytesUTF32' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "allocateUTF8")) Module["allocateUTF8"] = function() { abort("'allocateUTF8' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "allocateUTF8OnStack")) Module["allocateUTF8OnStack"] = function() { abort("'allocateUTF8OnStack' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getLEB")) Module["getLEB"] = function() { abort("'getLEB' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getFunctionTables")) Module["getFunctionTables"] = function() { abort("'getFunctionTables' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "alignFunctionTables")) Module["alignFunctionTables"] = function() { abort("'alignFunctionTables' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerFunctions")) Module["registerFunctions"] = function() { abort("'registerFunctions' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "addFunction")) Module["addFunction"] = function() { abort("'addFunction' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "removeFunction")) Module["removeFunction"] = function() { abort("'removeFunction' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getFuncWrapper")) Module["getFuncWrapper"] = function() { abort("'getFuncWrapper' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "prettyPrint")) Module["prettyPrint"] = function() { abort("'prettyPrint' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "dynCall")) Module["dynCall"] = function() { abort("'dynCall' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getCompilerSetting")) Module["getCompilerSetting"] = function() { abort("'getCompilerSetting' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "print")) Module["print"] = function() { abort("'print' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "printErr")) Module["printErr"] = function() { abort("'printErr' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getTempRet0")) Module["getTempRet0"] = function() { abort("'getTempRet0' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "setTempRet0")) Module["setTempRet0"] = function() { abort("'setTempRet0' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "callMain")) Module["callMain"] = function() { abort("'callMain' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "abort")) Module["abort"] = function() { abort("'abort' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stringToNewUTF8")) Module["stringToNewUTF8"] = function() { abort("'stringToNewUTF8' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "setFileTime")) Module["setFileTime"] = function() { abort("'setFileTime' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "abortOnCannotGrowMemory")) Module["abortOnCannotGrowMemory"] = function() { abort("'abortOnCannotGrowMemory' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "emscripten_realloc_buffer")) Module["emscripten_realloc_buffer"] = function() { abort("'emscripten_realloc_buffer' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "ENV")) Module["ENV"] = function() { abort("'ENV' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "ERRNO_CODES")) Module["ERRNO_CODES"] = function() { abort("'ERRNO_CODES' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "ERRNO_MESSAGES")) Module["ERRNO_MESSAGES"] = function() { abort("'ERRNO_MESSAGES' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "setErrNo")) Module["setErrNo"] = function() { abort("'setErrNo' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "inetPton4")) Module["inetPton4"] = function() { abort("'inetPton4' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "inetNtop4")) Module["inetNtop4"] = function() { abort("'inetNtop4' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "inetPton6")) Module["inetPton6"] = function() { abort("'inetPton6' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "inetNtop6")) Module["inetNtop6"] = function() { abort("'inetNtop6' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "readSockaddr")) Module["readSockaddr"] = function() { abort("'readSockaddr' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeSockaddr")) Module["writeSockaddr"] = function() { abort("'writeSockaddr' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "DNS")) Module["DNS"] = function() { abort("'DNS' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getHostByName")) Module["getHostByName"] = function() { abort("'getHostByName' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "GAI_ERRNO_MESSAGES")) Module["GAI_ERRNO_MESSAGES"] = function() { abort("'GAI_ERRNO_MESSAGES' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "Protocols")) Module["Protocols"] = function() { abort("'Protocols' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "Sockets")) Module["Sockets"] = function() { abort("'Sockets' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getRandomDevice")) Module["getRandomDevice"] = function() { abort("'getRandomDevice' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "traverseStack")) Module["traverseStack"] = function() { abort("'traverseStack' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "UNWIND_CACHE")) Module["UNWIND_CACHE"] = function() { abort("'UNWIND_CACHE' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "withBuiltinMalloc")) Module["withBuiltinMalloc"] = function() { abort("'withBuiltinMalloc' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "readAsmConstArgsArray")) Module["readAsmConstArgsArray"] = function() { abort("'readAsmConstArgsArray' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "readAsmConstArgs")) Module["readAsmConstArgs"] = function() { abort("'readAsmConstArgs' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "mainThreadEM_ASM")) Module["mainThreadEM_ASM"] = function() { abort("'mainThreadEM_ASM' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "jstoi_q")) Module["jstoi_q"] = function() { abort("'jstoi_q' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "jstoi_s")) Module["jstoi_s"] = function() { abort("'jstoi_s' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getExecutableName")) Module["getExecutableName"] = function() { abort("'getExecutableName' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "listenOnce")) Module["listenOnce"] = function() { abort("'listenOnce' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "autoResumeAudioContext")) Module["autoResumeAudioContext"] = function() { abort("'autoResumeAudioContext' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "dynCallLegacy")) Module["dynCallLegacy"] = function() { abort("'dynCallLegacy' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getDynCaller")) Module["getDynCaller"] = function() { abort("'getDynCaller' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "dynCall")) Module["dynCall"] = function() { abort("'dynCall' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "callRuntimeCallbacks")) Module["callRuntimeCallbacks"] = function() { abort("'callRuntimeCallbacks' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "runtimeKeepaliveCounter")) Module["runtimeKeepaliveCounter"] = function() { abort("'runtimeKeepaliveCounter' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "keepRuntimeAlive")) Module["keepRuntimeAlive"] = function() { abort("'keepRuntimeAlive' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "runtimeKeepalivePush")) Module["runtimeKeepalivePush"] = function() { abort("'runtimeKeepalivePush' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "runtimeKeepalivePop")) Module["runtimeKeepalivePop"] = function() { abort("'runtimeKeepalivePop' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "callUserCallback")) Module["callUserCallback"] = function() { abort("'callUserCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "maybeExit")) Module["maybeExit"] = function() { abort("'maybeExit' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "asmjsMangle")) Module["asmjsMangle"] = function() { abort("'asmjsMangle' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "reallyNegative")) Module["reallyNegative"] = function() { abort("'reallyNegative' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "unSign")) Module["unSign"] = function() { abort("'unSign' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "reSign")) Module["reSign"] = function() { abort("'reSign' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "formatString")) Module["formatString"] = function() { abort("'formatString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "PATH")) Module["PATH"] = function() { abort("'PATH' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "PATH_FS")) Module["PATH_FS"] = function() { abort("'PATH_FS' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "SYSCALLS")) Module["SYSCALLS"] = function() { abort("'SYSCALLS' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "syscallMmap2")) Module["syscallMmap2"] = function() { abort("'syscallMmap2' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "syscallMunmap")) Module["syscallMunmap"] = function() { abort("'syscallMunmap' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getSocketFromFD")) Module["getSocketFromFD"] = function() { abort("'getSocketFromFD' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getSocketAddress")) Module["getSocketAddress"] = function() { abort("'getSocketAddress' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "JSEvents")) Module["JSEvents"] = function() { abort("'JSEvents' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerKeyEventCallback")) Module["registerKeyEventCallback"] = function() { abort("'registerKeyEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "specialHTMLTargets")) Module["specialHTMLTargets"] = function() { abort("'specialHTMLTargets' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "maybeCStringToJsString")) Module["maybeCStringToJsString"] = function() { abort("'maybeCStringToJsString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "findEventTarget")) Module["findEventTarget"] = function() { abort("'findEventTarget' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "findCanvasEventTarget")) Module["findCanvasEventTarget"] = function() { abort("'findCanvasEventTarget' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getBoundingClientRect")) Module["getBoundingClientRect"] = function() { abort("'getBoundingClientRect' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillMouseEventData")) Module["fillMouseEventData"] = function() { abort("'fillMouseEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerMouseEventCallback")) Module["registerMouseEventCallback"] = function() { abort("'registerMouseEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerWheelEventCallback")) Module["registerWheelEventCallback"] = function() { abort("'registerWheelEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerUiEventCallback")) Module["registerUiEventCallback"] = function() { abort("'registerUiEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerFocusEventCallback")) Module["registerFocusEventCallback"] = function() { abort("'registerFocusEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillDeviceOrientationEventData")) Module["fillDeviceOrientationEventData"] = function() { abort("'fillDeviceOrientationEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerDeviceOrientationEventCallback")) Module["registerDeviceOrientationEventCallback"] = function() { abort("'registerDeviceOrientationEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillDeviceMotionEventData")) Module["fillDeviceMotionEventData"] = function() { abort("'fillDeviceMotionEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerDeviceMotionEventCallback")) Module["registerDeviceMotionEventCallback"] = function() { abort("'registerDeviceMotionEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "screenOrientation")) Module["screenOrientation"] = function() { abort("'screenOrientation' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillOrientationChangeEventData")) Module["fillOrientationChangeEventData"] = function() { abort("'fillOrientationChangeEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerOrientationChangeEventCallback")) Module["registerOrientationChangeEventCallback"] = function() { abort("'registerOrientationChangeEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillFullscreenChangeEventData")) Module["fillFullscreenChangeEventData"] = function() { abort("'fillFullscreenChangeEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerFullscreenChangeEventCallback")) Module["registerFullscreenChangeEventCallback"] = function() { abort("'registerFullscreenChangeEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerRestoreOldStyle")) Module["registerRestoreOldStyle"] = function() { abort("'registerRestoreOldStyle' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "hideEverythingExceptGivenElement")) Module["hideEverythingExceptGivenElement"] = function() { abort("'hideEverythingExceptGivenElement' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "restoreHiddenElements")) Module["restoreHiddenElements"] = function() { abort("'restoreHiddenElements' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "setLetterbox")) Module["setLetterbox"] = function() { abort("'setLetterbox' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "currentFullscreenStrategy")) Module["currentFullscreenStrategy"] = function() { abort("'currentFullscreenStrategy' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "restoreOldWindowedStyle")) Module["restoreOldWindowedStyle"] = function() { abort("'restoreOldWindowedStyle' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "softFullscreenResizeWebGLRenderTarget")) Module["softFullscreenResizeWebGLRenderTarget"] = function() { abort("'softFullscreenResizeWebGLRenderTarget' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "doRequestFullscreen")) Module["doRequestFullscreen"] = function() { abort("'doRequestFullscreen' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillPointerlockChangeEventData")) Module["fillPointerlockChangeEventData"] = function() { abort("'fillPointerlockChangeEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerPointerlockChangeEventCallback")) Module["registerPointerlockChangeEventCallback"] = function() { abort("'registerPointerlockChangeEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerPointerlockErrorEventCallback")) Module["registerPointerlockErrorEventCallback"] = function() { abort("'registerPointerlockErrorEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "requestPointerLock")) Module["requestPointerLock"] = function() { abort("'requestPointerLock' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillVisibilityChangeEventData")) Module["fillVisibilityChangeEventData"] = function() { abort("'fillVisibilityChangeEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerVisibilityChangeEventCallback")) Module["registerVisibilityChangeEventCallback"] = function() { abort("'registerVisibilityChangeEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerTouchEventCallback")) Module["registerTouchEventCallback"] = function() { abort("'registerTouchEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillGamepadEventData")) Module["fillGamepadEventData"] = function() { abort("'fillGamepadEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerGamepadEventCallback")) Module["registerGamepadEventCallback"] = function() { abort("'registerGamepadEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerBeforeUnloadEventCallback")) Module["registerBeforeUnloadEventCallback"] = function() { abort("'registerBeforeUnloadEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fillBatteryEventData")) Module["fillBatteryEventData"] = function() { abort("'fillBatteryEventData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "battery")) Module["battery"] = function() { abort("'battery' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "registerBatteryEventCallback")) Module["registerBatteryEventCallback"] = function() { abort("'registerBatteryEventCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "setCanvasElementSize")) Module["setCanvasElementSize"] = function() { abort("'setCanvasElementSize' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getCanvasElementSize")) Module["getCanvasElementSize"] = function() { abort("'getCanvasElementSize' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "polyfillSetImmediate")) Module["polyfillSetImmediate"] = function() { abort("'polyfillSetImmediate' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "demangle")) Module["demangle"] = function() { abort("'demangle' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "demangleAll")) Module["demangleAll"] = function() { abort("'demangleAll' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "jsStackTrace")) Module["jsStackTrace"] = function() { abort("'jsStackTrace' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stackTrace")) Module["stackTrace"] = function() { abort("'stackTrace' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getEnvStrings")) Module["getEnvStrings"] = function() { abort("'getEnvStrings' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "checkWasiClock")) Module["checkWasiClock"] = function() { abort("'checkWasiClock' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToI64")) Module["writeI53ToI64"] = function() { abort("'writeI53ToI64' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToI64Clamped")) Module["writeI53ToI64Clamped"] = function() { abort("'writeI53ToI64Clamped' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToI64Signaling")) Module["writeI53ToI64Signaling"] = function() { abort("'writeI53ToI64Signaling' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToU64Clamped")) Module["writeI53ToU64Clamped"] = function() { abort("'writeI53ToU64Clamped' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeI53ToU64Signaling")) Module["writeI53ToU64Signaling"] = function() { abort("'writeI53ToU64Signaling' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "readI53FromI64")) Module["readI53FromI64"] = function() { abort("'readI53FromI64' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "readI53FromU64")) Module["readI53FromU64"] = function() { abort("'readI53FromU64' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "convertI32PairToI53")) Module["convertI32PairToI53"] = function() { abort("'convertI32PairToI53' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "convertU32PairToI53")) Module["convertU32PairToI53"] = function() { abort("'convertU32PairToI53' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "resolveGlobalSymbol")) Module["resolveGlobalSymbol"] = function() { abort("'resolveGlobalSymbol' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "GOT")) Module["GOT"] = function() { abort("'GOT' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "GOTHandler")) Module["GOTHandler"] = function() { abort("'GOTHandler' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "isInternalSym")) Module["isInternalSym"] = function() { abort("'isInternalSym' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "updateGOT")) Module["updateGOT"] = function() { abort("'updateGOT' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "relocateExports")) Module["relocateExports"] = function() { abort("'relocateExports' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "reportUndefinedSymbols")) Module["reportUndefinedSymbols"] = function() { abort("'reportUndefinedSymbols' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "DLFCN")) Module["DLFCN"] = function() { abort("'DLFCN' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "LDSO")) Module["LDSO"] = function() { abort("'LDSO' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "createInvokeFunction")) Module["createInvokeFunction"] = function() { abort("'createInvokeFunction' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getMemory")) Module["getMemory"] = function() { abort("'getMemory' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "fetchBinary")) Module["fetchBinary"] = function() { abort("'fetchBinary' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getDylinkMetadata")) Module["getDylinkMetadata"] = function() { abort("'getDylinkMetadata' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "mergeLibSymbols")) Module["mergeLibSymbols"] = function() { abort("'mergeLibSymbols' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "loadWebAssemblyModule")) Module["loadWebAssemblyModule"] = function() { abort("'loadWebAssemblyModule' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "loadDynamicLibrary")) Module["loadDynamicLibrary"] = function() { abort("'loadDynamicLibrary' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "preloadDylibs")) Module["preloadDylibs"] = function() { abort("'preloadDylibs' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "uncaughtExceptionCount")) Module["uncaughtExceptionCount"] = function() { abort("'uncaughtExceptionCount' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "exceptionLast")) Module["exceptionLast"] = function() { abort("'exceptionLast' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "exceptionCaught")) Module["exceptionCaught"] = function() { abort("'exceptionCaught' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "ExceptionInfoAttrs")) Module["ExceptionInfoAttrs"] = function() { abort("'ExceptionInfoAttrs' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "ExceptionInfo")) Module["ExceptionInfo"] = function() { abort("'ExceptionInfo' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "CatchInfo")) Module["CatchInfo"] = function() { abort("'CatchInfo' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "exception_addRef")) Module["exception_addRef"] = function() { abort("'exception_addRef' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "exception_decRef")) Module["exception_decRef"] = function() { abort("'exception_decRef' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "Browser")) Module["Browser"] = function() { abort("'Browser' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "funcWrappers")) Module["funcWrappers"] = function() { abort("'funcWrappers' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "getFuncWrapper")) Module["getFuncWrapper"] = function() { abort("'getFuncWrapper' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "setMainLoop")) Module["setMainLoop"] = function() { abort("'setMainLoop' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "FS")) Module["FS"] = function() { abort("'FS' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "mmapAlloc")) Module["mmapAlloc"] = function() { abort("'mmapAlloc' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "MEMFS")) Module["MEMFS"] = function() { abort("'MEMFS' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "TTY")) Module["TTY"] = function() { abort("'TTY' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "PIPEFS")) Module["PIPEFS"] = function() { abort("'PIPEFS' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "SOCKFS")) Module["SOCKFS"] = function() { abort("'SOCKFS' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "_setNetworkCallback")) Module["_setNetworkCallback"] = function() { abort("'_setNetworkCallback' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "tempFixedLengthArray")) Module["tempFixedLengthArray"] = function() { abort("'tempFixedLengthArray' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "miniTempWebGLFloatBuffers")) Module["miniTempWebGLFloatBuffers"] = function() { abort("'miniTempWebGLFloatBuffers' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "heapObjectForWebGLType")) Module["heapObjectForWebGLType"] = function() { abort("'heapObjectForWebGLType' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "heapAccessShiftForWebGLHeap")) Module["heapAccessShiftForWebGLHeap"] = function() { abort("'heapAccessShiftForWebGLHeap' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "GL")) Module["GL"] = function() { abort("'GL' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGet")) Module["emscriptenWebGLGet"] = function() { abort("'emscriptenWebGLGet' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "computeUnpackAlignedImageSize")) Module["computeUnpackAlignedImageSize"] = function() { abort("'computeUnpackAlignedImageSize' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetTexPixelData")) Module["emscriptenWebGLGetTexPixelData"] = function() { abort("'emscriptenWebGLGetTexPixelData' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetUniform")) Module["emscriptenWebGLGetUniform"] = function() { abort("'emscriptenWebGLGetUniform' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "webglGetUniformLocation")) Module["webglGetUniformLocation"] = function() { abort("'webglGetUniformLocation' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetVertexAttrib")) Module["emscriptenWebGLGetVertexAttrib"] = function() { abort("'emscriptenWebGLGetVertexAttrib' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetBufferBinding")) Module["emscriptenWebGLGetBufferBinding"] = function() { abort("'emscriptenWebGLGetBufferBinding' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLValidateMapBufferTarget")) Module["emscriptenWebGLValidateMapBufferTarget"] = function() { abort("'emscriptenWebGLValidateMapBufferTarget' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "writeGLArray")) Module["writeGLArray"] = function() { abort("'writeGLArray' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "AL")) Module["AL"] = function() { abort("'AL' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "SDL_unicode")) Module["SDL_unicode"] = function() { abort("'SDL_unicode' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "SDL_ttfContext")) Module["SDL_ttfContext"] = function() { abort("'SDL_ttfContext' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "SDL_audio")) Module["SDL_audio"] = function() { abort("'SDL_audio' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "SDL")) Module["SDL"] = function() { abort("'SDL' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "SDL_gfx")) Module["SDL_gfx"] = function() { abort("'SDL_gfx' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "GLUT")) Module["GLUT"] = function() { abort("'GLUT' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "EGL")) Module["EGL"] = function() { abort("'EGL' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "GLFW_Window")) Module["GLFW_Window"] = function() { abort("'GLFW_Window' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "GLFW")) Module["GLFW"] = function() { abort("'GLFW' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "GLEW")) Module["GLEW"] = function() { abort("'GLEW' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "IDBStore")) Module["IDBStore"] = function() { abort("'IDBStore' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "runAndAbortIfError")) Module["runAndAbortIfError"] = function() { abort("'runAndAbortIfError' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "emscriptenWebGLGetIndexed")) Module["emscriptenWebGLGetIndexed"] = function() { abort("'emscriptenWebGLGetIndexed' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "warnOnce")) Module["warnOnce"] = function() { abort("'warnOnce' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stackSave")) Module["stackSave"] = function() { abort("'stackSave' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stackRestore")) Module["stackRestore"] = function() { abort("'stackRestore' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stackAlloc")) Module["stackAlloc"] = function() { abort("'stackAlloc' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "AsciiToString")) Module["AsciiToString"] = function() { abort("'AsciiToString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stringToAscii")) Module["stringToAscii"] = function() { abort("'stringToAscii' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "UTF16ToString")) Module["UTF16ToString"] = function() { abort("'UTF16ToString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stringToUTF16")) Module["stringToUTF16"] = function() { abort("'stringToUTF16' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "lengthBytesUTF16")) Module["lengthBytesUTF16"] = function() { abort("'lengthBytesUTF16' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "UTF32ToString")) Module["UTF32ToString"] = function() { abort("'UTF32ToString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "stringToUTF32")) Module["stringToUTF32"] = function() { abort("'stringToUTF32' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "lengthBytesUTF32")) Module["lengthBytesUTF32"] = function() { abort("'lengthBytesUTF32' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "allocateUTF8")) Module["allocateUTF8"] = function() { abort("'allocateUTF8' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "allocateUTF8OnStack")) Module["allocateUTF8OnStack"] = function() { abort("'allocateUTF8OnStack' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 Module["writeStackCookie"] = writeStackCookie;
 Module["checkStackCookie"] = checkStackCookie;
-if (!Object.getOwnPropertyDescriptor(Module, "ALLOC_NORMAL")) Object.defineProperty(Module, "ALLOC_NORMAL", { configurable: true, get: function() { abort("'ALLOC_NORMAL' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") } });
-if (!Object.getOwnPropertyDescriptor(Module, "ALLOC_STACK")) Object.defineProperty(Module, "ALLOC_STACK", { configurable: true, get: function() { abort("'ALLOC_STACK' was not exported. add it to EXTRA_EXPORTED_RUNTIME_METHODS (see the FAQ)") } });
+if (!Object.getOwnPropertyDescriptor(Module, "ALLOC_NORMAL")) Object.defineProperty(Module, "ALLOC_NORMAL", { configurable: true, get: function() { abort("'ALLOC_NORMAL' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") } });
+if (!Object.getOwnPropertyDescriptor(Module, "ALLOC_STACK")) Object.defineProperty(Module, "ALLOC_STACK", { configurable: true, get: function() { abort("'ALLOC_STACK' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") } });
 
 var calledRun;
 
@@ -63235,7 +62787,6 @@ function callMain(args) {
       return;
     } else if (e == 'unwind') {
       // running an evented main loop, don't immediately exit
-      noExitRuntime = true;
       return;
     } else {
       var toLog = e;
@@ -63256,7 +62807,7 @@ function stackCheckInit() {
   // get these values before even running any of the ctors so we call it redundantly
   // here.
   // TODO(sbc): Move writeStackCookie to native to to avoid this.
-  _emscripten_stack_set_limits(5544592, 301712);
+  _emscripten_stack_set_limits(5545152, 302272);
   writeStackCookie();
 }
 
@@ -63329,24 +62880,23 @@ Module['run'] = run;
 
 /** @param {boolean|number=} implicit */
 function exit(status, implicit) {
+  EXITSTATUS = status;
 
   // if this is just main exit-ing implicitly, and the status is 0, then we
   // don't need to do anything here and can just leave. if the status is
   // non-zero, though, then we need to report it.
   // (we may have warned about this earlier, if a situation justifies doing so)
-  if (implicit && noExitRuntime && status === 0) {
+  if (implicit && keepRuntimeAlive() && status === 0) {
     return;
   }
 
-  if (noExitRuntime) {
+  if (keepRuntimeAlive()) {
     // if exit() was called, we may warn the user if the runtime isn't actually being shut down
     if (!implicit) {
-      var msg = 'program exited (with status: ' + status + '), but noExitRuntime is set due to an async operation, so halting execution but not exiting the runtime or preventing further async execution (you can use emscripten_force_exit, if you want to force a true shutdown)';
+      var msg = 'program exited (with status: ' + status + '), but keepRuntimeAlive() is set (counter=' + runtimeKeepaliveCounter + ') due to an async operation, so halting execution but not exiting the runtime or preventing further async execution (you can use emscripten_force_exit, if you want to force a true shutdown)';
       err(msg);
     }
   } else {
-
-    EXITSTATUS = status;
 
     exitRuntime();
 
