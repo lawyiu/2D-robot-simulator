@@ -99,6 +99,11 @@ glm::vec2 Robot::getHeading() {
     return glm::normalize(glm::vec2(glm::cos(angleRads), glm::sin(angleRads)));
 }
 
+void Robot::setHeading(glm::vec2 heading) {
+    float cosTheta = glm::dot(glm::vec2(1.0f, 0.0), heading) / glm::length(heading);
+    mRotation = glm::acos(cosTheta) * 180.0f / PI;
+}
+
 glm::vec2 Robot::getLeftPerpendicularVec() {
     glm::vec2 headingVec = getHeading();
     glm::vec2 perpVec = glm::vec2(headingVec.y, -headingVec.x);
