@@ -11,6 +11,13 @@ endif()
 add_subdirectory(googletest
                  EXCLUDE_FROM_ALL)
 
+if(EMSCRIPTEN)
+    set(BOX2D_BUILD_UNIT_TESTS OFF)
+    set(BOX2D_BUILD_TESTBED OFF)
+endif()
+
+add_subdirectory(box2d)
+
 add_subdirectory(arduino_examples)
 
 add_subdirectory(lib/piksel)
@@ -51,9 +58,11 @@ endif()
 target_include_directories(sim
     PUBLIC src
     PUBLIC lib/piksel/src
+    PUBLIC box2d/include/box2d
 )
 target_link_libraries(sim
     piksel
+    box2d
 )
 
 if(EMSCRIPTEN)
