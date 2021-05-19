@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.16)
 project(2D_Robot_Sim)
 set(CMAKE_CXX_STANDARD 11)
 
@@ -13,9 +13,9 @@ add_subdirectory(googletest
 
 if(EMSCRIPTEN)
     set(BOX2D_BUILD_UNIT_TESTS OFF)
-    set(BOX2D_BUILD_TESTBED OFF)
 endif()
 
+set(BOX2D_BUILD_TESTBED OFF)
 add_subdirectory(box2d)
 
 add_subdirectory(arduino_examples)
