@@ -12,11 +12,28 @@ using namespace std;
 
 Robot::~Robot() {
     unloadCode();
+
+    mWorld->DestroyBody(mBody);
 }
 
 void Robot::init() {
     unique_ptr<Output> ledPtr(new Led(*this));
     mOutputs.push_back(move(ledPtr));
+
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(mPosition.x, mPosition.y);
+    mBody = mWorld->CreateBody(&bodyDef);
+
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(mWidth / 2.0f, mHeight / 2.0f, b2Vec2_zero, mRotation);
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.3f;
+
+    mBody->CreateFixture(&fixtureDef);
 
     loadCode();
 
@@ -82,8 +99,8 @@ void Robot::draw(Graphics& g) {
 
     g.fill(mColor);
     g.rectMode(DrawMode::CENTER);
-    g.rotate(mRotation * PI / 180.0f);
-    g.translate(mPosition.x, mPosition.y);
+    g.rotate(getRotation());
+    g.translate(getPosition().x, getPosition().y);
     g.noStroke();
     g.rect(0.0f, 0.0f, mWidth, mHeight);
 
@@ -94,14 +111,19 @@ void Robot::draw(Graphics& g) {
     g.pop();
 }
 
+glm::vec2 Robot::getPosition() {
+    b2Vec2 position = mBody->GetPosition();
+    return glm::vec2(position.x, position.y);
+}
+
 glm::vec2 Robot::getHeading() {
-    float angleRads = mRotation * PI / 180.0f;
+    float angleRads = getRotation();
     return glm::normalize(glm::vec2(glm::cos(angleRads), glm::sin(angleRads)));
 }
 
 void Robot::setHeading(glm::vec2 heading) {
     float cosTheta = glm::dot(glm::vec2(1.0f, 0.0), heading) / glm::length(heading);
-    mRotation = glm::acos(cosTheta) * 180.0f / PI;
+    setRotation(glm::acos(cosTheta));
 }
 
 glm::vec2 Robot::getLeftPerpendicularVec() {

@@ -7,6 +7,11 @@ App& App::getInstance() {
     return app;
 }
 
+App::~App() {
+    mRobot.reset(nullptr);
+    mWorld.reset(nullptr);
+}
+
 void App::updateDeltaTime() {
     int newMillis = millis();
     mDeltaTimeMillis = newMillis - mPrevMillis;
@@ -23,7 +28,10 @@ void App::updateDeltaTime() {
 void App::setup() {
     mFont.load("data/fonts/OpenSans/OpenSans-Regular.ttf");
 
-    mRobot.reset(new Robot());
+    b2Vec2 gravity = b2Vec2_zero;
+    mWorld.reset(new b2World(gravity));
+
+    mRobot.reset(new Robot(mWorld.get()));
     mRobot->init();
 }
 
@@ -35,13 +43,14 @@ void App::update() {
         mRobot->reloadCode();
         mReload = false;
     } else if (mRestart) {
-        mRobot.reset(new Robot());
+        mRobot.reset(new Robot(mWorld.get()));
         mRobot->init();
         mRestart = false;
     }
 
     if (!mPause) {
         mRobot->update();
+        mWorld->Step(mTimeStep, mVelocityIterations, mPositionIterations);
     }
 
     float keyPanDist = pixelsPerSecond * dt;

@@ -3,6 +3,7 @@
 
 #include "robot.hpp"
 #include <piksel/baseapp.hpp>
+#include <box2d/box2d.h>
 
 #include <memory>
 
@@ -21,6 +22,8 @@ public:
 
     Robot& getCurrentRobot();
 
+    b2World& getWorld() { return *mWorld; }
+
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseWheel(int delta);
@@ -31,7 +34,7 @@ public:
 private:
     App() : piksel::BaseApp(640, 480), mKeyPanState(PAN_NONE) {}
     App(const App& other) {}
-    ~App() {}
+    ~App();
 
     void updateDeltaTime();
 
@@ -74,6 +77,11 @@ private:
     float mOrigY = 0.0f;
 
     std::unique_ptr<Robot> mRobot;
+
+    const float mTimeStep = 1.0f / 60.0f;
+    const int32 mVelocityIterations = 6;
+    const int32 mPositionIterations = 2;
+    std::unique_ptr<b2World> mWorld;
 };
 
 #endif /* APP_HPP */
