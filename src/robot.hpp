@@ -14,10 +14,10 @@ typedef void (*loop_t)(void);
 
 class Robot {
 public:
-    Robot(b2World* world) : Robot(world, glm::vec2(0.0f, 0.0f), 0.0f, 10.0f, 5.0f, glm::vec4(0.8f, 0.4f, 0.0f, 1.0f)) {}
+    Robot(b2World* world) : Robot(world, glm::vec2(0.0f, 0.0f), 0.0f, 0.30f, 0.15f, glm::vec4(0.8f, 0.4f, 0.0f, 1.0f)) {}
 
     /* Rotation angle in radians.
-       Width and height in cm. */
+       Width and height in meters. */
     Robot(b2World* world, glm::vec2 position, float rotation, float width, float height, glm::vec4 color)
         : mWorld(world), mPosition(position), mRotation(rotation), mWidth(width), mHeight(height), mColor(color),
           mPins(20) {}

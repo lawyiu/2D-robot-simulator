@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#define INIT_SCALE_FACTOR 10.0f
+#define INIT_SCALE_FACTOR 500.0f
 
 class App : public piksel::BaseApp {
 public:
@@ -67,8 +67,8 @@ private:
     const float mTextPadding = 10.0f;
     const float mTextSize = 18.0f;
 
-    float mScaleFactor = INIT_SCALE_FACTOR; // Pixels per cm
-    float mWheelFactor = 5.0f;              // Controls mouse wheel speed
+    float mScaleFactor = INIT_SCALE_FACTOR;  // Pixels per meter
+    float mWheelFactor = 0.25f;              // Controls mouse wheel speed
 
     float pixelsPerSecond = 100.0f;
     float mOffsetX = 0.0f;

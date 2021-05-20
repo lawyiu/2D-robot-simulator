@@ -32,7 +32,7 @@ void Led::draw(Graphics& g) {
     g.fill(mColor);
 
     if (mState) {
-        g.rect(mPosition.x, mPosition.y, 1.0f, 1.0f);
+        g.rect(mPosition.x, mPosition.y, 0.02f, 0.02f);
     }
 
     g.pop();
