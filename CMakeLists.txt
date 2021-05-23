@@ -100,7 +100,7 @@ if(EMSCRIPTEN)
     )
 endif()
 
-if(!EMSCRIPTEN)
+if(NOT EMSCRIPTEN)
     set(TEST_SOURCES
         src/pinsController.cpp
         tests/pinsControllerTests.cpp
