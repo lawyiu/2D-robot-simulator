@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.12)
 project(2D_Robot_Sim)
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 
 if(EMSCRIPTEN)
     string(PREPEND CMAKE_CXX_FLAGS "-fpic ")
