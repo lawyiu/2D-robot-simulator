@@ -36,6 +36,7 @@ endif()
 set(SOURCES
     src/Arduino.cpp
     src/robot.cpp
+    src/tire.cpp
     src/pinsController.cpp
     src/led.cpp
     src/main.cpp

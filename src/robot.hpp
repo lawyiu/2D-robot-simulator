@@ -3,6 +3,7 @@
 
 #include "output.hpp"
 #include "pinsController.hpp"
+#include "tire.hpp"
 
 #include <box2d/box2d.h>
 #include <glm/glm.hpp>
@@ -12,9 +13,18 @@
 typedef void (*setup_t)(void);
 typedef void (*loop_t)(void);
 
+#define DEF_WIDTH 0.30f
+#define DEF_HEIGHT 0.15f
+#define DEF_COLOR glm::vec4(0.8f, 0.4f, 0.0f, 1.0f)
+
 class Robot {
 public:
-    Robot(b2World* world) : Robot(world, glm::vec2(0.0f, 0.0f), 0.0f, 0.30f, 0.15f, glm::vec4(0.8f, 0.4f, 0.0f, 1.0f)) {}
+    Robot(b2World* world) : Robot(world, glm::vec2(0.0f, 0.0f), 0.0f, DEF_WIDTH, DEF_HEIGHT, DEF_COLOR) {}
+
+    /* Position in meters.
+       Rotation angle in radians. */
+    Robot(b2World* world, glm::vec2 position, float rotation)
+        : Robot(world, position, rotation, DEF_WIDTH, DEF_HEIGHT, DEF_COLOR) {}
 
     /* Rotation angle in radians.
        Width and height in meters. */
@@ -44,7 +54,12 @@ public:
     glm::vec2 getPosition();
     PinsController& getPinsController() { return mPins; }
 
-private:
+    b2Body* getBody() { return mBody; }
+
+protected:
+    void createBody();
+    void addTires();
+
     glm::vec2 mPosition;
     float mWidth;
     float mHeight;
@@ -56,6 +71,7 @@ private:
 
     PinsController mPins;
     std::vector<std::unique_ptr<Output>> mOutputs;
+    std::vector<std::unique_ptr<Tire>> mTires;
 
     void* mLibHandle = nullptr;
     setup_t mSetup = nullptr;

@@ -4,6 +4,7 @@
 
 #include <dlfcn.h>
 #include <iostream>
+#include <utility>
 
 #define DEFAULT_LIB "./libcode.so"
 
@@ -16,17 +17,14 @@ Robot::~Robot() {
     mWorld->DestroyBody(mBody);
 }
 
-void Robot::init() {
-    unique_ptr<Output> ledPtr(new Led(*this));
-    mOutputs.push_back(move(ledPtr));
-
+void Robot::createBody() {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(mPosition.x, mPosition.y);
     mBody = mWorld->CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(mWidth / 2.0f, mHeight / 2.0f, b2Vec2_zero, mRotation);
+    dynamicBox.SetAsBox(mWidth / 2.0f, mHeight / 2.0f);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
@@ -34,6 +32,42 @@ void Robot::init() {
     fixtureDef.friction = 0.3f;
 
     mBody->CreateFixture(&fixtureDef);
+}
+
+void Robot::addTires() {
+    float tireWidth = 0.06f;
+    float tireHeight = 0.03f;
+    glm::vec4 tireColor(0.30f, 0.30f, 0.30f, 1.0f);
+
+    float halfRobotWidth = mWidth / 2.0f;
+    float halfRobotHeight = mHeight / 2.0f;
+
+    float tireWidthOffset = tireWidth / 16.0f;
+    float tireHeightOffset = 0.01f;
+    float tireRobotOffsetX = halfRobotWidth - tireWidth - tireWidthOffset;
+    float tireRobotOffsetY = halfRobotHeight + tireHeightOffset;
+
+    std::pair<glm::vec2, Tire::Side> tirePositions[] = {
+        std::make_pair(glm::vec2(-tireRobotOffsetX, tireRobotOffsetY), Tire::RIGHT),
+        std::make_pair(glm::vec2(tireRobotOffsetX, tireRobotOffsetY), Tire::RIGHT),
+        std::make_pair(glm::vec2(-tireRobotOffsetX, -tireRobotOffsetY), Tire::LEFT),
+        std::make_pair(glm::vec2(tireRobotOffsetX, -tireRobotOffsetY), Tire::LEFT)
+    };
+
+    for (auto&& tirePos : tirePositions) {
+        unique_ptr<Tire> tire(new Tire(*this, tirePos.first, tireWidth, tireHeight, tireColor, tirePos.second));
+        mTires.push_back(move(tire));
+    }
+}
+
+void Robot::init() {
+    unique_ptr<Output> ledPtr(new Led(*this));
+    mOutputs.push_back(move(ledPtr));
+
+    createBody();
+    addTires();
+    // Set rotation of the robot after adding the tires so that the tires are rotated as well.
+    setRotation(mRotation);
 
     loadCode();
 
@@ -102,6 +136,11 @@ void Robot::draw(Graphics& g) {
     g.rotate(getRotation());
     g.translate(getPosition().x, getPosition().y);
     g.noStroke();
+
+    for (auto&& tire : mTires) {
+        tire->draw(g);
+    }
+
     g.rect(0.0f, 0.0f, mWidth, mHeight);
 
     for (auto&& output : mOutputs) {
