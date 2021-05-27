@@ -14,6 +14,7 @@ using namespace std;
 Robot::~Robot() {
     unloadCode();
 
+    mTires.clear();
     mWorld->DestroyBody(mBody);
 }
 
