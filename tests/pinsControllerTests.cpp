@@ -9,10 +9,12 @@ TEST(PinsControllerTest, GettingDefault) {
     EXPECT_EQ(42, result.number);
     EXPECT_EQ(PinType::DIGITAL, result.type);
     EXPECT_EQ(PinDirection::INPUT, result.direction);
+    EXPECT_EQ(ValueType::DIGITAL, result.valueType);
     EXPECT_EQ(0, result.value);
 
     EXPECT_EQ(PinType::DIGITAL, pins.getPinType(42));
-    EXPECT_EQ(PinDirection::INPUT,pins.getPinDirection(42));
+    EXPECT_EQ(PinDirection::INPUT, pins.getPinDirection(42));
+    EXPECT_EQ(ValueType::DIGITAL, pins.getPinValueType(42));
     EXPECT_EQ(0, pins.getPinValue(42));
 }
 
@@ -21,8 +23,9 @@ TEST(PinsControllerTest, SettingAndGetting) {
     Pin pin;
 
     pin.number = 42;
-    pin.type = ANALOG;
+    pin.type = PinType::ANALOG;
     pin.direction = OUTPUT;
+    pin.valueType = ValueType::ANALOG;
     pin.value = 42;
 
     pins.setPin(pin);
@@ -32,6 +35,7 @@ TEST(PinsControllerTest, SettingAndGetting) {
     EXPECT_EQ(pin.number, result.number);
     EXPECT_EQ(pin.type, result.type);
     EXPECT_EQ(pin.direction, result.direction);
+    EXPECT_EQ(pin.valueType, result.valueType);
     EXPECT_EQ(pin.value, result.value);
 }
 
@@ -54,7 +58,8 @@ TEST(PinsControllerTest, SettingAndGettingDirection) {
 TEST(PinsControllerTest, SettingAndGettingValue) {
     PinsController pins;
 
-    pins.setPinValue(42, 100);
+    pins.setPinValue(42, 100, ValueType::ANALOG);
 
     EXPECT_EQ(100, pins.getPinValue(42));
+    EXPECT_EQ(ValueType::ANALOG, pins.getPinValueType(42));
 }

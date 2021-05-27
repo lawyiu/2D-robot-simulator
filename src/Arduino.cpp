@@ -29,7 +29,7 @@ void digitalWrite(uint8_t pin, uint8_t val) {
     Robot& robot = App::getInstance().getCurrentRobot();
     PinsController& pins = robot.getPinsController();
 
-    pins.setPinValue(pin, val);
+    pins.setPinValue(pin, val, ValueType::DIGITAL);
 }
 
 int analogRead(uint8_t pin) {
@@ -37,7 +37,10 @@ int analogRead(uint8_t pin) {
 }
 
 void analogWrite(uint8_t pin, int val) {
-    digitalWrite(pin, val);
+    Robot& robot = App::getInstance().getCurrentRobot();
+    PinsController& pins = robot.getPinsController();
+
+    pins.setPinValue(pin, val, ValueType::ANALOG);
 }
 
 void SerialPort::begin(unsigned long rate) {

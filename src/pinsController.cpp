@@ -13,8 +13,9 @@ void PinsController::setPinDirection(uint32_t pinNum, PinDirection direction) {
     pin.direction = direction;
     setPin(pin);
 }
-void PinsController::setPinValue(uint32_t pinNum, uint32_t value) {
+void PinsController::setPinValue(uint32_t pinNum, uint32_t value, ValueType valueType) {
     Pin pin = getPin(pinNum);
+    pin.valueType = valueType;
     pin.value = value;
     setPin(pin);
 }
@@ -32,5 +33,7 @@ Pin PinsController::getPin(uint32_t pinNum) {
 PinType PinsController::getPinType(uint32_t pinNum) { return getPin(pinNum).type; }
 
 PinDirection PinsController::getPinDirection(uint32_t pinNum) { return getPin(pinNum).direction; }
+
+ValueType PinsController::getPinValueType(uint32_t pinNum) { return getPin(pinNum).valueType; }
 
 uint32_t PinsController::getPinValue(uint32_t pinNum) { return getPin(pinNum).value; }

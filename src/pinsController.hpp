@@ -6,12 +6,14 @@
 
 #include "pinDirection.hpp"
 
-enum PinType { DIGITAL, ANALOG };
+enum class PinType { DIGITAL, ANALOG };
+enum class ValueType { DIGITAL, ANALOG };
 
 struct Pin {
     uint32_t number;
     PinType type;
     PinDirection direction;
+    ValueType valueType;
     uint32_t value;
 };
 
@@ -24,11 +26,12 @@ public:
     void setPin(Pin pin);
     void setPinType(uint32_t pinNum, PinType type);
     void setPinDirection(uint32_t pinNum, PinDirection direction);
-    void setPinValue(uint32_t pinNum, uint32_t value);
+    void setPinValue(uint32_t pinNum, uint32_t value, ValueType valueType);
 
     Pin getPin(uint32_t pinNum);
     PinType getPinType(uint32_t pinNum);
     PinDirection getPinDirection(uint32_t pinNum);
+    ValueType getPinValueType(uint32_t pinNum);
     uint32_t getPinValue(uint32_t pinNum);
 
 private:
