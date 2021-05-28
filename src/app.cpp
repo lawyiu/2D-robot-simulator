@@ -1,15 +1,11 @@
 #include "app.hpp"
+#include "robot.hpp"
 
 #include <limits.h>
 
 App& App::getInstance() {
     static App app;
     return app;
-}
-
-App::~App() {
-    mRobot.reset(nullptr);
-    mWorld.reset(nullptr);
 }
 
 void App::updateDeltaTime() {
@@ -28,11 +24,8 @@ void App::updateDeltaTime() {
 void App::setup() {
     mFont.load("data/fonts/OpenSans/OpenSans-Regular.ttf");
 
-    b2Vec2 gravity = b2Vec2_zero;
-    mWorld.reset(new b2World(gravity));
-
-    mRobot.reset(new Robot(mWorld.get()));
-    mRobot->init();
+    mLevel.reset(new Level());
+    mLevel->init();
 }
 
 void App::update() {
@@ -40,17 +33,16 @@ void App::update() {
     float dt = getDeltaTimeSeconds();
 
     if (mReload) {
-        mRobot->reloadCode();
+        getCurrentRobot().reloadCode();
         mReload = false;
     } else if (mRestart) {
-        mRobot.reset(new Robot(mWorld.get()));
-        mRobot->init();
+        mLevel.reset(new Level());
+        mLevel->init();
         mRestart = false;
     }
 
     if (!mPause) {
-        mRobot->update();
-        mWorld->Step(mTimeStep, mVelocityIterations, mPositionIterations);
+        mLevel->update();
     }
 
     float keyPanDist = pixelsPerSecond * dt;
@@ -83,11 +75,11 @@ void App::draw(piksel::Graphics& g) {
     g.translate(width / 2.0f + mOffsetX, height / 2.0f + mOffsetY);
     g.scale(mScaleFactor, mScaleFactor);
 
-    mRobot->draw(g);
+    mLevel->draw(g);
 }
 
 Robot& App::getCurrentRobot() {
-    return *mRobot;
+    return mLevel->getRobot();
 }
 
 void App::keyPressed(int key) {

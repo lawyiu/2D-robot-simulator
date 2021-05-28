@@ -1,13 +1,13 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include "robot.hpp"
+#include "level.hpp"
 #include <piksel/baseapp.hpp>
 #include <box2d/box2d.h>
 
-#include <memory>
-
 #define INIT_SCALE_FACTOR 500.0f
+
+class Robot;
 
 class App : public piksel::BaseApp {
 public:
@@ -21,8 +21,8 @@ public:
     void draw(piksel::Graphics& g);
 
     Robot& getCurrentRobot();
-
-    b2World& getWorld() { return *mWorld; }
+    Level& getCurrentLevel() { return *mLevel; }
+    b2World& getWorld() { return mLevel->getWorld(); }
 
     void keyPressed(int key);
     void keyReleased(int key);
@@ -34,7 +34,7 @@ public:
 private:
     App() : piksel::BaseApp(640, 480), mKeyPanState(PAN_NONE) {}
     App(const App& other) {}
-    ~App();
+    ~App() {}
 
     void updateDeltaTime();
 
@@ -76,12 +76,7 @@ private:
     float mOrigX = 0.0f;
     float mOrigY = 0.0f;
 
-    std::unique_ptr<Robot> mRobot;
-
-    const float mTimeStep = 1.0f / 60.0f;
-    const int32 mVelocityIterations = 6;
-    const int32 mPositionIterations = 2;
-    std::unique_ptr<b2World> mWorld;
+    std::unique_ptr<Level> mLevel;
 };
 
 #endif /* APP_HPP */
