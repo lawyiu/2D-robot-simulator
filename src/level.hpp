@@ -3,6 +3,7 @@
 
 #include <box2d/box2d.h>
 #include <memory>
+#include <vector>
 #include <piksel/baseapp.hpp>
 
 class Robot;
@@ -30,7 +31,7 @@ protected:
 
     std::unique_ptr<b2World> mWorld;
     b2Body* mLevelBody;
-    b2FrictionJoint* mFrictionJoint;
+    std::vector<b2FrictionJoint*> mFrictionJoints;
 
     std::unique_ptr<Robot> mRobot;
 };

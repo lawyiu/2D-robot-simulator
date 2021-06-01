@@ -11,11 +11,13 @@ void Level::init() {
 
     mRobot.reset(new Robot(mWorld.get()));
     mRobot->init();
-
-    createFrictionJoint(mRobot->getBody());
 }
 
 Level::~Level() {
+    for (auto&& frictionJoint : mFrictionJoints) {
+        mWorld->DestroyJoint(frictionJoint);
+    }
+
     mRobot.reset(nullptr);
     mWorld.reset(nullptr);
 }
@@ -47,9 +49,10 @@ void Level::createLevel() {
 
 void Level::createFrictionJoint(b2Body* body) {
     b2FrictionJointDef frictionJointDef;
-    frictionJointDef.Initialize(mLevelBody, body, b2Vec2_zero);
+    frictionJointDef.bodyA = mLevelBody;
+    frictionJointDef.bodyB = body;
     frictionJointDef.collideConnected = false;
     frictionJointDef.maxForce = 1.0f;
     frictionJointDef.maxTorque = 1.0f;
-    mFrictionJoint = static_cast<b2FrictionJoint*>(mWorld->CreateJoint(&frictionJointDef));
+    mFrictionJoints.push_back(static_cast<b2FrictionJoint*>(mWorld->CreateJoint(&frictionJointDef)));
 }

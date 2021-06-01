@@ -1,6 +1,8 @@
 #include "robot.hpp"
+#include "app.hpp"
 
 #include "led.hpp"
+#include "L298N_MotorController.hpp"
 
 #include <dlfcn.h>
 #include <iostream>
@@ -64,6 +66,9 @@ void Robot::addTires() {
 void Robot::init() {
     unique_ptr<Output> ledPtr(new Led(*this));
     mOutputs.push_back(move(ledPtr));
+
+    unique_ptr<Output> motorDriverPtr(new L298N_MotorController(*this));
+    mOutputs.push_back(move(motorDriverPtr));
 
     createBody();
     addTires();
@@ -134,13 +139,14 @@ void Robot::draw(Graphics& g) {
 
     g.fill(mColor);
     g.rectMode(DrawMode::CENTER);
-    g.rotate(getRotation());
-    g.translate(getPosition().x, getPosition().y);
     g.noStroke();
 
     for (auto&& tire : mTires) {
         tire->draw(g);
     }
+
+    g.translate(getPosition().x, getPosition().y);
+    g.rotate(getRotation());
 
     g.rect(0.0f, 0.0f, mWidth, mHeight);
 
@@ -178,4 +184,12 @@ glm::vec2 Robot::getRightPerpendicularVec() {
     glm::vec2 perpVec = glm::vec2(-headingVec.y, headingVec.x);
 
     return perpVec;
+}
+
+void Robot::applyForce(float force, Tire::Side side) {
+    for (auto&& tire : mTires) {
+        if (tire->getSide() == side) {
+            tire->applyForce(force);
+        }
+    }
 }

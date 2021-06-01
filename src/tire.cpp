@@ -5,13 +5,12 @@
 
 Tire::Tire(Robot& robot, glm::vec2 position, float width, float height, glm::vec4 color, Side side)
     : mRobot(robot), mWidth(width), mHeight(height), mColor(color), mWorld(App::getInstance().getWorld()), mSide(side) {
-
     createBody(position);
-    createJoint();
+    createJoint(position);
 }
 
 Tire::~Tire() {
-    mWorld.DestroyJoint(mDistJoint);
+    mWorld.DestroyJoint(mWeldJoint);
     mWorld.DestroyBody(mTireBody);
 }
 
@@ -32,32 +31,43 @@ void Tire::createBody(glm::vec2 position) {
     fixtureDef.friction = 0.8f;
 
     mTireBody->CreateFixture(&fixtureDef);
+
+    App::getInstance().getCurrentLevel().createFrictionJoint(mTireBody);
 }
 
-void Tire::createJoint() {
+void Tire::createJoint(glm::vec2 position) {
     // Attach to robot body
     b2Body* robotBody = mRobot.getBody();
-    b2DistanceJointDef distJointDef;
-    // For simplicity, connect the tire to the center of the robot for now.
-    distJointDef.Initialize(mTireBody, robotBody, mTireBody->GetPosition(), robotBody->GetPosition());
-    distJointDef.collideConnected = false;
+    b2WeldJointDef weldJointDef;
+    weldJointDef.Initialize(mTireBody, robotBody, mTireBody->GetPosition());
+    weldJointDef.collideConnected = false;
 
-    mDistJoint = static_cast<b2DistanceJoint*>(mWorld.CreateJoint(&distJointDef));
+    mWeldJoint = mWorld.CreateJoint(&weldJointDef);
 }
 
 void Tire::draw(piksel::Graphics& g) {
     g.push();
 
-    float axelWidth = 0.01f;
-    float axelHeight = 0.02f;
+    b2Vec2 pos = mTireBody->GetPosition();
 
-    b2Vec2 position = mTireBody->GetPosition();
-
+    g.translate(pos.x, pos.y);
     g.rotate(mTireBody->GetAngle());
-    g.translate(position.x, position.y);
 
     g.fill(mColor);
     g.rect(0.0f, 0.0f, mWidth, mHeight);
 
     g.pop();
+}
+
+glm::vec2 Tire::getHeading() {
+    float angleRads = getRotation();
+    return glm::normalize(glm::vec2(glm::cos(angleRads), glm::sin(angleRads)));
+}
+
+void Tire::applyForce(float force) {
+    glm::vec2 forceVec(getHeading() * force);
+    float velocity = mTireBody->GetLinearVelocityFromWorldPoint(mTireBody->GetPosition()).Length();
+    if (velocity < mMaxVelocity) {
+        mTireBody->ApplyForceToCenter(b2Vec2(forceVec.x, forceVec.y), true);
+    }
 }

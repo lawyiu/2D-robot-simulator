@@ -56,6 +56,9 @@ public:
 
     b2Body* getBody() { return mBody; }
 
+    /* Applies force to the left or right tires to make the robot move. */
+    void applyForce(float force, Tire::Side);
+
 protected:
     void createBody();
     void addTires();

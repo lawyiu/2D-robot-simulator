@@ -16,22 +16,32 @@ public:
     Tire(Robot& robot, glm::vec2 position, float width, float height, glm::vec4 color, Side side);
     ~Tire();
 
+    void update() {};
     void draw(piksel::Graphics& g);
+
+    float getRotation() { return mTireBody->GetAngle(); }
+    void setRotation(float radians) { mTireBody->SetTransform(mTireBody->GetPosition(), radians); }
+    glm::vec2 getHeading();
 
     Side getSide() { return mSide; };
 
+    void applyForce(float force);
+
 protected:
     void createBody(glm::vec2 position);
-    void createJoint();
+    void createJoint(glm::vec2 position);
 
     Robot& mRobot;
+    glm::vec2 mPosition;
     float mWidth, mHeight;
     glm::vec4 mColor;
     Side mSide;
 
     b2World& mWorld;
     b2Body* mTireBody;
-    b2DistanceJoint* mDistJoint;
+    b2Joint* mWeldJoint;
+
+    const float mMaxVelocity = 0.1f; // Meters per second
 };
 
 #endif /* TIRE_HPP */
