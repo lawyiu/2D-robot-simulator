@@ -62,6 +62,7 @@ private:
     bool mPause = false;
     bool mReload = false;
     bool mRestart = false;
+    bool mFollow = false;
 
     piksel::Font mFont;
     const float mTextPadding = 10.0f;

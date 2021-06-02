@@ -52,6 +52,7 @@ Please note that Windows users will need to use WSL to build for the web or desk
     Spacebar - Pause the simulation.
     Arrow Keys / left mouse button - Pan the camera around.
     Mouse wheel - Zoom in or out.
+    F - Follow the robot with the camera.
 
 ## What's working
   * Serial printing

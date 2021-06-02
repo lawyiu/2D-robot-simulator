@@ -47,17 +47,24 @@ void App::update() {
 
     float keyPanDist = pixelsPerSecond * dt;
 
-    if (mKeyPanState & PAN_UP) {
-        mOffsetY -= keyPanDist;
-    }
-    if (mKeyPanState & PAN_DOWN) {
-        mOffsetY += keyPanDist;
-    }
-    if (mKeyPanState & PAN_LEFT) {
-        mOffsetX -= keyPanDist;
-    }
-    if (mKeyPanState & PAN_RIGHT) {
-        mOffsetX += keyPanDist;
+    if (mFollow) {
+        glm::vec2 position = getCurrentRobot().getPosition();
+
+        mOffsetX = -position.x * mScaleFactor;
+        mOffsetY = -position.y * mScaleFactor;
+    } else {
+        if (mKeyPanState & PAN_UP) {
+            mOffsetY -= keyPanDist;
+        }
+        if (mKeyPanState & PAN_DOWN) {
+            mOffsetY += keyPanDist;
+        }
+        if (mKeyPanState & PAN_LEFT) {
+            mOffsetX -= keyPanDist;
+        }
+        if (mKeyPanState & PAN_RIGHT) {
+            mOffsetX += keyPanDist;
+        }
     }
 }
 
@@ -70,6 +77,12 @@ void App::draw(piksel::Graphics& g) {
         g.textFont(mFont);
         g.textSize(mTextSize);
         g.text("Paused", mTextPadding, height - mTextPadding);
+    }
+
+    if (mFollow) {
+        g.textFont(mFont);
+        g.textSize(mTextSize);
+        g.text("Following", mTextPadding, mTextSize);
     }
 
     g.translate(width / 2.0f + mOffsetX, height / 2.0f + mOffsetY);
@@ -98,6 +111,10 @@ void App::keyPressed(int key) {
 
         case GLFW_KEY_R:
             mRestart = true;
+            break;
+
+        case GLFW_KEY_F:
+            mFollow = !mFollow;
             break;
 
         case GLFW_KEY_UP:
