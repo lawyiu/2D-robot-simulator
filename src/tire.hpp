@@ -22,6 +22,7 @@ public:
     float getRotation() { return mTireBody->GetAngle(); }
     void setRotation(float radians) { mTireBody->SetTransform(mTireBody->GetPosition(), radians); }
     glm::vec2 getHeading();
+    b2Vec2 getForwardVelocity();
 
     Side getSide() { return mSide; };
 

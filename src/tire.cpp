@@ -60,13 +60,18 @@ void Tire::draw(piksel::Graphics& g) {
 }
 
 glm::vec2 Tire::getHeading() {
-    float angleRads = getRotation();
-    return glm::normalize(glm::vec2(glm::cos(angleRads), glm::sin(angleRads)));
+    b2Vec2 heading = mTireBody->GetWorldVector(b2Vec2(1.0f, 0.0f));
+    return glm::vec2(heading.x, heading.y);
+}
+
+b2Vec2 Tire::getForwardVelocity() {
+    b2Vec2 normalVec = mTireBody->GetWorldVector(b2Vec2(1.0f, 0.0f));
+    return b2Dot(mTireBody->GetLinearVelocity(), normalVec) * normalVec;
 }
 
 void Tire::applyForce(float force) {
     glm::vec2 forceVec(getHeading() * force);
-    float velocity = mTireBody->GetLinearVelocityFromWorldPoint(mTireBody->GetPosition()).Length();
+    float velocity = getForwardVelocity().Length();
     if (velocity < mMaxVelocity) {
         mTireBody->ApplyForceToCenter(b2Vec2(forceVec.x, forceVec.y), true);
     }
