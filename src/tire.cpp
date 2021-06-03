@@ -71,8 +71,8 @@ b2Vec2 Tire::getForwardVelocity() {
 
 void Tire::applyForce(float force) {
     glm::vec2 forceVec(getHeading() * force);
-    float velocity = getForwardVelocity().Length();
-    if (velocity < mMaxVelocity) {
+    float speed = getForwardVelocity().Length();
+    if (speed < mMaxSpeed) {
         mTireBody->ApplyForceToCenter(b2Vec2(forceVec.x, forceVec.y), true);
     }
 }

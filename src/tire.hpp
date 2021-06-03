@@ -42,7 +42,7 @@ protected:
     b2Body* mTireBody;
     b2Joint* mWeldJoint;
 
-    const float mMaxVelocity = 0.1f; // Meters per second
+    const float mMaxSpeed = 0.1f; // Meters per second
 };
 
 #endif /* TIRE_HPP */
