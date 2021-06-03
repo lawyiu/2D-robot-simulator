@@ -11,6 +11,10 @@
         {
             "file": "blink_no_delay.ino",
             "description": "A program that blinks a LED every second."
+        },
+        {
+            "file": "move.ino",
+            "description": "A program that randomly moves the robot around."
         }
     ]
 }

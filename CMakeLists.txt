@@ -88,6 +88,7 @@ if(EMSCRIPTEN)
         welcome.ino
         hello.ino
         blink_no_delay.ino
+        move.ino
     )
     list(TRANSFORM DEPLOY_EXAMPLES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/arduino_examples/)
 
