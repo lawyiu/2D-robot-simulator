@@ -169,7 +169,7 @@
     }
   
    }
-   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 808, "audio": 0}], "remote_package_size": 808, "package_uuid": "25796531-1cbd-4b7c-8e77-9ee5fdb97f1b"});
+   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 808, "audio": 0}], "remote_package_size": 808, "package_uuid": "e18993e2-8e92-4779-a6f3-dbec1c4d7af6"});
   
   })();
   
@@ -364,7 +364,7 @@ Module['FS_createPath']("/data/fonts", "OpenSans", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "9a5fe6ad-f37c-4e1b-b614-9826e7b70169"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 0, "end": 96932, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 96932, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "8dff2f64-f21c-46f3-aaa8-3fee1cd2207a"});
   
   })();
   
@@ -1639,7 +1639,7 @@ updateGlobalBufferAndViews(buffer);
 // include: runtime_init_table.js
 // In RELOCATABLE mode we create the table in JS.
 var wasmTable = new WebAssembly.Table({
-  'initial': 1192,
+  'initial': 1391,
   'element': 'anyfunc'
 });
 
@@ -2094,12 +2094,12 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  281920: function() {var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px';},  
- 282110: function() {setTimeout(function() { var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px'; }, 0);},  
- 282331: function($0) {if (!$0) { AL.alcErr = 0xA004 ; return 1; }},  
- 282379: function($0) {err("bad name in alcGetProcAddress: " + UTF8ToString($0));},  
- 282442: function($0) {if (!AL.currentCtx) { err("alGetProcAddress() called without a valid context"); return 1; } if (!$0) { AL.currentCtx.err = 0xA003 ; return 1; }},  
- 282590: function($0) {err("bad name in alGetProcAddress: " + UTF8ToString($0));}
+  298720: function() {var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px';},  
+ 298910: function() {setTimeout(function() { var canvas = document.getElementById('canvas'); canvas.style.width = (canvas.width / window.devicePixelRatio) + 'px'; canvas.style.height = (canvas.height / window.devicePixelRatio) + 'px'; }, 0);},  
+ 299131: function($0) {if (!$0) { AL.alcErr = 0xA004 ; return 1; }},  
+ 299179: function($0) {err("bad name in alcGetProcAddress: " + UTF8ToString($0));},  
+ 299242: function($0) {if (!AL.currentCtx) { err("alGetProcAddress() called without a valid context"); return 1; } if (!$0) { AL.currentCtx.err = 0xA003 ; return 1; }},  
+ 299390: function($0) {err("bad name in alGetProcAddress: " + UTF8ToString($0));}
 };
 
 
@@ -2308,7 +2308,7 @@ var ASM_CONSTS = {
     }
   Module["createInvokeFunction"] = createInvokeFunction;
   
-  var ___heap_base=5545152;
+  var ___heap_base=5562896;
   Module["___heap_base"] = ___heap_base;
   function getMemory(size) {
       // After the runtime is initialized, we must only use sbrk() normally.
@@ -3079,7 +3079,7 @@ var ASM_CONSTS = {
     }
   Module["___map_file"] = ___map_file;
 
-  var ___stack_pointer=new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5545152);
+  var ___stack_pointer=new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5562896);
   Module["___stack_pointer"] = ___stack_pointer;
 
   var PATH={splitPath:function(filename) {
@@ -34481,7 +34481,7 @@ var __ZN14PinsController11getPinValueEj = Module["__ZN14PinsController11getPinVa
 var __Z12digitalWritehh = Module["__Z12digitalWritehh"] = createExportWrapper("_Z12digitalWritehh");
 
 /** @type {function(...*):?} */
-var __ZN14PinsController11setPinValueEjj = Module["__ZN14PinsController11setPinValueEjj"] = createExportWrapper("_ZN14PinsController11setPinValueEjj");
+var __ZN14PinsController11setPinValueEjj9ValueType = Module["__ZN14PinsController11setPinValueEjj9ValueType"] = createExportWrapper("_ZN14PinsController11setPinValueEjj9ValueType");
 
 /** @type {function(...*):?} */
 var __Z10analogReadh = Module["__Z10analogReadh"] = createExportWrapper("_Z10analogReadh");
@@ -35126,6 +35126,15 @@ var __ZN5RobotD2Ev = Module["__ZN5RobotD2Ev"] = createExportWrapper("_ZN5RobotD2
 var __ZN5Robot10unloadCodeEv = Module["__ZN5Robot10unloadCodeEv"] = createExportWrapper("_ZN5Robot10unloadCodeEv");
 
 /** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5clearEv = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5clearEv"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5clearEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2World11DestroyBodyEP6b2Body = Module["__ZN7b2World11DestroyBodyEP6b2Body"] = createExportWrapper("_ZN7b2World11DestroyBodyEP6b2Body");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev");
+
+/** @type {function(...*):?} */
 var __ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev = Module["__ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev");
 
 /** @type {function(...*):?} */
@@ -35138,6 +35147,24 @@ var __ZNSt3__24endlIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_ = Modu
 var __ZNSt3__213basic_ostreamIcNS_11char_traitsIcEEElsEPFRS3_S4_E = Module["__ZNSt3__213basic_ostreamIcNS_11char_traitsIcEEElsEPFRS3_S4_E"] = createExportWrapper("_ZNSt3__213basic_ostreamIcNS_11char_traitsIcEEElsEPFRS3_S4_E");
 
 /** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4sizeEv = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4sizeEv"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4sizeEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5clearEv = Module["__ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5clearEv"] = createExportWrapper("_ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5clearEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_shrinkEm = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_shrinkEm"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_shrinkEm");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE26__invalidate_all_iteratorsEv = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE26__invalidate_all_iteratorsEv"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE26__invalidate_all_iteratorsEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_deleteEv = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_deleteEv"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_deleteEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev = Module["__ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev"] = createExportWrapper("_ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEED2Ev");
+
+/** @type {function(...*):?} */
 var __ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_deleteEv = Module["__ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_deleteEv"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__annotate_deleteEv");
 
 /** @type {function(...*):?} */
@@ -35145,6 +35172,105 @@ var __ZNSt3__213__vector_baseINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEE
 
 /** @type {function(...*):?} */
 var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEED2Ev = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEED2Ev"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEED2Ev");
+
+/** @type {function(...*):?} */
+var __ZN5Robot10createBodyEv = Module["__ZN5Robot10createBodyEv"] = createExportWrapper("_ZN5Robot10createBodyEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2BodyDefC2Ev = Module["__ZN9b2BodyDefC2Ev"] = createExportWrapper("_ZN9b2BodyDefC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec23SetEff = Module["__ZN6b2Vec23SetEff"] = createExportWrapper("_ZN6b2Vec23SetEff");
+
+/** @type {function(...*):?} */
+var __ZN7b2World10CreateBodyEPK9b2BodyDef = Module["__ZN7b2World10CreateBodyEPK9b2BodyDef"] = createExportWrapper("_ZN7b2World10CreateBodyEPK9b2BodyDef");
+
+/** @type {function(...*):?} */
+var __ZN14b2PolygonShapeC2Ev = Module["__ZN14b2PolygonShapeC2Ev"] = createExportWrapper("_ZN14b2PolygonShapeC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN14b2PolygonShape8SetAsBoxEff = Module["__ZN14b2PolygonShape8SetAsBoxEff"] = createExportWrapper("_ZN14b2PolygonShape8SetAsBoxEff");
+
+/** @type {function(...*):?} */
+var __ZN12b2FixtureDefC2Ev = Module["__ZN12b2FixtureDefC2Ev"] = createExportWrapper("_ZN12b2FixtureDefC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body13CreateFixtureEPK12b2FixtureDef = Module["__ZN6b2Body13CreateFixtureEPK12b2FixtureDef"] = createExportWrapper("_ZN6b2Body13CreateFixtureEPK12b2FixtureDef");
+
+/** @type {function(...*):?} */
+var __ZN14b2PolygonShapeD2Ev = Module["__ZN14b2PolygonShapeD2Ev"] = createExportWrapper("_ZN14b2PolygonShapeD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec2C2Ev = Module["__ZN6b2Vec2C2Ev"] = createExportWrapper("_ZN6b2Vec2C2Ev");
+
+/** @type {function(...*):?} */
+var __ZN14b2BodyUserDataC2Ev = Module["__ZN14b2BodyUserDataC2Ev"] = createExportWrapper("_ZN14b2BodyUserDataC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2ShapeC2Ev = Module["__ZN7b2ShapeC2Ev"] = createExportWrapper("_ZN7b2ShapeC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec27SetZeroEv = Module["__ZN6b2Vec27SetZeroEv"] = createExportWrapper("_ZN6b2Vec27SetZeroEv");
+
+/** @type {function(...*):?} */
+var __ZN17b2FixtureUserDataC2Ev = Module["__ZN17b2FixtureUserDataC2Ev"] = createExportWrapper("_ZN17b2FixtureUserDataC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN8b2FilterC2Ev = Module["__ZN8b2FilterC2Ev"] = createExportWrapper("_ZN8b2FilterC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2ShapeD2Ev = Module["__ZN7b2ShapeD2Ev"] = createExportWrapper("_ZN7b2ShapeD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN5Robot8addTiresEv = Module["__ZN5Robot8addTiresEv"] = createExportWrapper("_ZN5Robot8addTiresEv");
+
+/** @type {function(...*):?} */
+var __ZN3glm3vecILi4EfLNS_9qualifierE0EEC2Effff = Module["__ZN3glm3vecILi4EfLNS_9qualifierE0EEC2Effff"] = createExportWrapper("_ZN3glm3vecILi4EfLNS_9qualifierE0EEC2Effff");
+
+/** @type {function(...*):?} */
+var __ZN3glm3vecILi2EfLNS_9qualifierE0EEC2Eff = Module["__ZN3glm3vecILi2EfLNS_9qualifierE0EEC2Eff"] = createExportWrapper("_ZN3glm3vecILi2EfLNS_9qualifierE0EEC2Eff");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29make_pairIN3glm3vecILi2EfLNS1_9qualifierE0EEEN4Tire4SideEEENS_4pairINS_18__unwrap_ref_decayIT_E4typeENS8_IT0_E4typeEEEOS9_OSC_ = Module["__ZNSt3__29make_pairIN3glm3vecILi2EfLNS1_9qualifierE0EEEN4Tire4SideEEENS_4pairINS_18__unwrap_ref_decayIT_E4typeENS8_IT0_E4typeEEEOS9_OSC_"] = createExportWrapper("_ZNSt3__29make_pairIN3glm3vecILi2EfLNS1_9qualifierE0EEEN4Tire4SideEEENS_4pairINS_18__unwrap_ref_decayIT_E4typeENS8_IT0_E4typeEEEOS9_OSC_");
+
+/** @type {function(...*):?} */
+var __ZN4TireC1ER5RobotN3glm3vecILi2EfLNS2_9qualifierE0EEEffNS3_ILi4EfLS4_0EEENS_4SideE = Module["__ZN4TireC1ER5RobotN3glm3vecILi2EfLNS2_9qualifierE0EEEffNS3_ILi4EfLS4_0EEENS_4SideE"] = createExportWrapper("_ZN4TireC1ER5RobotN3glm3vecILi2EfLNS2_9qualifierE0EEEffNS3_ILi4EfLS4_0EEENS_4SideE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEC2ILb1EvEEPS1_ = Module["__ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEC2ILb1EvEEPS1_"] = createExportWrapper("_ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEC2ILb1EvEEPS1_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__24moveIRNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEONS_16remove_referenceIT_E4typeEOS8_ = Module["__ZNSt3__24moveIRNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEONS_16remove_referenceIT_E4typeEOS8_"] = createExportWrapper("_ZNSt3__24moveIRNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEONS_16remove_referenceIT_E4typeEOS8_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9push_backEOS5_ = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9push_backEOS5_"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9push_backEOS5_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEED2Ev = Module["__ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEED2Ev"] = createExportWrapper("_ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEED2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIN3glm3vecILi2EfLNS1_9qualifierE0EEEEEOT_RNS_16remove_referenceIS5_E4typeE = Module["__ZNSt3__27forwardIN3glm3vecILi2EfLNS1_9qualifierE0EEEEEOT_RNS_16remove_referenceIS5_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIN3glm3vecILi2EfLNS1_9qualifierE0EEEEEOT_RNS_16remove_referenceIS5_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIN4Tire4SideEEEOT_RNS_16remove_referenceIS3_E4typeE = Module["__ZNSt3__27forwardIN4Tire4SideEEEOT_RNS_16remove_referenceIS3_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIN4Tire4SideEEEOT_RNS_16remove_referenceIS3_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__24pairIN3glm3vecILi2EfLNS1_9qualifierE0EEEN4Tire4SideEEC2IS4_S6_Lb0EEEOT_OT0_ = Module["__ZNSt3__24pairIN3glm3vecILi2EfLNS1_9qualifierE0EEEN4Tire4SideEEC2IS4_S6_Lb0EEEOT_OT0_"] = createExportWrapper("_ZNSt3__24pairIN3glm3vecILi2EfLNS1_9qualifierE0EEEN4Tire4SideEEC2IS4_S6_Lb0EEEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEEC2IRS2_NS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEEC2IRS2_NS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEEC2IRS2_NS_18__default_init_tagEEEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9__end_capEv = Module["__ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9__end_capEv"] = createExportWrapper("_ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE22__construct_one_at_endIJS5_EEEvDpOT_ = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE22__construct_one_at_endIJS5_EEEvDpOT_"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE22__construct_one_at_endIJS5_EEEvDpOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21__push_back_slow_pathIS5_EEvOT_ = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21__push_back_slow_pathIS5_EEvOT_"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21__push_back_slow_pathIS5_EEvOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE5resetEPS1_ = Module["__ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE5resetEPS1_"] = createExportWrapper("_ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE5resetEPS1_");
 
 /** @type {function(...*):?} */
 var __ZN5Robot4initEv = Module["__ZN5Robot4initEv"] = createExportWrapper("_ZN5Robot4initEv");
@@ -35162,16 +35288,16 @@ var __ZNSt3__24moveIRNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEEEONS_16r
 var __ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9push_backEOS5_ = Module["__ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9push_backEOS5_"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9push_backEOS5_");
 
 /** @type {function(...*):?} */
+var __ZN21L298N_MotorControllerC2ER5Robot = Module["__ZN21L298N_MotorControllerC2ER5Robot"] = createExportWrapper("_ZN21L298N_MotorControllerC2ER5Robot");
+
+/** @type {function(...*):?} */
+var __ZN5Robot11setRotationEf = Module["__ZN5Robot11setRotationEf"] = createExportWrapper("_ZN5Robot11setRotationEf");
+
+/** @type {function(...*):?} */
 var __ZN5Robot8loadCodeEv = Module["__ZN5Robot8loadCodeEv"] = createExportWrapper("_ZN5Robot8loadCodeEv");
 
 /** @type {function(...*):?} */
 var __ZNSt3__210unique_ptrI6OutputNS_14default_deleteIS1_EEED2Ev = Module["__ZNSt3__210unique_ptrI6OutputNS_14default_deleteIS1_EEED2Ev"] = createExportWrapper("_ZNSt3__210unique_ptrI6OutputNS_14default_deleteIS1_EEED2Ev");
-
-/** @type {function(...*):?} */
-var __ZN3glm3vecILi2EfLNS_9qualifierE0EEC2Eff = Module["__ZN3glm3vecILi2EfLNS_9qualifierE0EEC2Eff"] = createExportWrapper("_ZN3glm3vecILi2EfLNS_9qualifierE0EEC2Eff");
-
-/** @type {function(...*):?} */
-var __ZN3glm3vecILi4EfLNS_9qualifierE0EEC2Effff = Module["__ZN3glm3vecILi4EfLNS_9qualifierE0EEC2Effff"] = createExportWrapper("_ZN3glm3vecILi4EfLNS_9qualifierE0EEC2Effff");
 
 /** @type {function(...*):?} */
 var __ZN3LedC2ER5RobotSt16initializer_listIjEN3glm3vecILi2EfLNS4_9qualifierE0EEENS5_ILi4EfLS6_0EEE = Module["__ZN3LedC2ER5RobotSt16initializer_listIjEN3glm3vecILi2EfLNS4_9qualifierE0EEENS5_ILi4EfLS6_0EEE"] = createExportWrapper("_ZN3LedC2ER5RobotSt16initializer_listIjEN3glm3vecILi2EfLNS4_9qualifierE0EEENS5_ILi4EfLS6_0EEE");
@@ -35187,6 +35313,15 @@ var __ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allo
 
 /** @type {function(...*):?} */
 var __ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21__push_back_slow_pathIS5_EEvOT_ = Module["__ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21__push_back_slow_pathIS5_EEvOT_"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21__push_back_slow_pathIS5_EEvOT_");
+
+/** @type {function(...*):?} */
+var __ZN21L298N_MotorControllerC2ER5RobotSt16initializer_listIjEb = Module["__ZN21L298N_MotorControllerC2ER5RobotSt16initializer_listIjEb"] = createExportWrapper("_ZN21L298N_MotorControllerC2ER5RobotSt16initializer_listIjEb");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body11GetPositionEv = Module["__ZNK6b2Body11GetPositionEv"] = createExportWrapper("_ZNK6b2Body11GetPositionEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body12SetTransformERK6b2Vec2f = Module["__ZN6b2Body12SetTransformERK6b2Vec2f"] = createExportWrapper("_ZN6b2Body12SetTransformERK6b2Vec2f");
 
 /** @type {function(...*):?} */
 var __ZNSt3__210unique_ptrI6OutputNS_14default_deleteIS1_EEE5resetEPS1_ = Module["__ZNSt3__210unique_ptrI6OutputNS_14default_deleteIS1_EEE5resetEPS1_"] = createExportWrapper("_ZNSt3__210unique_ptrI6OutputNS_14default_deleteIS1_EEE5resetEPS1_");
@@ -35243,19 +35378,58 @@ var __ZN6piksel8Graphics4fillEN3glm3vecILi4EfLNS1_9qualifierE0EEE = Module["__ZN
 var __ZN6piksel8Graphics8rectModeENS_8DrawModeE = Module["__ZN6piksel8Graphics8rectModeENS_8DrawModeE"] = createExportWrapper("_ZN6piksel8Graphics8rectModeENS_8DrawModeE");
 
 /** @type {function(...*):?} */
-var __ZN6piksel8Graphics6rotateEf = Module["__ZN6piksel8Graphics6rotateEf"] = createExportWrapper("_ZN6piksel8Graphics6rotateEf");
+var __ZN6piksel8Graphics8noStrokeEv = Module["__ZN6piksel8Graphics8noStrokeEv"] = createExportWrapper("_ZN6piksel8Graphics8noStrokeEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5beginEv = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5beginEv"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5beginEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE3endEv = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE3endEv"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE3endEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__2neIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEbRKNS_11__wrap_iterIT_EESB_ = Module["__ZNSt3__2neIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEbRKNS_11__wrap_iterIT_EESB_"] = createExportWrapper("_ZNSt3__2neIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEbRKNS_11__wrap_iterIT_EESB_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEdeEv = Module["__ZNKSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEdeEv"] = createExportWrapper("_ZNKSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEdeEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEptEv = Module["__ZNKSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEptEv"] = createExportWrapper("_ZNKSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEptEv");
+
+/** @type {function(...*):?} */
+var __ZN4Tire4drawERN6piksel8GraphicsE = Module["__ZN4Tire4drawERN6piksel8GraphicsE"] = createExportWrapper("_ZN4Tire4drawERN6piksel8GraphicsE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEppEv = Module["__ZNSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEppEv"] = createExportWrapper("_ZNSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEppEv");
+
+/** @type {function(...*):?} */
+var __ZN5Robot11getPositionEv = Module["__ZN5Robot11getPositionEv"] = createExportWrapper("_ZN5Robot11getPositionEv");
 
 /** @type {function(...*):?} */
 var __ZN6piksel8Graphics9translateEff = Module["__ZN6piksel8Graphics9translateEff"] = createExportWrapper("_ZN6piksel8Graphics9translateEff");
 
 /** @type {function(...*):?} */
-var __ZN6piksel8Graphics8noStrokeEv = Module["__ZN6piksel8Graphics8noStrokeEv"] = createExportWrapper("_ZN6piksel8Graphics8noStrokeEv");
+var __ZN5Robot11getRotationEv = Module["__ZN5Robot11getRotationEv"] = createExportWrapper("_ZN5Robot11getRotationEv");
+
+/** @type {function(...*):?} */
+var __ZN6piksel8Graphics6rotateEf = Module["__ZN6piksel8Graphics6rotateEf"] = createExportWrapper("_ZN6piksel8Graphics6rotateEf");
 
 /** @type {function(...*):?} */
 var __ZN6piksel8Graphics4rectEffff = Module["__ZN6piksel8Graphics4rectEffff"] = createExportWrapper("_ZN6piksel8Graphics4rectEffff");
 
 /** @type {function(...*):?} */
 var __ZN6piksel8Graphics3popEv = Module["__ZN6piksel8Graphics3popEv"] = createExportWrapper("_ZN6piksel8Graphics3popEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE11__make_iterEPS5_ = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE11__make_iterEPS5_"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE11__make_iterEPS5_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__2eqIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEES6_EEbRKNS_11__wrap_iterIT_EERKNS7_IT0_EE = Module["__ZNSt3__2eqIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEES6_EEbRKNS_11__wrap_iterIT_EERKNS7_IT0_EE"] = createExportWrapper("_ZNSt3__2eqIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEES6_EEbRKNS_11__wrap_iterIT_EERKNS7_IT0_EE");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body8GetAngleEv = Module["__ZNK6b2Body8GetAngleEv"] = createExportWrapper("_ZNK6b2Body8GetAngleEv");
 
 /** @type {function(...*):?} */
 var __ZN5Robot10getHeadingEv = Module["__ZN5Robot10getHeadingEv"] = createExportWrapper("_ZN5Robot10getHeadingEv");
@@ -35279,10 +35453,43 @@ var _cosf = Module["_cosf"] = createExportWrapper("cosf");
 var _sinf = Module["_sinf"] = createExportWrapper("sinf");
 
 /** @type {function(...*):?} */
+var __ZN5Robot10setHeadingEN3glm3vecILi2EfLNS0_9qualifierE0EEE = Module["__ZN5Robot10setHeadingEN3glm3vecILi2EfLNS0_9qualifierE0EEE"] = createExportWrapper("_ZN5Robot10setHeadingEN3glm3vecILi2EfLNS0_9qualifierE0EEE");
+
+/** @type {function(...*):?} */
+var __ZN3glm3vecILi2EfLNS_9qualifierE0EEC2IfdEET_T0_ = Module["__ZN3glm3vecILi2EfLNS_9qualifierE0EEC2IfdEET_T0_"] = createExportWrapper("_ZN3glm3vecILi2EfLNS_9qualifierE0EEC2IfdEET_T0_");
+
+/** @type {function(...*):?} */
+var __ZN3glm3dotILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEES6_ = Module["__ZN3glm3dotILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEES6_"] = createExportWrapper("_ZN3glm3dotILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEES6_");
+
+/** @type {function(...*):?} */
+var __ZN3glm6lengthILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEE = Module["__ZN3glm6lengthILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEE"] = createExportWrapper("_ZN3glm6lengthILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEE");
+
+/** @type {function(...*):?} */
+var __Z4acosf = Module["__Z4acosf"] = createExportWrapper("_Z4acosf");
+
+/** @type {function(...*):?} */
+var __ZN3glm6detail11compute_dotINS_3vecILi2EfLNS_9qualifierE0EEEfLb0EE4callERKS4_S7_ = Module["__ZN3glm6detail11compute_dotINS_3vecILi2EfLNS_9qualifierE0EEEfLb0EE4callERKS4_S7_"] = createExportWrapper("_ZN3glm6detail11compute_dotINS_3vecILi2EfLNS_9qualifierE0EEEfLb0EE4callERKS4_S7_");
+
+/** @type {function(...*):?} */
+var __ZN3glm6detail14compute_lengthILi2EfLNS_9qualifierE0ELb0EE4callERKNS_3vecILi2EfLS2_0EEE = Module["__ZN3glm6detail14compute_lengthILi2EfLNS_9qualifierE0ELb0EE4callERKNS_3vecILi2EfLS2_0EEE"] = createExportWrapper("_ZN3glm6detail14compute_lengthILi2EfLNS_9qualifierE0ELb0EE4callERKNS_3vecILi2EfLS2_0EEE");
+
+/** @type {function(...*):?} */
+var _acosf = Module["_acosf"] = createExportWrapper("acosf");
+
+/** @type {function(...*):?} */
 var __ZN5Robot23getLeftPerpendicularVecEv = Module["__ZN5Robot23getLeftPerpendicularVecEv"] = createExportWrapper("_ZN5Robot23getLeftPerpendicularVecEv");
 
 /** @type {function(...*):?} */
 var __ZN5Robot24getRightPerpendicularVecEv = Module["__ZN5Robot24getRightPerpendicularVecEv"] = createExportWrapper("_ZN5Robot24getRightPerpendicularVecEv");
+
+/** @type {function(...*):?} */
+var __ZN5Robot10applyForceEfN4Tire4SideE = Module["__ZN5Robot10applyForceEfN4Tire4SideE"] = createExportWrapper("_ZN5Robot10applyForceEfN4Tire4SideE");
+
+/** @type {function(...*):?} */
+var __ZN4Tire7getSideEv = Module["__ZN4Tire7getSideEv"] = createExportWrapper("_ZN4Tire7getSideEv");
+
+/** @type {function(...*):?} */
+var __ZN4Tire10applyForceEf = Module["__ZN4Tire10applyForceEf"] = createExportWrapper("_ZN4Tire10applyForceEf");
 
 /** @type {function(...*):?} */
 var __ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE17__annotate_deleteEv = Module["__ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE17__annotate_deleteEv"] = createExportWrapper("_ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE17__annotate_deleteEv");
@@ -35360,6 +35567,9 @@ var __ZNSt3__217_DeallocateCaller9__do_callEPv = Module["__ZNSt3__217_Deallocate
 var __ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv");
 
 /** @type {function(...*):?} */
+var __ZN7b2ShapeD0Ev = Module["__ZN7b2ShapeD0Ev"] = createExportWrapper("_ZN7b2ShapeD0Ev");
+
+/** @type {function(...*):?} */
 var __ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4dataEv = Module["__ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4dataEv"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4dataEv");
 
 /** @type {function(...*):?} */
@@ -35415,6 +35625,258 @@ var __ZNSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEE7des
 
 /** @type {function(...*):?} */
 var __ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4dataEv = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4dataEv"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE4dataEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8capacityEv = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8capacityEv"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8capacityEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE31__annotate_contiguous_containerEPKvSA_SA_SA_ = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE31__annotate_contiguous_containerEPKvSA_SA_SA_"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE31__annotate_contiguous_containerEPKvSA_SA_SA_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE7__allocEv = Module["__ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE7__allocEv"] = createExportWrapper("_ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE7__allocEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8capacityEv = Module["__ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8capacityEv"] = createExportWrapper("_ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8capacityEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE10deallocateERS7_PS6_m = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE10deallocateERS7_PS6_m"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE10deallocateERS7_PS6_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__212__to_addressINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEPT_S7_ = Module["__ZNSt3__212__to_addressINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEPT_S7_"] = createExportWrapper("_ZNSt3__212__to_addressINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEPT_S7_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9__end_capEv = Module["__ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9__end_capEv"] = createExportWrapper("_ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__destruct_at_endEPS5_ = Module["__ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__destruct_at_endEPS5_"] = createExportWrapper("_ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE17__destruct_at_endEPS5_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE10deallocateEPS5_m = Module["__ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE10deallocateEPS5_m"] = createExportWrapper("_ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE10deallocateEPS5_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE7destroyIS6_EEvRS7_PT_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE7destroyIS6_EEvRS7_PT_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE7destroyIS6_EEvRS7_PT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE9__destroyIS6_EEvNS_17integral_constantIbLb1EEERS7_PT_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE9__destroyIS6_EEvNS_17integral_constantIbLb1EEERS7_PT_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE9__destroyIS6_EEvNS_17integral_constantIbLb1EEERS7_PT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE7destroyEPS5_ = Module["__ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE7destroyEPS5_"] = createExportWrapper("_ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE7destroyEPS5_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIRP4TireEEOT_RNS_16remove_referenceIS4_E4typeE = Module["__ZNSt3__27forwardIRP4TireEEOT_RNS_16remove_referenceIS4_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIRP4TireEEOT_RNS_16remove_referenceIS4_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EEC2IRS2_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EEC2IRS2_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EEC2IRS2_vEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EEC2ENS_18__default_init_tagE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__214default_deleteI4TireEclEPS1_ = Module["__ZNKSt3__214default_deleteI4TireEclEPS1_"] = createExportWrapper("_ZNKSt3__214default_deleteI4TireEclEPS1_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZN4TireD1Ev = Module["__ZN4TireD1Ev"] = createExportWrapper("_ZN4TireD1Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21_ConstructTransactionC2ERS8_m = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21_ConstructTransactionC2ERS8_m"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21_ConstructTransactionC2ERS8_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEOT_RNS_16remove_referenceIS6_E4typeE = Module["__ZNSt3__27forwardINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEOT_RNS_16remove_referenceIS6_E4typeE"] = createExportWrapper("_ZNSt3__27forwardINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEOT_RNS_16remove_referenceIS6_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE9constructIS6_JS6_EEEvRS7_PT_DpOT0_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE9constructIS6_JS6_EEEvRS7_PT_DpOT0_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE9constructIS6_JS6_EEEvRS7_PT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21_ConstructTransactionD2Ev = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21_ConstructTransactionD2Ev"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE21_ConstructTransactionD2Ev");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE11__recommendEm = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE11__recommendEm"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE11__recommendEm");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2EmmS8_ = Module["__ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2EmmS8_"] = createExportWrapper("_ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2EmmS8_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE26__swap_out_circular_bufferERNS_14__split_bufferIS5_RS7_EE = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE26__swap_out_circular_bufferERNS_14__split_bufferIS5_RS7_EE"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE26__swap_out_circular_bufferERNS_14__split_bufferIS5_RS7_EE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEED2Ev = Module["__ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEED2Ev"] = createExportWrapper("_ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEED2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE11__constructIS6_JS6_EEEvNS_17integral_constantIbLb1EEERS7_PT_DpOT0_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE11__constructIS6_JS6_EEEvNS_17integral_constantIbLb1EEERS7_PT_DpOT0_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE11__constructIS6_JS6_EEEvNS_17integral_constantIbLb1EEERS7_PT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE9constructIS5_JS5_EEEvPT_DpOT0_ = Module["__ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE9constructIS5_JS5_EEEvPT_DpOT0_"] = createExportWrapper("_ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE9constructIS5_JS5_EEEvPT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEC2EOS4_ = Module["__ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEC2EOS4_"] = createExportWrapper("_ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEEC2EOS4_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE7releaseEv = Module["__ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE7releaseEv"] = createExportWrapper("_ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE7releaseEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE11get_deleterEv = Module["__ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE11get_deleterEv"] = createExportWrapper("_ZNSt3__210unique_ptrI4TireNS_14default_deleteIS1_EEE11get_deleterEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardINS_14default_deleteI4TireEEEEOT_RNS_16remove_referenceIS4_E4typeE = Module["__ZNSt3__27forwardINS_14default_deleteI4TireEEEEOT_RNS_16remove_referenceIS4_E4typeE"] = createExportWrapper("_ZNSt3__27forwardINS_14default_deleteI4TireEEEEOT_RNS_16remove_referenceIS4_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEEC2IS2_S4_EEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEEC2IS2_S4_EEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIP4TireNS_14default_deleteIS1_EEEC2IS2_S4_EEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIP4TireEEOT_RNS_16remove_referenceIS3_E4typeE = Module["__ZNSt3__27forwardIP4TireEEOT_RNS_16remove_referenceIS3_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIP4TireEEOT_RNS_16remove_referenceIS3_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EEC2IS2_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EEC2IS2_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP4TireLi0ELb0EEC2IS2_vEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EEC2IS3_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EEC2IS3_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI4TireEELi1ELb1EEC2IS3_vEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8max_sizeEv = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8max_sizeEv"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8max_sizeEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__220__vector_base_commonILb1EE20__throw_length_errorEv = Module["__ZNKSt3__220__vector_base_commonILb1EE20__throw_length_errorEv"] = createExportWrapper("_ZNKSt3__220__vector_base_commonILb1EE20__throw_length_errorEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__23maxImEERKT_S3_S3_ = Module["__ZNSt3__23maxImEERKT_S3_S3_"] = createExportWrapper("_ZNSt3__23maxImEERKT_S3_S3_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2IDnS9_EEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2IDnS9_EEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2IDnS9_EEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE7__allocEv = Module["__ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE7__allocEv"] = createExportWrapper("_ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE7__allocEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE8allocateERS7_m = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE8allocateERS7_m"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE8allocateERS7_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE9__end_capEv = Module["__ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE9__end_capEv"] = createExportWrapper("_ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE46__construct_backward_with_exception_guaranteesIPS6_EEvRS7_T_SC_RSC_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE46__construct_backward_with_exception_guaranteesIPS6_EEvRS7_T_SC_RSC_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE46__construct_backward_with_exception_guaranteesIPS6_EEvRS7_T_SC_RSC_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__24swapIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEENS_9enable_ifIXaasr21is_move_constructibleIT_EE5valuesr18is_move_assignableIS8_EE5valueEvE4typeERS8_SB_ = Module["__ZNSt3__24swapIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEENS_9enable_ifIXaasr21is_move_constructibleIT_EE5valuesr18is_move_assignableIS8_EE5valueEvE4typeERS8_SB_"] = createExportWrapper("_ZNSt3__24swapIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEENS_9enable_ifIXaasr21is_move_constructibleIT_EE5valuesr18is_move_assignableIS8_EE5valueEvE4typeERS8_SB_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE14__annotate_newEm = Module["__ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE14__annotate_newEm"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE14__annotate_newEm");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5clearEv = Module["__ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5clearEv"] = createExportWrapper("_ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5clearEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE8capacityEv = Module["__ZNKSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE8capacityEv"] = createExportWrapper("_ZNKSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE8capacityEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE7__allocEv = Module["__ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE7__allocEv"] = createExportWrapper("_ZNKSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE7__allocEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE8max_sizeERKS7_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE8max_sizeERKS7_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE8max_sizeERKS7_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214numeric_limitsIlE3maxEv = Module["__ZNSt3__214numeric_limitsIlE3maxEv"] = createExportWrapper("_ZNSt3__214numeric_limitsIlE3maxEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__23minImEERKT_S3_S3_ = Module["__ZNSt3__23minImEERKT_S3_S3_"] = createExportWrapper("_ZNSt3__23minImEERKT_S3_S3_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__23maxImNS_6__lessImmEEEERKT_S5_S5_T0_ = Module["__ZNSt3__23maxImNS_6__lessImmEEEERKT_S5_S5_T0_"] = createExportWrapper("_ZNSt3__23maxImNS_6__lessImmEEEERKT_S5_S5_T0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__23minImNS_6__lessImmEEEERKT_S5_S5_T0_ = Module["__ZNSt3__23minImNS_6__lessImmEEEERKT_S5_S5_T0_"] = createExportWrapper("_ZNSt3__23minImNS_6__lessImmEEEERKT_S5_S5_T0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE10__max_sizeENS_17integral_constantIbLb1EEERKS7_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE10__max_sizeENS_17integral_constantIbLb1EEERKS7_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEE10__max_sizeENS_17integral_constantIbLb1EEERKS7_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv = Module["__ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__223__libcpp_numeric_limitsIlLb1EE3maxEv = Module["__ZNSt3__223__libcpp_numeric_limitsIlLb1EE3maxEv"] = createExportWrapper("_ZNSt3__223__libcpp_numeric_limitsIlLb1EE3maxEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26__lessImmEclERKmS3_ = Module["__ZNKSt3__26__lessImmEclERKmS3_"] = createExportWrapper("_ZNKSt3__26__lessImmEclERKmS3_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE8max_sizeEv = Module["__ZNKSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE8max_sizeEv"] = createExportWrapper("_ZNKSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE8max_sizeEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIDnEEOT_RNS_16remove_referenceIS1_E4typeE = Module["__ZNSt3__27forwardIDnEEOT_RNS_16remove_referenceIS1_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIDnEEOT_RNS_16remove_referenceIS1_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EEC2IDnvEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EEC2IDnvEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEELi0ELb0EEC2IDnvEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEEEOT_RNS_16remove_referenceIS9_E4typeE = Module["__ZNSt3__27forwardIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEEEOT_RNS_16remove_referenceIS9_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEEEEOT_RNS_16remove_referenceIS9_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb0EEC2IS8_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb0EEC2IS8_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb0EEC2IS8_vEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE8allocateEmPKv = Module["__ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE8allocateEmPKv"] = createExportWrapper("_ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE8allocateEmPKv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIRNS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216move_if_noexceptINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEENS_11conditionalIXaantsr29is_nothrow_move_constructibleIT_EE5valuesr21is_copy_constructibleIS7_EE5valueERKS7_OS7_E4typeERS7_ = Module["__ZNSt3__216move_if_noexceptINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEENS_11conditionalIXaantsr29is_nothrow_move_constructibleIT_EE5valuesr21is_copy_constructibleIS7_EE5valueERKS7_OS7_E4typeERS7_"] = createExportWrapper("_ZNSt3__216move_if_noexceptINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEENS_11conditionalIXaantsr29is_nothrow_move_constructibleIT_EE5valuesr21is_copy_constructibleIS7_EE5valueERKS7_OS7_E4typeERS7_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__24moveIRPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEONS_16remove_referenceIT_E4typeEOS9_ = Module["__ZNSt3__24moveIRPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEONS_16remove_referenceIT_E4typeEOS9_"] = createExportWrapper("_ZNSt3__24moveIRPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEEONS_16remove_referenceIT_E4typeEOS9_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE17__destruct_at_endEPS5_ = Module["__ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE17__destruct_at_endEPS5_"] = createExportWrapper("_ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE17__destruct_at_endEPS5_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE9__end_capEv = Module["__ZNKSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE9__end_capEv"] = createExportWrapper("_ZNKSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE17__destruct_at_endEPS5_NS_17integral_constantIbLb0EEE = Module["__ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE17__destruct_at_endEPS5_NS_17integral_constantIbLb0EEE"] = createExportWrapper("_ZNSt3__214__split_bufferINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE17__destruct_at_endEPS5_NS_17integral_constantIbLb0EEE");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEE5firstEv");
 
 /** @type {function(...*):?} */
 var __ZNSt3__27forwardIRP6OutputEEOT_RNS_16remove_referenceIS4_E4typeE = Module["__ZNSt3__27forwardIRP6OutputEEOT_RNS_16remove_referenceIS4_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIRP6OutputEEOT_RNS_16remove_referenceIS4_E4typeE");
@@ -35504,12 +35966,6 @@ var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI6OutputEELi1ELb1EEC2I
 var __ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8max_sizeEv = Module["__ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8max_sizeEv"] = createExportWrapper("_ZNKSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE8max_sizeEv");
 
 /** @type {function(...*):?} */
-var __ZNKSt3__220__vector_base_commonILb1EE20__throw_length_errorEv = Module["__ZNKSt3__220__vector_base_commonILb1EE20__throw_length_errorEv"] = createExportWrapper("_ZNKSt3__220__vector_base_commonILb1EE20__throw_length_errorEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__23maxImEERKT_S3_S3_ = Module["__ZNSt3__23maxImEERKT_S3_S3_"] = createExportWrapper("_ZNSt3__23maxImEERKT_S3_S3_");
-
-/** @type {function(...*):?} */
 var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2IDnS9_EEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2IDnS9_EEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEERNS_9allocatorIS5_EEEC2IDnS9_EEOT_OT0_");
 
 /** @type {function(...*):?} */
@@ -35546,37 +36002,16 @@ var __ZNKSt3__213__vector_baseINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEE
 var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEEE8max_sizeERKS7_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEEE8max_sizeERKS7_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEEE8max_sizeERKS7_");
 
 /** @type {function(...*):?} */
-var __ZNSt3__214numeric_limitsIlE3maxEv = Module["__ZNSt3__214numeric_limitsIlE3maxEv"] = createExportWrapper("_ZNSt3__214numeric_limitsIlE3maxEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__23minImEERKT_S3_S3_ = Module["__ZNSt3__23minImEERKT_S3_S3_"] = createExportWrapper("_ZNSt3__23minImEERKT_S3_S3_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__23maxImNS_6__lessImmEEEERKT_S5_S5_T0_ = Module["__ZNSt3__23maxImNS_6__lessImmEEEERKT_S5_S5_T0_"] = createExportWrapper("_ZNSt3__23maxImNS_6__lessImmEEEERKT_S5_S5_T0_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__23minImNS_6__lessImmEEEERKT_S5_S5_T0_ = Module["__ZNSt3__23minImNS_6__lessImmEEEERKT_S5_S5_T0_"] = createExportWrapper("_ZNSt3__23minImNS_6__lessImmEEEERKT_S5_S5_T0_");
-
-/** @type {function(...*):?} */
 var __ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEEE10__max_sizeENS_17integral_constantIbLb1EEERKS7_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEEE10__max_sizeENS_17integral_constantIbLb1EEERKS7_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEEE10__max_sizeENS_17integral_constantIbLb1EEERKS7_");
 
 /** @type {function(...*):?} */
 var __ZNKSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv = Module["__ZNKSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEE6secondEv");
 
 /** @type {function(...*):?} */
-var __ZNSt3__223__libcpp_numeric_limitsIlLb1EE3maxEv = Module["__ZNSt3__223__libcpp_numeric_limitsIlLb1EE3maxEv"] = createExportWrapper("_ZNSt3__223__libcpp_numeric_limitsIlLb1EE3maxEv");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__26__lessImmEclERKmS3_ = Module["__ZNKSt3__26__lessImmEclERKmS3_"] = createExportWrapper("_ZNKSt3__26__lessImmEclERKmS3_");
-
-/** @type {function(...*):?} */
 var __ZNKSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEE8max_sizeEv = Module["__ZNKSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEE8max_sizeEv"] = createExportWrapper("_ZNKSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEE8max_sizeEv");
 
 /** @type {function(...*):?} */
 var __ZNKSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EE5__getEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__27forwardIDnEEOT_RNS_16remove_referenceIS1_E4typeE = Module["__ZNSt3__27forwardIDnEEOT_RNS_16remove_referenceIS1_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIDnEEOT_RNS_16remove_referenceIS1_E4typeE");
 
 /** @type {function(...*):?} */
 var __ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEELi0ELb0EEC2IDnvEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEELi0ELb0EEC2IDnvEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEELi0ELb0EEC2IDnvEEOT_");
@@ -35627,7 +36062,13 @@ var __ZNKSt3__211__wrap_iterIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEE
 var __ZNKSt3__222__compressed_pair_elemIP6OutputLi0ELb0EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemIP6OutputLi0ELb0EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemIP6OutputLi0ELb0EE5__getEv");
 
 /** @type {function(...*):?} */
-var __ZN3glm3dotILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEES6_ = Module["__ZN3glm3dotILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEES6_"] = createExportWrapper("_ZN3glm3dotILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEES6_");
+var __ZNSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEC2ES6_ = Module["__ZNSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEC2ES6_"] = createExportWrapper("_ZNSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEC2ES6_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE4baseEv = Module["__ZNKSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE4baseEv"] = createExportWrapper("_ZNKSt3__211__wrap_iterIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEE4baseEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemIP4TireLi0ELb0EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemIP4TireLi0ELb0EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemIP4TireLi0ELb0EE5__getEv");
 
 /** @type {function(...*):?} */
 var __ZN3glm11inversesqrtIfEET_S1_ = Module["__ZN3glm11inversesqrtIfEET_S1_"] = createExportWrapper("_ZN3glm11inversesqrtIfEET_S1_");
@@ -35639,13 +36080,115 @@ var __ZN3glmmlIfLNS_9qualifierE0EEENS_3vecILi2ET_XT0_EEERKS4_S3_ = Module["__ZN3
 var __Z4sqrtf = Module["__Z4sqrtf"] = createExportWrapper("_Z4sqrtf");
 
 /** @type {function(...*):?} */
-var __ZN3glm6detail11compute_dotINS_3vecILi2EfLNS_9qualifierE0EEEfLb0EE4callERKS4_S7_ = Module["__ZN3glm6detail11compute_dotINS_3vecILi2EfLNS_9qualifierE0EEEfLb0EE4callERKS4_S7_"] = createExportWrapper("_ZN3glm6detail11compute_dotINS_3vecILi2EfLNS_9qualifierE0EEEfLb0EE4callERKS4_S7_");
-
-/** @type {function(...*):?} */
 var __ZN3glmmlIfLNS_9qualifierE0EEENS_3vecILi2ET_XT0_EEERKS4_S6_ = Module["__ZN3glmmlIfLNS_9qualifierE0EEENS_3vecILi2ET_XT0_EEERKS4_S6_"] = createExportWrapper("_ZN3glmmlIfLNS_9qualifierE0EEENS_3vecILi2ET_XT0_EEERKS4_S6_");
 
 /** @type {function(...*):?} */
+var ___cxa_pure_virtual = Module["___cxa_pure_virtual"] = createExportWrapper("__cxa_pure_virtual");
+
+/** @type {function(...*):?} */
 var __ZN5RobotD1Ev = Module["__ZN5RobotD1Ev"] = createExportWrapper("_ZN5RobotD1Ev");
+
+/** @type {function(...*):?} */
+var __ZN4TireC2ER5RobotN3glm3vecILi2EfLNS2_9qualifierE0EEEffNS3_ILi4EfLS4_0EEENS_4SideE = Module["__ZN4TireC2ER5RobotN3glm3vecILi2EfLNS2_9qualifierE0EEEffNS3_ILi4EfLS4_0EEENS_4SideE"] = createExportWrapper("_ZN4TireC2ER5RobotN3glm3vecILi2EfLNS2_9qualifierE0EEEffNS3_ILi4EfLS4_0EEENS_4SideE");
+
+/** @type {function(...*):?} */
+var __ZN3App8getWorldEv = Module["__ZN3App8getWorldEv"] = createExportWrapper("_ZN3App8getWorldEv");
+
+/** @type {function(...*):?} */
+var __ZN4Tire10createBodyEN3glm3vecILi2EfLNS0_9qualifierE0EEE = Module["__ZN4Tire10createBodyEN3glm3vecILi2EfLNS0_9qualifierE0EEE"] = createExportWrapper("_ZN4Tire10createBodyEN3glm3vecILi2EfLNS0_9qualifierE0EEE");
+
+/** @type {function(...*):?} */
+var __ZN4Tire11createJointEN3glm3vecILi2EfLNS0_9qualifierE0EEE = Module["__ZN4Tire11createJointEN3glm3vecILi2EfLNS0_9qualifierE0EEE"] = createExportWrapper("_ZN4Tire11createJointEN3glm3vecILi2EfLNS0_9qualifierE0EEE");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEptEv = Module["__ZNKSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEptEv"] = createExportWrapper("_ZNKSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEptEv");
+
+/** @type {function(...*):?} */
+var __ZN5Level8getWorldEv = Module["__ZN5Level8getWorldEv"] = createExportWrapper("_ZN5Level8getWorldEv");
+
+/** @type {function(...*):?} */
+var __ZN3App15getCurrentLevelEv = Module["__ZN3App15getCurrentLevelEv"] = createExportWrapper("_ZN3App15getCurrentLevelEv");
+
+/** @type {function(...*):?} */
+var __ZN5Level19createFrictionJointEP6b2Body = Module["__ZN5Level19createFrictionJointEP6b2Body"] = createExportWrapper("_ZN5Level19createFrictionJointEP6b2Body");
+
+/** @type {function(...*):?} */
+var __ZN5Robot7getBodyEv = Module["__ZN5Robot7getBodyEv"] = createExportWrapper("_ZN5Robot7getBodyEv");
+
+/** @type {function(...*):?} */
+var __ZN14b2WeldJointDefC2Ev = Module["__ZN14b2WeldJointDefC2Ev"] = createExportWrapper("_ZN14b2WeldJointDefC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN14b2WeldJointDef10InitializeEP6b2BodyS1_RK6b2Vec2 = Module["__ZN14b2WeldJointDef10InitializeEP6b2BodyS1_RK6b2Vec2"] = createExportWrapper("_ZN14b2WeldJointDef10InitializeEP6b2BodyS1_RK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN7b2World11CreateJointEPK10b2JointDef = Module["__ZN7b2World11CreateJointEPK10b2JointDef"] = createExportWrapper("_ZN7b2World11CreateJointEPK10b2JointDef");
+
+/** @type {function(...*):?} */
+var __ZN4TireD2Ev = Module["__ZN4TireD2Ev"] = createExportWrapper("_ZN4TireD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2World12DestroyJointEP7b2Joint = Module["__ZN7b2World12DestroyJointEP7b2Joint"] = createExportWrapper("_ZN7b2World12DestroyJointEP7b2Joint");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEdeEv = Module["__ZNKSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEdeEv"] = createExportWrapper("_ZNKSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEdeEv");
+
+/** @type {function(...*):?} */
+var __ZN10b2JointDefC2Ev = Module["__ZN10b2JointDefC2Ev"] = createExportWrapper("_ZN10b2JointDefC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN4Tire10getHeadingEv = Module["__ZN4Tire10getHeadingEv"] = createExportWrapper("_ZN4Tire10getHeadingEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec2C2Eff = Module["__ZN6b2Vec2C2Eff"] = createExportWrapper("_ZN6b2Vec2C2Eff");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body14GetWorldVectorERK6b2Vec2 = Module["__ZNK6b2Body14GetWorldVectorERK6b2Vec2"] = createExportWrapper("_ZNK6b2Body14GetWorldVectorERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __Z5b2MulRK5b2RotRK6b2Vec2 = Module["__Z5b2MulRK5b2RotRK6b2Vec2"] = createExportWrapper("_Z5b2MulRK5b2RotRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN4Tire18getForwardVelocityEv = Module["__ZN4Tire18getForwardVelocityEv"] = createExportWrapper("_ZN4Tire18getForwardVelocityEv");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body17GetLinearVelocityEv = Module["__ZNK6b2Body17GetLinearVelocityEv"] = createExportWrapper("_ZNK6b2Body17GetLinearVelocityEv");
+
+/** @type {function(...*):?} */
+var __Z5b2DotRK6b2Vec2S1_ = Module["__Z5b2DotRK6b2Vec2S1_"] = createExportWrapper("_Z5b2DotRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __ZmlfRK6b2Vec2 = Module["__ZmlfRK6b2Vec2"] = createExportWrapper("_ZmlfRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Vec26LengthEv = Module["__ZNK6b2Vec26LengthEv"] = createExportWrapper("_ZNK6b2Vec26LengthEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body18ApplyForceToCenterERK6b2Vec2b = Module["__ZN6b2Body18ApplyForceToCenterERK6b2Vec2b"] = createExportWrapper("_ZN6b2Body18ApplyForceToCenterERK6b2Vec2b");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body8SetAwakeEb = Module["__ZN6b2Body8SetAwakeEb"] = createExportWrapper("_ZN6b2Body8SetAwakeEb");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec2pLERKS_ = Module["__ZN6b2Vec2pLERKS_"] = createExportWrapper("_ZN6b2Vec2pLERKS_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEdeEv = Module["__ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEdeEv"] = createExportWrapper("_ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEdeEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemIP5LevelLi0ELb0EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemIP5LevelLi0ELb0EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemIP5LevelLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2JointUserDataC2Ev = Module["__ZN15b2JointUserDataC2Ev"] = createExportWrapper("_ZN15b2JointUserDataC2Ev");
 
 /** @type {function(...*):?} */
 var __ZN14PinsController6setPinE3Pin = Module["__ZN14PinsController6setPinE3Pin"] = createExportWrapper("_ZN14PinsController6setPinE3Pin");
@@ -35664,6 +36207,9 @@ var __ZN14PinsController10getPinTypeEj = Module["__ZN14PinsController10getPinTyp
 
 /** @type {function(...*):?} */
 var __ZN14PinsController15getPinDirectionEj = Module["__ZN14PinsController15getPinDirectionEj"] = createExportWrapper("_ZN14PinsController15getPinDirectionEj");
+
+/** @type {function(...*):?} */
+var __ZN14PinsController15getPinValueTypeEj = Module["__ZN14PinsController15getPinValueTypeEj"] = createExportWrapper("_ZN14PinsController15getPinValueTypeEj");
 
 /** @type {function(...*):?} */
 var __ZN6OutputC2ER5RobotSt16initializer_listIjE = Module["__ZN6OutputC2ER5RobotSt16initializer_listIjE"] = createExportWrapper("_ZN6OutputC2ER5RobotSt16initializer_listIjE");
@@ -35702,6 +36248,516 @@ var __ZN6Output4drawERN6piksel8GraphicsE = Module["__ZN6Output4drawERN6piksel8Gr
 var __ZN3LedC1ER5RobotSt16initializer_listIjEN3glm3vecILi2EfLNS4_9qualifierE0EEENS5_ILi4EfLS6_0EEE = Module["__ZN3LedC1ER5RobotSt16initializer_listIjEN3glm3vecILi2EfLNS4_9qualifierE0EEENS5_ILi4EfLS6_0EEE"] = createExportWrapper("_ZN3LedC1ER5RobotSt16initializer_listIjEN3glm3vecILi2EfLNS4_9qualifierE0EEENS5_ILi4EfLS6_0EEE");
 
 /** @type {function(...*):?} */
+var __ZN21L298N_MotorController16getChannelValuesE3PinS0_S0_RjS1_S1_b = Module["__ZN21L298N_MotorController16getChannelValuesE3PinS0_S0_RjS1_S1_b"] = createExportWrapper("_ZN21L298N_MotorController16getChannelValuesE3PinS0_S0_RjS1_S1_b");
+
+/** @type {function(...*):?} */
+var __ZN21L298N_MotorController6updateEv = Module["__ZN21L298N_MotorController6updateEv"] = createExportWrapper("_ZN21L298N_MotorController6updateEv");
+
+/** @type {function(...*):?} */
+var __ZN21L298N_MotorControllerD2Ev = Module["__ZN21L298N_MotorControllerD2Ev"] = createExportWrapper("_ZN21L298N_MotorControllerD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN21L298N_MotorControllerD0Ev = Module["__ZN21L298N_MotorControllerD0Ev"] = createExportWrapper("_ZN21L298N_MotorControllerD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN21L298N_MotorController4drawERN6piksel8GraphicsE = Module["__ZN21L298N_MotorController4drawERN6piksel8GraphicsE"] = createExportWrapper("_ZN21L298N_MotorController4drawERN6piksel8GraphicsE");
+
+/** @type {function(...*):?} */
+var __ZN21L298N_MotorControllerC1ER5RobotSt16initializer_listIjEb = Module["__ZN21L298N_MotorControllerC1ER5RobotSt16initializer_listIjEb"] = createExportWrapper("_ZN21L298N_MotorControllerC1ER5RobotSt16initializer_listIjEb");
+
+/** @type {function(...*):?} */
+var __ZN5LevelC2Ev = Module["__ZN5LevelC2Ev"] = createExportWrapper("_ZN5LevelC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEC2ILb1EvEEv = Module["__ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEC2ILb1EvEEv"] = createExportWrapper("_ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEC2ILb1EvEEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEEC2Ev = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEEC2Ev"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEC2ILb1EvEEv = Module["__ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEC2ILb1EvEEv"] = createExportWrapper("_ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEC2ILb1EvEEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2WorldC1ERK6b2Vec2 = Module["__ZN7b2WorldC1ERK6b2Vec2"] = createExportWrapper("_ZN7b2WorldC1ERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEE5resetEPS1_ = Module["__ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEE5resetEPS1_"] = createExportWrapper("_ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEE5resetEPS1_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEEC2Ev = Module["__ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEEC2Ev"] = createExportWrapper("_ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP7b2WorldNS_14default_deleteIS1_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__214default_deleteI7b2WorldEclEPS1_ = Module["__ZNKSt3__214default_deleteI7b2WorldEclEPS1_"] = createExportWrapper("_ZNKSt3__214default_deleteI7b2WorldEclEPS1_");
+
+/** @type {function(...*):?} */
+var __ZN5Level4initEv = Module["__ZN5Level4initEv"] = createExportWrapper("_ZN5Level4initEv");
+
+/** @type {function(...*):?} */
+var __ZN5Level11createLevelEv = Module["__ZN5Level11createLevelEv"] = createExportWrapper("_ZN5Level11createLevelEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEE3getEv = Module["__ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEE3getEv"] = createExportWrapper("_ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEE3getEv");
+
+/** @type {function(...*):?} */
+var __ZN5RobotC2EP7b2World = Module["__ZN5RobotC2EP7b2World"] = createExportWrapper("_ZN5RobotC2EP7b2World");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEE5resetEPS1_ = Module["__ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEE5resetEPS1_"] = createExportWrapper("_ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEE5resetEPS1_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEptEv = Module["__ZNKSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEptEv"] = createExportWrapper("_ZNKSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEptEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEptEv = Module["__ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEptEv"] = createExportWrapper("_ZNKSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEEptEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__214default_deleteI5RobotEclEPS1_ = Module["__ZNKSt3__214default_deleteI5RobotEclEPS1_"] = createExportWrapper("_ZNKSt3__214default_deleteI5RobotEclEPS1_");
+
+/** @type {function(...*):?} */
+var __ZN5RobotC2EP7b2WorldN3glm3vecILi2EfLNS2_9qualifierE0EEEfffNS3_ILi4EfLS4_0EEE = Module["__ZN5RobotC2EP7b2WorldN3glm3vecILi2EfLNS2_9qualifierE0EEEfffNS3_ILi4EfLS4_0EEE"] = createExportWrapper("_ZN5RobotC2EP7b2WorldN3glm3vecILi2EfLNS2_9qualifierE0EEEfffNS3_ILi4EfLS4_0EEE");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZN5LevelD2Ev = Module["__ZN5LevelD2Ev"] = createExportWrapper("_ZN5LevelD2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE5beginEv = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE5beginEv"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE5beginEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE3endEv = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE3endEv"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE3endEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__2neIPP15b2FrictionJointEEbRKNS_11__wrap_iterIT_EES8_ = Module["__ZNSt3__2neIPP15b2FrictionJointEEbRKNS_11__wrap_iterIT_EES8_"] = createExportWrapper("_ZNSt3__2neIPP15b2FrictionJointEEbRKNS_11__wrap_iterIT_EES8_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__211__wrap_iterIPP15b2FrictionJointEdeEv = Module["__ZNKSt3__211__wrap_iterIPP15b2FrictionJointEdeEv"] = createExportWrapper("_ZNKSt3__211__wrap_iterIPP15b2FrictionJointEdeEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__211__wrap_iterIPP15b2FrictionJointEppEv = Module["__ZNSt3__211__wrap_iterIPP15b2FrictionJointEppEv"] = createExportWrapper("_ZNSt3__211__wrap_iterIPP15b2FrictionJointEppEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEED2Ev = Module["__ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEED2Ev"] = createExportWrapper("_ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEED2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEED2Ev = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEED2Ev"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEED2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEED2Ev = Module["__ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEED2Ev"] = createExportWrapper("_ZNSt3__210unique_ptrI7b2WorldNS_14default_deleteIS1_EEED2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE11__make_iterEPS2_ = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE11__make_iterEPS2_"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE11__make_iterEPS2_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__2eqIPP15b2FrictionJointS3_EEbRKNS_11__wrap_iterIT_EERKNS4_IT0_EE = Module["__ZNSt3__2eqIPP15b2FrictionJointS3_EEbRKNS_11__wrap_iterIT_EERKNS4_IT0_EE"] = createExportWrapper("_ZNSt3__2eqIPP15b2FrictionJointS3_EEbRKNS_11__wrap_iterIT_EERKNS4_IT0_EE");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE17__annotate_deleteEv = Module["__ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE17__annotate_deleteEv"] = createExportWrapper("_ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE17__annotate_deleteEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEED2Ev = Module["__ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEED2Ev"] = createExportWrapper("_ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEED2Ev");
+
+/** @type {function(...*):?} */
+var __ZN5Level6updateEv = Module["__ZN5Level6updateEv"] = createExportWrapper("_ZN5Level6updateEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2World4StepEfii = Module["__ZN7b2World4StepEfii"] = createExportWrapper("_ZN7b2World4StepEfii");
+
+/** @type {function(...*):?} */
+var __ZN5Level4drawERN6piksel8GraphicsE = Module["__ZN5Level4drawERN6piksel8GraphicsE"] = createExportWrapper("_ZN5Level4drawERN6piksel8GraphicsE");
+
+/** @type {function(...*):?} */
+var __ZN18b2FrictionJointDefC2Ev = Module["__ZN18b2FrictionJointDefC2Ev"] = createExportWrapper("_ZN18b2FrictionJointDefC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE9push_backEOS2_ = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE9push_backEOS2_"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE9push_backEOS2_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE9__end_capEv = Module["__ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE9__end_capEv"] = createExportWrapper("_ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__24moveIRP15b2FrictionJointEEONS_16remove_referenceIT_E4typeEOS5_ = Module["__ZNSt3__24moveIRP15b2FrictionJointEEONS_16remove_referenceIT_E4typeEOS5_"] = createExportWrapper("_ZNSt3__24moveIRP15b2FrictionJointEEONS_16remove_referenceIT_E4typeEOS5_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE22__construct_one_at_endIJS2_EEEvDpOT_ = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE22__construct_one_at_endIJS2_EEEvDpOT_"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE22__construct_one_at_endIJS2_EEEvDpOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21__push_back_slow_pathIS2_EEvOT_ = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21__push_back_slow_pathIS2_EEvOT_"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21__push_back_slow_pathIS2_EEvOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIP7b2WorldEEOT_RNS_16remove_referenceIS3_E4typeE = Module["__ZNSt3__27forwardIP7b2WorldEEOT_RNS_16remove_referenceIS3_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIP7b2WorldEEOT_RNS_16remove_referenceIS3_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EEC2IS2_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EEC2IS2_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EEC2IS2_vEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI7b2WorldEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI7b2WorldEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI7b2WorldEELi1ELb1EEC2ENS_18__default_init_tagE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIP5RobotEEOT_RNS_16remove_referenceIS3_E4typeE = Module["__ZNSt3__27forwardIP5RobotEEOT_RNS_16remove_referenceIS3_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIP5RobotEEOT_RNS_16remove_referenceIS3_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EEC2IS2_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EEC2IS2_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EEC2IS2_vEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EEC2ENS_18__default_init_tagE");
+
+/** @type {function(...*):?} */
+var __ZN14PinsControllerC2Ei = Module["__ZN14PinsControllerC2Ei"] = createExportWrapper("_ZN14PinsControllerC2Ei");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev = Module["__ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev = Module["__ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEEC2Em = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEEC2Em"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEEC2Em");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev = Module["__ZNSt3__213__vector_baseINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev"] = createExportWrapper("_ZNSt3__213__vector_baseINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev = Module["__ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev"] = createExportWrapper("_ZNSt3__213__vector_baseINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEEC2Ev = Module["__ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEEC2Ev"] = createExportWrapper("_ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE11__vallocateEm = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE11__vallocateEm"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE11__vallocateEm");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE18__construct_at_endEm = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE18__construct_at_endEm"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE18__construct_at_endEm");
+
+/** @type {function(...*):?} */
+var __ZNSt3__220__vector_base_commonILb1EEC2Ev = Module["__ZNSt3__220__vector_base_commonILb1EEC2Ev"] = createExportWrapper("_ZNSt3__220__vector_base_commonILb1EEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE8max_sizeEv = Module["__ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE8max_sizeEv"] = createExportWrapper("_ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE8max_sizeEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8allocateERS3_m = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8allocateERS3_m"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8allocateERS3_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE9__end_capEv = Module["__ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE9__end_capEv"] = createExportWrapper("_ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE14__annotate_newEm = Module["__ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE14__annotate_newEm"] = createExportWrapper("_ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE14__annotate_newEm");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionC2ERS4_m = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionC2ERS4_m"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionC2ERS4_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE9constructIS2_JEEEvRS3_PT_DpOT0_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE9constructIS2_JEEEvRS3_PT_DpOT0_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE9constructIS2_JEEEvRS3_PT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionD2Ev = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionD2Ev"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionD2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EEC2IDnvEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EEC2IDnvEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EEC2IDnvEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EEC2ENS_18__default_init_tagE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorI3PinEC2Ev = Module["__ZNSt3__29allocatorI3PinEC2Ev"] = createExportWrapper("_ZNSt3__29allocatorI3PinEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE7__allocEv = Module["__ZNKSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE7__allocEv"] = createExportWrapper("_ZNKSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE7__allocEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8max_sizeERKS3_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8max_sizeERKS3_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8max_sizeERKS3_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorI3PinE8allocateEmPKv = Module["__ZNSt3__29allocatorI3PinE8allocateEmPKv"] = createExportWrapper("_ZNSt3__29allocatorI3PinE8allocateEmPKv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE10__max_sizeENS_17integral_constantIbLb1EEERKS3_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE10__max_sizeENS_17integral_constantIbLb1EEERKS3_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE10__max_sizeENS_17integral_constantIbLb1EEERKS3_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE6secondEv = Module["__ZNKSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE6secondEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__29allocatorI3PinE8max_sizeEv = Module["__ZNKSt3__29allocatorI3PinE8max_sizeEv"] = createExportWrapper("_ZNKSt3__29allocatorI3PinE8max_sizeEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE11__constructIS2_JEEEvNS_17integral_constantIbLb1EEERS3_PT_DpOT0_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE11__constructIS2_JEEEvNS_17integral_constantIbLb1EEERS3_PT_DpOT0_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE11__constructIS2_JEEEvNS_17integral_constantIbLb1EEERS3_PT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorI3PinE9constructIS1_JEEEvPT_DpOT0_ = Module["__ZNSt3__29allocatorI3PinE9constructIS1_JEEEvPT_DpOT0_"] = createExportWrapper("_ZNSt3__29allocatorI3PinE9constructIS1_JEEEvPT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEEC2Ev = Module["__ZNSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEEC2Ev"] = createExportWrapper("_ZNSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI4TireNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI4TireNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEC2Ev = Module["__ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEC2Ev"] = createExportWrapper("_ZNSt3__29allocatorINS_10unique_ptrI4TireNS_14default_deleteIS2_EEEEEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EEC2IDnvEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EEC2IDnvEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EEC2IDnvEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EEC2ENS_18__default_init_tagE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorIP15b2FrictionJointEC2Ev = Module["__ZNSt3__29allocatorIP15b2FrictionJointEC2Ev"] = createExportWrapper("_ZNSt3__29allocatorIP15b2FrictionJointEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE4dataEv = Module["__ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE4dataEv"] = createExportWrapper("_ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE4dataEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE8capacityEv = Module["__ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE8capacityEv"] = createExportWrapper("_ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE8capacityEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE4sizeEv = Module["__ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE4sizeEv"] = createExportWrapper("_ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE4sizeEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE31__annotate_contiguous_containerEPKvS7_S7_S7_ = Module["__ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE31__annotate_contiguous_containerEPKvS7_S7_S7_"] = createExportWrapper("_ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE31__annotate_contiguous_containerEPKvS7_S7_S7_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE5clearEv = Module["__ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE5clearEv"] = createExportWrapper("_ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE5clearEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE7__allocEv = Module["__ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE7__allocEv"] = createExportWrapper("_ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE7__allocEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE8capacityEv = Module["__ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE8capacityEv"] = createExportWrapper("_ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE8capacityEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE10deallocateERS4_PS3_m = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE10deallocateERS4_PS3_m"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE10deallocateERS4_PS3_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__212__to_addressIP15b2FrictionJointEEPT_S4_ = Module["__ZNSt3__212__to_addressIP15b2FrictionJointEEPT_S4_"] = createExportWrapper("_ZNSt3__212__to_addressIP15b2FrictionJointEEPT_S4_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE9__end_capEv = Module["__ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE9__end_capEv"] = createExportWrapper("_ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE17__destruct_at_endEPS2_ = Module["__ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE17__destruct_at_endEPS2_"] = createExportWrapper("_ZNSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE17__destruct_at_endEPS2_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorIP15b2FrictionJointE10deallocateEPS2_m = Module["__ZNSt3__29allocatorIP15b2FrictionJointE10deallocateEPS2_m"] = createExportWrapper("_ZNSt3__29allocatorIP15b2FrictionJointE10deallocateEPS2_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE7destroyIS3_EEvRS4_PT_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE7destroyIS3_EEvRS4_PT_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE7destroyIS3_EEvRS4_PT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE9__destroyIS3_EEvNS_17integral_constantIbLb1EEERS4_PT_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE9__destroyIS3_EEvNS_17integral_constantIbLb1EEERS4_PT_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE9__destroyIS3_EEvNS_17integral_constantIbLb1EEERS4_PT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorIP15b2FrictionJointE7destroyEPS2_ = Module["__ZNSt3__29allocatorIP15b2FrictionJointE7destroyEPS2_"] = createExportWrapper("_ZNSt3__29allocatorIP15b2FrictionJointE7destroyEPS2_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP7b2WorldLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI7b2WorldEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI7b2WorldEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI7b2WorldEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2WorldD1Ev = Module["__ZN7b2WorldD1Ev"] = createExportWrapper("_ZN7b2WorldD1Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__211__wrap_iterIPP15b2FrictionJointEC2ES3_ = Module["__ZNSt3__211__wrap_iterIPP15b2FrictionJointEC2ES3_"] = createExportWrapper("_ZNSt3__211__wrap_iterIPP15b2FrictionJointEC2ES3_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__211__wrap_iterIPP15b2FrictionJointE4baseEv = Module["__ZNKSt3__211__wrap_iterIPP15b2FrictionJointE4baseEv"] = createExportWrapper("_ZNKSt3__211__wrap_iterIPP15b2FrictionJointE4baseEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21_ConstructTransactionC2ERS5_m = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21_ConstructTransactionC2ERS5_m"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21_ConstructTransactionC2ERS5_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIP15b2FrictionJointEEOT_RNS_16remove_referenceIS3_E4typeE = Module["__ZNSt3__27forwardIP15b2FrictionJointEEOT_RNS_16remove_referenceIS3_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIP15b2FrictionJointEEOT_RNS_16remove_referenceIS3_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE9constructIS3_JS3_EEEvRS4_PT_DpOT0_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE9constructIS3_JS3_EEEvRS4_PT_DpOT0_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE9constructIS3_JS3_EEEvRS4_PT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21_ConstructTransactionD2Ev = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21_ConstructTransactionD2Ev"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE21_ConstructTransactionD2Ev");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE11__recommendEm = Module["__ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE11__recommendEm"] = createExportWrapper("_ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE11__recommendEm");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEEC2EmmS5_ = Module["__ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEEC2EmmS5_"] = createExportWrapper("_ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEEC2EmmS5_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE26__swap_out_circular_bufferERNS_14__split_bufferIS2_RS4_EE = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE26__swap_out_circular_bufferERNS_14__split_bufferIS2_RS4_EE"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE26__swap_out_circular_bufferERNS_14__split_bufferIS2_RS4_EE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEED2Ev = Module["__ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEED2Ev"] = createExportWrapper("_ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEED2Ev");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIPP15b2FrictionJointLi0ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE11__constructIS3_JS3_EEEvNS_17integral_constantIbLb1EEERS4_PT_DpOT0_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE11__constructIS3_JS3_EEEvNS_17integral_constantIbLb1EEERS4_PT_DpOT0_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE11__constructIS3_JS3_EEEvNS_17integral_constantIbLb1EEERS4_PT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorIP15b2FrictionJointE9constructIS2_JS2_EEEvPT_DpOT0_ = Module["__ZNSt3__29allocatorIP15b2FrictionJointE9constructIS2_JS2_EEEvPT_DpOT0_"] = createExportWrapper("_ZNSt3__29allocatorIP15b2FrictionJointE9constructIS2_JS2_EEEvPT_DpOT0_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE8max_sizeEv = Module["__ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE8max_sizeEv"] = createExportWrapper("_ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE8max_sizeEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEEC2IDnS6_EEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEEC2IDnS6_EEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEEC2IDnS6_EEOT_OT0_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE7__allocEv = Module["__ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE7__allocEv"] = createExportWrapper("_ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE7__allocEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE8allocateERS4_m = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE8allocateERS4_m"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE8allocateERS4_m");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE9__end_capEv = Module["__ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE9__end_capEv"] = createExportWrapper("_ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE46__construct_backward_with_exception_guaranteesIS3_EENS_9enable_ifIXaaooL_ZNS_17integral_constantIbLb1EE5valueEEntsr15__has_constructIS4_PT_SA_EE5valuesr31is_trivially_move_constructibleISA_EE5valueEvE4typeERS4_SB_SB_RSB_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE46__construct_backward_with_exception_guaranteesIS3_EENS_9enable_ifIXaaooL_ZNS_17integral_constantIbLb1EE5valueEEntsr15__has_constructIS4_PT_SA_EE5valuesr31is_trivially_move_constructibleISA_EE5valueEvE4typeERS4_SB_SB_RSB_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE46__construct_backward_with_exception_guaranteesIS3_EENS_9enable_ifIXaaooL_ZNS_17integral_constantIbLb1EE5valueEEntsr15__has_constructIS4_PT_SA_EE5valuesr31is_trivially_move_constructibleISA_EE5valueEvE4typeERS4_SB_SB_RSB_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__24swapIPP15b2FrictionJointEENS_9enable_ifIXaasr21is_move_constructibleIT_EE5valuesr18is_move_assignableIS5_EE5valueEvE4typeERS5_S8_ = Module["__ZNSt3__24swapIPP15b2FrictionJointEENS_9enable_ifIXaasr21is_move_constructibleIT_EE5valuesr18is_move_assignableIS5_EE5valueEvE4typeERS5_S8_"] = createExportWrapper("_ZNSt3__24swapIPP15b2FrictionJointEENS_9enable_ifIXaasr21is_move_constructibleIT_EE5valuesr18is_move_assignableIS5_EE5valueEvE4typeERS5_S8_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE14__annotate_newEm = Module["__ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE14__annotate_newEm"] = createExportWrapper("_ZNKSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE14__annotate_newEm");
+
+/** @type {function(...*):?} */
+var __ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE26__invalidate_all_iteratorsEv = Module["__ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE26__invalidate_all_iteratorsEv"] = createExportWrapper("_ZNSt3__26vectorIP15b2FrictionJointNS_9allocatorIS2_EEE26__invalidate_all_iteratorsEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE5clearEv = Module["__ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE5clearEv"] = createExportWrapper("_ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE5clearEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE8capacityEv = Module["__ZNKSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE8capacityEv"] = createExportWrapper("_ZNKSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE8capacityEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE7__allocEv = Module["__ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE7__allocEv"] = createExportWrapper("_ZNKSt3__213__vector_baseIP15b2FrictionJointNS_9allocatorIS2_EEE7__allocEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE8max_sizeERKS4_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE8max_sizeERKS4_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE8max_sizeERKS4_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE10__max_sizeENS_17integral_constantIbLb1EEERKS4_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE10__max_sizeENS_17integral_constantIbLb1EEERKS4_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorIP15b2FrictionJointEEE10__max_sizeENS_17integral_constantIbLb1EEERKS4_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE6secondEv = Module["__ZNKSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE6secondEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIPP15b2FrictionJointNS_9allocatorIS2_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__29allocatorIP15b2FrictionJointE8max_sizeEv = Module["__ZNKSt3__29allocatorIP15b2FrictionJointE8max_sizeEv"] = createExportWrapper("_ZNKSt3__29allocatorIP15b2FrictionJointE8max_sizeEv");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemINS_9allocatorIP15b2FrictionJointEELi1ELb1EE5__getEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__27forwardIRNS_9allocatorIP15b2FrictionJointEEEEOT_RNS_16remove_referenceIS6_E4typeE = Module["__ZNSt3__27forwardIRNS_9allocatorIP15b2FrictionJointEEEEOT_RNS_16remove_referenceIS6_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIRNS_9allocatorIP15b2FrictionJointEEEEOT_RNS_16remove_referenceIS6_E4typeE");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIRNS_9allocatorIP15b2FrictionJointEELi1ELb0EEC2IS5_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIRNS_9allocatorIP15b2FrictionJointEELi1ELb0EEC2IS5_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIRNS_9allocatorIP15b2FrictionJointEELi1ELb0EEC2IS5_vEEOT_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__29allocatorIP15b2FrictionJointE8allocateEmPKv = Module["__ZNSt3__29allocatorIP15b2FrictionJointE8allocateEmPKv"] = createExportWrapper("_ZNSt3__29allocatorIP15b2FrictionJointE8allocateEmPKv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE6secondEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__222__compressed_pair_elemIRNS_9allocatorIP15b2FrictionJointEELi1ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIRNS_9allocatorIP15b2FrictionJointEELi1ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIRNS_9allocatorIP15b2FrictionJointEELi1ELb0EE5__getEv");
+
+/** @type {function(...*):?} */
+var _memcpy = Module["_memcpy"] = createExportWrapper("memcpy");
+
+/** @type {function(...*):?} */
+var __ZNSt3__24moveIRPP15b2FrictionJointEEONS_16remove_referenceIT_E4typeEOS6_ = Module["__ZNSt3__24moveIRPP15b2FrictionJointEEONS_16remove_referenceIT_E4typeEOS6_"] = createExportWrapper("_ZNSt3__24moveIRPP15b2FrictionJointEEONS_16remove_referenceIT_E4typeEOS6_");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE17__destruct_at_endEPS2_ = Module["__ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE17__destruct_at_endEPS2_"] = createExportWrapper("_ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE17__destruct_at_endEPS2_");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE9__end_capEv = Module["__ZNKSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE9__end_capEv"] = createExportWrapper("_ZNKSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE9__end_capEv");
+
+/** @type {function(...*):?} */
+var __ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE17__destruct_at_endEPS2_NS_17integral_constantIbLb0EEE = Module["__ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE17__destruct_at_endEPS2_NS_17integral_constantIbLb0EEE"] = createExportWrapper("_ZNSt3__214__split_bufferIP15b2FrictionJointRNS_9allocatorIS2_EEE17__destruct_at_endEPS2_NS_17integral_constantIbLb0EEE");
+
+/** @type {function(...*):?} */
+var __ZNKSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIPP15b2FrictionJointRNS_9allocatorIS2_EEE5firstEv");
+
+/** @type {function(...*):?} */
+var __ZN5LevelC1Ev = Module["__ZN5LevelC1Ev"] = createExportWrapper("_ZN5LevelC1Ev");
+
+/** @type {function(...*):?} */
+var __ZN5LevelD1Ev = Module["__ZN5LevelD1Ev"] = createExportWrapper("_ZN5LevelD1Ev");
+
+/** @type {function(...*):?} */
 var ___original_main = Module["___original_main"] = createExportWrapper("__original_main");
 
 /** @type {function(...*):?} */
@@ -35726,13 +36782,13 @@ var __ZN6piksel7BaseAppC2Eii = Module["__ZN6piksel7BaseAppC2Eii"] = createExport
 var __ZN6piksel4FontC2Ev = Module["__ZN6piksel4FontC2Ev"] = createExportWrapper("_ZN6piksel4FontC2Ev");
 
 /** @type {function(...*):?} */
-var __ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEC2ILb1EvEEv = Module["__ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEC2ILb1EvEEv"] = createExportWrapper("_ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEC2ILb1EvEEv");
+var __ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEC2ILb1EvEEv = Module["__ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEC2ILb1EvEEv"] = createExportWrapper("_ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEEC2ILb1EvEEv");
 
 /** @type {function(...*):?} */
 var __ZN3AppD2Ev = Module["__ZN3AppD2Ev"] = createExportWrapper("_ZN3AppD2Ev");
 
 /** @type {function(...*):?} */
-var __ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEED2Ev = Module["__ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEED2Ev"] = createExportWrapper("_ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEED2Ev");
+var __ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEED2Ev = Module["__ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEED2Ev"] = createExportWrapper("_ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEED2Ev");
 
 /** @type {function(...*):?} */
 var __ZN6piksel4FontD1Ev = Module["__ZN6piksel4FontD1Ev"] = createExportWrapper("_ZN6piksel4FontD1Ev");
@@ -35759,37 +36815,28 @@ var __ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC2IDnEEPKc =
 var __ZN6piksel4Font4loadENSt3__212basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE = Module["__ZN6piksel4Font4loadENSt3__212basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE"] = createExportWrapper("_ZN6piksel4Font4loadENSt3__212basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEE");
 
 /** @type {function(...*):?} */
-var __ZN5RobotC2Ev = Module["__ZN5RobotC2Ev"] = createExportWrapper("_ZN5RobotC2Ev");
-
-/** @type {function(...*):?} */
-var __ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEE5resetEPS1_ = Module["__ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEE5resetEPS1_"] = createExportWrapper("_ZNSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEE5resetEPS1_");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEptEv = Module["__ZNKSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEptEv"] = createExportWrapper("_ZNKSt3__210unique_ptrI5RobotNS_14default_deleteIS1_EEEptEv");
+var __ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEE5resetEPS1_ = Module["__ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEE5resetEPS1_"] = createExportWrapper("_ZNSt3__210unique_ptrI5LevelNS_14default_deleteIS1_EEE5resetEPS1_");
 
 /** @type {function(...*):?} */
 var __ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcm = Module["__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcm"] = createExportWrapper("_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcm");
 
 /** @type {function(...*):?} */
-var __ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv");
+var __ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE5firstEv");
 
 /** @type {function(...*):?} */
-var __ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE6secondEv");
+var __ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE6secondEv = Module["__ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE6secondEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEE6secondEv");
 
 /** @type {function(...*):?} */
-var __ZNKSt3__214default_deleteI5RobotEclEPS1_ = Module["__ZNKSt3__214default_deleteI5RobotEclEPS1_"] = createExportWrapper("_ZNKSt3__214default_deleteI5RobotEclEPS1_");
-
-/** @type {function(...*):?} */
-var __ZN5RobotC2EN3glm3vecILi2EfLNS0_9qualifierE0EEEfffNS1_ILi4EfLS2_0EEE = Module["__ZN5RobotC2EN3glm3vecILi2EfLNS0_9qualifierE0EEEfffNS1_ILi4EfLS2_0EEE"] = createExportWrapper("_ZN5RobotC2EN3glm3vecILi2EfLNS0_9qualifierE0EEEfffNS1_ILi4EfLS2_0EEE");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv = Module["__ZNKSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEE5firstEv");
+var __ZNKSt3__214default_deleteI5LevelEclEPS1_ = Module["__ZNKSt3__214default_deleteI5LevelEclEPS1_"] = createExportWrapper("_ZNKSt3__214default_deleteI5LevelEclEPS1_");
 
 /** @type {function(...*):?} */
 var __ZN3App6updateEv = Module["__ZN3App6updateEv"] = createExportWrapper("_ZN3App6updateEv");
 
 /** @type {function(...*):?} */
 var __ZN3App19getDeltaTimeSecondsEv = Module["__ZN3App19getDeltaTimeSecondsEv"] = createExportWrapper("_ZN3App19getDeltaTimeSecondsEv");
+
+/** @type {function(...*):?} */
+var __ZN5Level8getRobotEv = Module["__ZN5Level8getRobotEv"] = createExportWrapper("_ZN5Level8getRobotEv");
 
 /** @type {function(...*):?} */
 var __ZN3App4drawERN6piksel8GraphicsE = Module["__ZN3App4drawERN6piksel8GraphicsE"] = createExportWrapper("_ZN3App4drawERN6piksel8GraphicsE");
@@ -35840,7 +36887,7 @@ var __ZN6piksel7BaseAppC2EiiNSt3__212basic_stringIcNS1_11char_traitsIcEENS1_9all
 var __ZNSt3__26vectorIN6piksel6LetterENS_9allocatorIS2_EEEC2Ev = Module["__ZNSt3__26vectorIN6piksel6LetterENS_9allocatorIS2_EEEC2Ev"] = createExportWrapper("_ZNSt3__26vectorIN6piksel6LetterENS_9allocatorIS2_EEEC2Ev");
 
 /** @type {function(...*):?} */
-var __ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5RobotNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_");
+var __ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIP5LevelNS_14default_deleteIS1_EEEC2IS2_NS_18__default_init_tagEEEOT_OT0_");
 
 /** @type {function(...*):?} */
 var __ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_ = Module["__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_"] = createExportWrapper("_ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_");
@@ -35951,9 +36998,6 @@ var __ZNSt3__29allocatorIPN6piksel5StateEEC2Ev = Module["__ZNSt3__29allocatorIPN
 var __ZNSt3__29allocatorIN6piksel5StateEEC2Ev = Module["__ZNSt3__29allocatorIN6piksel5StateEEC2Ev"] = createExportWrapper("_ZNSt3__29allocatorIN6piksel5StateEEC2Ev");
 
 /** @type {function(...*):?} */
-var __ZNSt3__220__vector_base_commonILb1EEC2Ev = Module["__ZNSt3__220__vector_base_commonILb1EEC2Ev"] = createExportWrapper("_ZNSt3__220__vector_base_commonILb1EEC2Ev");
-
-/** @type {function(...*):?} */
 var __ZNSt3__217__compressed_pairIPN6piksel19ShaderRelevantStateENS_9allocatorIS2_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIPN6piksel19ShaderRelevantStateENS_9allocatorIS2_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIPN6piksel19ShaderRelevantStateENS_9allocatorIS2_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_");
 
 /** @type {function(...*):?} */
@@ -35993,118 +37037,19 @@ var __ZNSt3__222__compressed_pair_elemINS_9allocatorIN6piksel6LetterEEELi1ELb1EE
 var __ZNSt3__29allocatorIN6piksel6LetterEEC2Ev = Module["__ZNSt3__29allocatorIN6piksel6LetterEEC2Ev"] = createExportWrapper("_ZNSt3__29allocatorIN6piksel6LetterEEC2Ev");
 
 /** @type {function(...*):?} */
-var __ZNSt3__27forwardIP5RobotEEOT_RNS_16remove_referenceIS3_E4typeE = Module["__ZNSt3__27forwardIP5RobotEEOT_RNS_16remove_referenceIS3_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIP5RobotEEOT_RNS_16remove_referenceIS3_E4typeE");
+var __ZNSt3__27forwardIP5LevelEEOT_RNS_16remove_referenceIS3_E4typeE = Module["__ZNSt3__27forwardIP5LevelEEOT_RNS_16remove_referenceIS3_E4typeE"] = createExportWrapper("_ZNSt3__27forwardIP5LevelEEOT_RNS_16remove_referenceIS3_E4typeE");
 
 /** @type {function(...*):?} */
-var __ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EEC2IS2_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EEC2IS2_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EEC2IS2_vEEOT_");
+var __ZNSt3__222__compressed_pair_elemIP5LevelLi0ELb0EEC2IS2_vEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIP5LevelLi0ELb0EEC2IS2_vEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP5LevelLi0ELb0EEC2IS2_vEEOT_");
 
 /** @type {function(...*):?} */
-var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EEC2ENS_18__default_init_tagE");
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI5LevelEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI5LevelEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI5LevelEELi1ELb1EEC2ENS_18__default_init_tagE");
 
 /** @type {function(...*):?} */
-var __ZN14PinsControllerC2Ei = Module["__ZN14PinsControllerC2Ei"] = createExportWrapper("_ZN14PinsControllerC2Ei");
+var __ZNSt3__222__compressed_pair_elemIP5LevelLi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIP5LevelLi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP5LevelLi0ELb0EE5__getEv");
 
 /** @type {function(...*):?} */
-var __ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev = Module["__ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev"] = createExportWrapper("_ZNSt3__26vectorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev");
-
-/** @type {function(...*):?} */
-var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEEC2Em = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEEC2Em"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEEC2Em");
-
-/** @type {function(...*):?} */
-var __ZNSt3__213__vector_baseINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev = Module["__ZNSt3__213__vector_baseINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev"] = createExportWrapper("_ZNSt3__213__vector_baseINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2Ev");
-
-/** @type {function(...*):?} */
-var __ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEEC2Ev = Module["__ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEEC2Ev"] = createExportWrapper("_ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEEC2Ev");
-
-/** @type {function(...*):?} */
-var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE11__vallocateEm = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE11__vallocateEm"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE11__vallocateEm");
-
-/** @type {function(...*):?} */
-var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE18__construct_at_endEm = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE18__construct_at_endEm"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE18__construct_at_endEm");
-
-/** @type {function(...*):?} */
-var __ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE8max_sizeEv = Module["__ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE8max_sizeEv"] = createExportWrapper("_ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE8max_sizeEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8allocateERS3_m = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8allocateERS3_m"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8allocateERS3_m");
-
-/** @type {function(...*):?} */
-var __ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE9__end_capEv = Module["__ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE9__end_capEv"] = createExportWrapper("_ZNSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE9__end_capEv");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE14__annotate_newEm = Module["__ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE14__annotate_newEm"] = createExportWrapper("_ZNKSt3__26vectorI3PinNS_9allocatorIS1_EEE14__annotate_newEm");
-
-/** @type {function(...*):?} */
-var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionC2ERS4_m = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionC2ERS4_m"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionC2ERS4_m");
-
-/** @type {function(...*):?} */
-var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE9constructIS2_JEEEvRS3_PT_DpOT0_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE9constructIS2_JEEEvRS3_PT_DpOT0_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE9constructIS2_JEEEvRS3_PT_DpOT0_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionD2Ev = Module["__ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionD2Ev"] = createExportWrapper("_ZNSt3__26vectorI3PinNS_9allocatorIS1_EEE21_ConstructTransactionD2Ev");
-
-/** @type {function(...*):?} */
-var __ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EEC2IDnvEEOT_ = Module["__ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EEC2IDnvEEOT_"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EEC2IDnvEEOT_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EEC2ENS_18__default_init_tagE");
-
-/** @type {function(...*):?} */
-var __ZNSt3__29allocatorI3PinEC2Ev = Module["__ZNSt3__29allocatorI3PinEC2Ev"] = createExportWrapper("_ZNSt3__29allocatorI3PinEC2Ev");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE7__allocEv = Module["__ZNKSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE7__allocEv"] = createExportWrapper("_ZNKSt3__213__vector_baseI3PinNS_9allocatorIS1_EEE7__allocEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8max_sizeERKS3_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8max_sizeERKS3_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE8max_sizeERKS3_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__29allocatorI3PinE8allocateEmPKv = Module["__ZNSt3__29allocatorI3PinE8allocateEmPKv"] = createExportWrapper("_ZNSt3__29allocatorI3PinE8allocateEmPKv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE5firstEv = Module["__ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE5firstEv"] = createExportWrapper("_ZNSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE5firstEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE10__max_sizeENS_17integral_constantIbLb1EEERKS3_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE10__max_sizeENS_17integral_constantIbLb1EEERKS3_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE10__max_sizeENS_17integral_constantIbLb1EEERKS3_");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE6secondEv = Module["__ZNKSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE6secondEv"] = createExportWrapper("_ZNKSt3__217__compressed_pairIP3PinNS_9allocatorIS1_EEE6secondEv");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__29allocatorI3PinE8max_sizeEv = Module["__ZNKSt3__29allocatorI3PinE8max_sizeEv"] = createExportWrapper("_ZNKSt3__29allocatorI3PinE8max_sizeEv");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemINS_9allocatorI3PinEELi1ELb1EE5__getEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP3PinLi0ELb0EE5__getEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE11__constructIS2_JEEEvNS_17integral_constantIbLb1EEERS3_PT_DpOT0_ = Module["__ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE11__constructIS2_JEEEvNS_17integral_constantIbLb1EEERS3_PT_DpOT0_"] = createExportWrapper("_ZNSt3__216allocator_traitsINS_9allocatorI3PinEEE11__constructIS2_JEEEvNS_17integral_constantIbLb1EEERS3_PT_DpOT0_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__29allocatorI3PinE9constructIS1_JEEEvPT_DpOT0_ = Module["__ZNSt3__29allocatorI3PinE9constructIS1_JEEEvPT_DpOT0_"] = createExportWrapper("_ZNSt3__29allocatorI3PinE9constructIS1_JEEEvPT_DpOT0_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_ = Module["__ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_"] = createExportWrapper("_ZNSt3__217__compressed_pairIPNS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEENS_9allocatorIS5_EEEC2IDnNS_18__default_init_tagEEEOT_OT0_");
-
-/** @type {function(...*):?} */
-var __ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE = Module["__ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_9allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS3_EEEEEELi1ELb1EEC2ENS_18__default_init_tagE");
-
-/** @type {function(...*):?} */
-var __ZNSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEEC2Ev = Module["__ZNSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEEC2Ev"] = createExportWrapper("_ZNSt3__29allocatorINS_10unique_ptrI6OutputNS_14default_deleteIS2_EEEEEC2Ev");
-
-/** @type {function(...*):?} */
-var __ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv");
-
-/** @type {function(...*):?} */
-var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI5RobotEELi1ELb1EE5__getEv");
-
-/** @type {function(...*):?} */
-var __ZNKSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv = Module["__ZNKSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv"] = createExportWrapper("_ZNKSt3__222__compressed_pair_elemIP5RobotLi0ELb0EE5__getEv");
+var __ZNSt3__222__compressed_pair_elemINS_14default_deleteI5LevelEELi1ELb1EE5__getEv = Module["__ZNSt3__222__compressed_pair_elemINS_14default_deleteI5LevelEELi1ELb1EE5__getEv"] = createExportWrapper("_ZNSt3__222__compressed_pair_elemINS_14default_deleteI5LevelEELi1ELb1EE5__getEv");
 
 /** @type {function(...*):?} */
 var __ZNSt3__2plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EEOS9_PKS6_ = Module["__ZNSt3__2plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EEOS9_PKS6_"] = createExportWrapper("_ZNSt3__2plIcNS_11char_traitsIcEENS_9allocatorIcEEEENS_12basic_stringIT_T0_T1_EEOS9_PKS6_");
@@ -36171,9 +37116,6 @@ var _memset = Module["_memset"] = createExportWrapper("memset");
 
 /** @type {function(...*):?} */
 var _realloc = Module["_realloc"] = createExportWrapper("realloc");
-
-/** @type {function(...*):?} */
-var _memcpy = Module["_memcpy"] = createExportWrapper("memcpy");
 
 /** @type {function(...*):?} */
 var _stbi_loadf_from_memory = Module["_stbi_loadf_from_memory"] = createExportWrapper("stbi_loadf_from_memory");
@@ -36411,9 +37353,6 @@ var __Z4fabsf = Module["__Z4fabsf"] = createExportWrapper("_Z4fabsf");
 
 /** @type {function(...*):?} */
 var __Z4fmodff = Module["__Z4fmodff"] = createExportWrapper("_Z4fmodff");
-
-/** @type {function(...*):?} */
-var __Z4acosf = Module["__Z4acosf"] = createExportWrapper("_Z4acosf");
 
 /** @type {function(...*):?} */
 var _cos = Module["_cos"] = createExportWrapper("cos");
@@ -36690,9 +37629,6 @@ var _powf = Module["_powf"] = createExportWrapper("powf");
 
 /** @type {function(...*):?} */
 var _fmodf = Module["_fmodf"] = createExportWrapper("fmodf");
-
-/** @type {function(...*):?} */
-var _acosf = Module["_acosf"] = createExportWrapper("acosf");
 
 /** @type {function(...*):?} */
 var __ZNSt3__212__deque_baseIN6piksel5StateENS_9allocatorIS2_EEED2Ev = Module["__ZNSt3__212__deque_baseIN6piksel5StateENS_9allocatorIS2_EEED2Ev"] = createExportWrapper("_ZNSt3__212__deque_baseIN6piksel5StateENS_9allocatorIS2_EEED2Ev");
@@ -37940,13 +38876,7 @@ var __ZN3glmmiIfLNS_9qualifierE0EEENS_3vecILi2ET_XT0_EEERKS4_S6_ = Module["__ZN3
 var _atan2f = Module["_atan2f"] = createExportWrapper("atan2f");
 
 /** @type {function(...*):?} */
-var __ZN3glm6lengthILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEE = Module["__ZN3glm6lengthILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEE"] = createExportWrapper("_ZN3glm6lengthILi2EfLNS_9qualifierE0EEET0_RKNS_3vecIXT_ES2_XT1_EEE");
-
-/** @type {function(...*):?} */
 var __ZN3glm6rotateIfLNS_9qualifierE0EEENS_3matILi4ELi4ET_XT0_EEERKS4_S3_RKNS_3vecILi3ES3_XT0_EEE = Module["__ZN3glm6rotateIfLNS_9qualifierE0EEENS_3matILi4ELi4ET_XT0_EEERKS4_S3_RKNS_3vecILi3ES3_XT0_EEE"] = createExportWrapper("_ZN3glm6rotateIfLNS_9qualifierE0EEENS_3matILi4ELi4ET_XT0_EEERKS4_S3_RKNS_3vecILi3ES3_XT0_EEE");
-
-/** @type {function(...*):?} */
-var __ZN3glm6detail14compute_lengthILi2EfLNS_9qualifierE0ELb0EE4callERKNS_3vecILi2EfLS2_0EEE = Module["__ZN3glm6detail14compute_lengthILi2EfLNS_9qualifierE0ELb0EE4callERKNS_3vecILi2EfLS2_0EEE"] = createExportWrapper("_ZN3glm6detail14compute_lengthILi2EfLNS_9qualifierE0ELb0EE4callERKNS_3vecILi2EfLS2_0EEE");
 
 /** @type {function(...*):?} */
 var __ZN6piksel8Graphics6millisEv = Module["__ZN6piksel8Graphics6millisEv"] = createExportWrapper("_ZN6piksel8Graphics6millisEv");
@@ -39218,6 +40148,2073 @@ var __ZN6piksel5Timer5resetEi = Module["__ZN6piksel5Timer5resetEi"] = createExpo
 var __ZN6piksel5Timer22getElapsedTimeInMillisEi = Module["__ZN6piksel5Timer22getElapsedTimeInMillisEi"] = createExportWrapper("_ZN6piksel5Timer22getElapsedTimeInMillisEi");
 
 /** @type {function(...*):?} */
+var __ZN12b2BroadPhaseC2Ev = Module["__ZN12b2BroadPhaseC2Ev"] = createExportWrapper("_ZN12b2BroadPhaseC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTreeC1Ev = Module["__ZN13b2DynamicTreeC1Ev"] = createExportWrapper("_ZN13b2DynamicTreeC1Ev");
+
+/** @type {function(...*):?} */
+var __Z7b2Alloci = Module["__Z7b2Alloci"] = createExportWrapper("_Z7b2Alloci");
+
+/** @type {function(...*):?} */
+var __Z15b2Alloc_Defaulti = Module["__Z15b2Alloc_Defaulti"] = createExportWrapper("_Z15b2Alloc_Defaulti");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhaseD2Ev = Module["__ZN12b2BroadPhaseD2Ev"] = createExportWrapper("_ZN12b2BroadPhaseD2Ev");
+
+/** @type {function(...*):?} */
+var __Z6b2FreePv = Module["__Z6b2FreePv"] = createExportWrapper("_Z6b2FreePv");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTreeD1Ev = Module["__ZN13b2DynamicTreeD1Ev"] = createExportWrapper("_ZN13b2DynamicTreeD1Ev");
+
+/** @type {function(...*):?} */
+var __Z14b2Free_DefaultPv = Module["__Z14b2Free_DefaultPv"] = createExportWrapper("_Z14b2Free_DefaultPv");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase11CreateProxyERK6b2AABBPv = Module["__ZN12b2BroadPhase11CreateProxyERK6b2AABBPv"] = createExportWrapper("_ZN12b2BroadPhase11CreateProxyERK6b2AABBPv");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree11CreateProxyERK6b2AABBPv = Module["__ZN13b2DynamicTree11CreateProxyERK6b2AABBPv"] = createExportWrapper("_ZN13b2DynamicTree11CreateProxyERK6b2AABBPv");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase10BufferMoveEi = Module["__ZN12b2BroadPhase10BufferMoveEi"] = createExportWrapper("_ZN12b2BroadPhase10BufferMoveEi");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase12DestroyProxyEi = Module["__ZN12b2BroadPhase12DestroyProxyEi"] = createExportWrapper("_ZN12b2BroadPhase12DestroyProxyEi");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase12UnBufferMoveEi = Module["__ZN12b2BroadPhase12UnBufferMoveEi"] = createExportWrapper("_ZN12b2BroadPhase12UnBufferMoveEi");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree12DestroyProxyEi = Module["__ZN13b2DynamicTree12DestroyProxyEi"] = createExportWrapper("_ZN13b2DynamicTree12DestroyProxyEi");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase9MoveProxyEiRK6b2AABBRK6b2Vec2 = Module["__ZN12b2BroadPhase9MoveProxyEiRK6b2AABBRK6b2Vec2"] = createExportWrapper("_ZN12b2BroadPhase9MoveProxyEiRK6b2AABBRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree9MoveProxyEiRK6b2AABBRK6b2Vec2 = Module["__ZN13b2DynamicTree9MoveProxyEiRK6b2AABBRK6b2Vec2"] = createExportWrapper("_ZN13b2DynamicTree9MoveProxyEiRK6b2AABBRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase10TouchProxyEi = Module["__ZN12b2BroadPhase10TouchProxyEi"] = createExportWrapper("_ZN12b2BroadPhase10TouchProxyEi");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase13QueryCallbackEi = Module["__ZN12b2BroadPhase13QueryCallbackEi"] = createExportWrapper("_ZN12b2BroadPhase13QueryCallbackEi");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree8WasMovedEi = Module["__ZNK13b2DynamicTree8WasMovedEi"] = createExportWrapper("_ZNK13b2DynamicTree8WasMovedEi");
+
+/** @type {function(...*):?} */
+var __Z5b2MinIiET_S0_S0_ = Module["__Z5b2MinIiET_S0_S0_"] = createExportWrapper("_Z5b2MinIiET_S0_S0_");
+
+/** @type {function(...*):?} */
+var __Z5b2MaxIiET_S0_S0_ = Module["__Z5b2MaxIiET_S0_S0_"] = createExportWrapper("_Z5b2MaxIiET_S0_S0_");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhaseC1Ev = Module["__ZN12b2BroadPhaseC1Ev"] = createExportWrapper("_ZN12b2BroadPhaseC1Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhaseD1Ev = Module["__ZN12b2BroadPhaseD1Ev"] = createExportWrapper("_ZN12b2BroadPhaseD1Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2ChainShapeD2Ev = Module["__ZN12b2ChainShapeD2Ev"] = createExportWrapper("_ZN12b2ChainShapeD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2ChainShape5ClearEv = Module["__ZN12b2ChainShape5ClearEv"] = createExportWrapper("_ZN12b2ChainShape5ClearEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2ChainShapeD0Ev = Module["__ZN12b2ChainShapeD0Ev"] = createExportWrapper("_ZN12b2ChainShapeD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2ChainShapeD1Ev = Module["__ZN12b2ChainShapeD1Ev"] = createExportWrapper("_ZN12b2ChainShapeD1Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2ChainShape10CreateLoopEPK6b2Vec2i = Module["__ZN12b2ChainShape10CreateLoopEPK6b2Vec2i"] = createExportWrapper("_ZN12b2ChainShape10CreateLoopEPK6b2Vec2i");
+
+/** @type {function(...*):?} */
+var __Z17b2DistanceSquaredRK6b2Vec2S1_ = Module["__Z17b2DistanceSquaredRK6b2Vec2S1_"] = createExportWrapper("_Z17b2DistanceSquaredRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __ZmiRK6b2Vec2S1_ = Module["__ZmiRK6b2Vec2S1_"] = createExportWrapper("_ZmiRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __ZN12b2ChainShape11CreateChainEPK6b2Vec2iRS1_S3_ = Module["__ZN12b2ChainShape11CreateChainEPK6b2Vec2iRS1_S3_"] = createExportWrapper("_ZN12b2ChainShape11CreateChainEPK6b2Vec2iRS1_S3_");
+
+/** @type {function(...*):?} */
+var __ZNK12b2ChainShape5CloneEP16b2BlockAllocator = Module["__ZNK12b2ChainShape5CloneEP16b2BlockAllocator"] = createExportWrapper("_ZNK12b2ChainShape5CloneEP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN16b2BlockAllocator8AllocateEi = Module["__ZN16b2BlockAllocator8AllocateEi"] = createExportWrapper("_ZN16b2BlockAllocator8AllocateEi");
+
+/** @type {function(...*):?} */
+var __ZN12b2ChainShapeC2Ev = Module["__ZN12b2ChainShapeC2Ev"] = createExportWrapper("_ZN12b2ChainShapeC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK12b2ChainShape13GetChildCountEv = Module["__ZNK12b2ChainShape13GetChildCountEv"] = createExportWrapper("_ZNK12b2ChainShape13GetChildCountEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2ChainShape12GetChildEdgeEP11b2EdgeShapei = Module["__ZNK12b2ChainShape12GetChildEdgeEP11b2EdgeShapei"] = createExportWrapper("_ZNK12b2ChainShape12GetChildEdgeEP11b2EdgeShapei");
+
+/** @type {function(...*):?} */
+var __ZNK12b2ChainShape9TestPointERK11b2TransformRK6b2Vec2 = Module["__ZNK12b2ChainShape9TestPointERK11b2TransformRK6b2Vec2"] = createExportWrapper("_ZNK12b2ChainShape9TestPointERK11b2TransformRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK12b2ChainShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi = Module["__ZNK12b2ChainShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi"] = createExportWrapper("_ZNK12b2ChainShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi");
+
+/** @type {function(...*):?} */
+var __ZN11b2EdgeShapeC2Ev = Module["__ZN11b2EdgeShapeC2Ev"] = createExportWrapper("_ZN11b2EdgeShapeC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK11b2EdgeShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi = Module["__ZNK11b2EdgeShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi"] = createExportWrapper("_ZNK11b2EdgeShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi");
+
+/** @type {function(...*):?} */
+var __ZN11b2EdgeShapeD2Ev = Module["__ZN11b2EdgeShapeD2Ev"] = createExportWrapper("_ZN11b2EdgeShapeD2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK12b2ChainShape11ComputeAABBEP6b2AABBRK11b2Transformi = Module["__ZNK12b2ChainShape11ComputeAABBEP6b2AABBRK11b2Transformi"] = createExportWrapper("_ZNK12b2ChainShape11ComputeAABBEP6b2AABBRK11b2Transformi");
+
+/** @type {function(...*):?} */
+var __Z5b2MulRK11b2TransformRK6b2Vec2 = Module["__Z5b2MulRK11b2TransformRK6b2Vec2"] = createExportWrapper("_Z5b2MulRK11b2TransformRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __Z5b2MinRK6b2Vec2S1_ = Module["__Z5b2MinRK6b2Vec2S1_"] = createExportWrapper("_Z5b2MinRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __Z5b2MaxRK6b2Vec2S1_ = Module["__Z5b2MaxRK6b2Vec2S1_"] = createExportWrapper("_Z5b2MaxRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __ZplRK6b2Vec2S1_ = Module["__ZplRK6b2Vec2S1_"] = createExportWrapper("_ZplRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __Z5b2MinIfET_S0_S0_ = Module["__Z5b2MinIfET_S0_S0_"] = createExportWrapper("_Z5b2MinIfET_S0_S0_");
+
+/** @type {function(...*):?} */
+var __Z5b2MaxIfET_S0_S0_ = Module["__Z5b2MaxIfET_S0_S0_"] = createExportWrapper("_Z5b2MaxIfET_S0_S0_");
+
+/** @type {function(...*):?} */
+var __ZNK12b2ChainShape11ComputeMassEP10b2MassDataf = Module["__ZNK12b2ChainShape11ComputeMassEP10b2MassDataf"] = createExportWrapper("_ZNK12b2ChainShape11ComputeMassEP10b2MassDataf");
+
+/** @type {function(...*):?} */
+var __ZNK13b2CircleShape5CloneEP16b2BlockAllocator = Module["__ZNK13b2CircleShape5CloneEP16b2BlockAllocator"] = createExportWrapper("_ZNK13b2CircleShape5CloneEP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN13b2CircleShapeC2Ev = Module["__ZN13b2CircleShapeC2Ev"] = createExportWrapper("_ZN13b2CircleShapeC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN13b2CircleShapeaSERKS_ = Module["__ZN13b2CircleShapeaSERKS_"] = createExportWrapper("_ZN13b2CircleShapeaSERKS_");
+
+/** @type {function(...*):?} */
+var __ZN7b2ShapeaSERKS_ = Module["__ZN7b2ShapeaSERKS_"] = createExportWrapper("_ZN7b2ShapeaSERKS_");
+
+/** @type {function(...*):?} */
+var __ZNK13b2CircleShape13GetChildCountEv = Module["__ZNK13b2CircleShape13GetChildCountEv"] = createExportWrapper("_ZNK13b2CircleShape13GetChildCountEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2CircleShape9TestPointERK11b2TransformRK6b2Vec2 = Module["__ZNK13b2CircleShape9TestPointERK11b2TransformRK6b2Vec2"] = createExportWrapper("_ZNK13b2CircleShape9TestPointERK11b2TransformRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK13b2CircleShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi = Module["__ZNK13b2CircleShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi"] = createExportWrapper("_ZNK13b2CircleShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec29NormalizeEv = Module["__ZN6b2Vec29NormalizeEv"] = createExportWrapper("_ZN6b2Vec29NormalizeEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK11b2Transformi = Module["__ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK11b2Transformi"] = createExportWrapper("_ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK11b2Transformi");
+
+/** @type {function(...*):?} */
+var __ZNK13b2CircleShape11ComputeMassEP10b2MassDataf = Module["__ZNK13b2CircleShape11ComputeMassEP10b2MassDataf"] = createExportWrapper("_ZNK13b2CircleShape11ComputeMassEP10b2MassDataf");
+
+/** @type {function(...*):?} */
+var __ZN13b2CircleShapeD2Ev = Module["__ZN13b2CircleShapeD2Ev"] = createExportWrapper("_ZN13b2CircleShapeD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN13b2CircleShapeD0Ev = Module["__ZN13b2CircleShapeD0Ev"] = createExportWrapper("_ZN13b2CircleShapeD0Ev");
+
+/** @type {function(...*):?} */
+var __Z16b2CollideCirclesP10b2ManifoldPK13b2CircleShapeRK11b2TransformS3_S6_ = Module["__Z16b2CollideCirclesP10b2ManifoldPK13b2CircleShapeRK11b2TransformS3_S6_"] = createExportWrapper("_Z16b2CollideCirclesP10b2ManifoldPK13b2CircleShapeRK11b2TransformS3_S6_");
+
+/** @type {function(...*):?} */
+var __Z25b2CollidePolygonAndCircleP10b2ManifoldPK14b2PolygonShapeRK11b2TransformPK13b2CircleShapeS6_ = Module["__Z25b2CollidePolygonAndCircleP10b2ManifoldPK14b2PolygonShapeRK11b2TransformPK13b2CircleShapeS6_"] = createExportWrapper("_Z25b2CollidePolygonAndCircleP10b2ManifoldPK14b2PolygonShapeRK11b2TransformPK13b2CircleShapeS6_");
+
+/** @type {function(...*):?} */
+var __Z6b2MulTRK11b2TransformRK6b2Vec2 = Module["__Z6b2MulTRK11b2TransformRK6b2Vec2"] = createExportWrapper("_Z6b2MulTRK11b2TransformRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __Z22b2CollideEdgeAndCircleP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK13b2CircleShapeS6_ = Module["__Z22b2CollideEdgeAndCircleP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK13b2CircleShapeS6_"] = createExportWrapper("_Z22b2CollideEdgeAndCircleP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK13b2CircleShapeS6_");
+
+/** @type {function(...*):?} */
+var __Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_ = Module["__Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_"] = createExportWrapper("_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_");
+
+/** @type {function(...*):?} */
+var __Z6b2MulTRK11b2TransformS1_ = Module["__Z6b2MulTRK11b2TransformS1_"] = createExportWrapper("_Z6b2MulTRK11b2TransformS1_");
+
+/** @type {function(...*):?} */
+var __ZN13b2TempPolygonC2Ev = Module["__ZN13b2TempPolygonC2Ev"] = createExportWrapper("_ZN13b2TempPolygonC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN8b2EPAxisC2Ev = Module["__ZN8b2EPAxisC2Ev"] = createExportWrapper("_ZN8b2EPAxisC2Ev");
+
+/** @type {function(...*):?} */
+var __Z7b2CrossRK6b2Vec2S1_ = Module["__Z7b2CrossRK6b2Vec2S1_"] = createExportWrapper("_Z7b2CrossRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __ZN12b2ClipVertexC2Ev = Module["__ZN12b2ClipVertexC2Ev"] = createExportWrapper("_ZN12b2ClipVertexC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2ReferenceFaceC2Ev = Module["__ZN15b2ReferenceFaceC2Ev"] = createExportWrapper("_ZN15b2ReferenceFaceC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Vec2ngEv = Module["__ZNK6b2Vec2ngEv"] = createExportWrapper("_ZNK6b2Vec2ngEv");
+
+/** @type {function(...*):?} */
+var __Z19b2ClipSegmentToLineP12b2ClipVertexPKS_RK6b2Vec2fi = Module["__Z19b2ClipSegmentToLineP12b2ClipVertexPKS_RK6b2Vec2fi"] = createExportWrapper("_Z19b2ClipSegmentToLineP12b2ClipVertexPKS_RK6b2Vec2fi");
+
+/** @type {function(...*):?} */
+var __ZN11b2TransformC2Ev = Module["__ZN11b2TransformC2Ev"] = createExportWrapper("_ZN11b2TransformC2Ev");
+
+/** @type {function(...*):?} */
+var __Z6b2MulTRK5b2RotS1_ = Module["__Z6b2MulTRK5b2RotS1_"] = createExportWrapper("_Z6b2MulTRK5b2RotS1_");
+
+/** @type {function(...*):?} */
+var __Z6b2MulTRK5b2RotRK6b2Vec2 = Module["__Z6b2MulTRK5b2RotRK6b2Vec2"] = createExportWrapper("_Z6b2MulTRK5b2RotRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN5b2RotC2Ev = Module["__ZN5b2RotC2Ev"] = createExportWrapper("_ZN5b2RotC2Ev");
+
+/** @type {function(...*):?} */
+var __Z17b2CollidePolygonsP10b2ManifoldPK14b2PolygonShapeRK11b2TransformS3_S6_ = Module["__Z17b2CollidePolygonsP10b2ManifoldPK14b2PolygonShapeRK11b2TransformS3_S6_"] = createExportWrapper("_Z17b2CollidePolygonsP10b2ManifoldPK14b2PolygonShapeRK11b2TransformS3_S6_");
+
+/** @type {function(...*):?} */
+var __Z7b2CrossRK6b2Vec2f = Module["__Z7b2CrossRK6b2Vec2f"] = createExportWrapper("_Z7b2CrossRK6b2Vec2f");
+
+/** @type {function(...*):?} */
+var __ZN15b2WorldManifold10InitializeEPK10b2ManifoldRK11b2TransformfS5_f = Module["__ZN15b2WorldManifold10InitializeEPK10b2ManifoldRK11b2TransformfS5_f"] = createExportWrapper("_ZN15b2WorldManifold10InitializeEPK10b2ManifoldRK11b2TransformfS5_f");
+
+/** @type {function(...*):?} */
+var __Z16b2GetPointStatesP12b2PointStateS0_PK10b2ManifoldS3_ = Module["__Z16b2GetPointStatesP12b2PointStateS0_PK10b2ManifoldS3_"] = createExportWrapper("_Z16b2GetPointStatesP12b2PointStateS0_PK10b2ManifoldS3_");
+
+/** @type {function(...*):?} */
+var __ZNK6b2AABB7RayCastEP15b2RayCastOutputRK14b2RayCastInput = Module["__ZNK6b2AABB7RayCastEP15b2RayCastOutputRK14b2RayCastInput"] = createExportWrapper("_ZNK6b2AABB7RayCastEP15b2RayCastOutputRK14b2RayCastInput");
+
+/** @type {function(...*):?} */
+var __Z5b2AbsRK6b2Vec2 = Module["__Z5b2AbsRK6b2Vec2"] = createExportWrapper("_Z5b2AbsRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec2clEi = Module["__ZN6b2Vec2clEi"] = createExportWrapper("_ZN6b2Vec2clEi");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Vec2clEi = Module["__ZNK6b2Vec2clEi"] = createExportWrapper("_ZNK6b2Vec2clEi");
+
+/** @type {function(...*):?} */
+var __Z6b2SwapIfEvRT_S1_ = Module["__Z6b2SwapIfEvRT_S1_"] = createExportWrapper("_Z6b2SwapIfEvRT_S1_");
+
+/** @type {function(...*):?} */
+var __Z5b2AbsIfET_S0_ = Module["__Z5b2AbsIfET_S0_"] = createExportWrapper("_Z5b2AbsIfET_S0_");
+
+/** @type {function(...*):?} */
+var __Z13b2TestOverlapPK7b2ShapeiS1_iRK11b2TransformS4_ = Module["__Z13b2TestOverlapPK7b2ShapeiS1_iRK11b2TransformS4_"] = createExportWrapper("_Z13b2TestOverlapPK7b2ShapeiS1_iRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceInputC2Ev = Module["__ZN15b2DistanceInputC2Ev"] = createExportWrapper("_ZN15b2DistanceInputC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceProxy3SetEPK7b2Shapei = Module["__ZN15b2DistanceProxy3SetEPK7b2Shapei"] = createExportWrapper("_ZN15b2DistanceProxy3SetEPK7b2Shapei");
+
+/** @type {function(...*):?} */
+var __ZN16b2DistanceOutputC2Ev = Module["__ZN16b2DistanceOutputC2Ev"] = createExportWrapper("_ZN16b2DistanceOutputC2Ev");
+
+/** @type {function(...*):?} */
+var __Z10b2DistanceP16b2DistanceOutputP14b2SimplexCachePK15b2DistanceInput = Module["__Z10b2DistanceP16b2DistanceOutputP14b2SimplexCachePK15b2DistanceInput"] = createExportWrapper("_Z10b2DistanceP16b2DistanceOutputP14b2SimplexCachePK15b2DistanceInput");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceProxyC2Ev = Module["__ZN15b2DistanceProxyC2Ev"] = createExportWrapper("_ZN15b2DistanceProxyC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Shape7GetTypeEv = Module["__ZNK7b2Shape7GetTypeEv"] = createExportWrapper("_ZNK7b2Shape7GetTypeEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceProxy3SetEPK6b2Vec2if = Module["__ZN15b2DistanceProxy3SetEPK6b2Vec2if"] = createExportWrapper("_ZN15b2DistanceProxy3SetEPK6b2Vec2if");
+
+/** @type {function(...*):?} */
+var __ZN9b2Simplex6Solve2Ev = Module["__ZN9b2Simplex6Solve2Ev"] = createExportWrapper("_ZN9b2Simplex6Solve2Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2Simplex6Solve3Ev = Module["__ZN9b2Simplex6Solve3Ev"] = createExportWrapper("_ZN9b2Simplex6Solve3Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2SimplexC2Ev = Module["__ZN9b2SimplexC2Ev"] = createExportWrapper("_ZN9b2SimplexC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2Simplex9ReadCacheEPK14b2SimplexCachePK15b2DistanceProxyRK11b2TransformS5_S8_ = Module["__ZN9b2Simplex9ReadCacheEPK14b2SimplexCachePK15b2DistanceProxyRK11b2TransformS5_S8_"] = createExportWrapper("_ZN9b2Simplex9ReadCacheEPK14b2SimplexCachePK15b2DistanceProxyRK11b2TransformS5_S8_");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Simplex18GetSearchDirectionEv = Module["__ZNK9b2Simplex18GetSearchDirectionEv"] = createExportWrapper("_ZNK9b2Simplex18GetSearchDirectionEv");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Vec213LengthSquaredEv = Module["__ZNK6b2Vec213LengthSquaredEv"] = createExportWrapper("_ZNK6b2Vec213LengthSquaredEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2DistanceProxy10GetSupportERK6b2Vec2 = Module["__ZNK15b2DistanceProxy10GetSupportERK6b2Vec2"] = createExportWrapper("_ZNK15b2DistanceProxy10GetSupportERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK15b2DistanceProxy9GetVertexEi = Module["__ZNK15b2DistanceProxy9GetVertexEi"] = createExportWrapper("_ZNK15b2DistanceProxy9GetVertexEi");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Simplex16GetWitnessPointsEP6b2Vec2S1_ = Module["__ZNK9b2Simplex16GetWitnessPointsEP6b2Vec2S1_"] = createExportWrapper("_ZNK9b2Simplex16GetWitnessPointsEP6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __Z10b2DistanceRK6b2Vec2S1_ = Module["__Z10b2DistanceRK6b2Vec2S1_"] = createExportWrapper("_Z10b2DistanceRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Simplex10WriteCacheEP14b2SimplexCache = Module["__ZNK9b2Simplex10WriteCacheEP14b2SimplexCache"] = createExportWrapper("_ZNK9b2Simplex10WriteCacheEP14b2SimplexCache");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec2mIERKS_ = Module["__ZN6b2Vec2mIERKS_"] = createExportWrapper("_ZN6b2Vec2mIERKS_");
+
+/** @type {function(...*):?} */
+var __ZN15b2SimplexVertexC2Ev = Module["__ZN15b2SimplexVertexC2Ev"] = createExportWrapper("_ZN15b2SimplexVertexC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Simplex9GetMetricEv = Module["__ZNK9b2Simplex9GetMetricEv"] = createExportWrapper("_ZNK9b2Simplex9GetMetricEv");
+
+/** @type {function(...*):?} */
+var __Z7b2CrossfRK6b2Vec2 = Module["__Z7b2CrossfRK6b2Vec2"] = createExportWrapper("_Z7b2CrossfRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __Z11b2ShapeCastP17b2ShapeCastOutputPK16b2ShapeCastInput = Module["__Z11b2ShapeCastP17b2ShapeCastOutputPK16b2ShapeCastInput"] = createExportWrapper("_Z11b2ShapeCastP17b2ShapeCastOutputPK16b2ShapeCastInput");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Simplex15GetClosestPointEv = Module["__ZNK9b2Simplex15GetClosestPointEv"] = createExportWrapper("_ZNK9b2Simplex15GetClosestPointEv");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTreeC2Ev = Module["__ZN13b2DynamicTreeC2Ev"] = createExportWrapper("_ZN13b2DynamicTreeC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTreeD2Ev = Module["__ZN13b2DynamicTreeD2Ev"] = createExportWrapper("_ZN13b2DynamicTreeD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree12AllocateNodeEv = Module["__ZN13b2DynamicTree12AllocateNodeEv"] = createExportWrapper("_ZN13b2DynamicTree12AllocateNodeEv");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree8FreeNodeEi = Module["__ZN13b2DynamicTree8FreeNodeEi"] = createExportWrapper("_ZN13b2DynamicTree8FreeNodeEi");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree10InsertLeafEi = Module["__ZN13b2DynamicTree10InsertLeafEi"] = createExportWrapper("_ZN13b2DynamicTree10InsertLeafEi");
+
+/** @type {function(...*):?} */
+var __ZNK10b2TreeNode6IsLeafEv = Module["__ZNK10b2TreeNode6IsLeafEv"] = createExportWrapper("_ZNK10b2TreeNode6IsLeafEv");
+
+/** @type {function(...*):?} */
+var __ZNK6b2AABB12GetPerimeterEv = Module["__ZNK6b2AABB12GetPerimeterEv"] = createExportWrapper("_ZNK6b2AABB12GetPerimeterEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2AABBC2Ev = Module["__ZN6b2AABBC2Ev"] = createExportWrapper("_ZN6b2AABBC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2AABB7CombineERKS_S1_ = Module["__ZN6b2AABB7CombineERKS_S1_"] = createExportWrapper("_ZN6b2AABB7CombineERKS_S1_");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree7BalanceEi = Module["__ZN13b2DynamicTree7BalanceEi"] = createExportWrapper("_ZN13b2DynamicTree7BalanceEi");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree10RemoveLeafEi = Module["__ZN13b2DynamicTree10RemoveLeafEi"] = createExportWrapper("_ZN13b2DynamicTree10RemoveLeafEi");
+
+/** @type {function(...*):?} */
+var __ZNK6b2AABB8ContainsERKS_ = Module["__ZNK6b2AABB8ContainsERKS_"] = createExportWrapper("_ZNK6b2AABB8ContainsERKS_");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree9GetHeightEv = Module["__ZNK13b2DynamicTree9GetHeightEv"] = createExportWrapper("_ZNK13b2DynamicTree9GetHeightEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree12GetAreaRatioEv = Module["__ZNK13b2DynamicTree12GetAreaRatioEv"] = createExportWrapper("_ZNK13b2DynamicTree12GetAreaRatioEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree13ComputeHeightEi = Module["__ZNK13b2DynamicTree13ComputeHeightEi"] = createExportWrapper("_ZNK13b2DynamicTree13ComputeHeightEi");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree13ComputeHeightEv = Module["__ZNK13b2DynamicTree13ComputeHeightEv"] = createExportWrapper("_ZNK13b2DynamicTree13ComputeHeightEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree17ValidateStructureEi = Module["__ZNK13b2DynamicTree17ValidateStructureEi"] = createExportWrapper("_ZNK13b2DynamicTree17ValidateStructureEi");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree15ValidateMetricsEi = Module["__ZNK13b2DynamicTree15ValidateMetricsEi"] = createExportWrapper("_ZNK13b2DynamicTree15ValidateMetricsEi");
+
+/** @type {function(...*):?} */
+var __ZeqRK6b2Vec2S1_ = Module["__ZeqRK6b2Vec2S1_"] = createExportWrapper("_ZeqRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree8ValidateEv = Module["__ZNK13b2DynamicTree8ValidateEv"] = createExportWrapper("_ZNK13b2DynamicTree8ValidateEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree13GetMaxBalanceEv = Module["__ZNK13b2DynamicTree13GetMaxBalanceEv"] = createExportWrapper("_ZNK13b2DynamicTree13GetMaxBalanceEv");
+
+/** @type {function(...*):?} */
+var __Z5b2AbsIiET_S0_ = Module["__Z5b2AbsIiET_S0_"] = createExportWrapper("_Z5b2AbsIiET_S0_");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree15RebuildBottomUpEv = Module["__ZN13b2DynamicTree15RebuildBottomUpEv"] = createExportWrapper("_ZN13b2DynamicTree15RebuildBottomUpEv");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree11ShiftOriginERK6b2Vec2 = Module["__ZN13b2DynamicTree11ShiftOriginERK6b2Vec2"] = createExportWrapper("_ZN13b2DynamicTree11ShiftOriginERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN11b2EdgeShape11SetOneSidedERK6b2Vec2S2_S2_S2_ = Module["__ZN11b2EdgeShape11SetOneSidedERK6b2Vec2S2_S2_S2_"] = createExportWrapper("_ZN11b2EdgeShape11SetOneSidedERK6b2Vec2S2_S2_S2_");
+
+/** @type {function(...*):?} */
+var __ZN11b2EdgeShape11SetTwoSidedERK6b2Vec2S2_ = Module["__ZN11b2EdgeShape11SetTwoSidedERK6b2Vec2S2_"] = createExportWrapper("_ZN11b2EdgeShape11SetTwoSidedERK6b2Vec2S2_");
+
+/** @type {function(...*):?} */
+var __ZNK11b2EdgeShape5CloneEP16b2BlockAllocator = Module["__ZNK11b2EdgeShape5CloneEP16b2BlockAllocator"] = createExportWrapper("_ZNK11b2EdgeShape5CloneEP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN11b2EdgeShapeaSERKS_ = Module["__ZN11b2EdgeShapeaSERKS_"] = createExportWrapper("_ZN11b2EdgeShapeaSERKS_");
+
+/** @type {function(...*):?} */
+var __ZNK11b2EdgeShape13GetChildCountEv = Module["__ZNK11b2EdgeShape13GetChildCountEv"] = createExportWrapper("_ZNK11b2EdgeShape13GetChildCountEv");
+
+/** @type {function(...*):?} */
+var __ZNK11b2EdgeShape9TestPointERK11b2TransformRK6b2Vec2 = Module["__ZNK11b2EdgeShape9TestPointERK11b2TransformRK6b2Vec2"] = createExportWrapper("_ZNK11b2EdgeShape9TestPointERK11b2TransformRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK11b2EdgeShape11ComputeAABBEP6b2AABBRK11b2Transformi = Module["__ZNK11b2EdgeShape11ComputeAABBEP6b2AABBRK11b2Transformi"] = createExportWrapper("_ZNK11b2EdgeShape11ComputeAABBEP6b2AABBRK11b2Transformi");
+
+/** @type {function(...*):?} */
+var __ZNK11b2EdgeShape11ComputeMassEP10b2MassDataf = Module["__ZNK11b2EdgeShape11ComputeMassEP10b2MassDataf"] = createExportWrapper("_ZNK11b2EdgeShape11ComputeMassEP10b2MassDataf");
+
+/** @type {function(...*):?} */
+var __ZN11b2EdgeShapeD0Ev = Module["__ZN11b2EdgeShapeD0Ev"] = createExportWrapper("_ZN11b2EdgeShapeD0Ev");
+
+/** @type {function(...*):?} */
+var __ZNK14b2PolygonShape5CloneEP16b2BlockAllocator = Module["__ZNK14b2PolygonShape5CloneEP16b2BlockAllocator"] = createExportWrapper("_ZNK14b2PolygonShape5CloneEP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN14b2PolygonShapeaSERKS_ = Module["__ZN14b2PolygonShapeaSERKS_"] = createExportWrapper("_ZN14b2PolygonShapeaSERKS_");
+
+/** @type {function(...*):?} */
+var __ZN14b2PolygonShape8SetAsBoxEffRK6b2Vec2f = Module["__ZN14b2PolygonShape8SetAsBoxEffRK6b2Vec2f"] = createExportWrapper("_ZN14b2PolygonShape8SetAsBoxEffRK6b2Vec2f");
+
+/** @type {function(...*):?} */
+var __ZN5b2Rot3SetEf = Module["__ZN5b2Rot3SetEf"] = createExportWrapper("_ZN5b2Rot3SetEf");
+
+/** @type {function(...*):?} */
+var __ZNK14b2PolygonShape13GetChildCountEv = Module["__ZNK14b2PolygonShape13GetChildCountEv"] = createExportWrapper("_ZNK14b2PolygonShape13GetChildCountEv");
+
+/** @type {function(...*):?} */
+var __ZN14b2PolygonShape3SetEPK6b2Vec2i = Module["__ZN14b2PolygonShape3SetEPK6b2Vec2i"] = createExportWrapper("_ZN14b2PolygonShape3SetEPK6b2Vec2i");
+
+/** @type {function(...*):?} */
+var __ZNK14b2PolygonShape9TestPointERK11b2TransformRK6b2Vec2 = Module["__ZNK14b2PolygonShape9TestPointERK11b2TransformRK6b2Vec2"] = createExportWrapper("_ZNK14b2PolygonShape9TestPointERK11b2TransformRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK14b2PolygonShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi = Module["__ZNK14b2PolygonShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi"] = createExportWrapper("_ZNK14b2PolygonShape7RayCastEP15b2RayCastOutputRK14b2RayCastInputRK11b2Transformi");
+
+/** @type {function(...*):?} */
+var __ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK11b2Transformi = Module["__ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK11b2Transformi"] = createExportWrapper("_ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK11b2Transformi");
+
+/** @type {function(...*):?} */
+var __ZNK14b2PolygonShape11ComputeMassEP10b2MassDataf = Module["__ZNK14b2PolygonShape11ComputeMassEP10b2MassDataf"] = createExportWrapper("_ZNK14b2PolygonShape11ComputeMassEP10b2MassDataf");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec2mLEf = Module["__ZN6b2Vec2mLEf"] = createExportWrapper("_ZN6b2Vec2mLEf");
+
+/** @type {function(...*):?} */
+var __ZNK14b2PolygonShape8ValidateEv = Module["__ZNK14b2PolygonShape8ValidateEv"] = createExportWrapper("_ZNK14b2PolygonShape8ValidateEv");
+
+/** @type {function(...*):?} */
+var __ZN14b2PolygonShapeD0Ev = Module["__ZN14b2PolygonShapeD0Ev"] = createExportWrapper("_ZN14b2PolygonShapeD0Ev");
+
+/** @type {function(...*):?} */
+var __Z14b2TimeOfImpactP11b2TOIOutputPK10b2TOIInput = Module["__Z14b2TimeOfImpactP11b2TOIOutputPK10b2TOIInput"] = createExportWrapper("_Z14b2TimeOfImpactP11b2TOIOutputPK10b2TOIInput");
+
+/** @type {function(...*):?} */
+var __ZN7b2TimerC1Ev = Module["__ZN7b2TimerC1Ev"] = createExportWrapper("_ZN7b2TimerC1Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2Sweep9NormalizeEv = Module["__ZN7b2Sweep9NormalizeEv"] = createExportWrapper("_ZN7b2Sweep9NormalizeEv");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Sweep12GetTransformEP11b2Transformf = Module["__ZNK7b2Sweep12GetTransformEP11b2Transformf"] = createExportWrapper("_ZNK7b2Sweep12GetTransformEP11b2Transformf");
+
+/** @type {function(...*):?} */
+var __ZN20b2SeparationFunctionC2Ev = Module["__ZN20b2SeparationFunctionC2Ev"] = createExportWrapper("_ZN20b2SeparationFunctionC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN20b2SeparationFunction10InitializeEPK14b2SimplexCachePK15b2DistanceProxyRK7b2SweepS5_S8_f = Module["__ZN20b2SeparationFunction10InitializeEPK14b2SimplexCachePK15b2DistanceProxyRK7b2SweepS5_S8_f"] = createExportWrapper("_ZN20b2SeparationFunction10InitializeEPK14b2SimplexCachePK15b2DistanceProxyRK7b2SweepS5_S8_f");
+
+/** @type {function(...*):?} */
+var __ZNK20b2SeparationFunction17FindMinSeparationEPiS0_f = Module["__ZNK20b2SeparationFunction17FindMinSeparationEPiS0_f"] = createExportWrapper("_ZNK20b2SeparationFunction17FindMinSeparationEPiS0_f");
+
+/** @type {function(...*):?} */
+var __ZNK20b2SeparationFunction8EvaluateEiif = Module["__ZNK20b2SeparationFunction8EvaluateEiif"] = createExportWrapper("_ZNK20b2SeparationFunction8EvaluateEiif");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Timer15GetMillisecondsEv = Module["__ZNK7b2Timer15GetMillisecondsEv"] = createExportWrapper("_ZNK7b2Timer15GetMillisecondsEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2SweepC2Ev = Module["__ZN7b2SweepC2Ev"] = createExportWrapper("_ZN7b2SweepC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2SizeMapC2Ev = Module["__ZN9b2SizeMapC2Ev"] = createExportWrapper("_ZN9b2SizeMapC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2BlockAllocatorC2Ev = Module["__ZN16b2BlockAllocatorC2Ev"] = createExportWrapper("_ZN16b2BlockAllocatorC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2BlockAllocatorD2Ev = Module["__ZN16b2BlockAllocatorD2Ev"] = createExportWrapper("_ZN16b2BlockAllocatorD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2BlockAllocator4FreeEPvi = Module["__ZN16b2BlockAllocator4FreeEPvi"] = createExportWrapper("_ZN16b2BlockAllocator4FreeEPvi");
+
+/** @type {function(...*):?} */
+var __ZN16b2BlockAllocator5ClearEv = Module["__ZN16b2BlockAllocator5ClearEv"] = createExportWrapper("_ZN16b2BlockAllocator5ClearEv");
+
+/** @type {function(...*):?} */
+var __ZN16b2BlockAllocatorC1Ev = Module["__ZN16b2BlockAllocatorC1Ev"] = createExportWrapper("_ZN16b2BlockAllocatorC1Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2BlockAllocatorD1Ev = Module["__ZN16b2BlockAllocatorD1Ev"] = createExportWrapper("_ZN16b2BlockAllocatorD1Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2DrawC2Ev = Module["__ZN6b2DrawC2Ev"] = createExportWrapper("_ZN6b2DrawC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Draw8SetFlagsEj = Module["__ZN6b2Draw8SetFlagsEj"] = createExportWrapper("_ZN6b2Draw8SetFlagsEj");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Draw8GetFlagsEv = Module["__ZNK6b2Draw8GetFlagsEv"] = createExportWrapper("_ZNK6b2Draw8GetFlagsEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Draw11AppendFlagsEj = Module["__ZN6b2Draw11AppendFlagsEj"] = createExportWrapper("_ZN6b2Draw11AppendFlagsEj");
+
+/** @type {function(...*):?} */
+var __ZN6b2Draw10ClearFlagsEj = Module["__ZN6b2Draw10ClearFlagsEj"] = createExportWrapper("_ZN6b2Draw10ClearFlagsEj");
+
+/** @type {function(...*):?} */
+var __ZN6b2DrawD2Ev = Module["__ZN6b2DrawD2Ev"] = createExportWrapper("_ZN6b2DrawD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2DrawD0Ev = Module["__ZN6b2DrawD0Ev"] = createExportWrapper("_ZN6b2DrawD0Ev");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Mat337Solve33ERK6b2Vec3 = Module["__ZNK7b2Mat337Solve33ERK6b2Vec3"] = createExportWrapper("_ZNK7b2Mat337Solve33ERK6b2Vec3");
+
+/** @type {function(...*):?} */
+var __Z7b2CrossRK6b2Vec3S1_ = Module["__Z7b2CrossRK6b2Vec3S1_"] = createExportWrapper("_Z7b2CrossRK6b2Vec3S1_");
+
+/** @type {function(...*):?} */
+var __Z5b2DotRK6b2Vec3S1_ = Module["__Z5b2DotRK6b2Vec3S1_"] = createExportWrapper("_Z5b2DotRK6b2Vec3S1_");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec3C2Ev = Module["__ZN6b2Vec3C2Ev"] = createExportWrapper("_ZN6b2Vec3C2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec3C2Efff = Module["__ZN6b2Vec3C2Efff"] = createExportWrapper("_ZN6b2Vec3C2Efff");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Mat337Solve22ERK6b2Vec2 = Module["__ZNK7b2Mat337Solve22ERK6b2Vec2"] = createExportWrapper("_ZNK7b2Mat337Solve22ERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Mat3312GetInverse22EPS_ = Module["__ZNK7b2Mat3312GetInverse22EPS_"] = createExportWrapper("_ZNK7b2Mat3312GetInverse22EPS_");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Mat3315GetSymInverse33EPS_ = Module["__ZNK7b2Mat3315GetSymInverse33EPS_"] = createExportWrapper("_ZNK7b2Mat3315GetSymInverse33EPS_");
+
+/** @type {function(...*):?} */
+var __Z13b2Log_DefaultPKcPv = Module["__Z13b2Log_DefaultPKcPv"] = createExportWrapper("_Z13b2Log_DefaultPKcPv");
+
+/** @type {function(...*):?} */
+var _vprintf = Module["_vprintf"] = createExportWrapper("vprintf");
+
+/** @type {function(...*):?} */
+var __Z10b2OpenDumpPKc = Module["__Z10b2OpenDumpPKc"] = createExportWrapper("_Z10b2OpenDumpPKc");
+
+/** @type {function(...*):?} */
+var __Z6b2DumpPKcz = Module["__Z6b2DumpPKcz"] = createExportWrapper("_Z6b2DumpPKcz");
+
+/** @type {function(...*):?} */
+var _vfprintf = Module["_vfprintf"] = createExportWrapper("vfprintf");
+
+/** @type {function(...*):?} */
+var __Z11b2CloseDumpv = Module["__Z11b2CloseDumpv"] = createExportWrapper("_Z11b2CloseDumpv");
+
+/** @type {function(...*):?} */
+var __ZN16b2StackAllocatorC2Ev = Module["__ZN16b2StackAllocatorC2Ev"] = createExportWrapper("_ZN16b2StackAllocatorC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2StackAllocatorD2Ev = Module["__ZN16b2StackAllocatorD2Ev"] = createExportWrapper("_ZN16b2StackAllocatorD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2StackAllocator8AllocateEi = Module["__ZN16b2StackAllocator8AllocateEi"] = createExportWrapper("_ZN16b2StackAllocator8AllocateEi");
+
+/** @type {function(...*):?} */
+var __ZN16b2StackAllocator4FreeEPv = Module["__ZN16b2StackAllocator4FreeEPv"] = createExportWrapper("_ZN16b2StackAllocator4FreeEPv");
+
+/** @type {function(...*):?} */
+var __ZNK16b2StackAllocator16GetMaxAllocationEv = Module["__ZNK16b2StackAllocator16GetMaxAllocationEv"] = createExportWrapper("_ZNK16b2StackAllocator16GetMaxAllocationEv");
+
+/** @type {function(...*):?} */
+var __ZN16b2StackAllocatorC1Ev = Module["__ZN16b2StackAllocatorC1Ev"] = createExportWrapper("_ZN16b2StackAllocatorC1Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2StackAllocatorD1Ev = Module["__ZN16b2StackAllocatorD1Ev"] = createExportWrapper("_ZN16b2StackAllocatorD1Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2TimerC2Ev = Module["__ZN7b2TimerC2Ev"] = createExportWrapper("_ZN7b2TimerC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2Timer5ResetEv = Module["__ZN7b2Timer5ResetEv"] = createExportWrapper("_ZN7b2Timer5ResetEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2BodyC2EPK9b2BodyDefP7b2World = Module["__ZN6b2BodyC2EPK9b2BodyDefP7b2World"] = createExportWrapper("_ZN6b2BodyC2EPK9b2BodyDefP7b2World");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Vec27IsValidEv = Module["__ZNK6b2Vec27IsValidEv"] = createExportWrapper("_ZNK6b2Vec27IsValidEv");
+
+/** @type {function(...*):?} */
+var __Z9b2IsValidf = Module["__Z9b2IsValidf"] = createExportWrapper("_Z9b2IsValidf");
+
+/** @type {function(...*):?} */
+var __Z8isfiniteIfENSt3__29enable_ifIXaasr3std13is_arithmeticIT_EE5valuesr3std14numeric_limitsIS2_EE12has_infinityEbE4typeES2_ = Module["__Z8isfiniteIfENSt3__29enable_ifIXaasr3std13is_arithmeticIT_EE5valuesr3std14numeric_limitsIS2_EE12has_infinityEbE4typeES2_"] = createExportWrapper("_Z8isfiniteIfENSt3__29enable_ifIXaasr3std13is_arithmeticIT_EE5valuesr3std14numeric_limitsIS2_EE12has_infinityEbE4typeES2_");
+
+/** @type {function(...*):?} */
+var __ZN6b2BodyD2Ev = Module["__ZN6b2BodyD2Ev"] = createExportWrapper("_ZN6b2BodyD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body7SetTypeE10b2BodyType = Module["__ZN6b2Body7SetTypeE10b2BodyType"] = createExportWrapper("_ZN6b2Body7SetTypeE10b2BodyType");
+
+/** @type {function(...*):?} */
+var __ZNK7b2World8IsLockedEv = Module["__ZNK7b2World8IsLockedEv"] = createExportWrapper("_ZNK7b2World8IsLockedEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body13ResetMassDataEv = Module["__ZN6b2Body13ResetMassDataEv"] = createExportWrapper("_ZN6b2Body13ResetMassDataEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body19SynchronizeFixturesEv = Module["__ZN6b2Body19SynchronizeFixturesEv"] = createExportWrapper("_ZN6b2Body19SynchronizeFixturesEv");
+
+/** @type {function(...*):?} */
+var __ZN16b2ContactManager7DestroyEP9b2Contact = Module["__ZN16b2ContactManager7DestroyEP9b2Contact"] = createExportWrapper("_ZN16b2ContactManager7DestroyEP9b2Contact");
+
+/** @type {function(...*):?} */
+var __ZN10b2MassDataC2Ev = Module["__ZN10b2MassDataC2Ev"] = createExportWrapper("_ZN10b2MassDataC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Fixture11GetMassDataEP10b2MassData = Module["__ZNK9b2Fixture11GetMassDataEP10b2MassData"] = createExportWrapper("_ZNK9b2Fixture11GetMassDataEP10b2MassData");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture11SynchronizeEP12b2BroadPhaseRK11b2TransformS4_ = Module["__ZN9b2Fixture11SynchronizeEP12b2BroadPhaseRK11b2TransformS4_"] = createExportWrapper("_ZN9b2Fixture11SynchronizeEP12b2BroadPhaseRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN9b2FixtureC1Ev = Module["__ZN9b2FixtureC1Ev"] = createExportWrapper("_ZN9b2FixtureC1Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture6CreateEP16b2BlockAllocatorP6b2BodyPK12b2FixtureDef = Module["__ZN9b2Fixture6CreateEP16b2BlockAllocatorP6b2BodyPK12b2FixtureDef"] = createExportWrapper("_ZN9b2Fixture6CreateEP16b2BlockAllocatorP6b2BodyPK12b2FixtureDef");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture13CreateProxiesEP12b2BroadPhaseRK11b2Transform = Module["__ZN9b2Fixture13CreateProxiesEP12b2BroadPhaseRK11b2Transform"] = createExportWrapper("_ZN9b2Fixture13CreateProxiesEP12b2BroadPhaseRK11b2Transform");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body13CreateFixtureEPK7b2Shapef = Module["__ZN6b2Body13CreateFixtureEPK7b2Shapef"] = createExportWrapper("_ZN6b2Body13CreateFixtureEPK7b2Shapef");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body14DestroyFixtureEP9b2Fixture = Module["__ZN6b2Body14DestroyFixtureEP9b2Fixture"] = createExportWrapper("_ZN6b2Body14DestroyFixtureEP9b2Fixture");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact11GetFixtureAEv = Module["__ZN9b2Contact11GetFixtureAEv"] = createExportWrapper("_ZN9b2Contact11GetFixtureAEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact11GetFixtureBEv = Module["__ZN9b2Contact11GetFixtureBEv"] = createExportWrapper("_ZN9b2Contact11GetFixtureBEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture14DestroyProxiesEP12b2BroadPhase = Module["__ZN9b2Fixture14DestroyProxiesEP12b2BroadPhase"] = createExportWrapper("_ZN9b2Fixture14DestroyProxiesEP12b2BroadPhase");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture7DestroyEP16b2BlockAllocator = Module["__ZN9b2Fixture7DestroyEP16b2BlockAllocator"] = createExportWrapper("_ZN9b2Fixture7DestroyEP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body11SetMassDataEPK10b2MassData = Module["__ZN6b2Body11SetMassDataEPK10b2MassData"] = createExportWrapper("_ZN6b2Body11SetMassDataEPK10b2MassData");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body13ShouldCollideEPKS_ = Module["__ZNK6b2Body13ShouldCollideEPKS_"] = createExportWrapper("_ZNK6b2Body13ShouldCollideEPKS_");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body10SetEnabledEb = Module["__ZN6b2Body10SetEnabledEb"] = createExportWrapper("_ZN6b2Body10SetEnabledEb");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body9IsEnabledEv = Module["__ZNK6b2Body9IsEnabledEv"] = createExportWrapper("_ZNK6b2Body9IsEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body16SetFixedRotationEb = Module["__ZN6b2Body16SetFixedRotationEb"] = createExportWrapper("_ZN6b2Body16SetFixedRotationEb");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body4DumpEv = Module["__ZN6b2Body4DumpEv"] = createExportWrapper("_ZN6b2Body4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture4DumpEi = Module["__ZN9b2Fixture4DumpEi"] = createExportWrapper("_ZN9b2Fixture4DumpEi");
+
+/** @type {function(...*):?} */
+var __Z17__libcpp_isfiniteIfEbT_ = Module["__Z17__libcpp_isfiniteIfEbT_"] = createExportWrapper("_Z17__libcpp_isfiniteIfEbT_");
+
+/** @type {function(...*):?} */
+var __ZN6b2BodyC1EPK9b2BodyDefP7b2World = Module["__ZN6b2BodyC1EPK9b2BodyDefP7b2World"] = createExportWrapper("_ZN6b2BodyC1EPK9b2BodyDefP7b2World");
+
+/** @type {function(...*):?} */
+var __ZN6b2BodyD1Ev = Module["__ZN6b2BodyD1Ev"] = createExportWrapper("_ZN6b2BodyD1Ev");
+
+/** @type {function(...*):?} */
+var __ZN23b2ChainAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator = Module["__ZN23b2ChainAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator"] = createExportWrapper("_ZN23b2ChainAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN23b2ChainAndCircleContactC1EP9b2FixtureiS1_i = Module["__ZN23b2ChainAndCircleContactC1EP9b2FixtureiS1_i"] = createExportWrapper("_ZN23b2ChainAndCircleContactC1EP9b2FixtureiS1_i");
+
+/** @type {function(...*):?} */
+var __ZN23b2ChainAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator = Module["__ZN23b2ChainAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator"] = createExportWrapper("_ZN23b2ChainAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN23b2ChainAndCircleContactC2EP9b2FixtureiS1_i = Module["__ZN23b2ChainAndCircleContactC2EP9b2FixtureiS1_i"] = createExportWrapper("_ZN23b2ChainAndCircleContactC2EP9b2FixtureiS1_i");
+
+/** @type {function(...*):?} */
+var __ZN9b2ContactC2EP9b2FixtureiS1_i = Module["__ZN9b2ContactC2EP9b2FixtureiS1_i"] = createExportWrapper("_ZN9b2ContactC2EP9b2FixtureiS1_i");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Fixture7GetTypeEv = Module["__ZNK9b2Fixture7GetTypeEv"] = createExportWrapper("_ZNK9b2Fixture7GetTypeEv");
+
+/** @type {function(...*):?} */
+var __ZN23b2ChainAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_ = Module["__ZN23b2ChainAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_"] = createExportWrapper("_ZN23b2ChainAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture8GetShapeEv = Module["__ZN9b2Fixture8GetShapeEv"] = createExportWrapper("_ZN9b2Fixture8GetShapeEv");
+
+/** @type {function(...*):?} */
+var __ZN23b2ChainAndCircleContactD2Ev = Module["__ZN23b2ChainAndCircleContactD2Ev"] = createExportWrapper("_ZN23b2ChainAndCircleContactD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2ContactD2Ev = Module["__ZN9b2ContactD2Ev"] = createExportWrapper("_ZN9b2ContactD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN23b2ChainAndCircleContactD0Ev = Module["__ZN23b2ChainAndCircleContactD0Ev"] = createExportWrapper("_ZN23b2ChainAndCircleContactD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN24b2ChainAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator = Module["__ZN24b2ChainAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator"] = createExportWrapper("_ZN24b2ChainAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN24b2ChainAndPolygonContactC1EP9b2FixtureiS1_i = Module["__ZN24b2ChainAndPolygonContactC1EP9b2FixtureiS1_i"] = createExportWrapper("_ZN24b2ChainAndPolygonContactC1EP9b2FixtureiS1_i");
+
+/** @type {function(...*):?} */
+var __ZN24b2ChainAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator = Module["__ZN24b2ChainAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator"] = createExportWrapper("_ZN24b2ChainAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN24b2ChainAndPolygonContactC2EP9b2FixtureiS1_i = Module["__ZN24b2ChainAndPolygonContactC2EP9b2FixtureiS1_i"] = createExportWrapper("_ZN24b2ChainAndPolygonContactC2EP9b2FixtureiS1_i");
+
+/** @type {function(...*):?} */
+var __ZN24b2ChainAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_ = Module["__ZN24b2ChainAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_"] = createExportWrapper("_ZN24b2ChainAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN24b2ChainAndPolygonContactD2Ev = Module["__ZN24b2ChainAndPolygonContactD2Ev"] = createExportWrapper("_ZN24b2ChainAndPolygonContactD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN24b2ChainAndPolygonContactD0Ev = Module["__ZN24b2ChainAndPolygonContactD0Ev"] = createExportWrapper("_ZN24b2ChainAndPolygonContactD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2CircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator = Module["__ZN15b2CircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator"] = createExportWrapper("_ZN15b2CircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN15b2CircleContactC1EP9b2FixtureS1_ = Module["__ZN15b2CircleContactC1EP9b2FixtureS1_"] = createExportWrapper("_ZN15b2CircleContactC1EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator = Module["__ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator"] = createExportWrapper("_ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN15b2CircleContactC2EP9b2FixtureS1_ = Module["__ZN15b2CircleContactC2EP9b2FixtureS1_"] = createExportWrapper("_ZN15b2CircleContactC2EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN15b2CircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_ = Module["__ZN15b2CircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_"] = createExportWrapper("_ZN15b2CircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN15b2CircleContactD2Ev = Module["__ZN15b2CircleContactD2Ev"] = createExportWrapper("_ZN15b2CircleContactD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2CircleContactD0Ev = Module["__ZN15b2CircleContactD0Ev"] = createExportWrapper("_ZN15b2CircleContactD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact19InitializeRegistersEv = Module["__ZN9b2Contact19InitializeRegistersEv"] = createExportWrapper("_ZN9b2Contact19InitializeRegistersEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact7AddTypeEPFPS_P9b2FixtureiS2_iP16b2BlockAllocatorEPFvS0_S4_EN7b2Shape4TypeESA_ = Module["__ZN9b2Contact7AddTypeEPFPS_P9b2FixtureiS2_iP16b2BlockAllocatorEPFvS0_S4_EN7b2Shape4TypeESA_"] = createExportWrapper("_ZN9b2Contact7AddTypeEPFPS_P9b2FixtureiS2_iP16b2BlockAllocatorEPFvS0_S4_EN7b2Shape4TypeESA_");
+
+/** @type {function(...*):?} */
+var __ZN25b2PolygonAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator = Module["__ZN25b2PolygonAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator"] = createExportWrapper("_ZN25b2PolygonAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN25b2PolygonAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator = Module["__ZN25b2PolygonAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator"] = createExportWrapper("_ZN25b2PolygonAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator = Module["__ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator"] = createExportWrapper("_ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN16b2PolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator = Module["__ZN16b2PolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator"] = createExportWrapper("_ZN16b2PolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN22b2EdgeAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator = Module["__ZN22b2EdgeAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator"] = createExportWrapper("_ZN22b2EdgeAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN22b2EdgeAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator = Module["__ZN22b2EdgeAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator"] = createExportWrapper("_ZN22b2EdgeAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN23b2EdgeAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator = Module["__ZN23b2EdgeAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator"] = createExportWrapper("_ZN23b2EdgeAndPolygonContact7DestroyEP9b2ContactP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN23b2EdgeAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator = Module["__ZN23b2EdgeAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator"] = createExportWrapper("_ZN23b2EdgeAndPolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator = Module["__ZN9b2Contact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator"] = createExportWrapper("_ZN9b2Contact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact7DestroyEPS_P16b2BlockAllocator = Module["__ZN9b2Contact7DestroyEPS_P16b2BlockAllocator"] = createExportWrapper("_ZN9b2Contact7DestroyEPS_P16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Fixture8IsSensorEv = Module["__ZNK9b2Fixture8IsSensorEv"] = createExportWrapper("_ZNK9b2Fixture8IsSensorEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture7GetBodyEv = Module["__ZN9b2Fixture7GetBodyEv"] = createExportWrapper("_ZN9b2Fixture7GetBodyEv");
+
+/** @type {function(...*):?} */
+var __ZN10b2ManifoldC2Ev = Module["__ZN10b2ManifoldC2Ev"] = createExportWrapper("_ZN10b2ManifoldC2Ev");
+
+/** @type {function(...*):?} */
+var __Z13b2MixFrictionff = Module["__Z13b2MixFrictionff"] = createExportWrapper("_Z13b2MixFrictionff");
+
+/** @type {function(...*):?} */
+var __Z16b2MixRestitutionff = Module["__Z16b2MixRestitutionff"] = createExportWrapper("_Z16b2MixRestitutionff");
+
+/** @type {function(...*):?} */
+var __Z25b2MixRestitutionThresholdff = Module["__Z25b2MixRestitutionThresholdff"] = createExportWrapper("_Z25b2MixRestitutionThresholdff");
+
+/** @type {function(...*):?} */
+var __ZN15b2ManifoldPointC2Ev = Module["__ZN15b2ManifoldPointC2Ev"] = createExportWrapper("_ZN15b2ManifoldPointC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact6UpdateEP17b2ContactListener = Module["__ZN9b2Contact6UpdateEP17b2ContactListener"] = createExportWrapper("_ZN9b2Contact6UpdateEP17b2ContactListener");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body12GetTransformEv = Module["__ZNK6b2Body12GetTransformEv"] = createExportWrapper("_ZNK6b2Body12GetTransformEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2ContactD0Ev = Module["__ZN9b2ContactD0Ev"] = createExportWrapper("_ZN9b2ContactD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactFilterD2Ev = Module["__ZN15b2ContactFilterD2Ev"] = createExportWrapper("_ZN15b2ContactFilterD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN17b2ContactListenerD2Ev = Module["__ZN17b2ContactListenerD2Ev"] = createExportWrapper("_ZN17b2ContactListenerD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2ContactManagerC2Ev = Module["__ZN16b2ContactManagerC2Ev"] = createExportWrapper("_ZN16b2ContactManagerC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Contact10IsTouchingEv = Module["__ZNK9b2Contact10IsTouchingEv"] = createExportWrapper("_ZNK9b2Contact10IsTouchingEv");
+
+/** @type {function(...*):?} */
+var __ZN16b2ContactManager7CollideEv = Module["__ZN16b2ContactManager7CollideEv"] = createExportWrapper("_ZN16b2ContactManager7CollideEv");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Contact14GetChildIndexAEv = Module["__ZNK9b2Contact14GetChildIndexAEv"] = createExportWrapper("_ZNK9b2Contact14GetChildIndexAEv");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Contact14GetChildIndexBEv = Module["__ZNK9b2Contact14GetChildIndexBEv"] = createExportWrapper("_ZNK9b2Contact14GetChildIndexBEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact7GetNextEv = Module["__ZN9b2Contact7GetNextEv"] = createExportWrapper("_ZN9b2Contact7GetNextEv");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body7IsAwakeEv = Module["__ZNK6b2Body7IsAwakeEv"] = createExportWrapper("_ZNK6b2Body7IsAwakeEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase11TestOverlapEii = Module["__ZNK12b2BroadPhase11TestOverlapEii"] = createExportWrapper("_ZNK12b2BroadPhase11TestOverlapEii");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree10GetFatAABBEi = Module["__ZNK13b2DynamicTree10GetFatAABBEi"] = createExportWrapper("_ZNK13b2DynamicTree10GetFatAABBEi");
+
+/** @type {function(...*):?} */
+var __Z13b2TestOverlapRK6b2AABBS1_ = Module["__Z13b2TestOverlapRK6b2AABBS1_"] = createExportWrapper("_Z13b2TestOverlapRK6b2AABBS1_");
+
+/** @type {function(...*):?} */
+var __ZN16b2ContactManager15FindNewContactsEv = Module["__ZN16b2ContactManager15FindNewContactsEv"] = createExportWrapper("_ZN16b2ContactManager15FindNewContactsEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase11UpdatePairsI16b2ContactManagerEEvPT_ = Module["__ZN12b2BroadPhase11UpdatePairsI16b2ContactManagerEEvPT_"] = createExportWrapper("_ZN12b2BroadPhase11UpdatePairsI16b2ContactManagerEEvPT_");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree5QueryI12b2BroadPhaseEEvPT_RK6b2AABB = Module["__ZNK13b2DynamicTree5QueryI12b2BroadPhaseEEvPT_RK6b2AABB"] = createExportWrapper("_ZNK13b2DynamicTree5QueryI12b2BroadPhaseEEvPT_RK6b2AABB");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree11GetUserDataEi = Module["__ZNK13b2DynamicTree11GetUserDataEi"] = createExportWrapper("_ZNK13b2DynamicTree11GetUserDataEi");
+
+/** @type {function(...*):?} */
+var __ZN16b2ContactManager7AddPairEPvS0_ = Module["__ZN16b2ContactManager7AddPairEPvS0_"] = createExportWrapper("_ZN16b2ContactManager7AddPairEPvS0_");
+
+/** @type {function(...*):?} */
+var __ZN13b2DynamicTree10ClearMovedEi = Module["__ZN13b2DynamicTree10ClearMovedEi"] = createExportWrapper("_ZN13b2DynamicTree10ClearMovedEi");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body14GetContactListEv = Module["__ZN6b2Body14GetContactListEv"] = createExportWrapper("_ZN6b2Body14GetContactListEv");
+
+/** @type {function(...*):?} */
+var __ZN17b2ContactListenerD0Ev = Module["__ZN17b2ContactListenerD0Ev"] = createExportWrapper("_ZN17b2ContactListenerD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN17b2ContactListener12BeginContactEP9b2Contact = Module["__ZN17b2ContactListener12BeginContactEP9b2Contact"] = createExportWrapper("_ZN17b2ContactListener12BeginContactEP9b2Contact");
+
+/** @type {function(...*):?} */
+var __ZN17b2ContactListener10EndContactEP9b2Contact = Module["__ZN17b2ContactListener10EndContactEP9b2Contact"] = createExportWrapper("_ZN17b2ContactListener10EndContactEP9b2Contact");
+
+/** @type {function(...*):?} */
+var __ZN17b2ContactListener8PreSolveEP9b2ContactPK10b2Manifold = Module["__ZN17b2ContactListener8PreSolveEP9b2ContactPK10b2Manifold"] = createExportWrapper("_ZN17b2ContactListener8PreSolveEP9b2ContactPK10b2Manifold");
+
+/** @type {function(...*):?} */
+var __ZN17b2ContactListener9PostSolveEP9b2ContactPK16b2ContactImpulse = Module["__ZN17b2ContactListener9PostSolveEP9b2ContactPK16b2ContactImpulse"] = createExportWrapper("_ZN17b2ContactListener9PostSolveEP9b2ContactPK16b2ContactImpulse");
+
+/** @type {function(...*):?} */
+var __ZN15b2GrowableStackIiLi256EEC2Ev = Module["__ZN15b2GrowableStackIiLi256EEC2Ev"] = createExportWrapper("_ZN15b2GrowableStackIiLi256EEC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2GrowableStackIiLi256EE4PushERKi = Module["__ZN15b2GrowableStackIiLi256EE4PushERKi"] = createExportWrapper("_ZN15b2GrowableStackIiLi256EE4PushERKi");
+
+/** @type {function(...*):?} */
+var __ZN15b2GrowableStackIiLi256EE8GetCountEv = Module["__ZN15b2GrowableStackIiLi256EE8GetCountEv"] = createExportWrapper("_ZN15b2GrowableStackIiLi256EE8GetCountEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2GrowableStackIiLi256EE3PopEv = Module["__ZN15b2GrowableStackIiLi256EE3PopEv"] = createExportWrapper("_ZN15b2GrowableStackIiLi256EE3PopEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2GrowableStackIiLi256EED2Ev = Module["__ZN15b2GrowableStackIiLi256EED2Ev"] = createExportWrapper("_ZN15b2GrowableStackIiLi256EED2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2ContactManagerC1Ev = Module["__ZN16b2ContactManagerC1Ev"] = createExportWrapper("_ZN16b2ContactManagerC1Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolverC2EP18b2ContactSolverDef = Module["__ZN15b2ContactSolverC2EP18b2ContactSolverDef"] = createExportWrapper("_ZN15b2ContactSolverC2EP18b2ContactSolverDef");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact11GetManifoldEv = Module["__ZN9b2Contact11GetManifoldEv"] = createExportWrapper("_ZN9b2Contact11GetManifoldEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2Mat227SetZeroEv = Module["__ZN7b2Mat227SetZeroEv"] = createExportWrapper("_ZN7b2Mat227SetZeroEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolverD2Ev = Module["__ZN15b2ContactSolverD2Ev"] = createExportWrapper("_ZN15b2ContactSolverD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolver29InitializeVelocityConstraintsEv = Module["__ZN15b2ContactSolver29InitializeVelocityConstraintsEv"] = createExportWrapper("_ZN15b2ContactSolver29InitializeVelocityConstraintsEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2WorldManifoldC2Ev = Module["__ZN15b2WorldManifoldC2Ev"] = createExportWrapper("_ZN15b2WorldManifoldC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Mat2210GetInverseEv = Module["__ZNK7b2Mat2210GetInverseEv"] = createExportWrapper("_ZNK7b2Mat2210GetInverseEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2Mat22C2Ev = Module["__ZN7b2Mat22C2Ev"] = createExportWrapper("_ZN7b2Mat22C2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolver9WarmStartEv = Module["__ZN15b2ContactSolver9WarmStartEv"] = createExportWrapper("_ZN15b2ContactSolver9WarmStartEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolver24SolveVelocityConstraintsEv = Module["__ZN15b2ContactSolver24SolveVelocityConstraintsEv"] = createExportWrapper("_ZN15b2ContactSolver24SolveVelocityConstraintsEv");
+
+/** @type {function(...*):?} */
+var __Z7b2ClampIfET_S0_S0_S0_ = Module["__Z7b2ClampIfET_S0_S0_S0_"] = createExportWrapper("_Z7b2ClampIfET_S0_S0_S0_");
+
+/** @type {function(...*):?} */
+var __Z5b2MulRK7b2Mat22RK6b2Vec2 = Module["__Z5b2MulRK7b2Mat22RK6b2Vec2"] = createExportWrapper("_Z5b2MulRK7b2Mat22RK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolver13StoreImpulsesEv = Module["__ZN15b2ContactSolver13StoreImpulsesEv"] = createExportWrapper("_ZN15b2ContactSolver13StoreImpulsesEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolver24SolvePositionConstraintsEv = Module["__ZN15b2ContactSolver24SolvePositionConstraintsEv"] = createExportWrapper("_ZN15b2ContactSolver24SolvePositionConstraintsEv");
+
+/** @type {function(...*):?} */
+var __ZN24b2PositionSolverManifoldC2Ev = Module["__ZN24b2PositionSolverManifoldC2Ev"] = createExportWrapper("_ZN24b2PositionSolverManifoldC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN24b2PositionSolverManifold10InitializeEP27b2ContactPositionConstraintRK11b2TransformS4_i = Module["__ZN24b2PositionSolverManifold10InitializeEP27b2ContactPositionConstraintRK11b2TransformS4_i"] = createExportWrapper("_ZN24b2PositionSolverManifold10InitializeEP27b2ContactPositionConstraintRK11b2TransformS4_i");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolver27SolveTOIPositionConstraintsEii = Module["__ZN15b2ContactSolver27SolveTOIPositionConstraintsEii"] = createExportWrapper("_ZN15b2ContactSolver27SolveTOIPositionConstraintsEii");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolverC1EP18b2ContactSolverDef = Module["__ZN15b2ContactSolverC1EP18b2ContactSolverDef"] = createExportWrapper("_ZN15b2ContactSolverC1EP18b2ContactSolverDef");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactSolverD1Ev = Module["__ZN15b2ContactSolverD1Ev"] = createExportWrapper("_ZN15b2ContactSolverD1Ev");
+
+/** @type {function(...*):?} */
+var __ZN18b2DistanceJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_ = Module["__ZN18b2DistanceJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_"] = createExportWrapper("_ZN18b2DistanceJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body13GetLocalPointERK6b2Vec2 = Module["__ZNK6b2Body13GetLocalPointERK6b2Vec2"] = createExportWrapper("_ZNK6b2Body13GetLocalPointERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJointC2EPK18b2DistanceJointDef = Module["__ZN15b2DistanceJointC2EPK18b2DistanceJointDef"] = createExportWrapper("_ZN15b2DistanceJointC2EPK18b2DistanceJointDef");
+
+/** @type {function(...*):?} */
+var __ZN7b2JointC2EPK10b2JointDef = Module["__ZN7b2JointC2EPK10b2JointDef"] = createExportWrapper("_ZN7b2JointC2EPK10b2JointDef");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN5b2RotC2Ef = Module["__ZN5b2RotC2Ef"] = createExportWrapper("_ZN5b2RotC2Ef");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN15b2DistanceJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2DistanceJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK15b2DistanceJoint10GetAnchorAEv = Module["__ZNK15b2DistanceJoint10GetAnchorAEv"] = createExportWrapper("_ZNK15b2DistanceJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body13GetWorldPointERK6b2Vec2 = Module["__ZNK6b2Body13GetWorldPointERK6b2Vec2"] = createExportWrapper("_ZNK6b2Body13GetWorldPointERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK15b2DistanceJoint10GetAnchorBEv = Module["__ZNK15b2DistanceJoint10GetAnchorBEv"] = createExportWrapper("_ZNK15b2DistanceJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2DistanceJoint16GetReactionForceEf = Module["__ZNK15b2DistanceJoint16GetReactionForceEf"] = createExportWrapper("_ZNK15b2DistanceJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK15b2DistanceJoint17GetReactionTorqueEf = Module["__ZNK15b2DistanceJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK15b2DistanceJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJoint9SetLengthEf = Module["__ZN15b2DistanceJoint9SetLengthEf"] = createExportWrapper("_ZN15b2DistanceJoint9SetLengthEf");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJoint12SetMinLengthEf = Module["__ZN15b2DistanceJoint12SetMinLengthEf"] = createExportWrapper("_ZN15b2DistanceJoint12SetMinLengthEf");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJoint12SetMaxLengthEf = Module["__ZN15b2DistanceJoint12SetMaxLengthEf"] = createExportWrapper("_ZN15b2DistanceJoint12SetMaxLengthEf");
+
+/** @type {function(...*):?} */
+var __ZNK15b2DistanceJoint16GetCurrentLengthEv = Module["__ZNK15b2DistanceJoint16GetCurrentLengthEv"] = createExportWrapper("_ZNK15b2DistanceJoint16GetCurrentLengthEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJoint4DumpEv = Module["__ZN15b2DistanceJoint4DumpEv"] = createExportWrapper("_ZN15b2DistanceJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2DistanceJoint4DrawEP6b2Draw = Module["__ZNK15b2DistanceJoint4DrawEP6b2Draw"] = createExportWrapper("_ZNK15b2DistanceJoint4DrawEP6b2Draw");
+
+/** @type {function(...*):?} */
+var __ZN7b2ColorC2Effff = Module["__ZN7b2ColorC2Effff"] = createExportWrapper("_ZN7b2ColorC2Effff");
+
+/** @type {function(...*):?} */
+var __ZN7b2Joint11ShiftOriginERK6b2Vec2 = Module["__ZN7b2Joint11ShiftOriginERK6b2Vec2"] = createExportWrapper("_ZN7b2Joint11ShiftOriginERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJointD2Ev = Module["__ZN15b2DistanceJointD2Ev"] = createExportWrapper("_ZN15b2DistanceJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2JointD2Ev = Module["__ZN7b2JointD2Ev"] = createExportWrapper("_ZN7b2JointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJointD0Ev = Module["__ZN15b2DistanceJointD0Ev"] = createExportWrapper("_ZN15b2DistanceJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2DistanceJointC1EPK18b2DistanceJointDef = Module["__ZN15b2DistanceJointC1EPK18b2DistanceJointDef"] = createExportWrapper("_ZN15b2DistanceJointC1EPK18b2DistanceJointDef");
+
+/** @type {function(...*):?} */
+var __ZN22b2EdgeAndCircleContactC1EP9b2FixtureS1_ = Module["__ZN22b2EdgeAndCircleContactC1EP9b2FixtureS1_"] = createExportWrapper("_ZN22b2EdgeAndCircleContactC1EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN22b2EdgeAndCircleContactC2EP9b2FixtureS1_ = Module["__ZN22b2EdgeAndCircleContactC2EP9b2FixtureS1_"] = createExportWrapper("_ZN22b2EdgeAndCircleContactC2EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN22b2EdgeAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_ = Module["__ZN22b2EdgeAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_"] = createExportWrapper("_ZN22b2EdgeAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN22b2EdgeAndCircleContactD2Ev = Module["__ZN22b2EdgeAndCircleContactD2Ev"] = createExportWrapper("_ZN22b2EdgeAndCircleContactD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN22b2EdgeAndCircleContactD0Ev = Module["__ZN22b2EdgeAndCircleContactD0Ev"] = createExportWrapper("_ZN22b2EdgeAndCircleContactD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN23b2EdgeAndPolygonContactC1EP9b2FixtureS1_ = Module["__ZN23b2EdgeAndPolygonContactC1EP9b2FixtureS1_"] = createExportWrapper("_ZN23b2EdgeAndPolygonContactC1EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN23b2EdgeAndPolygonContactC2EP9b2FixtureS1_ = Module["__ZN23b2EdgeAndPolygonContactC2EP9b2FixtureS1_"] = createExportWrapper("_ZN23b2EdgeAndPolygonContactC2EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN23b2EdgeAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_ = Module["__ZN23b2EdgeAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_"] = createExportWrapper("_ZN23b2EdgeAndPolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN23b2EdgeAndPolygonContactD2Ev = Module["__ZN23b2EdgeAndPolygonContactD2Ev"] = createExportWrapper("_ZN23b2EdgeAndPolygonContactD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN23b2EdgeAndPolygonContactD0Ev = Module["__ZN23b2EdgeAndPolygonContactD0Ev"] = createExportWrapper("_ZN23b2EdgeAndPolygonContactD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN9b2FixtureC2Ev = Module["__ZN9b2FixtureC2Ev"] = createExportWrapper("_ZN9b2FixtureC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK6b2AABB9GetCenterEv = Module["__ZNK6b2AABB9GetCenterEv"] = createExportWrapper("_ZNK6b2AABB9GetCenterEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture13SetFilterDataERK8b2Filter = Module["__ZN9b2Fixture13SetFilterDataERK8b2Filter"] = createExportWrapper("_ZN9b2Fixture13SetFilterDataERK8b2Filter");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture8RefilterEv = Module["__ZN9b2Fixture8RefilterEv"] = createExportWrapper("_ZN9b2Fixture8RefilterEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact16FlagForFilteringEv = Module["__ZN9b2Contact16FlagForFilteringEv"] = createExportWrapper("_ZN9b2Contact16FlagForFilteringEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body8GetWorldEv = Module["__ZN6b2Body8GetWorldEv"] = createExportWrapper("_ZN6b2Body8GetWorldEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture9SetSensorEb = Module["__ZN9b2Fixture9SetSensorEb"] = createExportWrapper("_ZN9b2Fixture9SetSensorEb");
+
+/** @type {function(...*):?} */
+var __ZN18b2FrictionJointDef10InitializeEP6b2BodyS1_RK6b2Vec2 = Module["__ZN18b2FrictionJointDef10InitializeEP6b2BodyS1_RK6b2Vec2"] = createExportWrapper("_ZN18b2FrictionJointDef10InitializeEP6b2BodyS1_RK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJointC2EPK18b2FrictionJointDef = Module["__ZN15b2FrictionJointC2EPK18b2FrictionJointDef"] = createExportWrapper("_ZN15b2FrictionJointC2EPK18b2FrictionJointDef");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN15b2FrictionJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2FrictionJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN15b2FrictionJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2FrictionJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN15b2FrictionJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2FrictionJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK15b2FrictionJoint10GetAnchorAEv = Module["__ZNK15b2FrictionJoint10GetAnchorAEv"] = createExportWrapper("_ZNK15b2FrictionJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2FrictionJoint10GetAnchorBEv = Module["__ZNK15b2FrictionJoint10GetAnchorBEv"] = createExportWrapper("_ZNK15b2FrictionJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2FrictionJoint16GetReactionForceEf = Module["__ZNK15b2FrictionJoint16GetReactionForceEf"] = createExportWrapper("_ZNK15b2FrictionJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK15b2FrictionJoint17GetReactionTorqueEf = Module["__ZNK15b2FrictionJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK15b2FrictionJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJoint11SetMaxForceEf = Module["__ZN15b2FrictionJoint11SetMaxForceEf"] = createExportWrapper("_ZN15b2FrictionJoint11SetMaxForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK15b2FrictionJoint11GetMaxForceEv = Module["__ZNK15b2FrictionJoint11GetMaxForceEv"] = createExportWrapper("_ZNK15b2FrictionJoint11GetMaxForceEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJoint12SetMaxTorqueEf = Module["__ZN15b2FrictionJoint12SetMaxTorqueEf"] = createExportWrapper("_ZN15b2FrictionJoint12SetMaxTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZNK15b2FrictionJoint12GetMaxTorqueEv = Module["__ZNK15b2FrictionJoint12GetMaxTorqueEv"] = createExportWrapper("_ZNK15b2FrictionJoint12GetMaxTorqueEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJoint4DumpEv = Module["__ZN15b2FrictionJoint4DumpEv"] = createExportWrapper("_ZN15b2FrictionJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJointD2Ev = Module["__ZN15b2FrictionJointD2Ev"] = createExportWrapper("_ZN15b2FrictionJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJointD0Ev = Module["__ZN15b2FrictionJointD0Ev"] = createExportWrapper("_ZN15b2FrictionJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Joint4DrawEP6b2Draw = Module["__ZNK7b2Joint4DrawEP6b2Draw"] = createExportWrapper("_ZNK7b2Joint4DrawEP6b2Draw");
+
+/** @type {function(...*):?} */
+var __ZN15b2FrictionJointC1EPK18b2FrictionJointDef = Module["__ZN15b2FrictionJointC1EPK18b2FrictionJointDef"] = createExportWrapper("_ZN15b2FrictionJointC1EPK18b2FrictionJointDef");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJointC2EPK14b2GearJointDef = Module["__ZN11b2GearJointC2EPK14b2GearJointDef"] = createExportWrapper("_ZN11b2GearJointC2EPK14b2GearJointDef");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Joint7GetTypeEv = Module["__ZNK7b2Joint7GetTypeEv"] = createExportWrapper("_ZNK7b2Joint7GetTypeEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2Joint8GetBodyAEv = Module["__ZN7b2Joint8GetBodyAEv"] = createExportWrapper("_ZN7b2Joint8GetBodyAEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2Joint8GetBodyBEv = Module["__ZN7b2Joint8GetBodyBEv"] = createExportWrapper("_ZN7b2Joint8GetBodyBEv");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN11b2GearJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN11b2GearJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN11b2GearJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN11b2GearJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN11b2GearJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN11b2GearJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK11b2GearJoint10GetAnchorAEv = Module["__ZNK11b2GearJoint10GetAnchorAEv"] = createExportWrapper("_ZNK11b2GearJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK11b2GearJoint10GetAnchorBEv = Module["__ZNK11b2GearJoint10GetAnchorBEv"] = createExportWrapper("_ZNK11b2GearJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK11b2GearJoint16GetReactionForceEf = Module["__ZNK11b2GearJoint16GetReactionForceEf"] = createExportWrapper("_ZNK11b2GearJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK11b2GearJoint17GetReactionTorqueEf = Module["__ZNK11b2GearJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK11b2GearJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJoint8SetRatioEf = Module["__ZN11b2GearJoint8SetRatioEf"] = createExportWrapper("_ZN11b2GearJoint8SetRatioEf");
+
+/** @type {function(...*):?} */
+var __ZNK11b2GearJoint8GetRatioEv = Module["__ZNK11b2GearJoint8GetRatioEv"] = createExportWrapper("_ZNK11b2GearJoint8GetRatioEv");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJoint4DumpEv = Module["__ZN11b2GearJoint4DumpEv"] = createExportWrapper("_ZN11b2GearJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJointD2Ev = Module["__ZN11b2GearJointD2Ev"] = createExportWrapper("_ZN11b2GearJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJointD0Ev = Module["__ZN11b2GearJointD0Ev"] = createExportWrapper("_ZN11b2GearJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN11b2GearJointC1EPK14b2GearJointDef = Module["__ZN11b2GearJointC1EPK14b2GearJointDef"] = createExportWrapper("_ZN11b2GearJointC1EPK14b2GearJointDef");
+
+/** @type {function(...*):?} */
+var __ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener = Module["__ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener"] = createExportWrapper("_ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener");
+
+/** @type {function(...*):?} */
+var __ZN8b2IslandD2Ev = Module["__ZN8b2IslandD2Ev"] = createExportWrapper("_ZN8b2IslandD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN8b2Island5SolveEP9b2ProfileRK10b2TimeStepRK6b2Vec2b = Module["__ZN8b2Island5SolveEP9b2ProfileRK10b2TimeStepRK6b2Vec2b"] = createExportWrapper("_ZN8b2Island5SolveEP9b2ProfileRK10b2TimeStepRK6b2Vec2b");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body20SynchronizeTransformEv = Module["__ZN6b2Body20SynchronizeTransformEv"] = createExportWrapper("_ZN6b2Body20SynchronizeTransformEv");
+
+/** @type {function(...*):?} */
+var __ZN8b2Island6ReportEPK27b2ContactVelocityConstraint = Module["__ZN8b2Island6ReportEPK27b2ContactVelocityConstraint"] = createExportWrapper("_ZN8b2Island6ReportEPK27b2ContactVelocityConstraint");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body7GetTypeEv = Module["__ZNK6b2Body7GetTypeEv"] = createExportWrapper("_ZNK6b2Body7GetTypeEv");
+
+/** @type {function(...*):?} */
+var __ZN8b2Island8SolveTOIERK10b2TimeStepii = Module["__ZN8b2Island8SolveTOIERK10b2TimeStepii"] = createExportWrapper("_ZN8b2Island8SolveTOIERK10b2TimeStepii");
+
+/** @type {function(...*):?} */
+var __ZN8b2IslandC1EiiiP16b2StackAllocatorP17b2ContactListener = Module["__ZN8b2IslandC1EiiiP16b2StackAllocatorP17b2ContactListener"] = createExportWrapper("_ZN8b2IslandC1EiiiP16b2StackAllocatorP17b2ContactListener");
+
+/** @type {function(...*):?} */
+var __ZN8b2IslandD1Ev = Module["__ZN8b2IslandD1Ev"] = createExportWrapper("_ZN8b2IslandD1Ev");
+
+/** @type {function(...*):?} */
+var __Z17b2LinearStiffnessRfS_ffPK6b2BodyS2_ = Module["__Z17b2LinearStiffnessRfS_ffPK6b2BodyS2_"] = createExportWrapper("_Z17b2LinearStiffnessRfS_ffPK6b2BodyS2_");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body7GetMassEv = Module["__ZNK6b2Body7GetMassEv"] = createExportWrapper("_ZNK6b2Body7GetMassEv");
+
+/** @type {function(...*):?} */
+var __Z18b2AngularStiffnessRfS_ffPK6b2BodyS2_ = Module["__Z18b2AngularStiffnessRfS_ffPK6b2BodyS2_"] = createExportWrapper("_Z18b2AngularStiffnessRfS_ffPK6b2BodyS2_");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body10GetInertiaEv = Module["__ZNK6b2Body10GetInertiaEv"] = createExportWrapper("_ZNK6b2Body10GetInertiaEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2Joint6CreateEPK10b2JointDefP16b2BlockAllocator = Module["__ZN7b2Joint6CreateEPK10b2JointDefP16b2BlockAllocator"] = createExportWrapper("_ZN7b2Joint6CreateEPK10b2JointDefP16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJointC1EPK15b2MouseJointDef = Module["__ZN12b2MouseJointC1EPK15b2MouseJointDef"] = createExportWrapper("_ZN12b2MouseJointC1EPK15b2MouseJointDef");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJointC1EPK19b2PrismaticJointDef = Module["__ZN16b2PrismaticJointC1EPK19b2PrismaticJointDef"] = createExportWrapper("_ZN16b2PrismaticJointC1EPK19b2PrismaticJointDef");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJointC1EPK18b2RevoluteJointDef = Module["__ZN15b2RevoluteJointC1EPK18b2RevoluteJointDef"] = createExportWrapper("_ZN15b2RevoluteJointC1EPK18b2RevoluteJointDef");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJointC1EPK16b2PulleyJointDef = Module["__ZN13b2PulleyJointC1EPK16b2PulleyJointDef"] = createExportWrapper("_ZN13b2PulleyJointC1EPK16b2PulleyJointDef");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJointC1EPK15b2WheelJointDef = Module["__ZN12b2WheelJointC1EPK15b2WheelJointDef"] = createExportWrapper("_ZN12b2WheelJointC1EPK15b2WheelJointDef");
+
+/** @type {function(...*):?} */
+var __ZN11b2WeldJointC1EPK14b2WeldJointDef = Module["__ZN11b2WeldJointC1EPK14b2WeldJointDef"] = createExportWrapper("_ZN11b2WeldJointC1EPK14b2WeldJointDef");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJointC1EPK15b2MotorJointDef = Module["__ZN12b2MotorJointC1EPK15b2MotorJointDef"] = createExportWrapper("_ZN12b2MotorJointC1EPK15b2MotorJointDef");
+
+/** @type {function(...*):?} */
+var __ZN7b2Joint7DestroyEPS_P16b2BlockAllocator = Module["__ZN7b2Joint7DestroyEPS_P16b2BlockAllocator"] = createExportWrapper("_ZN7b2Joint7DestroyEPS_P16b2BlockAllocator");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Joint9IsEnabledEv = Module["__ZNK7b2Joint9IsEnabledEv"] = createExportWrapper("_ZNK7b2Joint9IsEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint16GetGroundAnchorAEv = Module["__ZNK13b2PulleyJoint16GetGroundAnchorAEv"] = createExportWrapper("_ZNK13b2PulleyJoint16GetGroundAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint16GetGroundAnchorBEv = Module["__ZNK13b2PulleyJoint16GetGroundAnchorBEv"] = createExportWrapper("_ZNK13b2PulleyJoint16GetGroundAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2ColorC2Ev = Module["__ZN7b2ColorC2Ev"] = createExportWrapper("_ZN7b2ColorC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2Color3SetEffff = Module["__ZN7b2Color3SetEffff"] = createExportWrapper("_ZN7b2Color3SetEffff");
+
+/** @type {function(...*):?} */
+var __ZN7b2Joint4DumpEv = Module["__ZN7b2Joint4DumpEv"] = createExportWrapper("_ZN7b2Joint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2JointD0Ev = Module["__ZN7b2JointD0Ev"] = createExportWrapper("_ZN7b2JointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2MotorJointDef10InitializeEP6b2BodyS1_ = Module["__ZN15b2MotorJointDef10InitializeEP6b2BodyS1_"] = createExportWrapper("_ZN15b2MotorJointDef10InitializeEP6b2BodyS1_");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJointC2EPK15b2MotorJointDef = Module["__ZN12b2MotorJointC2EPK15b2MotorJointDef"] = createExportWrapper("_ZN12b2MotorJointC2EPK15b2MotorJointDef");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN12b2MotorJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2MotorJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN12b2MotorJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2MotorJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN12b2MotorJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2MotorJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint10GetAnchorAEv = Module["__ZNK12b2MotorJoint10GetAnchorAEv"] = createExportWrapper("_ZNK12b2MotorJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint10GetAnchorBEv = Module["__ZNK12b2MotorJoint10GetAnchorBEv"] = createExportWrapper("_ZNK12b2MotorJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint16GetReactionForceEf = Module["__ZNK12b2MotorJoint16GetReactionForceEf"] = createExportWrapper("_ZNK12b2MotorJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint17GetReactionTorqueEf = Module["__ZNK12b2MotorJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK12b2MotorJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint11SetMaxForceEf = Module["__ZN12b2MotorJoint11SetMaxForceEf"] = createExportWrapper("_ZN12b2MotorJoint11SetMaxForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint11GetMaxForceEv = Module["__ZNK12b2MotorJoint11GetMaxForceEv"] = createExportWrapper("_ZNK12b2MotorJoint11GetMaxForceEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint12SetMaxTorqueEf = Module["__ZN12b2MotorJoint12SetMaxTorqueEf"] = createExportWrapper("_ZN12b2MotorJoint12SetMaxTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint12GetMaxTorqueEv = Module["__ZNK12b2MotorJoint12GetMaxTorqueEv"] = createExportWrapper("_ZNK12b2MotorJoint12GetMaxTorqueEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint19SetCorrectionFactorEf = Module["__ZN12b2MotorJoint19SetCorrectionFactorEf"] = createExportWrapper("_ZN12b2MotorJoint19SetCorrectionFactorEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint19GetCorrectionFactorEv = Module["__ZNK12b2MotorJoint19GetCorrectionFactorEv"] = createExportWrapper("_ZNK12b2MotorJoint19GetCorrectionFactorEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint15SetLinearOffsetERK6b2Vec2 = Module["__ZN12b2MotorJoint15SetLinearOffsetERK6b2Vec2"] = createExportWrapper("_ZN12b2MotorJoint15SetLinearOffsetERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint15GetLinearOffsetEv = Module["__ZNK12b2MotorJoint15GetLinearOffsetEv"] = createExportWrapper("_ZNK12b2MotorJoint15GetLinearOffsetEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint16SetAngularOffsetEf = Module["__ZN12b2MotorJoint16SetAngularOffsetEf"] = createExportWrapper("_ZN12b2MotorJoint16SetAngularOffsetEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MotorJoint16GetAngularOffsetEv = Module["__ZNK12b2MotorJoint16GetAngularOffsetEv"] = createExportWrapper("_ZNK12b2MotorJoint16GetAngularOffsetEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJoint4DumpEv = Module["__ZN12b2MotorJoint4DumpEv"] = createExportWrapper("_ZN12b2MotorJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJointD2Ev = Module["__ZN12b2MotorJointD2Ev"] = createExportWrapper("_ZN12b2MotorJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2MotorJointD0Ev = Module["__ZN12b2MotorJointD0Ev"] = createExportWrapper("_ZN12b2MotorJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJointC2EPK15b2MouseJointDef = Module["__ZN12b2MouseJointC2EPK15b2MouseJointDef"] = createExportWrapper("_ZN12b2MouseJointC2EPK15b2MouseJointDef");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJoint9SetTargetERK6b2Vec2 = Module["__ZN12b2MouseJoint9SetTargetERK6b2Vec2"] = createExportWrapper("_ZN12b2MouseJoint9SetTargetERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZneRK6b2Vec2S1_ = Module["__ZneRK6b2Vec2S1_"] = createExportWrapper("_ZneRK6b2Vec2S1_");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MouseJoint9GetTargetEv = Module["__ZNK12b2MouseJoint9GetTargetEv"] = createExportWrapper("_ZNK12b2MouseJoint9GetTargetEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJoint11SetMaxForceEf = Module["__ZN12b2MouseJoint11SetMaxForceEf"] = createExportWrapper("_ZN12b2MouseJoint11SetMaxForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MouseJoint11GetMaxForceEv = Module["__ZNK12b2MouseJoint11GetMaxForceEv"] = createExportWrapper("_ZNK12b2MouseJoint11GetMaxForceEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN12b2MouseJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2MouseJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MouseJoint10GetAnchorAEv = Module["__ZNK12b2MouseJoint10GetAnchorAEv"] = createExportWrapper("_ZNK12b2MouseJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MouseJoint10GetAnchorBEv = Module["__ZNK12b2MouseJoint10GetAnchorBEv"] = createExportWrapper("_ZNK12b2MouseJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MouseJoint16GetReactionForceEf = Module["__ZNK12b2MouseJoint16GetReactionForceEf"] = createExportWrapper("_ZNK12b2MouseJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2MouseJoint17GetReactionTorqueEf = Module["__ZNK12b2MouseJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK12b2MouseJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJoint11ShiftOriginERK6b2Vec2 = Module["__ZN12b2MouseJoint11ShiftOriginERK6b2Vec2"] = createExportWrapper("_ZN12b2MouseJoint11ShiftOriginERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJoint4DumpEv = Module["__ZN12b2MouseJoint4DumpEv"] = createExportWrapper("_ZN12b2MouseJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __Z5b2LogPKcz = Module["__Z5b2LogPKcz"] = createExportWrapper("_Z5b2LogPKcz");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJointD2Ev = Module["__ZN12b2MouseJointD2Ev"] = createExportWrapper("_ZN12b2MouseJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2MouseJointD0Ev = Module["__ZN12b2MouseJointD0Ev"] = createExportWrapper("_ZN12b2MouseJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN25b2PolygonAndCircleContactC1EP9b2FixtureS1_ = Module["__ZN25b2PolygonAndCircleContactC1EP9b2FixtureS1_"] = createExportWrapper("_ZN25b2PolygonAndCircleContactC1EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN25b2PolygonAndCircleContactC2EP9b2FixtureS1_ = Module["__ZN25b2PolygonAndCircleContactC2EP9b2FixtureS1_"] = createExportWrapper("_ZN25b2PolygonAndCircleContactC2EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN25b2PolygonAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_ = Module["__ZN25b2PolygonAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_"] = createExportWrapper("_ZN25b2PolygonAndCircleContact8EvaluateEP10b2ManifoldRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN25b2PolygonAndCircleContactD2Ev = Module["__ZN25b2PolygonAndCircleContactD2Ev"] = createExportWrapper("_ZN25b2PolygonAndCircleContactD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN25b2PolygonAndCircleContactD0Ev = Module["__ZN25b2PolygonAndCircleContactD0Ev"] = createExportWrapper("_ZN25b2PolygonAndCircleContactD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2PolygonContactC1EP9b2FixtureS1_ = Module["__ZN16b2PolygonContactC1EP9b2FixtureS1_"] = createExportWrapper("_ZN16b2PolygonContactC1EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN16b2PolygonContactC2EP9b2FixtureS1_ = Module["__ZN16b2PolygonContactC2EP9b2FixtureS1_"] = createExportWrapper("_ZN16b2PolygonContactC2EP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZN16b2PolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_ = Module["__ZN16b2PolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_"] = createExportWrapper("_ZN16b2PolygonContact8EvaluateEP10b2ManifoldRK11b2TransformS4_");
+
+/** @type {function(...*):?} */
+var __ZN16b2PolygonContactD2Ev = Module["__ZN16b2PolygonContactD2Ev"] = createExportWrapper("_ZN16b2PolygonContactD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2PolygonContactD0Ev = Module["__ZN16b2PolygonContactD0Ev"] = createExportWrapper("_ZN16b2PolygonContactD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN19b2PrismaticJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_ = Module["__ZN19b2PrismaticJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_"] = createExportWrapper("_ZN19b2PrismaticJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body14GetLocalVectorERK6b2Vec2 = Module["__ZNK6b2Body14GetLocalVectorERK6b2Vec2"] = createExportWrapper("_ZNK6b2Body14GetLocalVectorERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJointC2EPK19b2PrismaticJointDef = Module["__ZN16b2PrismaticJointC2EPK19b2PrismaticJointDef"] = createExportWrapper("_ZN16b2PrismaticJointC2EPK19b2PrismaticJointDef");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN16b2PrismaticJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN16b2PrismaticJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN16b2PrismaticJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN16b2PrismaticJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK7b2Mat225SolveERK6b2Vec2 = Module["__ZNK7b2Mat225SolveERK6b2Vec2"] = createExportWrapper("_ZNK7b2Mat225SolveERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN16b2PrismaticJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN16b2PrismaticJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN7b2Mat33C2Ev = Module["__ZN7b2Mat33C2Ev"] = createExportWrapper("_ZN7b2Mat33C2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec33SetEfff = Module["__ZN6b2Vec33SetEfff"] = createExportWrapper("_ZN6b2Vec33SetEfff");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Vec3ngEv = Module["__ZNK6b2Vec3ngEv"] = createExportWrapper("_ZNK6b2Vec3ngEv");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint10GetAnchorAEv = Module["__ZNK16b2PrismaticJoint10GetAnchorAEv"] = createExportWrapper("_ZNK16b2PrismaticJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint10GetAnchorBEv = Module["__ZNK16b2PrismaticJoint10GetAnchorBEv"] = createExportWrapper("_ZNK16b2PrismaticJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint16GetReactionForceEf = Module["__ZNK16b2PrismaticJoint16GetReactionForceEf"] = createExportWrapper("_ZNK16b2PrismaticJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint17GetReactionTorqueEf = Module["__ZNK16b2PrismaticJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK16b2PrismaticJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint19GetJointTranslationEv = Module["__ZNK16b2PrismaticJoint19GetJointTranslationEv"] = createExportWrapper("_ZNK16b2PrismaticJoint19GetJointTranslationEv");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint13GetJointSpeedEv = Module["__ZNK16b2PrismaticJoint13GetJointSpeedEv"] = createExportWrapper("_ZNK16b2PrismaticJoint13GetJointSpeedEv");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint14IsLimitEnabledEv = Module["__ZNK16b2PrismaticJoint14IsLimitEnabledEv"] = createExportWrapper("_ZNK16b2PrismaticJoint14IsLimitEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint11EnableLimitEb = Module["__ZN16b2PrismaticJoint11EnableLimitEb"] = createExportWrapper("_ZN16b2PrismaticJoint11EnableLimitEb");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint13GetLowerLimitEv = Module["__ZNK16b2PrismaticJoint13GetLowerLimitEv"] = createExportWrapper("_ZNK16b2PrismaticJoint13GetLowerLimitEv");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint13GetUpperLimitEv = Module["__ZNK16b2PrismaticJoint13GetUpperLimitEv"] = createExportWrapper("_ZNK16b2PrismaticJoint13GetUpperLimitEv");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint9SetLimitsEff = Module["__ZN16b2PrismaticJoint9SetLimitsEff"] = createExportWrapper("_ZN16b2PrismaticJoint9SetLimitsEff");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint14IsMotorEnabledEv = Module["__ZNK16b2PrismaticJoint14IsMotorEnabledEv"] = createExportWrapper("_ZNK16b2PrismaticJoint14IsMotorEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint11EnableMotorEb = Module["__ZN16b2PrismaticJoint11EnableMotorEb"] = createExportWrapper("_ZN16b2PrismaticJoint11EnableMotorEb");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint13SetMotorSpeedEf = Module["__ZN16b2PrismaticJoint13SetMotorSpeedEf"] = createExportWrapper("_ZN16b2PrismaticJoint13SetMotorSpeedEf");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint16SetMaxMotorForceEf = Module["__ZN16b2PrismaticJoint16SetMaxMotorForceEf"] = createExportWrapper("_ZN16b2PrismaticJoint16SetMaxMotorForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint13GetMotorForceEf = Module["__ZNK16b2PrismaticJoint13GetMotorForceEf"] = createExportWrapper("_ZNK16b2PrismaticJoint13GetMotorForceEf");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJoint4DumpEv = Module["__ZN16b2PrismaticJoint4DumpEv"] = createExportWrapper("_ZN16b2PrismaticJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZNK16b2PrismaticJoint4DrawEP6b2Draw = Module["__ZNK16b2PrismaticJoint4DrawEP6b2Draw"] = createExportWrapper("_ZNK16b2PrismaticJoint4DrawEP6b2Draw");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJointD2Ev = Module["__ZN16b2PrismaticJointD2Ev"] = createExportWrapper("_ZN16b2PrismaticJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2PrismaticJointD0Ev = Module["__ZN16b2PrismaticJointD0Ev"] = createExportWrapper("_ZN16b2PrismaticJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2PulleyJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_S4_S4_f = Module["__ZN16b2PulleyJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_S4_S4_f"] = createExportWrapper("_ZN16b2PulleyJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_S4_S4_f");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJointC2EPK16b2PulleyJointDef = Module["__ZN13b2PulleyJointC2EPK16b2PulleyJointDef"] = createExportWrapper("_ZN13b2PulleyJointC2EPK16b2PulleyJointDef");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN13b2PulleyJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN13b2PulleyJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN13b2PulleyJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN13b2PulleyJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN13b2PulleyJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN13b2PulleyJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint10GetAnchorAEv = Module["__ZNK13b2PulleyJoint10GetAnchorAEv"] = createExportWrapper("_ZNK13b2PulleyJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint10GetAnchorBEv = Module["__ZNK13b2PulleyJoint10GetAnchorBEv"] = createExportWrapper("_ZNK13b2PulleyJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint16GetReactionForceEf = Module["__ZNK13b2PulleyJoint16GetReactionForceEf"] = createExportWrapper("_ZNK13b2PulleyJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint17GetReactionTorqueEf = Module["__ZNK13b2PulleyJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK13b2PulleyJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint10GetLengthAEv = Module["__ZNK13b2PulleyJoint10GetLengthAEv"] = createExportWrapper("_ZNK13b2PulleyJoint10GetLengthAEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint10GetLengthBEv = Module["__ZNK13b2PulleyJoint10GetLengthBEv"] = createExportWrapper("_ZNK13b2PulleyJoint10GetLengthBEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint8GetRatioEv = Module["__ZNK13b2PulleyJoint8GetRatioEv"] = createExportWrapper("_ZNK13b2PulleyJoint8GetRatioEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint17GetCurrentLengthAEv = Module["__ZNK13b2PulleyJoint17GetCurrentLengthAEv"] = createExportWrapper("_ZNK13b2PulleyJoint17GetCurrentLengthAEv");
+
+/** @type {function(...*):?} */
+var __ZNK13b2PulleyJoint17GetCurrentLengthBEv = Module["__ZNK13b2PulleyJoint17GetCurrentLengthBEv"] = createExportWrapper("_ZNK13b2PulleyJoint17GetCurrentLengthBEv");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJoint4DumpEv = Module["__ZN13b2PulleyJoint4DumpEv"] = createExportWrapper("_ZN13b2PulleyJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJoint11ShiftOriginERK6b2Vec2 = Module["__ZN13b2PulleyJoint11ShiftOriginERK6b2Vec2"] = createExportWrapper("_ZN13b2PulleyJoint11ShiftOriginERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJointD2Ev = Module["__ZN13b2PulleyJointD2Ev"] = createExportWrapper("_ZN13b2PulleyJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN13b2PulleyJointD0Ev = Module["__ZN13b2PulleyJointD0Ev"] = createExportWrapper("_ZN13b2PulleyJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN18b2RevoluteJointDef10InitializeEP6b2BodyS1_RK6b2Vec2 = Module["__ZN18b2RevoluteJointDef10InitializeEP6b2BodyS1_RK6b2Vec2"] = createExportWrapper("_ZN18b2RevoluteJointDef10InitializeEP6b2BodyS1_RK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJointC2EPK18b2RevoluteJointDef = Module["__ZN15b2RevoluteJointC2EPK18b2RevoluteJointDef"] = createExportWrapper("_ZN15b2RevoluteJointC2EPK18b2RevoluteJointDef");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN15b2RevoluteJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2RevoluteJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN15b2RevoluteJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2RevoluteJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN15b2RevoluteJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN15b2RevoluteJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint10GetAnchorAEv = Module["__ZNK15b2RevoluteJoint10GetAnchorAEv"] = createExportWrapper("_ZNK15b2RevoluteJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint10GetAnchorBEv = Module["__ZNK15b2RevoluteJoint10GetAnchorBEv"] = createExportWrapper("_ZNK15b2RevoluteJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint16GetReactionForceEf = Module["__ZNK15b2RevoluteJoint16GetReactionForceEf"] = createExportWrapper("_ZNK15b2RevoluteJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint17GetReactionTorqueEf = Module["__ZNK15b2RevoluteJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK15b2RevoluteJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint13GetJointAngleEv = Module["__ZNK15b2RevoluteJoint13GetJointAngleEv"] = createExportWrapper("_ZNK15b2RevoluteJoint13GetJointAngleEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint13GetJointSpeedEv = Module["__ZNK15b2RevoluteJoint13GetJointSpeedEv"] = createExportWrapper("_ZNK15b2RevoluteJoint13GetJointSpeedEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint14IsMotorEnabledEv = Module["__ZNK15b2RevoluteJoint14IsMotorEnabledEv"] = createExportWrapper("_ZNK15b2RevoluteJoint14IsMotorEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint11EnableMotorEb = Module["__ZN15b2RevoluteJoint11EnableMotorEb"] = createExportWrapper("_ZN15b2RevoluteJoint11EnableMotorEb");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint14GetMotorTorqueEf = Module["__ZNK15b2RevoluteJoint14GetMotorTorqueEf"] = createExportWrapper("_ZNK15b2RevoluteJoint14GetMotorTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint13SetMotorSpeedEf = Module["__ZN15b2RevoluteJoint13SetMotorSpeedEf"] = createExportWrapper("_ZN15b2RevoluteJoint13SetMotorSpeedEf");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint17SetMaxMotorTorqueEf = Module["__ZN15b2RevoluteJoint17SetMaxMotorTorqueEf"] = createExportWrapper("_ZN15b2RevoluteJoint17SetMaxMotorTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint14IsLimitEnabledEv = Module["__ZNK15b2RevoluteJoint14IsLimitEnabledEv"] = createExportWrapper("_ZNK15b2RevoluteJoint14IsLimitEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint11EnableLimitEb = Module["__ZN15b2RevoluteJoint11EnableLimitEb"] = createExportWrapper("_ZN15b2RevoluteJoint11EnableLimitEb");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint13GetLowerLimitEv = Module["__ZNK15b2RevoluteJoint13GetLowerLimitEv"] = createExportWrapper("_ZNK15b2RevoluteJoint13GetLowerLimitEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint13GetUpperLimitEv = Module["__ZNK15b2RevoluteJoint13GetUpperLimitEv"] = createExportWrapper("_ZNK15b2RevoluteJoint13GetUpperLimitEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint9SetLimitsEff = Module["__ZN15b2RevoluteJoint9SetLimitsEff"] = createExportWrapper("_ZN15b2RevoluteJoint9SetLimitsEff");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJoint4DumpEv = Module["__ZN15b2RevoluteJoint4DumpEv"] = createExportWrapper("_ZN15b2RevoluteJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZNK15b2RevoluteJoint4DrawEP6b2Draw = Module["__ZNK15b2RevoluteJoint4DrawEP6b2Draw"] = createExportWrapper("_ZNK15b2RevoluteJoint4DrawEP6b2Draw");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJointD2Ev = Module["__ZN15b2RevoluteJointD2Ev"] = createExportWrapper("_ZN15b2RevoluteJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2RevoluteJointD0Ev = Module["__ZN15b2RevoluteJointD0Ev"] = createExportWrapper("_ZN15b2RevoluteJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN11b2WeldJointC2EPK14b2WeldJointDef = Module["__ZN11b2WeldJointC2EPK14b2WeldJointDef"] = createExportWrapper("_ZN11b2WeldJointC2EPK14b2WeldJointDef");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec37SetZeroEv = Module["__ZN6b2Vec37SetZeroEv"] = createExportWrapper("_ZN6b2Vec37SetZeroEv");
+
+/** @type {function(...*):?} */
+var __ZN11b2WeldJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN11b2WeldJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN11b2WeldJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec3mLEf = Module["__ZN6b2Vec3mLEf"] = createExportWrapper("_ZN6b2Vec3mLEf");
+
+/** @type {function(...*):?} */
+var __ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __Z7b2Mul22RK7b2Mat33RK6b2Vec2 = Module["__Z7b2Mul22RK7b2Mat33RK6b2Vec2"] = createExportWrapper("_Z7b2Mul22RK7b2Mat33RK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __Z5b2MulRK7b2Mat33RK6b2Vec3 = Module["__Z5b2MulRK7b2Mat33RK6b2Vec3"] = createExportWrapper("_Z5b2MulRK7b2Mat33RK6b2Vec3");
+
+/** @type {function(...*):?} */
+var __ZN6b2Vec3pLERKS_ = Module["__ZN6b2Vec3pLERKS_"] = createExportWrapper("_ZN6b2Vec3pLERKS_");
+
+/** @type {function(...*):?} */
+var __ZmlfRK6b2Vec3 = Module["__ZmlfRK6b2Vec3"] = createExportWrapper("_ZmlfRK6b2Vec3");
+
+/** @type {function(...*):?} */
+var __ZplRK6b2Vec3S1_ = Module["__ZplRK6b2Vec3S1_"] = createExportWrapper("_ZplRK6b2Vec3S1_");
+
+/** @type {function(...*):?} */
+var __ZN11b2WeldJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN11b2WeldJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN11b2WeldJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK11b2WeldJoint10GetAnchorAEv = Module["__ZNK11b2WeldJoint10GetAnchorAEv"] = createExportWrapper("_ZNK11b2WeldJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK11b2WeldJoint10GetAnchorBEv = Module["__ZNK11b2WeldJoint10GetAnchorBEv"] = createExportWrapper("_ZNK11b2WeldJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK11b2WeldJoint16GetReactionForceEf = Module["__ZNK11b2WeldJoint16GetReactionForceEf"] = createExportWrapper("_ZNK11b2WeldJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK11b2WeldJoint17GetReactionTorqueEf = Module["__ZNK11b2WeldJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK11b2WeldJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZN11b2WeldJoint4DumpEv = Module["__ZN11b2WeldJoint4DumpEv"] = createExportWrapper("_ZN11b2WeldJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZN11b2WeldJointD2Ev = Module["__ZN11b2WeldJointD2Ev"] = createExportWrapper("_ZN11b2WeldJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN11b2WeldJointD0Ev = Module["__ZN11b2WeldJointD0Ev"] = createExportWrapper("_ZN11b2WeldJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN15b2WheelJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_ = Module["__ZN15b2WheelJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_"] = createExportWrapper("_ZN15b2WheelJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJointC2EPK15b2WheelJointDef = Module["__ZN12b2WheelJointC2EPK15b2WheelJointDef"] = createExportWrapper("_ZN12b2WheelJointC2EPK15b2WheelJointDef");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint23InitVelocityConstraintsERK12b2SolverData = Module["__ZN12b2WheelJoint23InitVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2WheelJoint23InitVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint24SolveVelocityConstraintsERK12b2SolverData = Module["__ZN12b2WheelJoint24SolveVelocityConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2WheelJoint24SolveVelocityConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint24SolvePositionConstraintsERK12b2SolverData = Module["__ZN12b2WheelJoint24SolvePositionConstraintsERK12b2SolverData"] = createExportWrapper("_ZN12b2WheelJoint24SolvePositionConstraintsERK12b2SolverData");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint10GetAnchorAEv = Module["__ZNK12b2WheelJoint10GetAnchorAEv"] = createExportWrapper("_ZNK12b2WheelJoint10GetAnchorAEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint10GetAnchorBEv = Module["__ZNK12b2WheelJoint10GetAnchorBEv"] = createExportWrapper("_ZNK12b2WheelJoint10GetAnchorBEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint16GetReactionForceEf = Module["__ZNK12b2WheelJoint16GetReactionForceEf"] = createExportWrapper("_ZNK12b2WheelJoint16GetReactionForceEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint17GetReactionTorqueEf = Module["__ZNK12b2WheelJoint17GetReactionTorqueEf"] = createExportWrapper("_ZNK12b2WheelJoint17GetReactionTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint19GetJointTranslationEv = Module["__ZNK12b2WheelJoint19GetJointTranslationEv"] = createExportWrapper("_ZNK12b2WheelJoint19GetJointTranslationEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint19GetJointLinearSpeedEv = Module["__ZNK12b2WheelJoint19GetJointLinearSpeedEv"] = createExportWrapper("_ZNK12b2WheelJoint19GetJointLinearSpeedEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint13GetJointAngleEv = Module["__ZNK12b2WheelJoint13GetJointAngleEv"] = createExportWrapper("_ZNK12b2WheelJoint13GetJointAngleEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint20GetJointAngularSpeedEv = Module["__ZNK12b2WheelJoint20GetJointAngularSpeedEv"] = createExportWrapper("_ZNK12b2WheelJoint20GetJointAngularSpeedEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint14IsLimitEnabledEv = Module["__ZNK12b2WheelJoint14IsLimitEnabledEv"] = createExportWrapper("_ZNK12b2WheelJoint14IsLimitEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint11EnableLimitEb = Module["__ZN12b2WheelJoint11EnableLimitEb"] = createExportWrapper("_ZN12b2WheelJoint11EnableLimitEb");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint13GetLowerLimitEv = Module["__ZNK12b2WheelJoint13GetLowerLimitEv"] = createExportWrapper("_ZNK12b2WheelJoint13GetLowerLimitEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint13GetUpperLimitEv = Module["__ZNK12b2WheelJoint13GetUpperLimitEv"] = createExportWrapper("_ZNK12b2WheelJoint13GetUpperLimitEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint9SetLimitsEff = Module["__ZN12b2WheelJoint9SetLimitsEff"] = createExportWrapper("_ZN12b2WheelJoint9SetLimitsEff");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint14IsMotorEnabledEv = Module["__ZNK12b2WheelJoint14IsMotorEnabledEv"] = createExportWrapper("_ZNK12b2WheelJoint14IsMotorEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint11EnableMotorEb = Module["__ZN12b2WheelJoint11EnableMotorEb"] = createExportWrapper("_ZN12b2WheelJoint11EnableMotorEb");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint13SetMotorSpeedEf = Module["__ZN12b2WheelJoint13SetMotorSpeedEf"] = createExportWrapper("_ZN12b2WheelJoint13SetMotorSpeedEf");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint17SetMaxMotorTorqueEf = Module["__ZN12b2WheelJoint17SetMaxMotorTorqueEf"] = createExportWrapper("_ZN12b2WheelJoint17SetMaxMotorTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint14GetMotorTorqueEf = Module["__ZNK12b2WheelJoint14GetMotorTorqueEf"] = createExportWrapper("_ZNK12b2WheelJoint14GetMotorTorqueEf");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint12SetStiffnessEf = Module["__ZN12b2WheelJoint12SetStiffnessEf"] = createExportWrapper("_ZN12b2WheelJoint12SetStiffnessEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint12GetStiffnessEv = Module["__ZNK12b2WheelJoint12GetStiffnessEv"] = createExportWrapper("_ZNK12b2WheelJoint12GetStiffnessEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint10SetDampingEf = Module["__ZN12b2WheelJoint10SetDampingEf"] = createExportWrapper("_ZN12b2WheelJoint10SetDampingEf");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint10GetDampingEv = Module["__ZNK12b2WheelJoint10GetDampingEv"] = createExportWrapper("_ZNK12b2WheelJoint10GetDampingEv");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJoint4DumpEv = Module["__ZN12b2WheelJoint4DumpEv"] = createExportWrapper("_ZN12b2WheelJoint4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2WheelJoint4DrawEP6b2Draw = Module["__ZNK12b2WheelJoint4DrawEP6b2Draw"] = createExportWrapper("_ZNK12b2WheelJoint4DrawEP6b2Draw");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJointD2Ev = Module["__ZN12b2WheelJointD2Ev"] = createExportWrapper("_ZN12b2WheelJointD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2WheelJointD0Ev = Module["__ZN12b2WheelJointD0Ev"] = createExportWrapper("_ZN12b2WheelJointD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2WorldC2ERK6b2Vec2 = Module["__ZN7b2WorldC2ERK6b2Vec2"] = createExportWrapper("_ZN7b2WorldC2ERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN7b2WorldD2Ev = Module["__ZN7b2WorldD2Ev"] = createExportWrapper("_ZN7b2WorldD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN16b2ContactManagerD2Ev = Module["__ZN16b2ContactManagerD2Ev"] = createExportWrapper("_ZN16b2ContactManagerD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN7b2World22SetDestructionListenerEP21b2DestructionListener = Module["__ZN7b2World22SetDestructionListenerEP21b2DestructionListener"] = createExportWrapper("_ZN7b2World22SetDestructionListenerEP21b2DestructionListener");
+
+/** @type {function(...*):?} */
+var __ZN7b2World16SetContactFilterEP15b2ContactFilter = Module["__ZN7b2World16SetContactFilterEP15b2ContactFilter"] = createExportWrapper("_ZN7b2World16SetContactFilterEP15b2ContactFilter");
+
+/** @type {function(...*):?} */
+var __ZN7b2World18SetContactListenerEP17b2ContactListener = Module["__ZN7b2World18SetContactListenerEP17b2ContactListener"] = createExportWrapper("_ZN7b2World18SetContactListenerEP17b2ContactListener");
+
+/** @type {function(...*):?} */
+var __ZN7b2World12SetDebugDrawEP6b2Draw = Module["__ZN7b2World12SetDebugDrawEP6b2Draw"] = createExportWrapper("_ZN7b2World12SetDebugDrawEP6b2Draw");
+
+/** @type {function(...*):?} */
+var __ZN7b2World16SetAllowSleepingEb = Module["__ZN7b2World16SetAllowSleepingEb"] = createExportWrapper("_ZN7b2World16SetAllowSleepingEb");
+
+/** @type {function(...*):?} */
+var __ZN7b2World5SolveERK10b2TimeStep = Module["__ZN7b2World5SolveERK10b2TimeStep"] = createExportWrapper("_ZN7b2World5SolveERK10b2TimeStep");
+
+/** @type {function(...*):?} */
+var __ZN8b2Island5ClearEv = Module["__ZN8b2Island5ClearEv"] = createExportWrapper("_ZN8b2Island5ClearEv");
+
+/** @type {function(...*):?} */
+var __ZN8b2Island3AddEP6b2Body = Module["__ZN8b2Island3AddEP6b2Body"] = createExportWrapper("_ZN8b2Island3AddEP6b2Body");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Contact9IsEnabledEv = Module["__ZNK9b2Contact9IsEnabledEv"] = createExportWrapper("_ZNK9b2Contact9IsEnabledEv");
+
+/** @type {function(...*):?} */
+var __ZN8b2Island3AddEP9b2Contact = Module["__ZN8b2Island3AddEP9b2Contact"] = createExportWrapper("_ZN8b2Island3AddEP9b2Contact");
+
+/** @type {function(...*):?} */
+var __ZN8b2Island3AddEP7b2Joint = Module["__ZN8b2Island3AddEP7b2Joint"] = createExportWrapper("_ZN8b2Island3AddEP7b2Joint");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body7GetNextEv = Module["__ZN6b2Body7GetNextEv"] = createExportWrapper("_ZN6b2Body7GetNextEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2World8SolveTOIERK10b2TimeStep = Module["__ZN7b2World8SolveTOIERK10b2TimeStep"] = createExportWrapper("_ZN7b2World8SolveTOIERK10b2TimeStep");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body8IsBulletEv = Module["__ZNK6b2Body8IsBulletEv"] = createExportWrapper("_ZNK6b2Body8IsBulletEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2Sweep7AdvanceEf = Module["__ZN7b2Sweep7AdvanceEf"] = createExportWrapper("_ZN7b2Sweep7AdvanceEf");
+
+/** @type {function(...*):?} */
+var __ZN10b2TOIInputC2Ev = Module["__ZN10b2TOIInputC2Ev"] = createExportWrapper("_ZN10b2TOIInputC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body7AdvanceEf = Module["__ZN6b2Body7AdvanceEf"] = createExportWrapper("_ZN6b2Body7AdvanceEf");
+
+/** @type {function(...*):?} */
+var __ZN9b2Contact10SetEnabledEb = Module["__ZN9b2Contact10SetEnabledEb"] = createExportWrapper("_ZN9b2Contact10SetEnabledEb");
+
+/** @type {function(...*):?} */
+var __ZN7b2World11ClearForcesEv = Module["__ZN7b2World11ClearForcesEv"] = createExportWrapper("_ZN7b2World11ClearForcesEv");
+
+/** @type {function(...*):?} */
+var __ZNK7b2World9QueryAABBEP15b2QueryCallbackRK6b2AABB = Module["__ZNK7b2World9QueryAABBEP15b2QueryCallbackRK6b2AABB"] = createExportWrapper("_ZNK7b2World9QueryAABBEP15b2QueryCallbackRK6b2AABB");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB = Module["__ZNK12b2BroadPhase5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB"] = createExportWrapper("_ZNK12b2BroadPhase5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB = Module["__ZNK13b2DynamicTree5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB"] = createExportWrapper("_ZNK13b2DynamicTree5QueryI19b2WorldQueryWrapperEEvPT_RK6b2AABB");
+
+/** @type {function(...*):?} */
+var __ZNK7b2World7RayCastEP17b2RayCastCallbackRK6b2Vec2S4_ = Module["__ZNK7b2World7RayCastEP17b2RayCastCallbackRK6b2Vec2S4_"] = createExportWrapper("_ZNK7b2World7RayCastEP17b2RayCastCallbackRK6b2Vec2S4_");
+
+/** @type {function(...*):?} */
+var __ZN14b2RayCastInputC2Ev = Module["__ZN14b2RayCastInputC2Ev"] = createExportWrapper("_ZN14b2RayCastInputC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput = Module["__ZNK12b2BroadPhase7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput"] = createExportWrapper("_ZNK12b2BroadPhase7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput");
+
+/** @type {function(...*):?} */
+var __ZNK13b2DynamicTree7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput = Module["__ZNK13b2DynamicTree7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput"] = createExportWrapper("_ZNK13b2DynamicTree7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput");
+
+/** @type {function(...*):?} */
+var __ZN7b2World9DrawShapeEP9b2FixtureRK11b2TransformRK7b2Color = Module["__ZN7b2World9DrawShapeEP9b2FixtureRK11b2TransformRK7b2Color"] = createExportWrapper("_ZN7b2World9DrawShapeEP9b2FixtureRK11b2TransformRK7b2Color");
+
+/** @type {function(...*):?} */
+var __ZN7b2World9DebugDrawEv = Module["__ZN7b2World9DebugDrawEv"] = createExportWrapper("_ZN7b2World9DebugDrawEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Body14GetFixtureListEv = Module["__ZN6b2Body14GetFixtureListEv"] = createExportWrapper("_ZN6b2Body14GetFixtureListEv");
+
+/** @type {function(...*):?} */
+var __ZN9b2Fixture7GetNextEv = Module["__ZN9b2Fixture7GetNextEv"] = createExportWrapper("_ZN9b2Fixture7GetNextEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2Joint7GetNextEv = Module["__ZN7b2Joint7GetNextEv"] = createExportWrapper("_ZN7b2Joint7GetNextEv");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Fixture7GetAABBEi = Module["__ZNK9b2Fixture7GetAABBEi"] = createExportWrapper("_ZNK9b2Fixture7GetAABBEi");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase10GetFatAABBEi = Module["__ZNK12b2BroadPhase10GetFatAABBEi"] = createExportWrapper("_ZNK12b2BroadPhase10GetFatAABBEi");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Body14GetWorldCenterEv = Module["__ZNK6b2Body14GetWorldCenterEv"] = createExportWrapper("_ZNK6b2Body14GetWorldCenterEv");
+
+/** @type {function(...*):?} */
+var __ZNK7b2World13GetProxyCountEv = Module["__ZNK7b2World13GetProxyCountEv"] = createExportWrapper("_ZNK7b2World13GetProxyCountEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase13GetProxyCountEv = Module["__ZNK12b2BroadPhase13GetProxyCountEv"] = createExportWrapper("_ZNK12b2BroadPhase13GetProxyCountEv");
+
+/** @type {function(...*):?} */
+var __ZNK7b2World13GetTreeHeightEv = Module["__ZNK7b2World13GetTreeHeightEv"] = createExportWrapper("_ZNK7b2World13GetTreeHeightEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase13GetTreeHeightEv = Module["__ZNK12b2BroadPhase13GetTreeHeightEv"] = createExportWrapper("_ZNK12b2BroadPhase13GetTreeHeightEv");
+
+/** @type {function(...*):?} */
+var __ZNK7b2World14GetTreeBalanceEv = Module["__ZNK7b2World14GetTreeBalanceEv"] = createExportWrapper("_ZNK7b2World14GetTreeBalanceEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase14GetTreeBalanceEv = Module["__ZNK12b2BroadPhase14GetTreeBalanceEv"] = createExportWrapper("_ZNK12b2BroadPhase14GetTreeBalanceEv");
+
+/** @type {function(...*):?} */
+var __ZNK7b2World14GetTreeQualityEv = Module["__ZNK7b2World14GetTreeQualityEv"] = createExportWrapper("_ZNK7b2World14GetTreeQualityEv");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase14GetTreeQualityEv = Module["__ZNK12b2BroadPhase14GetTreeQualityEv"] = createExportWrapper("_ZNK12b2BroadPhase14GetTreeQualityEv");
+
+/** @type {function(...*):?} */
+var __ZN7b2World11ShiftOriginERK6b2Vec2 = Module["__ZN7b2World11ShiftOriginERK6b2Vec2"] = createExportWrapper("_ZN7b2World11ShiftOriginERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN12b2BroadPhase11ShiftOriginERK6b2Vec2 = Module["__ZN12b2BroadPhase11ShiftOriginERK6b2Vec2"] = createExportWrapper("_ZN12b2BroadPhase11ShiftOriginERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZN7b2World4DumpEv = Module["__ZN7b2World4DumpEv"] = createExportWrapper("_ZN7b2World4DumpEv");
+
+/** @type {function(...*):?} */
+var __ZN19b2WorldQueryWrapper13QueryCallbackEi = Module["__ZN19b2WorldQueryWrapper13QueryCallbackEi"] = createExportWrapper("_ZN19b2WorldQueryWrapper13QueryCallbackEi");
+
+/** @type {function(...*):?} */
+var __ZNK12b2BroadPhase11GetUserDataEi = Module["__ZNK12b2BroadPhase11GetUserDataEi"] = createExportWrapper("_ZNK12b2BroadPhase11GetUserDataEi");
+
+/** @type {function(...*):?} */
+var __ZNK6b2AABB10GetExtentsEv = Module["__ZNK6b2AABB10GetExtentsEv"] = createExportWrapper("_ZNK6b2AABB10GetExtentsEv");
+
+/** @type {function(...*):?} */
+var __ZN21b2WorldRayCastWrapper15RayCastCallbackERK14b2RayCastInputi = Module["__ZN21b2WorldRayCastWrapper15RayCastCallbackERK14b2RayCastInputi"] = createExportWrapper("_ZN21b2WorldRayCastWrapper15RayCastCallbackERK14b2RayCastInputi");
+
+/** @type {function(...*):?} */
+var __ZN15b2RayCastOutputC2Ev = Module["__ZN15b2RayCastOutputC2Ev"] = createExportWrapper("_ZN15b2RayCastOutputC2Ev");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Fixture7RayCastEP15b2RayCastOutputRK14b2RayCastInputi = Module["__ZNK9b2Fixture7RayCastEP15b2RayCastOutputRK14b2RayCastInputi"] = createExportWrapper("_ZNK9b2Fixture7RayCastEP15b2RayCastOutputRK14b2RayCastInputi");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactFilter13ShouldCollideEP9b2FixtureS1_ = Module["__ZN15b2ContactFilter13ShouldCollideEP9b2FixtureS1_"] = createExportWrapper("_ZN15b2ContactFilter13ShouldCollideEP9b2FixtureS1_");
+
+/** @type {function(...*):?} */
+var __ZNK9b2Fixture13GetFilterDataEv = Module["__ZNK9b2Fixture13GetFilterDataEv"] = createExportWrapper("_ZNK9b2Fixture13GetFilterDataEv");
+
+/** @type {function(...*):?} */
+var __ZN15b2ContactFilterD0Ev = Module["__ZN15b2ContactFilterD0Ev"] = createExportWrapper("_ZN15b2ContactFilterD0Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2RopeC2Ev = Module["__ZN6b2RopeC2Ev"] = createExportWrapper("_ZN6b2RopeC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN12b2RopeTuningC2Ev = Module["__ZN12b2RopeTuningC2Ev"] = createExportWrapper("_ZN12b2RopeTuningC2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2RopeD2Ev = Module["__ZN6b2RopeD2Ev"] = createExportWrapper("_ZN6b2RopeD2Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope6CreateERK9b2RopeDef = Module["__ZN6b2Rope6CreateERK9b2RopeDef"] = createExportWrapper("_ZN6b2Rope6CreateERK9b2RopeDef");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Vec24SkewEv = Module["__ZNK6b2Vec24SkewEv"] = createExportWrapper("_ZNK6b2Vec24SkewEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope9SetTuningERK12b2RopeTuning = Module["__ZN6b2Rope9SetTuningERK12b2RopeTuning"] = createExportWrapper("_ZN6b2Rope9SetTuningERK12b2RopeTuning");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope4StepEfiRK6b2Vec2 = Module["__ZN6b2Rope4StepEfiRK6b2Vec2"] = createExportWrapper("_ZN6b2Rope4StepEfiRK6b2Vec2");
+
+/** @type {function(...*):?} */
+var _expf = Module["_expf"] = createExportWrapper("expf");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope15ApplyBendForcesEf = Module["__ZN6b2Rope15ApplyBendForcesEf"] = createExportWrapper("_ZN6b2Rope15ApplyBendForcesEf");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope19SolveBend_PBD_AngleEv = Module["__ZN6b2Rope19SolveBend_PBD_AngleEv"] = createExportWrapper("_ZN6b2Rope19SolveBend_PBD_AngleEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope20SolveBend_XPBD_AngleEf = Module["__ZN6b2Rope20SolveBend_XPBD_AngleEf"] = createExportWrapper("_ZN6b2Rope20SolveBend_XPBD_AngleEf");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope22SolveBend_PBD_DistanceEv = Module["__ZN6b2Rope22SolveBend_PBD_DistanceEv"] = createExportWrapper("_ZN6b2Rope22SolveBend_PBD_DistanceEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope20SolveBend_PBD_HeightEv = Module["__ZN6b2Rope20SolveBend_PBD_HeightEv"] = createExportWrapper("_ZN6b2Rope20SolveBend_PBD_HeightEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope22SolveBend_PBD_TriangleEv = Module["__ZN6b2Rope22SolveBend_PBD_TriangleEv"] = createExportWrapper("_ZN6b2Rope22SolveBend_PBD_TriangleEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope16SolveStretch_PBDEv = Module["__ZN6b2Rope16SolveStretch_PBDEv"] = createExportWrapper("_ZN6b2Rope16SolveStretch_PBDEv");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope17SolveStretch_XPBDEf = Module["__ZN6b2Rope17SolveStretch_XPBDEf"] = createExportWrapper("_ZN6b2Rope17SolveStretch_XPBDEf");
+
+/** @type {function(...*):?} */
+var __ZN6b2Rope5ResetERK6b2Vec2 = Module["__ZN6b2Rope5ResetERK6b2Vec2"] = createExportWrapper("_ZN6b2Rope5ResetERK6b2Vec2");
+
+/** @type {function(...*):?} */
+var __ZNK6b2Rope4DrawEP6b2Draw = Module["__ZNK6b2Rope4DrawEP6b2Draw"] = createExportWrapper("_ZNK6b2Rope4DrawEP6b2Draw");
+
+/** @type {function(...*):?} */
+var __ZN6b2RopeC1Ev = Module["__ZN6b2RopeC1Ev"] = createExportWrapper("_ZN6b2RopeC1Ev");
+
+/** @type {function(...*):?} */
+var __ZN6b2RopeD1Ev = Module["__ZN6b2RopeD1Ev"] = createExportWrapper("_ZN6b2RopeD1Ev");
+
+/** @type {function(...*):?} */
 var __ZN7msdfgen6BitmapIfEC2Ev = Module["__ZN7msdfgen6BitmapIfEC2Ev"] = createExportWrapper("_ZN7msdfgen6BitmapIfEC2Ev");
 
 /** @type {function(...*):?} */
@@ -39948,9 +42945,6 @@ var __ZN7msdfgen12CubicSegmentD2Ev = Module["__ZN7msdfgen12CubicSegmentD2Ev"] = 
 
 /** @type {function(...*):?} */
 var __ZN7msdfgen12CubicSegmentD0Ev = Module["__ZN7msdfgen12CubicSegmentD0Ev"] = createExportWrapper("_ZN7msdfgen12CubicSegmentD0Ev");
-
-/** @type {function(...*):?} */
-var ___cxa_pure_virtual = Module["___cxa_pure_virtual"] = createExportWrapper("__cxa_pure_virtual");
 
 /** @type {function(...*):?} */
 var __ZN7msdfgen10EdgeHolderC2Ev = Module["__ZN7msdfgen10EdgeHolderC2Ev"] = createExportWrapper("_ZN7msdfgen10EdgeHolderC2Ev");
@@ -45536,12 +48530,6 @@ var _tmpnam = Module["_tmpnam"] = createExportWrapper("tmpnam");
 var _putwc = Module["_putwc"] = createExportWrapper("putwc");
 
 /** @type {function(...*):?} */
-var _vprintf = Module["_vprintf"] = createExportWrapper("vprintf");
-
-/** @type {function(...*):?} */
-var _vfprintf = Module["_vfprintf"] = createExportWrapper("vfprintf");
-
-/** @type {function(...*):?} */
 var ___wasi_syscall_ret = Module["___wasi_syscall_ret"] = createExportWrapper("__wasi_syscall_ret");
 
 /** @type {function(...*):?} */
@@ -46182,9 +49170,6 @@ var _log1pl = Module["_log1pl"] = createExportWrapper("log1pl");
 
 /** @type {function(...*):?} */
 var ___rem_pio2_large = Module["___rem_pio2_large"] = createExportWrapper("__rem_pio2_large");
-
-/** @type {function(...*):?} */
-var _expf = Module["_expf"] = createExportWrapper("expf");
 
 /** @type {function(...*):?} */
 var _scalbnf = Module["_scalbnf"] = createExportWrapper("scalbnf");
@@ -61558,931 +64543,1033 @@ var _orig$_ZN10__cxxabiv119__setExceptionClassEP17_Unwind_Exceptiony = Module["_
 /** @type {function(...*):?} */
 var _orig$fminl = Module["_orig$fminl"] = createExportWrapper("orig$fminl");
 
-var __ZNSt3__24coutE = Module['__ZNSt3__24coutE'] = 297724;
-var __ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262192;
-var __ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262232;
-var __ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262300;
-var __ZNSt3__25ctypeIcE2idE = Module['__ZNSt3__25ctypeIcE2idE'] = 298872;
-var __ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 268528;
-var __ZTVNSt3__28ios_baseE = Module['__ZTVNSt3__28ios_baseE'] = 268500;
-var __ZTISt12length_error = Module['__ZTISt12length_error'] = 281224;
-var __ZTVSt12length_error = Module['__ZTVSt12length_error'] = 281204;
-var _Serial = Module['_Serial'] = 283692;
-var _Serial1 = Module['_Serial1'] = 283693;
-var _Serial2 = Module['_Serial2'] = 283694;
-var _Serial3 = Module['_Serial3'] = 283695;
-var __ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262288;
-var __ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 262248;
-var __ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 268648;
+var __ZNSt3__24coutE = Module['__ZNSt3__24coutE'] = 315468;
+var __ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 277088;
+var __ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 277128;
+var __ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 277196;
+var __ZNSt3__25ctypeIcE2idE = Module['__ZNSt3__25ctypeIcE2idE'] = 316616;
+var __ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 285328;
+var __ZTVNSt3__28ios_baseE = Module['__ZTVNSt3__28ios_baseE'] = 285300;
+var __ZTISt12length_error = Module['__ZTISt12length_error'] = 298024;
+var __ZTVSt12length_error = Module['__ZTVSt12length_error'] = 298004;
+var _Serial = Module['_Serial'] = 300492;
+var _Serial1 = Module['_Serial1'] = 300493;
+var _Serial2 = Module['_Serial2'] = 300494;
+var _Serial3 = Module['_Serial3'] = 300495;
+var __ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 277184;
+var __ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 277144;
+var __ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 285448;
 var __ZTSNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 1058;
-var __ZTVN10__cxxabiv120__si_class_type_infoE = Module['__ZTVN10__cxxabiv120__si_class_type_infoE'] = 282752;
-var __ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262364;
+var __ZTVN10__cxxabiv120__si_class_type_infoE = Module['__ZTVN10__cxxabiv120__si_class_type_infoE'] = 299552;
+var __ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 277260;
 var __ZTSNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 1128;
-var __ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 268584;
-var __ZNSt3__24cerrE = Module['__ZNSt3__24cerrE'] = 297892;
-var __ZTV3Led = Module['__ZTV3Led'] = 262376;
-var __ZTV6Output = Module['__ZTV6Output'] = 262420;
-var __ZTI3Led = Module['__ZTI3Led'] = 262408;
-var __ZTS3Led = Module['__ZTS3Led'] = 1572;
-var __ZTS6Output = Module['__ZTS6Output'] = 1577;
-var __ZTI6Output = Module['__ZTI6Output'] = 262400;
-var __ZTVN10__cxxabiv117__class_type_infoE = Module['__ZTVN10__cxxabiv117__class_type_infoE'] = 282712;
+var __ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 285384;
+var __ZNSt3__24cerrE = Module['__ZNSt3__24cerrE'] = 315636;
+var __ZTV14b2PolygonShape = Module['__ZTV14b2PolygonShape'] = 279156;
+var __ZTV7b2Shape = Module['__ZTV7b2Shape'] = 277272;
+var __ZTI7b2Shape = Module['__ZTI7b2Shape'] = 277312;
+var __ZTS7b2Shape = Module['__ZTS7b2Shape'] = 1457;
+var __ZTVN10__cxxabiv117__class_type_infoE = Module['__ZTVN10__cxxabiv117__class_type_infoE'] = 299512;
+var __ZTV3Led = Module['__ZTV3Led'] = 277368;
+var __ZTV6Output = Module['__ZTV6Output'] = 277412;
+var __ZTI3Led = Module['__ZTI3Led'] = 277400;
+var __ZTS3Led = Module['__ZTS3Led'] = 1616;
+var __ZTS6Output = Module['__ZTS6Output'] = 1621;
+var __ZTI6Output = Module['__ZTI6Output'] = 277392;
+var __ZTV21L298N_MotorController = Module['__ZTV21L298N_MotorController'] = 277436;
+var __ZTI21L298N_MotorController = Module['__ZTI21L298N_MotorController'] = 277468;
+var __ZTS21L298N_MotorController = Module['__ZTS21L298N_MotorController'] = 1908;
+var _b2Vec2_zero = Module['_b2Vec2_zero'] = 304332;
 var ___dso_handle = Module['___dso_handle'] = 1024;
-var __ZTV3App = Module['__ZTV3App'] = 262444;
-var __ZTVN6piksel7BaseAppE = Module['__ZTVN6piksel7BaseAppE'] = 262520;
-var __ZTI3App = Module['__ZTI3App'] = 262492;
-var __ZTS3App = Module['__ZTS3App'] = 1633;
-var __ZTIN6piksel7BaseAppE = Module['__ZTIN6piksel7BaseAppE'] = 262568;
-var __ZN6piksel14USE_EMSCRIPTENE = Module['__ZN6piksel14USE_EMSCRIPTENE'] = 1713;
-var __ZN6piksel17minecraft_regularE = Module['__ZN6piksel17minecraft_regularE'] = 284152;
-var _stderr = Module['_stderr'] = 266696;
-var __ZN20__em_asm_sig_builderI19__em_asm_type_tupleIJEEE6bufferE = Module['__ZN20__em_asm_sig_builderI19__em_asm_type_tupleIJEEE6bufferE'] = 23241;
-var __ZTSN6piksel7BaseAppE = Module['__ZTSN6piksel7BaseAppE'] = 23803;
-var __ZN6piksel4msdfE = Module['__ZN6piksel4msdfE'] = 263224;
-var __ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 263040;
-var __ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 263080;
-var __ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262712;
-var __ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262772;
-var __ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 263148;
-var __ZNSt3__27codecvtIcc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIcc11__mbstate_tE2idE'] = 298880;
-var __ZTISt8bad_cast = Module['__ZTISt8bad_cast'] = 281440;
-var __ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262952;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE'] = 262812;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262872;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 262912;
-var __ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 268776;
-var __ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 268600;
-var __ZTSNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 50542;
-var __ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 263136;
-var __ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 263096;
-var __ZTSNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 50677;
-var __ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 263212;
-var __ZTSNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 50725;
-var __ZTVN7msdfgen13LinearSegmentE = Module['__ZTVN7msdfgen13LinearSegmentE'] = 263752;
-var __ZTVN7msdfgen11EdgeSegmentE = Module['__ZTVN7msdfgen11EdgeSegmentE'] = 263908;
-var __ZTVN7msdfgen16QuadraticSegmentE = Module['__ZTVN7msdfgen16QuadraticSegmentE'] = 263804;
-var __ZTVN7msdfgen12CubicSegmentE = Module['__ZTVN7msdfgen12CubicSegmentE'] = 263856;
-var __ZTIN7msdfgen13LinearSegmentE = Module['__ZTIN7msdfgen13LinearSegmentE'] = 263968;
-var __ZTIN7msdfgen16QuadraticSegmentE = Module['__ZTIN7msdfgen16QuadraticSegmentE'] = 263980;
-var __ZTIN7msdfgen12CubicSegmentE = Module['__ZTIN7msdfgen12CubicSegmentE'] = 263992;
-var __ZTIN7msdfgen11EdgeSegmentE = Module['__ZTIN7msdfgen11EdgeSegmentE'] = 263960;
-var __ZTSN7msdfgen11EdgeSegmentE = Module['__ZTSN7msdfgen11EdgeSegmentE'] = 51640;
-var __ZTSN7msdfgen13LinearSegmentE = Module['__ZTSN7msdfgen13LinearSegmentE'] = 51664;
-var __ZTSN7msdfgen16QuadraticSegmentE = Module['__ZTSN7msdfgen16QuadraticSegmentE'] = 51690;
-var __ZTSN7msdfgen12CubicSegmentE = Module['__ZTSN7msdfgen12CubicSegmentE'] = 51719;
-var __ZN7msdfgen14SignedDistance8INFINITEE = Module['__ZN7msdfgen14SignedDistance8INFINITEE'] = 286816;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 264252;
-var __ZTVNSt3__219__shared_weak_countE = Module['__ZTVNSt3__219__shared_weak_countE'] = 276048;
-var __ZTVNSt3__214__shared_countE = Module['__ZTVNSt3__214__shared_countE'] = 276020;
-var __ZTVN6json118JsonNullE = Module['__ZTVN6json118JsonNullE'] = 264292;
-var __ZTVN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 264380;
-var __ZTVN6json119JsonValueE = Module['__ZTVN6json119JsonValueE'] = 264004;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 264444;
-var __ZTVN6json1111JsonBooleanE = Module['__ZTVN6json1111JsonBooleanE'] = 264484;
-var __ZTVN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE2EbEE'] = 264572;
-var __ZTVN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 264636;
-var __ZTVN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 264700;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 264764;
-var __ZTVN6json1110JsonDoubleE = Module['__ZTVN6json1110JsonDoubleE'] = 264804;
-var __ZTVN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE1EdEE'] = 264892;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 264956;
-var __ZTVN6json117JsonIntE = Module['__ZTVN6json117JsonIntE'] = 264996;
-var __ZTVN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE1EiEE'] = 265084;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 265148;
-var __ZTVN6json1110JsonStringE = Module['__ZTVN6json1110JsonStringE'] = 265188;
-var __ZTVN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 265276;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 265340;
-var __ZTVN6json119JsonArrayE = Module['__ZTVN6json119JsonArrayE'] = 264076;
-var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 265380;
-var __ZTVN6json1110JsonObjectE = Module['__ZTVN6json1110JsonObjectE'] = 264164;
-var __ZTIN6json119JsonValueE = Module['__ZTIN6json119JsonValueE'] = 264068;
-var __ZTSN6json119JsonValueE = Module['__ZTSN6json119JsonValueE'] = 52116;
-var __ZTIN6json119JsonArrayE = Module['__ZTIN6json119JsonArrayE'] = 264152;
-var __ZTSN6json119JsonArrayE = Module['__ZTSN6json119JsonArrayE'] = 52136;
-var __ZTSN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 52156;
-var __ZTIN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 264140;
-var __ZTIN6json1110JsonObjectE = Module['__ZTIN6json1110JsonObjectE'] = 264240;
-var __ZTSN6json1110JsonObjectE = Module['__ZTSN6json1110JsonObjectE'] = 52231;
-var __ZTSN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 52253;
-var __ZTIN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 264228;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 264280;
-var __ZTSNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 52475;
-var __ZTINSt3__219__shared_weak_countE = Module['__ZTINSt3__219__shared_weak_countE'] = 276076;
-var __ZTIN6json118JsonNullE = Module['__ZTIN6json118JsonNullE'] = 264368;
-var __ZTSN6json118JsonNullE = Module['__ZTSN6json118JsonNullE'] = 52545;
-var __ZTSN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 52564;
-var __ZTIN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 264356;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 264472;
-var __ZTSNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 52621;
-var __ZTIN6json1111JsonBooleanE = Module['__ZTIN6json1111JsonBooleanE'] = 264560;
-var __ZTSN6json1111JsonBooleanE = Module['__ZTSN6json1111JsonBooleanE'] = 52695;
-var __ZTSN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE2EbEE'] = 52718;
-var __ZTIN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE2EbEE'] = 264548;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 264792;
-var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 53459;
-var __ZTIN6json1110JsonDoubleE = Module['__ZTIN6json1110JsonDoubleE'] = 264880;
-var __ZTSN6json1110JsonDoubleE = Module['__ZTSN6json1110JsonDoubleE'] = 53532;
-var __ZTSN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE1EdEE'] = 53554;
-var __ZTIN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE1EdEE'] = 264868;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 264984;
-var __ZTSNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 53596;
-var __ZTIN6json117JsonIntE = Module['__ZTIN6json117JsonIntE'] = 265072;
-var __ZTSN6json117JsonIntE = Module['__ZTSN6json117JsonIntE'] = 53665;
-var __ZTSN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE1EiEE'] = 53683;
-var __ZTIN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE1EiEE'] = 265060;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 265176;
-var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 53722;
-var __ZTIN6json1110JsonStringE = Module['__ZTIN6json1110JsonStringE'] = 265264;
-var __ZTSN6json1110JsonStringE = Module['__ZTSN6json1110JsonStringE'] = 53795;
-var __ZTSN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 53817;
-var __ZTIN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 265252;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 265368;
-var __ZTSNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 53958;
-var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 265408;
-var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 54029;
-var ___c_dot_utf8 = Module['___c_dot_utf8'] = 266428;
-var ___c_locale = Module['___c_locale'] = 65844;
-var ___c_dot_utf8_locale = Module['___c_dot_utf8_locale'] = 266456;
-var ___libc = Module['___libc'] = 287068;
-var ___progname = Module['___progname'] = 287060;
-var ___progname_full = Module['___progname_full'] = 287064;
-var ___hwcap = Module['___hwcap'] = 287132;
-var ___sysinfo = Module['___sysinfo'] = 287136;
-var _program_invocation_short_name = Module['_program_invocation_short_name'] = 287060;
-var _program_invocation_name = Module['_program_invocation_name'] = 287064;
-var _stdout = Module['_stdout'] = 266848;
-var ___stderr_used = Module['___stderr_used'] = 266700;
-var ___stdout_used = Module['___stdout_used'] = 266852;
-var _stdin = Module['_stdin'] = 267000;
-var ___stdin_used = Module['___stdin_used'] = 267004;
-var ___environ = Module['___environ'] = 290788;
-var ___seed48 = Module['___seed48'] = 267152;
-var ___pio2_hi = Module['___pio2_hi'] = 224592;
-var ___pio2_lo = Module['___pio2_lo'] = 224608;
-var ___signgam = Module['___signgam'] = 289556;
-var _signgam = Module['_signgam'] = 289556;
-var _atanlo = Module['_atanlo'] = 230112;
-var _atanhi = Module['_atanhi'] = 230048;
-var _aT = Module['_aT'] = 230176;
-var ___optreset = Module['___optreset'] = 289948;
-var _optind = Module['_optind'] = 267368;
-var ___optpos = Module['___optpos'] = 289952;
-var _optarg = Module['_optarg'] = 289956;
-var _optopt = Module['_optopt'] = 289960;
-var _opterr = Module['_opterr'] = 267372;
-var _optreset = Module['_optreset'] = 289948;
-var ___fsmu8 = Module['___fsmu8'] = 234160;
-var __ns_flagdata = Module['__ns_flagdata'] = 235184;
-var _h_errno = Module['_h_errno'] = 290064;
-var ____environ = Module['____environ'] = 290788;
-var __environ = Module['__environ'] = 290788;
-var _environ = Module['_environ'] = 290788;
-var ___env_map = Module['___env_map'] = 290796;
-var _tzname = Module['_tzname'] = 290800;
-var _daylight = Module['_daylight'] = 290808;
-var _timezone = Module['_timezone'] = 290812;
-var ___data_end = Module['___data_end'] = 302272;
-var ___THREW__ = Module['___THREW__'] = 294980;
-var ___threwValue = Module['___threwValue'] = 294984;
-var __ZTVNSt3__212system_errorE = Module['__ZTVNSt3__212system_errorE'] = 267788;
-var __ZTVNSt3__224__generic_error_categoryE = Module['__ZTVNSt3__224__generic_error_categoryE'] = 267712;
-var __ZTINSt3__224__generic_error_categoryE = Module['__ZTINSt3__224__generic_error_categoryE'] = 267900;
-var __ZTVNSt3__223__system_error_categoryE = Module['__ZTVNSt3__223__system_error_categoryE'] = 267752;
-var __ZTINSt3__223__system_error_categoryE = Module['__ZTINSt3__223__system_error_categoryE'] = 267912;
-var __ZTINSt3__212system_errorE = Module['__ZTINSt3__212system_errorE'] = 267924;
-var __ZTVNSt3__214error_categoryE = Module['__ZTVNSt3__214error_categoryE'] = 267808;
-var __ZTINSt3__214error_categoryE = Module['__ZTINSt3__214error_categoryE'] = 267844;
-var __ZTSNSt3__214error_categoryE = Module['__ZTSNSt3__214error_categoryE'] = 237222;
-var __ZTVNSt3__212__do_messageE = Module['__ZTVNSt3__212__do_messageE'] = 267852;
-var __ZTINSt3__212__do_messageE = Module['__ZTINSt3__212__do_messageE'] = 267888;
-var __ZTSNSt3__212__do_messageE = Module['__ZTSNSt3__212__do_messageE'] = 237247;
-var __ZTSNSt3__224__generic_error_categoryE = Module['__ZTSNSt3__224__generic_error_categoryE'] = 237270;
-var __ZTSNSt3__223__system_error_categoryE = Module['__ZTSNSt3__223__system_error_categoryE'] = 237305;
-var __ZTSNSt3__212system_errorE = Module['__ZTSNSt3__212system_errorE'] = 237339;
-var __ZTISt13runtime_error = Module['__ZTISt13runtime_error'] = 281288;
-var __ZTVSt12bad_any_cast = Module['__ZTVSt12bad_any_cast'] = 267936;
-var __ZTISt12bad_any_cast = Module['__ZTISt12bad_any_cast'] = 267956;
-var __ZTSSt12bad_any_cast = Module['__ZTSSt12bad_any_cast'] = 237392;
-var __ZTVNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTVNSt12experimental15fundamentals_v112bad_any_castE'] = 267968;
-var __ZTINSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTINSt12experimental15fundamentals_v112bad_any_castE'] = 267988;
-var __ZTSNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTSNSt12experimental15fundamentals_v112bad_any_castE'] = 237409;
-var __ZNSt3__212__rs_default4__c_E = Module['__ZNSt3__212__rs_default4__c_E'] = 294996;
-var __ZTVSt18bad_variant_access = Module['__ZTVSt18bad_variant_access'] = 268000;
-var __ZTISt18bad_variant_access = Module['__ZTISt18bad_variant_access'] = 268020;
-var __ZTSSt18bad_variant_access = Module['__ZTSSt18bad_variant_access'] = 237638;
-var __ZTISt9exception = Module['__ZTISt9exception'] = 281024;
-var __ZSt7nothrow = Module['__ZSt7nothrow'] = 237661;
-var __ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 268032;
-var __ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 268096;
-var __ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 268200;
-var __ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 268248;
-var __ZNSt3__25ctypeIwE2idE = Module['__ZNSt3__25ctypeIwE2idE'] = 298864;
-var __ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 268296;
-var __ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298700;
-var __ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 268344;
-var __ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298708;
-var __ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 268412;
-var __ZTVNSt3__28ios_base7failureE = Module['__ZTVNSt3__28ios_base7failureE'] = 268480;
-var __ZNSt3__28ios_base9__xindex_E = Module['__ZNSt3__28ios_base9__xindex_E'] = 297536;
-var __ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298684;
-var __ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298692;
-var __ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 268592;
-var __ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 268160;
-var __ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 268208;
-var __ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 268624;
-var __ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 268256;
-var __ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 268304;
-var __ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 268672;
-var __ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 268352;
-var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 268696;
-var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 268736;
-var __ZTVNSt3__219__iostream_categoryE = Module['__ZTVNSt3__219__iostream_categoryE'] = 268444;
-var __ZTINSt3__219__iostream_categoryE = Module['__ZTINSt3__219__iostream_categoryE'] = 268808;
-var __ZTINSt3__28ios_base7failureE = Module['__ZTINSt3__28ios_base7failureE'] = 268820;
-var __ZNSt3__28ios_base9boolalphaE = Module['__ZNSt3__28ios_base9boolalphaE'] = 237708;
-var __ZNSt3__28ios_base3decE = Module['__ZNSt3__28ios_base3decE'] = 237712;
-var __ZNSt3__28ios_base5fixedE = Module['__ZNSt3__28ios_base5fixedE'] = 237716;
-var __ZNSt3__28ios_base3hexE = Module['__ZNSt3__28ios_base3hexE'] = 237720;
-var __ZNSt3__28ios_base8internalE = Module['__ZNSt3__28ios_base8internalE'] = 237724;
-var __ZNSt3__28ios_base4leftE = Module['__ZNSt3__28ios_base4leftE'] = 237728;
-var __ZNSt3__28ios_base3octE = Module['__ZNSt3__28ios_base3octE'] = 237732;
-var __ZNSt3__28ios_base5rightE = Module['__ZNSt3__28ios_base5rightE'] = 237736;
-var __ZNSt3__28ios_base10scientificE = Module['__ZNSt3__28ios_base10scientificE'] = 237740;
-var __ZNSt3__28ios_base8showbaseE = Module['__ZNSt3__28ios_base8showbaseE'] = 237744;
-var __ZNSt3__28ios_base9showpointE = Module['__ZNSt3__28ios_base9showpointE'] = 237748;
-var __ZNSt3__28ios_base7showposE = Module['__ZNSt3__28ios_base7showposE'] = 237752;
-var __ZNSt3__28ios_base6skipwsE = Module['__ZNSt3__28ios_base6skipwsE'] = 237756;
-var __ZNSt3__28ios_base7unitbufE = Module['__ZNSt3__28ios_base7unitbufE'] = 237760;
-var __ZNSt3__28ios_base9uppercaseE = Module['__ZNSt3__28ios_base9uppercaseE'] = 237764;
-var __ZNSt3__28ios_base11adjustfieldE = Module['__ZNSt3__28ios_base11adjustfieldE'] = 237768;
-var __ZNSt3__28ios_base9basefieldE = Module['__ZNSt3__28ios_base9basefieldE'] = 237772;
-var __ZNSt3__28ios_base10floatfieldE = Module['__ZNSt3__28ios_base10floatfieldE'] = 237776;
-var __ZNSt3__28ios_base6badbitE = Module['__ZNSt3__28ios_base6badbitE'] = 237780;
-var __ZNSt3__28ios_base6eofbitE = Module['__ZNSt3__28ios_base6eofbitE'] = 237784;
-var __ZNSt3__28ios_base7failbitE = Module['__ZNSt3__28ios_base7failbitE'] = 237788;
-var __ZNSt3__28ios_base7goodbitE = Module['__ZNSt3__28ios_base7goodbitE'] = 237792;
-var __ZNSt3__28ios_base3appE = Module['__ZNSt3__28ios_base3appE'] = 237796;
-var __ZNSt3__28ios_base3ateE = Module['__ZNSt3__28ios_base3ateE'] = 237800;
-var __ZNSt3__28ios_base6binaryE = Module['__ZNSt3__28ios_base6binaryE'] = 237804;
-var __ZNSt3__28ios_base2inE = Module['__ZNSt3__28ios_base2inE'] = 237808;
-var __ZNSt3__28ios_base3outE = Module['__ZNSt3__28ios_base3outE'] = 237812;
-var __ZNSt3__28ios_base5truncE = Module['__ZNSt3__28ios_base5truncE'] = 237816;
-var __ZTINSt3__28ios_baseE = Module['__ZTINSt3__28ios_baseE'] = 268520;
-var __ZTSNSt3__28ios_baseE = Module['__ZTSNSt3__28ios_baseE'] = 237836;
-var __ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 268544;
-var __ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 237854;
-var __ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 268556;
-var __ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 268572;
-var __ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 237896;
-var __ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 237938;
-var __ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 237987;
-var __ZTSNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 238036;
-var __ZTVN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTVN10__cxxabiv121__vmi_class_type_infoE'] = 282804;
-var __ZTSNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 238083;
-var __ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 238130;
-var __ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 238177;
-var __ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 238224;
-var __ZTSNSt3__219__iostream_categoryE = Module['__ZTSNSt3__219__iostream_categoryE'] = 238272;
-var __ZTSNSt3__28ios_base7failureE = Module['__ZTSNSt3__28ios_base7failureE'] = 238302;
-var __ZNSt3__219__start_std_streamsE = Module['__ZNSt3__219__start_std_streamsE'] = 298228;
-var __ZNSt3__23cinE = Module['__ZNSt3__23cinE'] = 297548;
-var __ZNSt3__24wcinE = Module['__ZNSt3__24wcinE'] = 297636;
-var __ZNSt3__25wcoutE = Module['__ZNSt3__25wcoutE'] = 297808;
-var __ZNSt3__24clogE = Module['__ZNSt3__24clogE'] = 298060;
-var __ZNSt3__25wcerrE = Module['__ZNSt3__25wcerrE'] = 297976;
-var __ZNSt3__25wclogE = Module['__ZNSt3__25wclogE'] = 298144;
-var __ZTVNSt3__210__stdinbufIcEE = Module['__ZTVNSt3__210__stdinbufIcEE'] = 268832;
-var __ZTVNSt3__210__stdinbufIwEE = Module['__ZTVNSt3__210__stdinbufIwEE'] = 268908;
-var __ZTVNSt3__211__stdoutbufIcEE = Module['__ZTVNSt3__211__stdoutbufIcEE'] = 268984;
-var __ZTVNSt3__211__stdoutbufIwEE = Module['__ZTVNSt3__211__stdoutbufIwEE'] = 269060;
-var __ZNSt3__27codecvtIwc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIwc11__mbstate_tE2idE'] = 298888;
-var __ZTINSt3__210__stdinbufIcEE = Module['__ZTINSt3__210__stdinbufIcEE'] = 268896;
-var __ZTSNSt3__210__stdinbufIcEE = Module['__ZTSNSt3__210__stdinbufIcEE'] = 238402;
-var __ZTINSt3__210__stdinbufIwEE = Module['__ZTINSt3__210__stdinbufIwEE'] = 268972;
-var __ZTSNSt3__210__stdinbufIwEE = Module['__ZTSNSt3__210__stdinbufIwEE'] = 238464;
-var __ZTINSt3__211__stdoutbufIcEE = Module['__ZTINSt3__211__stdoutbufIcEE'] = 269048;
-var __ZTSNSt3__211__stdoutbufIcEE = Module['__ZTSNSt3__211__stdoutbufIcEE'] = 238488;
-var __ZTINSt3__211__stdoutbufIwEE = Module['__ZTINSt3__211__stdoutbufIwEE'] = 269124;
-var __ZTSNSt3__211__stdoutbufIwEE = Module['__ZTSNSt3__211__stdoutbufIwEE'] = 238513;
-var __ZNSt3__210defer_lockE = Module['__ZNSt3__210defer_lockE'] = 238538;
-var __ZNSt3__211try_to_lockE = Module['__ZNSt3__211try_to_lockE'] = 238539;
-var __ZNSt3__210adopt_lockE = Module['__ZNSt3__210adopt_lockE'] = 238540;
-var __ZNSt3__212placeholders2_1E = Module['__ZNSt3__212placeholders2_1E'] = 239110;
-var __ZNSt3__212placeholders2_2E = Module['__ZNSt3__212placeholders2_2E'] = 239111;
-var __ZNSt3__212placeholders2_3E = Module['__ZNSt3__212placeholders2_3E'] = 239112;
-var __ZNSt3__212placeholders2_4E = Module['__ZNSt3__212placeholders2_4E'] = 239113;
-var __ZNSt3__212placeholders2_5E = Module['__ZNSt3__212placeholders2_5E'] = 239114;
-var __ZNSt3__212placeholders2_6E = Module['__ZNSt3__212placeholders2_6E'] = 239115;
-var __ZNSt3__212placeholders2_7E = Module['__ZNSt3__212placeholders2_7E'] = 239116;
-var __ZNSt3__212placeholders2_8E = Module['__ZNSt3__212placeholders2_8E'] = 239117;
-var __ZNSt3__212placeholders2_9E = Module['__ZNSt3__212placeholders2_9E'] = 239118;
-var __ZNSt3__212placeholders3_10E = Module['__ZNSt3__212placeholders3_10E'] = 239119;
-var __ZNSt3__28numpunctIcE2idE = Module['__ZNSt3__28numpunctIcE2idE'] = 298912;
-var __ZNSt3__214__num_get_base5__srcE = Module['__ZNSt3__214__num_get_base5__srcE'] = 239120;
-var __ZNSt3__28numpunctIwE2idE = Module['__ZNSt3__28numpunctIwE2idE'] = 298920;
-var __ZNSt3__210moneypunctIcLb1EE2idE = Module['__ZNSt3__210moneypunctIcLb1EE2idE'] = 298756;
-var __ZNSt3__210moneypunctIcLb0EE2idE = Module['__ZNSt3__210moneypunctIcLb0EE2idE'] = 298748;
-var __ZNSt3__210moneypunctIwLb1EE2idE = Module['__ZNSt3__210moneypunctIwLb1EE2idE'] = 298772;
-var __ZNSt3__210moneypunctIwLb0EE2idE = Module['__ZNSt3__210moneypunctIwLb0EE2idE'] = 298764;
-var __ZTVNSt3__26locale5__impE = Module['__ZTVNSt3__26locale5__impE'] = 269136;
-var __ZTVNSt3__26locale5facetE = Module['__ZTVNSt3__26locale5facetE'] = 269600;
-var __ZNSt3__27collateIcE2idE = Module['__ZNSt3__27collateIcE2idE'] = 298668;
-var __ZNSt3__27collateIwE2idE = Module['__ZNSt3__27collateIwE2idE'] = 298676;
-var __ZNSt3__27codecvtIDsc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDsc11__mbstate_tE2idE'] = 298896;
-var __ZNSt3__27codecvtIDic11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDic11__mbstate_tE2idE'] = 298904;
-var __ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298780;
-var __ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298788;
-var __ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298796;
-var __ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298804;
-var __ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298716;
-var __ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298724;
-var __ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 298732;
-var __ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 298740;
-var __ZNSt3__28messagesIcE2idE = Module['__ZNSt3__28messagesIcE2idE'] = 298812;
-var __ZNSt3__28messagesIwE2idE = Module['__ZNSt3__28messagesIwE2idE'] = 298820;
-var __ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 273592;
-var __ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 273652;
-var __ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 273712;
-var __ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 273772;
-var __ZTVNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb0EEE'] = 272824;
-var __ZTVNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb1EEE'] = 272892;
-var __ZTVNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb0EEE'] = 272960;
-var __ZTVNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb1EEE'] = 273028;
-var __ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271952;
-var __ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272116;
-var __ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272392;
-var __ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272428;
-var __ZTVNSt3__215messages_bynameIcEE = Module['__ZTVNSt3__215messages_bynameIcEE'] = 273504;
-var __ZTVNSt3__215messages_bynameIwEE = Module['__ZTVNSt3__215messages_bynameIwEE'] = 273548;
-var __ZNSt3__26locale2id9__next_idE = Module['__ZNSt3__26locale2id9__next_idE'] = 298860;
-var __ZTVNSt3__214collate_bynameIcEE = Module['__ZTVNSt3__214collate_bynameIcEE'] = 269156;
-var __ZTVNSt3__214collate_bynameIwEE = Module['__ZTVNSt3__214collate_bynameIwEE'] = 269188;
-var __ZTVNSt3__25ctypeIcEE = Module['__ZTVNSt3__25ctypeIcEE'] = 269220;
-var __ZTVNSt3__212ctype_bynameIcEE = Module['__ZTVNSt3__212ctype_bynameIcEE'] = 269272;
-var __ZTVNSt3__212ctype_bynameIwEE = Module['__ZTVNSt3__212ctype_bynameIwEE'] = 269324;
-var __ZTVNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIwc11__mbstate_tEE'] = 269392;
-var __ZTVNSt3__28numpunctIcEE = Module['__ZTVNSt3__28numpunctIcEE'] = 269440;
-var __ZTVNSt3__28numpunctIwEE = Module['__ZTVNSt3__28numpunctIwEE'] = 269480;
-var __ZTVNSt3__215numpunct_bynameIcEE = Module['__ZTVNSt3__215numpunct_bynameIcEE'] = 269520;
-var __ZTVNSt3__215numpunct_bynameIwEE = Module['__ZTVNSt3__215numpunct_bynameIwEE'] = 269560;
-var __ZTVNSt3__215__time_get_tempIcEE = Module['__ZTVNSt3__215__time_get_tempIcEE'] = 273904;
-var __ZTVNSt3__215__time_get_tempIwEE = Module['__ZTVNSt3__215__time_get_tempIwEE'] = 273968;
-var __ZTVNSt3__27collateIcEE = Module['__ZTVNSt3__27collateIcEE'] = 271144;
-var __ZTVNSt3__27collateIwEE = Module['__ZTVNSt3__27collateIwEE'] = 271176;
-var __ZTVNSt3__25ctypeIwEE = Module['__ZTVNSt3__25ctypeIwEE'] = 269632;
-var __ZTVNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIcc11__mbstate_tEE'] = 269740;
-var __ZTVNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDsc11__mbstate_tEE'] = 269828;
-var __ZTVNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDic11__mbstate_tEE'] = 269908;
-var __ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271208;
-var __ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271336;
-var __ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271456;
-var __ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271572;
-var __ZTVNSt3__210moneypunctIcLb0EEE = Module['__ZTVNSt3__210moneypunctIcLb0EEE'] = 272464;
-var __ZTVNSt3__210moneypunctIcLb1EEE = Module['__ZTVNSt3__210moneypunctIcLb1EEE'] = 272560;
-var __ZTVNSt3__210moneypunctIwLb0EEE = Module['__ZTVNSt3__210moneypunctIwLb0EEE'] = 272648;
-var __ZTVNSt3__210moneypunctIwLb1EEE = Module['__ZTVNSt3__210moneypunctIwLb1EEE'] = 272736;
-var __ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 273096;
-var __ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 273164;
-var __ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 273232;
-var __ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 273300;
-var __ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271680;
-var __ZTVNSt3__220__time_get_c_storageIcEE = Module['__ZTVNSt3__220__time_get_c_storageIcEE'] = 273832;
-var __ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271820;
-var __ZTVNSt3__220__time_get_c_storageIwEE = Module['__ZTVNSt3__220__time_get_c_storageIwEE'] = 273868;
-var __ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272272;
-var __ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272336;
-var __ZTVNSt3__28messagesIcEE = Module['__ZTVNSt3__28messagesIcEE'] = 273368;
-var __ZTVNSt3__28messagesIwEE = Module['__ZTVNSt3__28messagesIwEE'] = 273440;
-var __ZNSt3__210moneypunctIcLb0EE4intlE = Module['__ZNSt3__210moneypunctIcLb0EE4intlE'] = 239376;
-var __ZNSt3__210moneypunctIcLb1EE4intlE = Module['__ZNSt3__210moneypunctIcLb1EE4intlE'] = 239377;
-var __ZNSt3__210moneypunctIwLb0EE4intlE = Module['__ZNSt3__210moneypunctIwLb0EE4intlE'] = 239378;
-var __ZNSt3__210moneypunctIwLb1EE4intlE = Module['__ZNSt3__210moneypunctIwLb1EE4intlE'] = 239379;
-var __ZNSt3__26locale4noneE = Module['__ZNSt3__26locale4noneE'] = 239404;
-var __ZNSt3__26locale7collateE = Module['__ZNSt3__26locale7collateE'] = 239408;
-var __ZNSt3__26locale5ctypeE = Module['__ZNSt3__26locale5ctypeE'] = 239412;
-var __ZNSt3__26locale8monetaryE = Module['__ZNSt3__26locale8monetaryE'] = 239416;
-var __ZNSt3__26locale7numericE = Module['__ZNSt3__26locale7numericE'] = 239420;
-var __ZNSt3__26locale4timeE = Module['__ZNSt3__26locale4timeE'] = 239424;
-var __ZNSt3__26locale8messagesE = Module['__ZNSt3__26locale8messagesE'] = 239428;
-var __ZNSt3__26locale3allE = Module['__ZNSt3__26locale3allE'] = 239432;
-var __ZTINSt3__26locale5__impE = Module['__ZTINSt3__26locale5__impE'] = 270980;
-var __ZTINSt3__214collate_bynameIcEE = Module['__ZTINSt3__214collate_bynameIcEE'] = 271004;
-var __ZTINSt3__214collate_bynameIwEE = Module['__ZTINSt3__214collate_bynameIwEE'] = 271028;
-var __ZNSt3__210ctype_base5spaceE = Module['__ZNSt3__210ctype_base5spaceE'] = 239578;
-var __ZNSt3__210ctype_base5printE = Module['__ZNSt3__210ctype_base5printE'] = 239580;
-var __ZNSt3__210ctype_base5cntrlE = Module['__ZNSt3__210ctype_base5cntrlE'] = 239582;
-var __ZNSt3__210ctype_base5upperE = Module['__ZNSt3__210ctype_base5upperE'] = 239584;
-var __ZNSt3__210ctype_base5lowerE = Module['__ZNSt3__210ctype_base5lowerE'] = 239586;
-var __ZNSt3__210ctype_base5alphaE = Module['__ZNSt3__210ctype_base5alphaE'] = 239588;
-var __ZNSt3__210ctype_base5digitE = Module['__ZNSt3__210ctype_base5digitE'] = 239590;
-var __ZNSt3__210ctype_base5punctE = Module['__ZNSt3__210ctype_base5punctE'] = 239592;
-var __ZNSt3__210ctype_base6xdigitE = Module['__ZNSt3__210ctype_base6xdigitE'] = 239594;
-var __ZNSt3__210ctype_base5blankE = Module['__ZNSt3__210ctype_base5blankE'] = 239596;
-var __ZNSt3__210ctype_base5alnumE = Module['__ZNSt3__210ctype_base5alnumE'] = 239598;
-var __ZNSt3__210ctype_base5graphE = Module['__ZNSt3__210ctype_base5graphE'] = 239600;
-var __ZTINSt3__25ctypeIcEE = Module['__ZTINSt3__25ctypeIcEE'] = 271040;
-var __ZTINSt3__212ctype_bynameIcEE = Module['__ZTINSt3__212ctype_bynameIcEE'] = 271072;
-var __ZTINSt3__212ctype_bynameIwEE = Module['__ZTINSt3__212ctype_bynameIwEE'] = 271084;
-var __ZTINSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIwc11__mbstate_tEE'] = 270276;
-var __ZTINSt3__28numpunctIcEE = Module['__ZTINSt3__28numpunctIcEE'] = 271096;
-var __ZTINSt3__28numpunctIwEE = Module['__ZTINSt3__28numpunctIwEE'] = 271108;
-var __ZTINSt3__215numpunct_bynameIcEE = Module['__ZTINSt3__215numpunct_bynameIcEE'] = 271120;
-var __ZTINSt3__215numpunct_bynameIwEE = Module['__ZTINSt3__215numpunct_bynameIwEE'] = 271132;
-var __ZTINSt3__26locale5facetE = Module['__ZTINSt3__26locale5facetE'] = 269620;
-var __ZTSNSt3__26locale5facetE = Module['__ZTSNSt3__26locale5facetE'] = 240404;
-var __ZTINSt3__214__shared_countE = Module['__ZTINSt3__214__shared_countE'] = 276040;
-var __ZTINSt3__25ctypeIwEE = Module['__ZTINSt3__25ctypeIwEE'] = 269708;
-var __ZTSNSt3__25ctypeIwEE = Module['__ZTSNSt3__25ctypeIwEE'] = 240426;
-var __ZTSNSt3__210ctype_baseE = Module['__ZTSNSt3__210ctype_baseE'] = 240444;
-var __ZTINSt3__210ctype_baseE = Module['__ZTINSt3__210ctype_baseE'] = 269700;
-var __ZTINSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIcc11__mbstate_tEE'] = 269796;
-var __ZTSNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIcc11__mbstate_tEE'] = 240465;
-var __ZTSNSt3__212codecvt_baseE = Module['__ZTSNSt3__212codecvt_baseE'] = 240499;
-var __ZTINSt3__212codecvt_baseE = Module['__ZTINSt3__212codecvt_baseE'] = 269788;
-var __ZTINSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDsc11__mbstate_tEE'] = 269876;
-var __ZTSNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDsc11__mbstate_tEE'] = 240522;
-var __ZTINSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDic11__mbstate_tEE'] = 269956;
-var __ZTSNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDic11__mbstate_tEE'] = 240557;
-var __ZTVNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm16EEE'] = 269988;
-var __ZTINSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm16EEE'] = 270036;
-var __ZTSNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm16EEE'] = 240592;
-var __ZTVNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm32EEE'] = 270048;
-var __ZTINSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm32EEE'] = 270096;
-var __ZTSNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm32EEE'] = 240626;
-var __ZTVNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm16EEE'] = 270108;
-var __ZTINSt3__217__widen_from_utf8ILm16EEE = Module['__ZTINSt3__217__widen_from_utf8ILm16EEE'] = 270156;
-var __ZTSNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm16EEE'] = 240660;
-var __ZTVNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm32EEE'] = 270168;
-var __ZTINSt3__217__widen_from_utf8ILm32EEE = Module['__ZTINSt3__217__widen_from_utf8ILm32EEE'] = 270216;
-var __ZTSNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm32EEE'] = 240695;
-var __ZTVNSt3__214__codecvt_utf8IwEE = Module['__ZTVNSt3__214__codecvt_utf8IwEE'] = 270228;
-var __ZTINSt3__214__codecvt_utf8IwEE = Module['__ZTINSt3__214__codecvt_utf8IwEE'] = 270308;
-var __ZTSNSt3__214__codecvt_utf8IwEE = Module['__ZTSNSt3__214__codecvt_utf8IwEE'] = 240730;
-var __ZTSNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIwc11__mbstate_tEE'] = 240758;
-var __ZTVNSt3__214__codecvt_utf8IDsEE = Module['__ZTVNSt3__214__codecvt_utf8IDsEE'] = 270320;
-var __ZTINSt3__214__codecvt_utf8IDsEE = Module['__ZTINSt3__214__codecvt_utf8IDsEE'] = 270368;
-var __ZTSNSt3__214__codecvt_utf8IDsEE = Module['__ZTSNSt3__214__codecvt_utf8IDsEE'] = 240792;
-var __ZTVNSt3__214__codecvt_utf8IDiEE = Module['__ZTVNSt3__214__codecvt_utf8IDiEE'] = 270380;
-var __ZTINSt3__214__codecvt_utf8IDiEE = Module['__ZTINSt3__214__codecvt_utf8IDiEE'] = 270428;
-var __ZTSNSt3__214__codecvt_utf8IDiEE = Module['__ZTSNSt3__214__codecvt_utf8IDiEE'] = 240821;
-var __ZTVNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb0EEE'] = 270440;
-var __ZTINSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb0EEE'] = 270488;
-var __ZTSNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb0EEE'] = 240850;
-var __ZTVNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb1EEE'] = 270500;
-var __ZTINSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb1EEE'] = 270548;
-var __ZTSNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb1EEE'] = 240883;
-var __ZTVNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb0EEE'] = 270560;
-var __ZTINSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb0EEE'] = 270608;
-var __ZTSNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb0EEE'] = 240916;
-var __ZTVNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb1EEE'] = 270620;
-var __ZTINSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb1EEE'] = 270668;
-var __ZTSNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb1EEE'] = 240950;
-var __ZTVNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb0EEE'] = 270680;
-var __ZTINSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb0EEE'] = 270728;
-var __ZTSNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb0EEE'] = 240984;
-var __ZTVNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb1EEE'] = 270740;
-var __ZTINSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb1EEE'] = 270788;
-var __ZTSNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb1EEE'] = 241018;
-var __ZTVNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IwEE'] = 270800;
-var __ZTINSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IwEE'] = 270848;
-var __ZTSNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IwEE'] = 241052;
-var __ZTVNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDiEE'] = 270860;
-var __ZTINSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDiEE'] = 270908;
-var __ZTSNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDiEE'] = 241086;
-var __ZTVNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDsEE'] = 270920;
-var __ZTINSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDsEE'] = 270968;
-var __ZTSNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDsEE'] = 241121;
-var __ZTSNSt3__26locale5__impE = Module['__ZTSNSt3__26locale5__impE'] = 241156;
-var __ZTSNSt3__214collate_bynameIcEE = Module['__ZTSNSt3__214collate_bynameIcEE'] = 241178;
-var __ZTSNSt3__27collateIcEE = Module['__ZTSNSt3__27collateIcEE'] = 241206;
-var __ZTINSt3__27collateIcEE = Module['__ZTINSt3__27collateIcEE'] = 270992;
-var __ZTSNSt3__214collate_bynameIwEE = Module['__ZTSNSt3__214collate_bynameIwEE'] = 241226;
-var __ZTSNSt3__27collateIwEE = Module['__ZTSNSt3__27collateIwEE'] = 241254;
-var __ZTINSt3__27collateIwEE = Module['__ZTINSt3__27collateIwEE'] = 271016;
-var __ZTSNSt3__25ctypeIcEE = Module['__ZTSNSt3__25ctypeIcEE'] = 241274;
-var __ZTSNSt3__212ctype_bynameIcEE = Module['__ZTSNSt3__212ctype_bynameIcEE'] = 241292;
-var __ZTSNSt3__212ctype_bynameIwEE = Module['__ZTSNSt3__212ctype_bynameIwEE'] = 241318;
-var __ZTSNSt3__28numpunctIcEE = Module['__ZTSNSt3__28numpunctIcEE'] = 241344;
-var __ZTSNSt3__28numpunctIwEE = Module['__ZTSNSt3__28numpunctIwEE'] = 241365;
-var __ZTSNSt3__215numpunct_bynameIcEE = Module['__ZTSNSt3__215numpunct_bynameIcEE'] = 241386;
-var __ZTSNSt3__215numpunct_bynameIwEE = Module['__ZTSNSt3__215numpunct_bynameIwEE'] = 241415;
-var __ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271304;
-var __ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241444;
-var __ZTSNSt3__29__num_getIcEE = Module['__ZTSNSt3__29__num_getIcEE'] = 241512;
-var __ZTSNSt3__214__num_get_baseE = Module['__ZTSNSt3__214__num_get_baseE'] = 241534;
-var __ZTINSt3__214__num_get_baseE = Module['__ZTINSt3__214__num_get_baseE'] = 271272;
-var __ZTINSt3__29__num_getIcEE = Module['__ZTINSt3__29__num_getIcEE'] = 271280;
-var __ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271424;
-var __ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241559;
-var __ZTSNSt3__29__num_getIwEE = Module['__ZTSNSt3__29__num_getIwEE'] = 241627;
-var __ZTINSt3__29__num_getIwEE = Module['__ZTINSt3__29__num_getIwEE'] = 271400;
-var __ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271540;
-var __ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241649;
-var __ZTSNSt3__29__num_putIcEE = Module['__ZTSNSt3__29__num_putIcEE'] = 241717;
-var __ZTSNSt3__214__num_put_baseE = Module['__ZTSNSt3__214__num_put_baseE'] = 241739;
-var __ZTINSt3__214__num_put_baseE = Module['__ZTINSt3__214__num_put_baseE'] = 271508;
-var __ZTINSt3__29__num_putIcEE = Module['__ZTINSt3__29__num_putIcEE'] = 271516;
-var __ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271648;
-var __ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241764;
-var __ZTSNSt3__29__num_putIwEE = Module['__ZTSNSt3__29__num_putIwEE'] = 241832;
-var __ZTINSt3__29__num_putIwEE = Module['__ZTINSt3__29__num_putIwEE'] = 271624;
-var __ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 271780;
-var __ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 241854;
-var __ZTSNSt3__29time_baseE = Module['__ZTSNSt3__29time_baseE'] = 241923;
-var __ZTINSt3__29time_baseE = Module['__ZTINSt3__29time_baseE'] = 271764;
-var __ZTSNSt3__220__time_get_c_storageIcEE = Module['__ZTSNSt3__220__time_get_c_storageIcEE'] = 241942;
-var __ZTINSt3__220__time_get_c_storageIcEE = Module['__ZTINSt3__220__time_get_c_storageIcEE'] = 271772;
-var __ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 271912;
-var __ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 241976;
-var __ZTSNSt3__220__time_get_c_storageIwEE = Module['__ZTSNSt3__220__time_get_c_storageIwEE'] = 242045;
-var __ZTINSt3__220__time_get_c_storageIwEE = Module['__ZTINSt3__220__time_get_c_storageIwEE'] = 271904;
-var __ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272084;
-var __ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242079;
-var __ZTSNSt3__218__time_get_storageIcEE = Module['__ZTSNSt3__218__time_get_storageIcEE'] = 242156;
-var __ZTSNSt3__210__time_getE = Module['__ZTSNSt3__210__time_getE'] = 242188;
-var __ZTINSt3__210__time_getE = Module['__ZTINSt3__210__time_getE'] = 272064;
-var __ZTINSt3__218__time_get_storageIcEE = Module['__ZTINSt3__218__time_get_storageIcEE'] = 272072;
-var __ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272240;
-var __ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242209;
-var __ZTSNSt3__218__time_get_storageIwEE = Module['__ZTSNSt3__218__time_get_storageIwEE'] = 242286;
-var __ZTINSt3__218__time_get_storageIwEE = Module['__ZTINSt3__218__time_get_storageIwEE'] = 272228;
-var __ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272304;
-var __ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242318;
-var __ZTSNSt3__210__time_putE = Module['__ZTSNSt3__210__time_putE'] = 242387;
-var __ZTINSt3__210__time_putE = Module['__ZTINSt3__210__time_putE'] = 272296;
-var __ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272360;
-var __ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242408;
-var __ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 272416;
-var __ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242477;
-var __ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 272452;
-var __ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242554;
-var __ZTINSt3__210moneypunctIcLb0EEE = Module['__ZTINSt3__210moneypunctIcLb0EEE'] = 272528;
-var __ZTSNSt3__210moneypunctIcLb0EEE = Module['__ZTSNSt3__210moneypunctIcLb0EEE'] = 242631;
-var __ZTSNSt3__210money_baseE = Module['__ZTSNSt3__210money_baseE'] = 242659;
-var __ZTINSt3__210money_baseE = Module['__ZTINSt3__210money_baseE'] = 272520;
-var __ZTINSt3__210moneypunctIcLb1EEE = Module['__ZTINSt3__210moneypunctIcLb1EEE'] = 272616;
-var __ZTSNSt3__210moneypunctIcLb1EEE = Module['__ZTSNSt3__210moneypunctIcLb1EEE'] = 242680;
-var __ZTINSt3__210moneypunctIwLb0EEE = Module['__ZTINSt3__210moneypunctIwLb0EEE'] = 272704;
-var __ZTSNSt3__210moneypunctIwLb0EEE = Module['__ZTSNSt3__210moneypunctIwLb0EEE'] = 242708;
-var __ZTINSt3__210moneypunctIwLb1EEE = Module['__ZTINSt3__210moneypunctIwLb1EEE'] = 272792;
-var __ZTSNSt3__210moneypunctIwLb1EEE = Module['__ZTSNSt3__210moneypunctIwLb1EEE'] = 242736;
-var __ZTINSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb0EEE'] = 272880;
-var __ZTSNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb0EEE'] = 242764;
-var __ZTINSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb1EEE'] = 272948;
-var __ZTSNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb1EEE'] = 242799;
-var __ZTINSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb0EEE'] = 273016;
-var __ZTSNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb0EEE'] = 242834;
-var __ZTINSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb1EEE'] = 273084;
-var __ZTSNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb1EEE'] = 242869;
-var __ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 273132;
-var __ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 242904;
-var __ZTSNSt3__211__money_getIcEE = Module['__ZTSNSt3__211__money_getIcEE'] = 242974;
-var __ZTINSt3__211__money_getIcEE = Module['__ZTINSt3__211__money_getIcEE'] = 273124;
-var __ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 273200;
-var __ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 242999;
-var __ZTSNSt3__211__money_getIwEE = Module['__ZTSNSt3__211__money_getIwEE'] = 243069;
-var __ZTINSt3__211__money_getIwEE = Module['__ZTINSt3__211__money_getIwEE'] = 273192;
-var __ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 273268;
-var __ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 243094;
-var __ZTSNSt3__211__money_putIcEE = Module['__ZTSNSt3__211__money_putIcEE'] = 243164;
-var __ZTINSt3__211__money_putIcEE = Module['__ZTINSt3__211__money_putIcEE'] = 273260;
-var __ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 273336;
-var __ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 243189;
-var __ZTSNSt3__211__money_putIwEE = Module['__ZTSNSt3__211__money_putIwEE'] = 243259;
-var __ZTINSt3__211__money_putIwEE = Module['__ZTINSt3__211__money_putIwEE'] = 273328;
-var __ZTINSt3__28messagesIcEE = Module['__ZTINSt3__28messagesIcEE'] = 273408;
-var __ZTSNSt3__28messagesIcEE = Module['__ZTSNSt3__28messagesIcEE'] = 243284;
-var __ZTSNSt3__213messages_baseE = Module['__ZTSNSt3__213messages_baseE'] = 243305;
-var __ZTINSt3__213messages_baseE = Module['__ZTINSt3__213messages_baseE'] = 273400;
-var __ZTINSt3__28messagesIwEE = Module['__ZTINSt3__28messagesIwEE'] = 273472;
-var __ZTSNSt3__28messagesIwEE = Module['__ZTSNSt3__28messagesIwEE'] = 243329;
-var __ZTINSt3__215messages_bynameIcEE = Module['__ZTINSt3__215messages_bynameIcEE'] = 273536;
-var __ZTSNSt3__215messages_bynameIcEE = Module['__ZTSNSt3__215messages_bynameIcEE'] = 243350;
-var __ZTINSt3__215messages_bynameIwEE = Module['__ZTINSt3__215messages_bynameIwEE'] = 273580;
-var __ZTSNSt3__215messages_bynameIwEE = Module['__ZTSNSt3__215messages_bynameIwEE'] = 243379;
-var __ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 273640;
-var __ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 243408;
-var __ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 273700;
-var __ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 243450;
-var __ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 273760;
-var __ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 243492;
-var __ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 273820;
-var __ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 243535;
-var __ZTINSt3__215__time_get_tempIcEE = Module['__ZTINSt3__215__time_get_tempIcEE'] = 273956;
-var __ZTSNSt3__215__time_get_tempIcEE = Module['__ZTSNSt3__215__time_get_tempIcEE'] = 244756;
-var __ZTINSt3__215__time_get_tempIwEE = Module['__ZTINSt3__215__time_get_tempIwEE'] = 274036;
-var __ZTSNSt3__215__time_get_tempIwEE = Module['__ZTSNSt3__215__time_get_tempIwEE'] = 244785;
-var __ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE = Module['__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE'] = 244828;
-var __ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE = Module['__ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE'] = 244832;
-var __ZTVNSt3__212future_errorE = Module['__ZTVNSt3__212future_errorE'] = 274088;
-var __ZTVNSt3__217__assoc_sub_stateE = Module['__ZTVNSt3__217__assoc_sub_stateE'] = 274108;
-var __ZTVNSt3__223__future_error_categoryE = Module['__ZTVNSt3__223__future_error_categoryE'] = 274052;
-var __ZTINSt3__223__future_error_categoryE = Module['__ZTINSt3__223__future_error_categoryE'] = 274144;
-var __ZTINSt3__212future_errorE = Module['__ZTINSt3__212future_errorE'] = 274156;
-var __ZTINSt3__217__assoc_sub_stateE = Module['__ZTINSt3__217__assoc_sub_stateE'] = 274132;
-var __ZTSNSt3__217__assoc_sub_stateE = Module['__ZTSNSt3__217__assoc_sub_stateE'] = 245561;
-var __ZTSNSt3__223__future_error_categoryE = Module['__ZTSNSt3__223__future_error_categoryE'] = 245589;
-var __ZTSNSt3__212future_errorE = Module['__ZTSNSt3__212future_errorE'] = 245623;
-var __ZTISt11logic_error = Module['__ZTISt11logic_error'] = 281148;
-var __ZTVSt19bad_optional_access = Module['__ZTVSt19bad_optional_access'] = 274188;
-var __ZTISt19bad_optional_access = Module['__ZTISt19bad_optional_access'] = 274208;
-var __ZTSSt19bad_optional_access = Module['__ZTSSt19bad_optional_access'] = 245698;
-var __ZTVNSt12experimental19bad_optional_accessE = Module['__ZTVNSt12experimental19bad_optional_accessE'] = 274220;
-var __ZTINSt12experimental19bad_optional_accessE = Module['__ZTINSt12experimental19bad_optional_accessE'] = 274240;
-var __ZTSNSt12experimental19bad_optional_accessE = Module['__ZTSNSt12experimental19bad_optional_accessE'] = 245722;
-var __ZTVNSt3__217bad_function_callE = Module['__ZTVNSt3__217bad_function_callE'] = 274252;
-var __ZTINSt3__217bad_function_callE = Module['__ZTINSt3__217bad_function_callE'] = 274272;
-var __ZTSNSt3__217bad_function_callE = Module['__ZTSNSt3__217bad_function_callE'] = 245785;
-var __ZNSt3__26chrono12system_clock9is_steadyE = Module['__ZNSt3__26chrono12system_clock9is_steadyE'] = 245813;
-var __ZNSt3__26chrono12steady_clock9is_steadyE = Module['__ZNSt3__26chrono12steady_clock9is_steadyE'] = 245851;
-var __ZTVSt16nested_exception = Module['__ZTVSt16nested_exception'] = 274284;
-var __ZTISt16nested_exception = Module['__ZTISt16nested_exception'] = 274300;
-var __ZTSSt16nested_exception = Module['__ZTSSt16nested_exception'] = 245890;
-var __ZTVNSt3__211regex_errorE = Module['__ZTVNSt3__211regex_errorE'] = 274308;
-var __ZTINSt3__211regex_errorE = Module['__ZTINSt3__211regex_errorE'] = 275352;
-var __ZTSNSt3__211regex_errorE = Module['__ZTSNSt3__211regex_errorE'] = 245911;
-var __ZNSt3__223__libcpp_debug_functionE = Module['__ZNSt3__223__libcpp_debug_functionE'] = 275432;
-var __ZTVNSt3__28__c_nodeE = Module['__ZTVNSt3__28__c_nodeE'] = 275436;
-var __ZTINSt3__28__c_nodeE = Module['__ZTINSt3__28__c_nodeE'] = 275468;
-var __ZTSNSt3__28__c_nodeE = Module['__ZTSNSt3__28__c_nodeE'] = 248124;
-var __ZTVNSt3__212strstreambufE = Module['__ZTVNSt3__212strstreambufE'] = 275476;
-var __ZTTNSt3__210istrstreamE = Module['__ZTTNSt3__210istrstreamE'] = 275580;
-var __ZTTNSt3__210ostrstreamE = Module['__ZTTNSt3__210ostrstreamE'] = 275636;
-var __ZTTNSt3__29strstreamE = Module['__ZTTNSt3__29strstreamE'] = 275712;
-var __ZTINSt3__212strstreambufE = Module['__ZTINSt3__212strstreambufE'] = 275752;
-var __ZTVNSt3__210istrstreamE = Module['__ZTVNSt3__210istrstreamE'] = 275540;
-var __ZTINSt3__210istrstreamE = Module['__ZTINSt3__210istrstreamE'] = 275804;
-var __ZTCNSt3__210istrstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__210istrstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE'] = 275764;
-var __ZTVNSt3__210ostrstreamE = Module['__ZTVNSt3__210ostrstreamE'] = 275596;
-var __ZTINSt3__210ostrstreamE = Module['__ZTINSt3__210ostrstreamE'] = 275856;
-var __ZTCNSt3__210ostrstreamE0_NS_13basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__210ostrstreamE0_NS_13basic_ostreamIcNS_11char_traitsIcEEEE'] = 275816;
-var __ZTVNSt3__29strstreamE = Module['__ZTVNSt3__29strstreamE'] = 275652;
-var __ZTINSt3__29strstreamE = Module['__ZTINSt3__29strstreamE'] = 276008;
-var __ZTCNSt3__29strstreamE0_NS_14basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE0_NS_14basic_iostreamIcNS_11char_traitsIcEEEE'] = 275868;
-var __ZTCNSt3__29strstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE'] = 275928;
-var __ZTCNSt3__29strstreamE8_NS_13basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE8_NS_13basic_ostreamIcNS_11char_traitsIcEEEE'] = 275968;
-var __ZTSNSt3__212strstreambufE = Module['__ZTSNSt3__212strstreambufE'] = 248142;
-var __ZTSNSt3__210istrstreamE = Module['__ZTSNSt3__210istrstreamE'] = 248165;
-var __ZTSNSt3__210ostrstreamE = Module['__ZTSNSt3__210ostrstreamE'] = 248186;
-var __ZTSNSt3__29strstreamE = Module['__ZTSNSt3__29strstreamE'] = 248207;
-var __ZTVSt11logic_error = Module['__ZTVSt11logic_error'] = 281088;
-var __ZTVSt9exception = Module['__ZTVSt9exception'] = 281004;
-var __ZTVSt13runtime_error = Module['__ZTVSt13runtime_error'] = 281108;
-var __ZNSt3__219piecewise_constructE = Module['__ZNSt3__219piecewise_constructE'] = 248233;
-var __ZNSt3__213allocator_argE = Module['__ZNSt3__213allocator_argE'] = 248234;
-var __ZTSNSt3__214__shared_countE = Module['__ZTSNSt3__214__shared_countE'] = 248248;
-var __ZTSNSt3__219__shared_weak_countE = Module['__ZTSNSt3__219__shared_weak_countE'] = 248273;
-var __ZTVNSt3__212bad_weak_ptrE = Module['__ZTVNSt3__212bad_weak_ptrE'] = 276100;
-var __ZTINSt3__212bad_weak_ptrE = Module['__ZTINSt3__212bad_weak_ptrE'] = 276120;
-var __ZTSNSt3__212bad_weak_ptrE = Module['__ZTSNSt3__212bad_weak_ptrE'] = 248303;
-var __ZTVNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTVNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 276132;
-var __ZTINSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTINSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 276204;
-var __ZTVNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTVNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 276160;
-var __ZTINSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTINSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 276216;
-var __ZTSNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTSNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 248326;
-var __ZTSNSt12experimental15fundamentals_v13pmr15memory_resourceE = Module['__ZTSNSt12experimental15fundamentals_v13pmr15memory_resourceE'] = 248400;
-var __ZTINSt12experimental15fundamentals_v13pmr15memory_resourceE = Module['__ZTINSt12experimental15fundamentals_v13pmr15memory_resourceE'] = 276196;
-var __ZTSNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTSNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 248457;
-var __ZTVNSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTVNSt3__24__fs10filesystem16filesystem_errorE'] = 276232;
-var __ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 276468;
-var __ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 276508;
-var __ZNSt3__24__fs10filesystem16_FilesystemClock9is_steadyE = Module['__ZNSt3__24__fs10filesystem16_FilesystemClock9is_steadyE'] = 248525;
-var __ZTINSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTINSt3__24__fs10filesystem16filesystem_errorE'] = 276272;
-var __ZNSt3__24__fs10filesystem4path19preferred_separatorE = Module['__ZNSt3__24__fs10filesystem4path19preferred_separatorE'] = 249008;
-var __ZTSNSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTSNSt3__24__fs10filesystem16filesystem_errorE'] = 249012;
-var __ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 276564;
-var __ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 276524;
-var __ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 249408;
-var __ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 276576;
-var __ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 276616;
-var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 276604;
-var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 249744;
-var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 276644;
-var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 249838;
-var ___cxa_unexpected_handler = Module['___cxa_unexpected_handler'] = 276660;
-var ___cxa_terminate_handler = Module['___cxa_terminate_handler'] = 276656;
-var ___cxa_new_handler = Module['___cxa_new_handler'] = 301256;
-var __ZTVSt9bad_alloc = Module['__ZTVSt9bad_alloc'] = 280964;
-var __ZTVSt20bad_array_new_length = Module['__ZTVSt20bad_array_new_length'] = 280984;
-var __ZTISt9bad_alloc = Module['__ZTISt9bad_alloc'] = 281064;
-var __ZTISt20bad_array_new_length = Module['__ZTISt20bad_array_new_length'] = 281076;
-var __ZTSSt9exception = Module['__ZTSSt9exception'] = 256648;
-var __ZTVSt13bad_exception = Module['__ZTVSt13bad_exception'] = 281032;
-var __ZTISt13bad_exception = Module['__ZTISt13bad_exception'] = 281052;
-var __ZTSSt13bad_exception = Module['__ZTSSt13bad_exception'] = 256661;
-var __ZTSSt9bad_alloc = Module['__ZTSSt9bad_alloc'] = 256679;
-var __ZTSSt20bad_array_new_length = Module['__ZTSSt20bad_array_new_length'] = 256692;
-var __ZTVSt12domain_error = Module['__ZTVSt12domain_error'] = 281128;
-var __ZTISt12domain_error = Module['__ZTISt12domain_error'] = 281160;
-var __ZTSSt12domain_error = Module['__ZTSSt12domain_error'] = 256717;
-var __ZTSSt11logic_error = Module['__ZTSSt11logic_error'] = 256734;
-var __ZTVSt16invalid_argument = Module['__ZTVSt16invalid_argument'] = 281172;
-var __ZTISt16invalid_argument = Module['__ZTISt16invalid_argument'] = 281192;
-var __ZTSSt16invalid_argument = Module['__ZTSSt16invalid_argument'] = 256750;
-var __ZTSSt12length_error = Module['__ZTSSt12length_error'] = 256771;
-var __ZTVSt12out_of_range = Module['__ZTVSt12out_of_range'] = 281236;
-var __ZTISt12out_of_range = Module['__ZTISt12out_of_range'] = 281256;
-var __ZTSSt12out_of_range = Module['__ZTSSt12out_of_range'] = 256788;
-var __ZTVSt11range_error = Module['__ZTVSt11range_error'] = 281268;
-var __ZTISt11range_error = Module['__ZTISt11range_error'] = 281300;
-var __ZTSSt11range_error = Module['__ZTSSt11range_error'] = 256805;
-var __ZTSSt13runtime_error = Module['__ZTSSt13runtime_error'] = 256821;
-var __ZTVSt14overflow_error = Module['__ZTVSt14overflow_error'] = 281312;
-var __ZTISt14overflow_error = Module['__ZTISt14overflow_error'] = 281332;
-var __ZTSSt14overflow_error = Module['__ZTSSt14overflow_error'] = 256839;
-var __ZTVSt15underflow_error = Module['__ZTVSt15underflow_error'] = 281344;
-var __ZTISt15underflow_error = Module['__ZTISt15underflow_error'] = 281364;
-var __ZTSSt15underflow_error = Module['__ZTSSt15underflow_error'] = 256858;
-var __ZTVSt8bad_cast = Module['__ZTVSt8bad_cast'] = 281376;
-var __ZTVSt10bad_typeid = Module['__ZTVSt10bad_typeid'] = 281396;
-var __ZTISt10bad_typeid = Module['__ZTISt10bad_typeid'] = 281452;
-var __ZTVSt9type_info = Module['__ZTVSt9type_info'] = 281416;
-var __ZTISt9type_info = Module['__ZTISt9type_info'] = 281432;
-var __ZTSSt9type_info = Module['__ZTSSt9type_info'] = 256908;
-var __ZTSSt8bad_cast = Module['__ZTSSt8bad_cast'] = 256921;
-var __ZTSSt10bad_typeid = Module['__ZTSSt10bad_typeid'] = 256933;
-var __ZTIN10__cxxabiv117__class_type_infoE = Module['__ZTIN10__cxxabiv117__class_type_infoE'] = 281476;
-var __ZTIN10__cxxabiv116__shim_type_infoE = Module['__ZTIN10__cxxabiv116__shim_type_infoE'] = 281464;
-var __ZTIN10__cxxabiv117__pbase_type_infoE = Module['__ZTIN10__cxxabiv117__pbase_type_infoE'] = 281488;
-var __ZTIDn = Module['__ZTIDn'] = 281644;
-var __ZTIN10__cxxabiv119__pointer_type_infoE = Module['__ZTIN10__cxxabiv119__pointer_type_infoE'] = 281500;
-var __ZTIv = Module['__ZTIv'] = 281604;
-var __ZTIN10__cxxabiv120__function_type_infoE = Module['__ZTIN10__cxxabiv120__function_type_infoE'] = 281512;
-var __ZTIN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTIN10__cxxabiv129__pointer_to_member_type_infoE'] = 281524;
-var __ZTSN10__cxxabiv116__shim_type_infoE = Module['__ZTSN10__cxxabiv116__shim_type_infoE'] = 256948;
-var __ZTSN10__cxxabiv117__class_type_infoE = Module['__ZTSN10__cxxabiv117__class_type_infoE'] = 256981;
-var __ZTSN10__cxxabiv117__pbase_type_infoE = Module['__ZTSN10__cxxabiv117__pbase_type_infoE'] = 257015;
-var __ZTSN10__cxxabiv119__pointer_type_infoE = Module['__ZTSN10__cxxabiv119__pointer_type_infoE'] = 257049;
-var __ZTSN10__cxxabiv120__function_type_infoE = Module['__ZTSN10__cxxabiv120__function_type_infoE'] = 257085;
-var __ZTSN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTSN10__cxxabiv129__pointer_to_member_type_infoE'] = 257122;
-var __ZTVN10__cxxabiv116__shim_type_infoE = Module['__ZTVN10__cxxabiv116__shim_type_infoE'] = 281536;
-var __ZTVN10__cxxabiv123__fundamental_type_infoE = Module['__ZTVN10__cxxabiv123__fundamental_type_infoE'] = 281564;
-var __ZTIN10__cxxabiv123__fundamental_type_infoE = Module['__ZTIN10__cxxabiv123__fundamental_type_infoE'] = 281592;
-var __ZTSN10__cxxabiv123__fundamental_type_infoE = Module['__ZTSN10__cxxabiv123__fundamental_type_infoE'] = 257180;
-var __ZTSv = Module['__ZTSv'] = 257220;
-var __ZTSPv = Module['__ZTSPv'] = 257222;
-var __ZTIPv = Module['__ZTIPv'] = 281612;
-var __ZTVN10__cxxabiv119__pointer_type_infoE = Module['__ZTVN10__cxxabiv119__pointer_type_infoE'] = 282884;
-var __ZTSPKv = Module['__ZTSPKv'] = 257225;
-var __ZTIPKv = Module['__ZTIPKv'] = 281628;
-var __ZTSDn = Module['__ZTSDn'] = 257229;
-var __ZTSPDn = Module['__ZTSPDn'] = 257232;
-var __ZTIPDn = Module['__ZTIPDn'] = 281652;
-var __ZTSPKDn = Module['__ZTSPKDn'] = 257236;
-var __ZTIPKDn = Module['__ZTIPKDn'] = 281668;
-var __ZTSb = Module['__ZTSb'] = 257241;
-var __ZTIb = Module['__ZTIb'] = 281684;
-var __ZTSPb = Module['__ZTSPb'] = 257243;
-var __ZTIPb = Module['__ZTIPb'] = 281692;
-var __ZTSPKb = Module['__ZTSPKb'] = 257246;
-var __ZTIPKb = Module['__ZTIPKb'] = 281708;
-var __ZTSw = Module['__ZTSw'] = 257250;
-var __ZTIw = Module['__ZTIw'] = 281724;
-var __ZTSPw = Module['__ZTSPw'] = 257252;
-var __ZTIPw = Module['__ZTIPw'] = 281732;
-var __ZTSPKw = Module['__ZTSPKw'] = 257255;
-var __ZTIPKw = Module['__ZTIPKw'] = 281748;
-var __ZTSc = Module['__ZTSc'] = 257259;
-var __ZTIc = Module['__ZTIc'] = 281764;
-var __ZTSPc = Module['__ZTSPc'] = 257261;
-var __ZTIPc = Module['__ZTIPc'] = 281772;
-var __ZTSPKc = Module['__ZTSPKc'] = 257264;
-var __ZTIPKc = Module['__ZTIPKc'] = 281788;
-var __ZTSh = Module['__ZTSh'] = 257268;
-var __ZTIh = Module['__ZTIh'] = 281804;
-var __ZTSPh = Module['__ZTSPh'] = 257270;
-var __ZTIPh = Module['__ZTIPh'] = 281812;
-var __ZTSPKh = Module['__ZTSPKh'] = 257273;
-var __ZTIPKh = Module['__ZTIPKh'] = 281828;
-var __ZTSa = Module['__ZTSa'] = 257277;
-var __ZTIa = Module['__ZTIa'] = 281844;
-var __ZTSPa = Module['__ZTSPa'] = 257279;
-var __ZTIPa = Module['__ZTIPa'] = 281852;
-var __ZTSPKa = Module['__ZTSPKa'] = 257282;
-var __ZTIPKa = Module['__ZTIPKa'] = 281868;
-var __ZTSs = Module['__ZTSs'] = 257286;
-var __ZTIs = Module['__ZTIs'] = 281884;
-var __ZTSPs = Module['__ZTSPs'] = 257288;
-var __ZTIPs = Module['__ZTIPs'] = 281892;
-var __ZTSPKs = Module['__ZTSPKs'] = 257291;
-var __ZTIPKs = Module['__ZTIPKs'] = 281908;
-var __ZTSt = Module['__ZTSt'] = 257295;
-var __ZTIt = Module['__ZTIt'] = 281924;
-var __ZTSPt = Module['__ZTSPt'] = 257297;
-var __ZTIPt = Module['__ZTIPt'] = 281932;
-var __ZTSPKt = Module['__ZTSPKt'] = 257300;
-var __ZTIPKt = Module['__ZTIPKt'] = 281948;
-var __ZTSi = Module['__ZTSi'] = 257304;
-var __ZTIi = Module['__ZTIi'] = 281964;
-var __ZTSPi = Module['__ZTSPi'] = 257306;
-var __ZTIPi = Module['__ZTIPi'] = 281972;
-var __ZTSPKi = Module['__ZTSPKi'] = 257309;
-var __ZTIPKi = Module['__ZTIPKi'] = 281988;
-var __ZTSj = Module['__ZTSj'] = 257313;
-var __ZTIj = Module['__ZTIj'] = 282004;
-var __ZTSPj = Module['__ZTSPj'] = 257315;
-var __ZTIPj = Module['__ZTIPj'] = 282012;
-var __ZTSPKj = Module['__ZTSPKj'] = 257318;
-var __ZTIPKj = Module['__ZTIPKj'] = 282028;
-var __ZTSl = Module['__ZTSl'] = 257322;
-var __ZTIl = Module['__ZTIl'] = 282044;
-var __ZTSPl = Module['__ZTSPl'] = 257324;
-var __ZTIPl = Module['__ZTIPl'] = 282052;
-var __ZTSPKl = Module['__ZTSPKl'] = 257327;
-var __ZTIPKl = Module['__ZTIPKl'] = 282068;
-var __ZTSm = Module['__ZTSm'] = 257331;
-var __ZTIm = Module['__ZTIm'] = 282084;
-var __ZTSPm = Module['__ZTSPm'] = 257333;
-var __ZTIPm = Module['__ZTIPm'] = 282092;
-var __ZTSPKm = Module['__ZTSPKm'] = 257336;
-var __ZTIPKm = Module['__ZTIPKm'] = 282108;
-var __ZTSx = Module['__ZTSx'] = 257340;
-var __ZTIx = Module['__ZTIx'] = 282124;
-var __ZTSPx = Module['__ZTSPx'] = 257342;
-var __ZTIPx = Module['__ZTIPx'] = 282132;
-var __ZTSPKx = Module['__ZTSPKx'] = 257345;
-var __ZTIPKx = Module['__ZTIPKx'] = 282148;
-var __ZTSy = Module['__ZTSy'] = 257349;
-var __ZTIy = Module['__ZTIy'] = 282164;
-var __ZTSPy = Module['__ZTSPy'] = 257351;
-var __ZTIPy = Module['__ZTIPy'] = 282172;
-var __ZTSPKy = Module['__ZTSPKy'] = 257354;
-var __ZTIPKy = Module['__ZTIPKy'] = 282188;
-var __ZTSn = Module['__ZTSn'] = 257358;
-var __ZTIn = Module['__ZTIn'] = 282204;
-var __ZTSPn = Module['__ZTSPn'] = 257360;
-var __ZTIPn = Module['__ZTIPn'] = 282212;
-var __ZTSPKn = Module['__ZTSPKn'] = 257363;
-var __ZTIPKn = Module['__ZTIPKn'] = 282228;
-var __ZTSo = Module['__ZTSo'] = 257367;
-var __ZTIo = Module['__ZTIo'] = 282244;
-var __ZTSPo = Module['__ZTSPo'] = 257369;
-var __ZTIPo = Module['__ZTIPo'] = 282252;
-var __ZTSPKo = Module['__ZTSPKo'] = 257372;
-var __ZTIPKo = Module['__ZTIPKo'] = 282268;
-var __ZTSDh = Module['__ZTSDh'] = 257376;
-var __ZTIDh = Module['__ZTIDh'] = 282284;
-var __ZTSPDh = Module['__ZTSPDh'] = 257379;
-var __ZTIPDh = Module['__ZTIPDh'] = 282292;
-var __ZTSPKDh = Module['__ZTSPKDh'] = 257383;
-var __ZTIPKDh = Module['__ZTIPKDh'] = 282308;
-var __ZTSf = Module['__ZTSf'] = 257388;
-var __ZTIf = Module['__ZTIf'] = 282324;
-var __ZTSPf = Module['__ZTSPf'] = 257390;
-var __ZTIPf = Module['__ZTIPf'] = 282332;
-var __ZTSPKf = Module['__ZTSPKf'] = 257393;
-var __ZTIPKf = Module['__ZTIPKf'] = 282348;
-var __ZTSd = Module['__ZTSd'] = 257397;
-var __ZTId = Module['__ZTId'] = 282364;
-var __ZTSPd = Module['__ZTSPd'] = 257399;
-var __ZTIPd = Module['__ZTIPd'] = 282372;
-var __ZTSPKd = Module['__ZTSPKd'] = 257402;
-var __ZTIPKd = Module['__ZTIPKd'] = 282388;
-var __ZTSe = Module['__ZTSe'] = 257406;
-var __ZTIe = Module['__ZTIe'] = 282404;
-var __ZTSPe = Module['__ZTSPe'] = 257408;
-var __ZTIPe = Module['__ZTIPe'] = 282412;
-var __ZTSPKe = Module['__ZTSPKe'] = 257411;
-var __ZTIPKe = Module['__ZTIPKe'] = 282428;
-var __ZTSg = Module['__ZTSg'] = 257415;
-var __ZTIg = Module['__ZTIg'] = 282444;
-var __ZTSPg = Module['__ZTSPg'] = 257417;
-var __ZTIPg = Module['__ZTIPg'] = 282452;
-var __ZTSPKg = Module['__ZTSPKg'] = 257420;
-var __ZTIPKg = Module['__ZTIPKg'] = 282468;
-var __ZTSDu = Module['__ZTSDu'] = 257424;
-var __ZTIDu = Module['__ZTIDu'] = 282484;
-var __ZTSPDu = Module['__ZTSPDu'] = 257427;
-var __ZTIPDu = Module['__ZTIPDu'] = 282492;
-var __ZTSPKDu = Module['__ZTSPKDu'] = 257431;
-var __ZTIPKDu = Module['__ZTIPKDu'] = 282508;
-var __ZTSDs = Module['__ZTSDs'] = 257436;
-var __ZTIDs = Module['__ZTIDs'] = 282524;
-var __ZTSPDs = Module['__ZTSPDs'] = 257439;
-var __ZTIPDs = Module['__ZTIPDs'] = 282532;
-var __ZTSPKDs = Module['__ZTSPKDs'] = 257443;
-var __ZTIPKDs = Module['__ZTIPKDs'] = 282548;
-var __ZTSDi = Module['__ZTSDi'] = 257448;
-var __ZTIDi = Module['__ZTIDi'] = 282564;
-var __ZTSPDi = Module['__ZTSPDi'] = 257451;
-var __ZTIPDi = Module['__ZTIPDi'] = 282572;
-var __ZTSPKDi = Module['__ZTSPKDi'] = 257455;
-var __ZTIPKDi = Module['__ZTIPKDi'] = 282588;
-var __ZTVN10__cxxabiv117__array_type_infoE = Module['__ZTVN10__cxxabiv117__array_type_infoE'] = 282604;
-var __ZTIN10__cxxabiv117__array_type_infoE = Module['__ZTIN10__cxxabiv117__array_type_infoE'] = 282632;
-var __ZTSN10__cxxabiv117__array_type_infoE = Module['__ZTSN10__cxxabiv117__array_type_infoE'] = 257460;
-var __ZTVN10__cxxabiv120__function_type_infoE = Module['__ZTVN10__cxxabiv120__function_type_infoE'] = 282644;
-var __ZTVN10__cxxabiv116__enum_type_infoE = Module['__ZTVN10__cxxabiv116__enum_type_infoE'] = 282672;
-var __ZTIN10__cxxabiv116__enum_type_infoE = Module['__ZTIN10__cxxabiv116__enum_type_infoE'] = 282700;
-var __ZTSN10__cxxabiv116__enum_type_infoE = Module['__ZTSN10__cxxabiv116__enum_type_infoE'] = 257494;
-var __ZTIN10__cxxabiv120__si_class_type_infoE = Module['__ZTIN10__cxxabiv120__si_class_type_infoE'] = 282792;
-var __ZTSN10__cxxabiv120__si_class_type_infoE = Module['__ZTSN10__cxxabiv120__si_class_type_infoE'] = 257527;
-var __ZTIN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTIN10__cxxabiv121__vmi_class_type_infoE'] = 282844;
-var __ZTSN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTSN10__cxxabiv121__vmi_class_type_infoE'] = 257564;
-var __ZTVN10__cxxabiv117__pbase_type_infoE = Module['__ZTVN10__cxxabiv117__pbase_type_infoE'] = 282856;
-var __ZTVN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTVN10__cxxabiv129__pointer_to_member_type_infoE'] = 282912;
-var _in6addr_any = Module['_in6addr_any'] = 262156;
-var _in6addr_loopback = Module['_in6addr_loopback'] = 262172;
+var __ZTV3App = Module['__ZTV3App'] = 277552;
+var __ZTVN6piksel7BaseAppE = Module['__ZTVN6piksel7BaseAppE'] = 277628;
+var __ZTI3App = Module['__ZTI3App'] = 277600;
+var __ZTS3App = Module['__ZTS3App'] = 2075;
+var __ZTIN6piksel7BaseAppE = Module['__ZTIN6piksel7BaseAppE'] = 277676;
+var __ZN6piksel14USE_EMSCRIPTENE = Module['__ZN6piksel14USE_EMSCRIPTENE'] = 2087;
+var __ZN6piksel17minecraft_regularE = Module['__ZN6piksel17minecraft_regularE'] = 300988;
+var _stderr = Module['_stderr'] = 283488;
+var __ZN20__em_asm_sig_builderI19__em_asm_type_tupleIJEEE6bufferE = Module['__ZN20__em_asm_sig_builderI19__em_asm_type_tupleIJEEE6bufferE'] = 23610;
+var __ZTSN6piksel7BaseAppE = Module['__ZTSN6piksel7BaseAppE'] = 24171;
+var __ZN6piksel4msdfE = Module['__ZN6piksel4msdfE'] = 278328;
+var __ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 278144;
+var __ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 278184;
+var __ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 277816;
+var __ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 277876;
+var __ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 278252;
+var __ZNSt3__27codecvtIcc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIcc11__mbstate_tE2idE'] = 316624;
+var __ZTISt8bad_cast = Module['__ZTISt8bad_cast'] = 298240;
+var __ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 278056;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE'] = 277916;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE'] = 277976;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 278016;
+var __ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 285576;
+var __ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 285400;
+var __ZTSNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 50885;
+var __ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 278240;
+var __ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 278200;
+var __ZTSNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 51020;
+var __ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 278316;
+var __ZTSNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 51068;
+var __ZTV12b2ChainShape = Module['__ZTV12b2ChainShape'] = 278856;
+var __ZTV11b2EdgeShape = Module['__ZTV11b2EdgeShape'] = 279056;
+var __ZTI12b2ChainShape = Module['__ZTI12b2ChainShape'] = 278904;
+var __ZTS12b2ChainShape = Module['__ZTS12b2ChainShape'] = 52357;
+var __ZTV13b2CircleShape = Module['__ZTV13b2CircleShape'] = 278956;
+var __ZTI13b2CircleShape = Module['__ZTI13b2CircleShape'] = 279004;
+var __ZTS13b2CircleShape = Module['__ZTS13b2CircleShape'] = 52381;
+var _b2_gjkCalls = Module['_b2_gjkCalls'] = 303648;
+var _b2_gjkIters = Module['_b2_gjkIters'] = 303652;
+var _b2_gjkMaxIters = Module['_b2_gjkMaxIters'] = 303656;
+var __ZTI11b2EdgeShape = Module['__ZTI11b2EdgeShape'] = 279104;
+var __ZTS11b2EdgeShape = Module['__ZTS11b2EdgeShape'] = 54287;
+var __ZTI14b2PolygonShape = Module['__ZTI14b2PolygonShape'] = 279204;
+var __ZTS14b2PolygonShape = Module['__ZTS14b2PolygonShape'] = 54589;
+var _b2_toiCalls = Module['_b2_toiCalls'] = 303668;
+var _b2_toiRootIters = Module['_b2_toiRootIters'] = 303680;
+var _b2_toiMaxRootIters = Module['_b2_toiMaxRootIters'] = 303684;
+var _b2_toiIters = Module['_b2_toiIters'] = 303672;
+var _b2_toiMaxIters = Module['_b2_toiMaxIters'] = 303676;
+var _b2_toiMaxTime = Module['_b2_toiMaxTime'] = 303664;
+var _b2_toiTime = Module['_b2_toiTime'] = 303660;
+var __ZTV6b2Draw = Module['__ZTV6b2Draw'] = 279256;
+var __ZTI6b2Draw = Module['__ZTI6b2Draw'] = 279300;
+var __ZTS6b2Draw = Module['__ZTS6b2Draw'] = 55236;
+var _b2_dumpFile = Module['_b2_dumpFile'] = 304340;
+var _b2_version = Module['_b2_version'] = 279308;
+var __ZTV23b2ChainAndCircleContact = Module['__ZTV23b2ChainAndCircleContact'] = 279320;
+var __ZTI23b2ChainAndCircleContact = Module['__ZTI23b2ChainAndCircleContact'] = 279348;
+var __ZTS23b2ChainAndCircleContact = Module['__ZTS23b2ChainAndCircleContact'] = 56719;
+var __ZTS9b2Contact = Module['__ZTS9b2Contact'] = 56745;
+var __ZTI9b2Contact = Module['__ZTI9b2Contact'] = 279340;
+var __ZTV24b2ChainAndPolygonContact = Module['__ZTV24b2ChainAndPolygonContact'] = 279408;
+var __ZTI24b2ChainAndPolygonContact = Module['__ZTI24b2ChainAndPolygonContact'] = 279436;
+var __ZTS24b2ChainAndPolygonContact = Module['__ZTS24b2ChainAndPolygonContact'] = 56967;
+var __ZTV15b2CircleContact = Module['__ZTV15b2CircleContact'] = 279496;
+var __ZTI15b2CircleContact = Module['__ZTI15b2CircleContact'] = 279524;
+var __ZTS15b2CircleContact = Module['__ZTS15b2CircleContact'] = 57200;
+var __ZN9b2Contact11s_registersE = Module['__ZN9b2Contact11s_registersE'] = 304352;
+var __ZN9b2Contact13s_initializedE = Module['__ZN9b2Contact13s_initializedE'] = 304544;
+var __ZTV9b2Contact = Module['__ZTV9b2Contact'] = 279536;
+var _b2_defaultFilter = Module['_b2_defaultFilter'] = 279564;
+var _b2_defaultListener = Module['_b2_defaultListener'] = 279600;
+var __ZTV15b2ContactFilter = Module['__ZTV15b2ContactFilter'] = 280520;
+var __ZTV17b2ContactListener = Module['__ZTV17b2ContactListener'] = 279568;
+var __ZTI17b2ContactListener = Module['__ZTI17b2ContactListener'] = 279604;
+var __ZTS17b2ContactListener = Module['__ZTS17b2ContactListener'] = 57534;
+var _g_blockSolve = Module['_g_blockSolve'] = 279612;
+var __ZTV15b2DistanceJoint = Module['__ZTV15b2DistanceJoint'] = 279616;
+var __ZTI15b2DistanceJoint = Module['__ZTI15b2DistanceJoint'] = 279672;
+var __ZTS15b2DistanceJoint = Module['__ZTS15b2DistanceJoint'] = 58453;
+var __ZTI7b2Joint = Module['__ZTI7b2Joint'] = 279956;
+var __ZTV22b2EdgeAndCircleContact = Module['__ZTV22b2EdgeAndCircleContact'] = 279684;
+var __ZTI22b2EdgeAndCircleContact = Module['__ZTI22b2EdgeAndCircleContact'] = 279712;
+var __ZTS22b2EdgeAndCircleContact = Module['__ZTS22b2EdgeAndCircleContact'] = 58667;
+var __ZTV23b2EdgeAndPolygonContact = Module['__ZTV23b2EdgeAndPolygonContact'] = 279724;
+var __ZTI23b2EdgeAndPolygonContact = Module['__ZTI23b2EdgeAndPolygonContact'] = 279752;
+var __ZTS23b2EdgeAndPolygonContact = Module['__ZTS23b2EdgeAndPolygonContact'] = 58902;
+var __ZTV15b2FrictionJoint = Module['__ZTV15b2FrictionJoint'] = 279764;
+var __ZTI15b2FrictionJoint = Module['__ZTI15b2FrictionJoint'] = 279820;
+var __ZTS15b2FrictionJoint = Module['__ZTS15b2FrictionJoint'] = 60398;
+var __ZTV11b2GearJoint = Module['__ZTV11b2GearJoint'] = 279832;
+var __ZTI11b2GearJoint = Module['__ZTI11b2GearJoint'] = 279888;
+var __ZTS11b2GearJoint = Module['__ZTS11b2GearJoint'] = 60944;
+var __ZTV7b2Joint = Module['__ZTV7b2Joint'] = 279900;
+var __ZTS7b2Joint = Module['__ZTS7b2Joint'] = 61220;
+var __ZTV12b2MotorJoint = Module['__ZTV12b2MotorJoint'] = 279964;
+var __ZTI12b2MotorJoint = Module['__ZTI12b2MotorJoint'] = 280020;
+var __ZTS12b2MotorJoint = Module['__ZTS12b2MotorJoint'] = 61821;
+var __ZTV12b2MouseJoint = Module['__ZTV12b2MouseJoint'] = 280032;
+var __ZTI12b2MouseJoint = Module['__ZTI12b2MouseJoint'] = 280088;
+var __ZTS12b2MouseJoint = Module['__ZTS12b2MouseJoint'] = 61836;
+var __ZTV25b2PolygonAndCircleContact = Module['__ZTV25b2PolygonAndCircleContact'] = 280100;
+var __ZTI25b2PolygonAndCircleContact = Module['__ZTI25b2PolygonAndCircleContact'] = 280128;
+var __ZTS25b2PolygonAndCircleContact = Module['__ZTS25b2PolygonAndCircleContact'] = 62095;
+var __ZTV16b2PolygonContact = Module['__ZTV16b2PolygonContact'] = 280140;
+var __ZTI16b2PolygonContact = Module['__ZTI16b2PolygonContact'] = 280168;
+var __ZTS16b2PolygonContact = Module['__ZTS16b2PolygonContact'] = 62324;
+var __ZTV16b2PrismaticJoint = Module['__ZTV16b2PrismaticJoint'] = 280180;
+var __ZTI16b2PrismaticJoint = Module['__ZTI16b2PrismaticJoint'] = 280236;
+var __ZTS16b2PrismaticJoint = Module['__ZTS16b2PrismaticJoint'] = 62989;
+var __ZTV13b2PulleyJoint = Module['__ZTV13b2PulleyJoint'] = 280248;
+var __ZTI13b2PulleyJoint = Module['__ZTI13b2PulleyJoint'] = 280304;
+var __ZTS13b2PulleyJoint = Module['__ZTS13b2PulleyJoint'] = 63521;
+var __ZTV15b2RevoluteJoint = Module['__ZTV15b2RevoluteJoint'] = 280316;
+var __ZTI15b2RevoluteJoint = Module['__ZTI15b2RevoluteJoint'] = 280372;
+var __ZTS15b2RevoluteJoint = Module['__ZTS15b2RevoluteJoint'] = 64067;
+var __ZTV11b2WeldJoint = Module['__ZTV11b2WeldJoint'] = 280384;
+var __ZTI11b2WeldJoint = Module['__ZTI11b2WeldJoint'] = 280440;
+var __ZTS11b2WeldJoint = Module['__ZTS11b2WeldJoint'] = 64384;
+var __ZTV12b2WheelJoint = Module['__ZTV12b2WheelJoint'] = 280452;
+var __ZTI12b2WheelJoint = Module['__ZTI12b2WheelJoint'] = 280508;
+var __ZTS12b2WheelJoint = Module['__ZTS12b2WheelJoint'] = 64893;
+var __ZTI15b2ContactFilter = Module['__ZTI15b2ContactFilter'] = 280540;
+var __ZTS15b2ContactFilter = Module['__ZTS15b2ContactFilter'] = 66219;
+var __ZTVN7msdfgen13LinearSegmentE = Module['__ZTVN7msdfgen13LinearSegmentE'] = 280548;
+var __ZTVN7msdfgen11EdgeSegmentE = Module['__ZTVN7msdfgen11EdgeSegmentE'] = 280704;
+var __ZTVN7msdfgen16QuadraticSegmentE = Module['__ZTVN7msdfgen16QuadraticSegmentE'] = 280600;
+var __ZTVN7msdfgen12CubicSegmentE = Module['__ZTVN7msdfgen12CubicSegmentE'] = 280652;
+var __ZTIN7msdfgen13LinearSegmentE = Module['__ZTIN7msdfgen13LinearSegmentE'] = 280764;
+var __ZTIN7msdfgen16QuadraticSegmentE = Module['__ZTIN7msdfgen16QuadraticSegmentE'] = 280776;
+var __ZTIN7msdfgen12CubicSegmentE = Module['__ZTIN7msdfgen12CubicSegmentE'] = 280788;
+var __ZTIN7msdfgen11EdgeSegmentE = Module['__ZTIN7msdfgen11EdgeSegmentE'] = 280756;
+var __ZTSN7msdfgen11EdgeSegmentE = Module['__ZTSN7msdfgen11EdgeSegmentE'] = 66540;
+var __ZTSN7msdfgen13LinearSegmentE = Module['__ZTSN7msdfgen13LinearSegmentE'] = 66564;
+var __ZTSN7msdfgen16QuadraticSegmentE = Module['__ZTSN7msdfgen16QuadraticSegmentE'] = 66590;
+var __ZTSN7msdfgen12CubicSegmentE = Module['__ZTSN7msdfgen12CubicSegmentE'] = 66619;
+var __ZN7msdfgen14SignedDistance8INFINITEE = Module['__ZN7msdfgen14SignedDistance8INFINITEE'] = 304552;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 281048;
+var __ZTVNSt3__219__shared_weak_countE = Module['__ZTVNSt3__219__shared_weak_countE'] = 292848;
+var __ZTVNSt3__214__shared_countE = Module['__ZTVNSt3__214__shared_countE'] = 292820;
+var __ZTVN6json118JsonNullE = Module['__ZTVN6json118JsonNullE'] = 281088;
+var __ZTVN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 281176;
+var __ZTVN6json119JsonValueE = Module['__ZTVN6json119JsonValueE'] = 280800;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 281240;
+var __ZTVN6json1111JsonBooleanE = Module['__ZTVN6json1111JsonBooleanE'] = 281280;
+var __ZTVN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE2EbEE'] = 281368;
+var __ZTVN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 281432;
+var __ZTVN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 281496;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 281560;
+var __ZTVN6json1110JsonDoubleE = Module['__ZTVN6json1110JsonDoubleE'] = 281600;
+var __ZTVN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE1EdEE'] = 281688;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 281752;
+var __ZTVN6json117JsonIntE = Module['__ZTVN6json117JsonIntE'] = 281792;
+var __ZTVN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE1EiEE'] = 281880;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 281944;
+var __ZTVN6json1110JsonStringE = Module['__ZTVN6json1110JsonStringE'] = 281984;
+var __ZTVN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTVN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 282072;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 282136;
+var __ZTVN6json119JsonArrayE = Module['__ZTVN6json119JsonArrayE'] = 280872;
+var __ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 282176;
+var __ZTVN6json1110JsonObjectE = Module['__ZTVN6json1110JsonObjectE'] = 280960;
+var __ZTIN6json119JsonValueE = Module['__ZTIN6json119JsonValueE'] = 280864;
+var __ZTSN6json119JsonValueE = Module['__ZTSN6json119JsonValueE'] = 67016;
+var __ZTIN6json119JsonArrayE = Module['__ZTIN6json119JsonArrayE'] = 280948;
+var __ZTSN6json119JsonArrayE = Module['__ZTSN6json119JsonArrayE'] = 67036;
+var __ZTSN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 67056;
+var __ZTIN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE4ENSt3__26vectorIS1_NS3_9allocatorIS1_EEEEEE'] = 280936;
+var __ZTIN6json1110JsonObjectE = Module['__ZTIN6json1110JsonObjectE'] = 281036;
+var __ZTSN6json1110JsonObjectE = Module['__ZTSN6json1110JsonObjectE'] = 67131;
+var __ZTSN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 67153;
+var __ZTIN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE5ENSt3__23mapINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEES1_NS3_4lessISA_EENS8_INS3_4pairIKSA_S1_EEEEEEEE'] = 281024;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 281076;
+var __ZTSNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json118JsonNullENS_9allocatorIS2_EEEE'] = 67375;
+var __ZTINSt3__219__shared_weak_countE = Module['__ZTINSt3__219__shared_weak_countE'] = 292876;
+var __ZTIN6json118JsonNullE = Module['__ZTIN6json118JsonNullE'] = 281164;
+var __ZTSN6json118JsonNullE = Module['__ZTSN6json118JsonNullE'] = 67445;
+var __ZTSN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 67464;
+var __ZTIN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE0ENS_10NullStructEEE'] = 281152;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 281268;
+var __ZTSNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1111JsonBooleanENS_9allocatorIS2_EEEE'] = 67521;
+var __ZTIN6json1111JsonBooleanE = Module['__ZTIN6json1111JsonBooleanE'] = 281356;
+var __ZTSN6json1111JsonBooleanE = Module['__ZTSN6json1111JsonBooleanE'] = 67595;
+var __ZTSN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE2EbEE'] = 67618;
+var __ZTIN6json115ValueILNS_4Json4TypeE2EbEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE2EbEE'] = 281344;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 281588;
+var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonDoubleENS_9allocatorIS2_EEEE'] = 68354;
+var __ZTIN6json1110JsonDoubleE = Module['__ZTIN6json1110JsonDoubleE'] = 281676;
+var __ZTSN6json1110JsonDoubleE = Module['__ZTSN6json1110JsonDoubleE'] = 68427;
+var __ZTSN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE1EdEE'] = 68449;
+var __ZTIN6json115ValueILNS_4Json4TypeE1EdEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE1EdEE'] = 281664;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 281780;
+var __ZTSNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json117JsonIntENS_9allocatorIS2_EEEE'] = 68491;
+var __ZTIN6json117JsonIntE = Module['__ZTIN6json117JsonIntE'] = 281868;
+var __ZTSN6json117JsonIntE = Module['__ZTSN6json117JsonIntE'] = 68560;
+var __ZTSN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE1EiEE'] = 68578;
+var __ZTIN6json115ValueILNS_4Json4TypeE1EiEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE1EiEE'] = 281856;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 281972;
+var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonStringENS_9allocatorIS2_EEEE'] = 68617;
+var __ZTIN6json1110JsonStringE = Module['__ZTIN6json1110JsonStringE'] = 282060;
+var __ZTSN6json1110JsonStringE = Module['__ZTSN6json1110JsonStringE'] = 68690;
+var __ZTSN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTSN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 68712;
+var __ZTIN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE = Module['__ZTIN6json115ValueILNS_4Json4TypeE3ENSt3__212basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEEEE'] = 282048;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 282164;
+var __ZTSNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 68853;
+var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 282204;
+var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 68924;
+var ___c_dot_utf8 = Module['___c_dot_utf8'] = 283224;
+var ___c_locale = Module['___c_locale'] = 80740;
+var ___c_dot_utf8_locale = Module['___c_dot_utf8_locale'] = 283252;
+var ___libc = Module['___libc'] = 304812;
+var ___progname = Module['___progname'] = 304804;
+var ___progname_full = Module['___progname_full'] = 304808;
+var ___hwcap = Module['___hwcap'] = 304876;
+var ___sysinfo = Module['___sysinfo'] = 304880;
+var _program_invocation_short_name = Module['_program_invocation_short_name'] = 304804;
+var _program_invocation_name = Module['_program_invocation_name'] = 304808;
+var _stdout = Module['_stdout'] = 283640;
+var ___stderr_used = Module['___stderr_used'] = 283492;
+var ___stdout_used = Module['___stdout_used'] = 283644;
+var _stdin = Module['_stdin'] = 283792;
+var ___stdin_used = Module['___stdin_used'] = 283796;
+var ___environ = Module['___environ'] = 308532;
+var ___seed48 = Module['___seed48'] = 283944;
+var ___pio2_hi = Module['___pio2_hi'] = 239488;
+var ___pio2_lo = Module['___pio2_lo'] = 239504;
+var ___signgam = Module['___signgam'] = 307300;
+var _signgam = Module['_signgam'] = 307300;
+var _atanlo = Module['_atanlo'] = 245008;
+var _atanhi = Module['_atanhi'] = 244944;
+var _aT = Module['_aT'] = 245072;
+var ___optreset = Module['___optreset'] = 307692;
+var _optind = Module['_optind'] = 284168;
+var ___optpos = Module['___optpos'] = 307696;
+var _optarg = Module['_optarg'] = 307700;
+var _optopt = Module['_optopt'] = 307704;
+var _opterr = Module['_opterr'] = 284172;
+var _optreset = Module['_optreset'] = 307692;
+var ___fsmu8 = Module['___fsmu8'] = 249056;
+var __ns_flagdata = Module['__ns_flagdata'] = 250080;
+var _h_errno = Module['_h_errno'] = 307808;
+var ____environ = Module['____environ'] = 308532;
+var __environ = Module['__environ'] = 308532;
+var _environ = Module['_environ'] = 308532;
+var ___env_map = Module['___env_map'] = 308540;
+var _tzname = Module['_tzname'] = 308544;
+var _daylight = Module['_daylight'] = 308552;
+var _timezone = Module['_timezone'] = 308556;
+var ___data_end = Module['___data_end'] = 320016;
+var ___THREW__ = Module['___THREW__'] = 312724;
+var ___threwValue = Module['___threwValue'] = 312728;
+var __ZTVNSt3__212system_errorE = Module['__ZTVNSt3__212system_errorE'] = 284588;
+var __ZTVNSt3__224__generic_error_categoryE = Module['__ZTVNSt3__224__generic_error_categoryE'] = 284512;
+var __ZTINSt3__224__generic_error_categoryE = Module['__ZTINSt3__224__generic_error_categoryE'] = 284700;
+var __ZTVNSt3__223__system_error_categoryE = Module['__ZTVNSt3__223__system_error_categoryE'] = 284552;
+var __ZTINSt3__223__system_error_categoryE = Module['__ZTINSt3__223__system_error_categoryE'] = 284712;
+var __ZTINSt3__212system_errorE = Module['__ZTINSt3__212system_errorE'] = 284724;
+var __ZTVNSt3__214error_categoryE = Module['__ZTVNSt3__214error_categoryE'] = 284608;
+var __ZTINSt3__214error_categoryE = Module['__ZTINSt3__214error_categoryE'] = 284644;
+var __ZTSNSt3__214error_categoryE = Module['__ZTSNSt3__214error_categoryE'] = 252118;
+var __ZTVNSt3__212__do_messageE = Module['__ZTVNSt3__212__do_messageE'] = 284652;
+var __ZTINSt3__212__do_messageE = Module['__ZTINSt3__212__do_messageE'] = 284688;
+var __ZTSNSt3__212__do_messageE = Module['__ZTSNSt3__212__do_messageE'] = 252143;
+var __ZTSNSt3__224__generic_error_categoryE = Module['__ZTSNSt3__224__generic_error_categoryE'] = 252166;
+var __ZTSNSt3__223__system_error_categoryE = Module['__ZTSNSt3__223__system_error_categoryE'] = 252201;
+var __ZTSNSt3__212system_errorE = Module['__ZTSNSt3__212system_errorE'] = 252235;
+var __ZTISt13runtime_error = Module['__ZTISt13runtime_error'] = 298088;
+var __ZTVSt12bad_any_cast = Module['__ZTVSt12bad_any_cast'] = 284736;
+var __ZTISt12bad_any_cast = Module['__ZTISt12bad_any_cast'] = 284756;
+var __ZTSSt12bad_any_cast = Module['__ZTSSt12bad_any_cast'] = 252288;
+var __ZTVNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTVNSt12experimental15fundamentals_v112bad_any_castE'] = 284768;
+var __ZTINSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTINSt12experimental15fundamentals_v112bad_any_castE'] = 284788;
+var __ZTSNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTSNSt12experimental15fundamentals_v112bad_any_castE'] = 252305;
+var __ZNSt3__212__rs_default4__c_E = Module['__ZNSt3__212__rs_default4__c_E'] = 312740;
+var __ZTVSt18bad_variant_access = Module['__ZTVSt18bad_variant_access'] = 284800;
+var __ZTISt18bad_variant_access = Module['__ZTISt18bad_variant_access'] = 284820;
+var __ZTSSt18bad_variant_access = Module['__ZTSSt18bad_variant_access'] = 252534;
+var __ZTISt9exception = Module['__ZTISt9exception'] = 297824;
+var __ZSt7nothrow = Module['__ZSt7nothrow'] = 252557;
+var __ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 284832;
+var __ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 284896;
+var __ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 285000;
+var __ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 285048;
+var __ZNSt3__25ctypeIwE2idE = Module['__ZNSt3__25ctypeIwE2idE'] = 316608;
+var __ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 285096;
+var __ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 316444;
+var __ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 285144;
+var __ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 316452;
+var __ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 285212;
+var __ZTVNSt3__28ios_base7failureE = Module['__ZTVNSt3__28ios_base7failureE'] = 285280;
+var __ZNSt3__28ios_base9__xindex_E = Module['__ZNSt3__28ios_base9__xindex_E'] = 315280;
+var __ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 316428;
+var __ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 316436;
+var __ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 285392;
+var __ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 284960;
+var __ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 285008;
+var __ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 285424;
+var __ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 285056;
+var __ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 285104;
+var __ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 285472;
+var __ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 285152;
+var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 285496;
+var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 285536;
+var __ZTVNSt3__219__iostream_categoryE = Module['__ZTVNSt3__219__iostream_categoryE'] = 285244;
+var __ZTINSt3__219__iostream_categoryE = Module['__ZTINSt3__219__iostream_categoryE'] = 285608;
+var __ZTINSt3__28ios_base7failureE = Module['__ZTINSt3__28ios_base7failureE'] = 285620;
+var __ZNSt3__28ios_base9boolalphaE = Module['__ZNSt3__28ios_base9boolalphaE'] = 252604;
+var __ZNSt3__28ios_base3decE = Module['__ZNSt3__28ios_base3decE'] = 252608;
+var __ZNSt3__28ios_base5fixedE = Module['__ZNSt3__28ios_base5fixedE'] = 252612;
+var __ZNSt3__28ios_base3hexE = Module['__ZNSt3__28ios_base3hexE'] = 252616;
+var __ZNSt3__28ios_base8internalE = Module['__ZNSt3__28ios_base8internalE'] = 252620;
+var __ZNSt3__28ios_base4leftE = Module['__ZNSt3__28ios_base4leftE'] = 252624;
+var __ZNSt3__28ios_base3octE = Module['__ZNSt3__28ios_base3octE'] = 252628;
+var __ZNSt3__28ios_base5rightE = Module['__ZNSt3__28ios_base5rightE'] = 252632;
+var __ZNSt3__28ios_base10scientificE = Module['__ZNSt3__28ios_base10scientificE'] = 252636;
+var __ZNSt3__28ios_base8showbaseE = Module['__ZNSt3__28ios_base8showbaseE'] = 252640;
+var __ZNSt3__28ios_base9showpointE = Module['__ZNSt3__28ios_base9showpointE'] = 252644;
+var __ZNSt3__28ios_base7showposE = Module['__ZNSt3__28ios_base7showposE'] = 252648;
+var __ZNSt3__28ios_base6skipwsE = Module['__ZNSt3__28ios_base6skipwsE'] = 252652;
+var __ZNSt3__28ios_base7unitbufE = Module['__ZNSt3__28ios_base7unitbufE'] = 252656;
+var __ZNSt3__28ios_base9uppercaseE = Module['__ZNSt3__28ios_base9uppercaseE'] = 252660;
+var __ZNSt3__28ios_base11adjustfieldE = Module['__ZNSt3__28ios_base11adjustfieldE'] = 252664;
+var __ZNSt3__28ios_base9basefieldE = Module['__ZNSt3__28ios_base9basefieldE'] = 252668;
+var __ZNSt3__28ios_base10floatfieldE = Module['__ZNSt3__28ios_base10floatfieldE'] = 252672;
+var __ZNSt3__28ios_base6badbitE = Module['__ZNSt3__28ios_base6badbitE'] = 252676;
+var __ZNSt3__28ios_base6eofbitE = Module['__ZNSt3__28ios_base6eofbitE'] = 252680;
+var __ZNSt3__28ios_base7failbitE = Module['__ZNSt3__28ios_base7failbitE'] = 252684;
+var __ZNSt3__28ios_base7goodbitE = Module['__ZNSt3__28ios_base7goodbitE'] = 252688;
+var __ZNSt3__28ios_base3appE = Module['__ZNSt3__28ios_base3appE'] = 252692;
+var __ZNSt3__28ios_base3ateE = Module['__ZNSt3__28ios_base3ateE'] = 252696;
+var __ZNSt3__28ios_base6binaryE = Module['__ZNSt3__28ios_base6binaryE'] = 252700;
+var __ZNSt3__28ios_base2inE = Module['__ZNSt3__28ios_base2inE'] = 252704;
+var __ZNSt3__28ios_base3outE = Module['__ZNSt3__28ios_base3outE'] = 252708;
+var __ZNSt3__28ios_base5truncE = Module['__ZNSt3__28ios_base5truncE'] = 252712;
+var __ZTINSt3__28ios_baseE = Module['__ZTINSt3__28ios_baseE'] = 285320;
+var __ZTSNSt3__28ios_baseE = Module['__ZTSNSt3__28ios_baseE'] = 252732;
+var __ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 285344;
+var __ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 252750;
+var __ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 285356;
+var __ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 285372;
+var __ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 252792;
+var __ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 252834;
+var __ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 252883;
+var __ZTSNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 252932;
+var __ZTVN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTVN10__cxxabiv121__vmi_class_type_infoE'] = 299604;
+var __ZTSNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 252979;
+var __ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 253026;
+var __ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 253073;
+var __ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 253120;
+var __ZTSNSt3__219__iostream_categoryE = Module['__ZTSNSt3__219__iostream_categoryE'] = 253168;
+var __ZTSNSt3__28ios_base7failureE = Module['__ZTSNSt3__28ios_base7failureE'] = 253198;
+var __ZNSt3__219__start_std_streamsE = Module['__ZNSt3__219__start_std_streamsE'] = 315972;
+var __ZNSt3__23cinE = Module['__ZNSt3__23cinE'] = 315292;
+var __ZNSt3__24wcinE = Module['__ZNSt3__24wcinE'] = 315380;
+var __ZNSt3__25wcoutE = Module['__ZNSt3__25wcoutE'] = 315552;
+var __ZNSt3__24clogE = Module['__ZNSt3__24clogE'] = 315804;
+var __ZNSt3__25wcerrE = Module['__ZNSt3__25wcerrE'] = 315720;
+var __ZNSt3__25wclogE = Module['__ZNSt3__25wclogE'] = 315888;
+var __ZTVNSt3__210__stdinbufIcEE = Module['__ZTVNSt3__210__stdinbufIcEE'] = 285632;
+var __ZTVNSt3__210__stdinbufIwEE = Module['__ZTVNSt3__210__stdinbufIwEE'] = 285708;
+var __ZTVNSt3__211__stdoutbufIcEE = Module['__ZTVNSt3__211__stdoutbufIcEE'] = 285784;
+var __ZTVNSt3__211__stdoutbufIwEE = Module['__ZTVNSt3__211__stdoutbufIwEE'] = 285860;
+var __ZNSt3__27codecvtIwc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIwc11__mbstate_tE2idE'] = 316632;
+var __ZTINSt3__210__stdinbufIcEE = Module['__ZTINSt3__210__stdinbufIcEE'] = 285696;
+var __ZTSNSt3__210__stdinbufIcEE = Module['__ZTSNSt3__210__stdinbufIcEE'] = 253298;
+var __ZTINSt3__210__stdinbufIwEE = Module['__ZTINSt3__210__stdinbufIwEE'] = 285772;
+var __ZTSNSt3__210__stdinbufIwEE = Module['__ZTSNSt3__210__stdinbufIwEE'] = 253360;
+var __ZTINSt3__211__stdoutbufIcEE = Module['__ZTINSt3__211__stdoutbufIcEE'] = 285848;
+var __ZTSNSt3__211__stdoutbufIcEE = Module['__ZTSNSt3__211__stdoutbufIcEE'] = 253384;
+var __ZTINSt3__211__stdoutbufIwEE = Module['__ZTINSt3__211__stdoutbufIwEE'] = 285924;
+var __ZTSNSt3__211__stdoutbufIwEE = Module['__ZTSNSt3__211__stdoutbufIwEE'] = 253409;
+var __ZNSt3__210defer_lockE = Module['__ZNSt3__210defer_lockE'] = 253434;
+var __ZNSt3__211try_to_lockE = Module['__ZNSt3__211try_to_lockE'] = 253435;
+var __ZNSt3__210adopt_lockE = Module['__ZNSt3__210adopt_lockE'] = 253436;
+var __ZNSt3__212placeholders2_1E = Module['__ZNSt3__212placeholders2_1E'] = 254006;
+var __ZNSt3__212placeholders2_2E = Module['__ZNSt3__212placeholders2_2E'] = 254007;
+var __ZNSt3__212placeholders2_3E = Module['__ZNSt3__212placeholders2_3E'] = 254008;
+var __ZNSt3__212placeholders2_4E = Module['__ZNSt3__212placeholders2_4E'] = 254009;
+var __ZNSt3__212placeholders2_5E = Module['__ZNSt3__212placeholders2_5E'] = 254010;
+var __ZNSt3__212placeholders2_6E = Module['__ZNSt3__212placeholders2_6E'] = 254011;
+var __ZNSt3__212placeholders2_7E = Module['__ZNSt3__212placeholders2_7E'] = 254012;
+var __ZNSt3__212placeholders2_8E = Module['__ZNSt3__212placeholders2_8E'] = 254013;
+var __ZNSt3__212placeholders2_9E = Module['__ZNSt3__212placeholders2_9E'] = 254014;
+var __ZNSt3__212placeholders3_10E = Module['__ZNSt3__212placeholders3_10E'] = 254015;
+var __ZNSt3__28numpunctIcE2idE = Module['__ZNSt3__28numpunctIcE2idE'] = 316656;
+var __ZNSt3__214__num_get_base5__srcE = Module['__ZNSt3__214__num_get_base5__srcE'] = 254016;
+var __ZNSt3__28numpunctIwE2idE = Module['__ZNSt3__28numpunctIwE2idE'] = 316664;
+var __ZNSt3__210moneypunctIcLb1EE2idE = Module['__ZNSt3__210moneypunctIcLb1EE2idE'] = 316500;
+var __ZNSt3__210moneypunctIcLb0EE2idE = Module['__ZNSt3__210moneypunctIcLb0EE2idE'] = 316492;
+var __ZNSt3__210moneypunctIwLb1EE2idE = Module['__ZNSt3__210moneypunctIwLb1EE2idE'] = 316516;
+var __ZNSt3__210moneypunctIwLb0EE2idE = Module['__ZNSt3__210moneypunctIwLb0EE2idE'] = 316508;
+var __ZTVNSt3__26locale5__impE = Module['__ZTVNSt3__26locale5__impE'] = 285936;
+var __ZTVNSt3__26locale5facetE = Module['__ZTVNSt3__26locale5facetE'] = 286400;
+var __ZNSt3__27collateIcE2idE = Module['__ZNSt3__27collateIcE2idE'] = 316412;
+var __ZNSt3__27collateIwE2idE = Module['__ZNSt3__27collateIwE2idE'] = 316420;
+var __ZNSt3__27codecvtIDsc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDsc11__mbstate_tE2idE'] = 316640;
+var __ZNSt3__27codecvtIDic11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDic11__mbstate_tE2idE'] = 316648;
+var __ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 316524;
+var __ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 316532;
+var __ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 316540;
+var __ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 316548;
+var __ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 316460;
+var __ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 316468;
+var __ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 316476;
+var __ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 316484;
+var __ZNSt3__28messagesIcE2idE = Module['__ZNSt3__28messagesIcE2idE'] = 316556;
+var __ZNSt3__28messagesIwE2idE = Module['__ZNSt3__28messagesIwE2idE'] = 316564;
+var __ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 290392;
+var __ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 290452;
+var __ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 290512;
+var __ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 290572;
+var __ZTVNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb0EEE'] = 289624;
+var __ZTVNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb1EEE'] = 289692;
+var __ZTVNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb0EEE'] = 289760;
+var __ZTVNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb1EEE'] = 289828;
+var __ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 288752;
+var __ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 288916;
+var __ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 289192;
+var __ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 289228;
+var __ZTVNSt3__215messages_bynameIcEE = Module['__ZTVNSt3__215messages_bynameIcEE'] = 290304;
+var __ZTVNSt3__215messages_bynameIwEE = Module['__ZTVNSt3__215messages_bynameIwEE'] = 290348;
+var __ZNSt3__26locale2id9__next_idE = Module['__ZNSt3__26locale2id9__next_idE'] = 316604;
+var __ZTVNSt3__214collate_bynameIcEE = Module['__ZTVNSt3__214collate_bynameIcEE'] = 285956;
+var __ZTVNSt3__214collate_bynameIwEE = Module['__ZTVNSt3__214collate_bynameIwEE'] = 285988;
+var __ZTVNSt3__25ctypeIcEE = Module['__ZTVNSt3__25ctypeIcEE'] = 286020;
+var __ZTVNSt3__212ctype_bynameIcEE = Module['__ZTVNSt3__212ctype_bynameIcEE'] = 286072;
+var __ZTVNSt3__212ctype_bynameIwEE = Module['__ZTVNSt3__212ctype_bynameIwEE'] = 286124;
+var __ZTVNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIwc11__mbstate_tEE'] = 286192;
+var __ZTVNSt3__28numpunctIcEE = Module['__ZTVNSt3__28numpunctIcEE'] = 286240;
+var __ZTVNSt3__28numpunctIwEE = Module['__ZTVNSt3__28numpunctIwEE'] = 286280;
+var __ZTVNSt3__215numpunct_bynameIcEE = Module['__ZTVNSt3__215numpunct_bynameIcEE'] = 286320;
+var __ZTVNSt3__215numpunct_bynameIwEE = Module['__ZTVNSt3__215numpunct_bynameIwEE'] = 286360;
+var __ZTVNSt3__215__time_get_tempIcEE = Module['__ZTVNSt3__215__time_get_tempIcEE'] = 290704;
+var __ZTVNSt3__215__time_get_tempIwEE = Module['__ZTVNSt3__215__time_get_tempIwEE'] = 290768;
+var __ZTVNSt3__27collateIcEE = Module['__ZTVNSt3__27collateIcEE'] = 287944;
+var __ZTVNSt3__27collateIwEE = Module['__ZTVNSt3__27collateIwEE'] = 287976;
+var __ZTVNSt3__25ctypeIwEE = Module['__ZTVNSt3__25ctypeIwEE'] = 286432;
+var __ZTVNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIcc11__mbstate_tEE'] = 286540;
+var __ZTVNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDsc11__mbstate_tEE'] = 286628;
+var __ZTVNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDic11__mbstate_tEE'] = 286708;
+var __ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 288008;
+var __ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 288136;
+var __ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 288256;
+var __ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 288372;
+var __ZTVNSt3__210moneypunctIcLb0EEE = Module['__ZTVNSt3__210moneypunctIcLb0EEE'] = 289264;
+var __ZTVNSt3__210moneypunctIcLb1EEE = Module['__ZTVNSt3__210moneypunctIcLb1EEE'] = 289360;
+var __ZTVNSt3__210moneypunctIwLb0EEE = Module['__ZTVNSt3__210moneypunctIwLb0EEE'] = 289448;
+var __ZTVNSt3__210moneypunctIwLb1EEE = Module['__ZTVNSt3__210moneypunctIwLb1EEE'] = 289536;
+var __ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 289896;
+var __ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 289964;
+var __ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 290032;
+var __ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 290100;
+var __ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 288480;
+var __ZTVNSt3__220__time_get_c_storageIcEE = Module['__ZTVNSt3__220__time_get_c_storageIcEE'] = 290632;
+var __ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 288620;
+var __ZTVNSt3__220__time_get_c_storageIwEE = Module['__ZTVNSt3__220__time_get_c_storageIwEE'] = 290668;
+var __ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 289072;
+var __ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 289136;
+var __ZTVNSt3__28messagesIcEE = Module['__ZTVNSt3__28messagesIcEE'] = 290168;
+var __ZTVNSt3__28messagesIwEE = Module['__ZTVNSt3__28messagesIwEE'] = 290240;
+var __ZNSt3__210moneypunctIcLb0EE4intlE = Module['__ZNSt3__210moneypunctIcLb0EE4intlE'] = 254272;
+var __ZNSt3__210moneypunctIcLb1EE4intlE = Module['__ZNSt3__210moneypunctIcLb1EE4intlE'] = 254273;
+var __ZNSt3__210moneypunctIwLb0EE4intlE = Module['__ZNSt3__210moneypunctIwLb0EE4intlE'] = 254274;
+var __ZNSt3__210moneypunctIwLb1EE4intlE = Module['__ZNSt3__210moneypunctIwLb1EE4intlE'] = 254275;
+var __ZNSt3__26locale4noneE = Module['__ZNSt3__26locale4noneE'] = 254300;
+var __ZNSt3__26locale7collateE = Module['__ZNSt3__26locale7collateE'] = 254304;
+var __ZNSt3__26locale5ctypeE = Module['__ZNSt3__26locale5ctypeE'] = 254308;
+var __ZNSt3__26locale8monetaryE = Module['__ZNSt3__26locale8monetaryE'] = 254312;
+var __ZNSt3__26locale7numericE = Module['__ZNSt3__26locale7numericE'] = 254316;
+var __ZNSt3__26locale4timeE = Module['__ZNSt3__26locale4timeE'] = 254320;
+var __ZNSt3__26locale8messagesE = Module['__ZNSt3__26locale8messagesE'] = 254324;
+var __ZNSt3__26locale3allE = Module['__ZNSt3__26locale3allE'] = 254328;
+var __ZTINSt3__26locale5__impE = Module['__ZTINSt3__26locale5__impE'] = 287780;
+var __ZTINSt3__214collate_bynameIcEE = Module['__ZTINSt3__214collate_bynameIcEE'] = 287804;
+var __ZTINSt3__214collate_bynameIwEE = Module['__ZTINSt3__214collate_bynameIwEE'] = 287828;
+var __ZNSt3__210ctype_base5spaceE = Module['__ZNSt3__210ctype_base5spaceE'] = 254474;
+var __ZNSt3__210ctype_base5printE = Module['__ZNSt3__210ctype_base5printE'] = 254476;
+var __ZNSt3__210ctype_base5cntrlE = Module['__ZNSt3__210ctype_base5cntrlE'] = 254478;
+var __ZNSt3__210ctype_base5upperE = Module['__ZNSt3__210ctype_base5upperE'] = 254480;
+var __ZNSt3__210ctype_base5lowerE = Module['__ZNSt3__210ctype_base5lowerE'] = 254482;
+var __ZNSt3__210ctype_base5alphaE = Module['__ZNSt3__210ctype_base5alphaE'] = 254484;
+var __ZNSt3__210ctype_base5digitE = Module['__ZNSt3__210ctype_base5digitE'] = 254486;
+var __ZNSt3__210ctype_base5punctE = Module['__ZNSt3__210ctype_base5punctE'] = 254488;
+var __ZNSt3__210ctype_base6xdigitE = Module['__ZNSt3__210ctype_base6xdigitE'] = 254490;
+var __ZNSt3__210ctype_base5blankE = Module['__ZNSt3__210ctype_base5blankE'] = 254492;
+var __ZNSt3__210ctype_base5alnumE = Module['__ZNSt3__210ctype_base5alnumE'] = 254494;
+var __ZNSt3__210ctype_base5graphE = Module['__ZNSt3__210ctype_base5graphE'] = 254496;
+var __ZTINSt3__25ctypeIcEE = Module['__ZTINSt3__25ctypeIcEE'] = 287840;
+var __ZTINSt3__212ctype_bynameIcEE = Module['__ZTINSt3__212ctype_bynameIcEE'] = 287872;
+var __ZTINSt3__212ctype_bynameIwEE = Module['__ZTINSt3__212ctype_bynameIwEE'] = 287884;
+var __ZTINSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIwc11__mbstate_tEE'] = 287076;
+var __ZTINSt3__28numpunctIcEE = Module['__ZTINSt3__28numpunctIcEE'] = 287896;
+var __ZTINSt3__28numpunctIwEE = Module['__ZTINSt3__28numpunctIwEE'] = 287908;
+var __ZTINSt3__215numpunct_bynameIcEE = Module['__ZTINSt3__215numpunct_bynameIcEE'] = 287920;
+var __ZTINSt3__215numpunct_bynameIwEE = Module['__ZTINSt3__215numpunct_bynameIwEE'] = 287932;
+var __ZTINSt3__26locale5facetE = Module['__ZTINSt3__26locale5facetE'] = 286420;
+var __ZTSNSt3__26locale5facetE = Module['__ZTSNSt3__26locale5facetE'] = 255300;
+var __ZTINSt3__214__shared_countE = Module['__ZTINSt3__214__shared_countE'] = 292840;
+var __ZTINSt3__25ctypeIwEE = Module['__ZTINSt3__25ctypeIwEE'] = 286508;
+var __ZTSNSt3__25ctypeIwEE = Module['__ZTSNSt3__25ctypeIwEE'] = 255322;
+var __ZTSNSt3__210ctype_baseE = Module['__ZTSNSt3__210ctype_baseE'] = 255340;
+var __ZTINSt3__210ctype_baseE = Module['__ZTINSt3__210ctype_baseE'] = 286500;
+var __ZTINSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIcc11__mbstate_tEE'] = 286596;
+var __ZTSNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIcc11__mbstate_tEE'] = 255361;
+var __ZTSNSt3__212codecvt_baseE = Module['__ZTSNSt3__212codecvt_baseE'] = 255395;
+var __ZTINSt3__212codecvt_baseE = Module['__ZTINSt3__212codecvt_baseE'] = 286588;
+var __ZTINSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDsc11__mbstate_tEE'] = 286676;
+var __ZTSNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDsc11__mbstate_tEE'] = 255418;
+var __ZTINSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDic11__mbstate_tEE'] = 286756;
+var __ZTSNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDic11__mbstate_tEE'] = 255453;
+var __ZTVNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm16EEE'] = 286788;
+var __ZTINSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm16EEE'] = 286836;
+var __ZTSNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm16EEE'] = 255488;
+var __ZTVNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm32EEE'] = 286848;
+var __ZTINSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm32EEE'] = 286896;
+var __ZTSNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm32EEE'] = 255522;
+var __ZTVNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm16EEE'] = 286908;
+var __ZTINSt3__217__widen_from_utf8ILm16EEE = Module['__ZTINSt3__217__widen_from_utf8ILm16EEE'] = 286956;
+var __ZTSNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm16EEE'] = 255556;
+var __ZTVNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm32EEE'] = 286968;
+var __ZTINSt3__217__widen_from_utf8ILm32EEE = Module['__ZTINSt3__217__widen_from_utf8ILm32EEE'] = 287016;
+var __ZTSNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm32EEE'] = 255591;
+var __ZTVNSt3__214__codecvt_utf8IwEE = Module['__ZTVNSt3__214__codecvt_utf8IwEE'] = 287028;
+var __ZTINSt3__214__codecvt_utf8IwEE = Module['__ZTINSt3__214__codecvt_utf8IwEE'] = 287108;
+var __ZTSNSt3__214__codecvt_utf8IwEE = Module['__ZTSNSt3__214__codecvt_utf8IwEE'] = 255626;
+var __ZTSNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIwc11__mbstate_tEE'] = 255654;
+var __ZTVNSt3__214__codecvt_utf8IDsEE = Module['__ZTVNSt3__214__codecvt_utf8IDsEE'] = 287120;
+var __ZTINSt3__214__codecvt_utf8IDsEE = Module['__ZTINSt3__214__codecvt_utf8IDsEE'] = 287168;
+var __ZTSNSt3__214__codecvt_utf8IDsEE = Module['__ZTSNSt3__214__codecvt_utf8IDsEE'] = 255688;
+var __ZTVNSt3__214__codecvt_utf8IDiEE = Module['__ZTVNSt3__214__codecvt_utf8IDiEE'] = 287180;
+var __ZTINSt3__214__codecvt_utf8IDiEE = Module['__ZTINSt3__214__codecvt_utf8IDiEE'] = 287228;
+var __ZTSNSt3__214__codecvt_utf8IDiEE = Module['__ZTSNSt3__214__codecvt_utf8IDiEE'] = 255717;
+var __ZTVNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb0EEE'] = 287240;
+var __ZTINSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb0EEE'] = 287288;
+var __ZTSNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb0EEE'] = 255746;
+var __ZTVNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb1EEE'] = 287300;
+var __ZTINSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb1EEE'] = 287348;
+var __ZTSNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb1EEE'] = 255779;
+var __ZTVNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb0EEE'] = 287360;
+var __ZTINSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb0EEE'] = 287408;
+var __ZTSNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb0EEE'] = 255812;
+var __ZTVNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb1EEE'] = 287420;
+var __ZTINSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb1EEE'] = 287468;
+var __ZTSNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb1EEE'] = 255846;
+var __ZTVNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb0EEE'] = 287480;
+var __ZTINSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb0EEE'] = 287528;
+var __ZTSNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb0EEE'] = 255880;
+var __ZTVNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb1EEE'] = 287540;
+var __ZTINSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb1EEE'] = 287588;
+var __ZTSNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb1EEE'] = 255914;
+var __ZTVNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IwEE'] = 287600;
+var __ZTINSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IwEE'] = 287648;
+var __ZTSNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IwEE'] = 255948;
+var __ZTVNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDiEE'] = 287660;
+var __ZTINSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDiEE'] = 287708;
+var __ZTSNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDiEE'] = 255982;
+var __ZTVNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDsEE'] = 287720;
+var __ZTINSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDsEE'] = 287768;
+var __ZTSNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDsEE'] = 256017;
+var __ZTSNSt3__26locale5__impE = Module['__ZTSNSt3__26locale5__impE'] = 256052;
+var __ZTSNSt3__214collate_bynameIcEE = Module['__ZTSNSt3__214collate_bynameIcEE'] = 256074;
+var __ZTSNSt3__27collateIcEE = Module['__ZTSNSt3__27collateIcEE'] = 256102;
+var __ZTINSt3__27collateIcEE = Module['__ZTINSt3__27collateIcEE'] = 287792;
+var __ZTSNSt3__214collate_bynameIwEE = Module['__ZTSNSt3__214collate_bynameIwEE'] = 256122;
+var __ZTSNSt3__27collateIwEE = Module['__ZTSNSt3__27collateIwEE'] = 256150;
+var __ZTINSt3__27collateIwEE = Module['__ZTINSt3__27collateIwEE'] = 287816;
+var __ZTSNSt3__25ctypeIcEE = Module['__ZTSNSt3__25ctypeIcEE'] = 256170;
+var __ZTSNSt3__212ctype_bynameIcEE = Module['__ZTSNSt3__212ctype_bynameIcEE'] = 256188;
+var __ZTSNSt3__212ctype_bynameIwEE = Module['__ZTSNSt3__212ctype_bynameIwEE'] = 256214;
+var __ZTSNSt3__28numpunctIcEE = Module['__ZTSNSt3__28numpunctIcEE'] = 256240;
+var __ZTSNSt3__28numpunctIwEE = Module['__ZTSNSt3__28numpunctIwEE'] = 256261;
+var __ZTSNSt3__215numpunct_bynameIcEE = Module['__ZTSNSt3__215numpunct_bynameIcEE'] = 256282;
+var __ZTSNSt3__215numpunct_bynameIwEE = Module['__ZTSNSt3__215numpunct_bynameIwEE'] = 256311;
+var __ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 288104;
+var __ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 256340;
+var __ZTSNSt3__29__num_getIcEE = Module['__ZTSNSt3__29__num_getIcEE'] = 256408;
+var __ZTSNSt3__214__num_get_baseE = Module['__ZTSNSt3__214__num_get_baseE'] = 256430;
+var __ZTINSt3__214__num_get_baseE = Module['__ZTINSt3__214__num_get_baseE'] = 288072;
+var __ZTINSt3__29__num_getIcEE = Module['__ZTINSt3__29__num_getIcEE'] = 288080;
+var __ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 288224;
+var __ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 256455;
+var __ZTSNSt3__29__num_getIwEE = Module['__ZTSNSt3__29__num_getIwEE'] = 256523;
+var __ZTINSt3__29__num_getIwEE = Module['__ZTINSt3__29__num_getIwEE'] = 288200;
+var __ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 288340;
+var __ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 256545;
+var __ZTSNSt3__29__num_putIcEE = Module['__ZTSNSt3__29__num_putIcEE'] = 256613;
+var __ZTSNSt3__214__num_put_baseE = Module['__ZTSNSt3__214__num_put_baseE'] = 256635;
+var __ZTINSt3__214__num_put_baseE = Module['__ZTINSt3__214__num_put_baseE'] = 288308;
+var __ZTINSt3__29__num_putIcEE = Module['__ZTINSt3__29__num_putIcEE'] = 288316;
+var __ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 288448;
+var __ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 256660;
+var __ZTSNSt3__29__num_putIwEE = Module['__ZTSNSt3__29__num_putIwEE'] = 256728;
+var __ZTINSt3__29__num_putIwEE = Module['__ZTINSt3__29__num_putIwEE'] = 288424;
+var __ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 288580;
+var __ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 256750;
+var __ZTSNSt3__29time_baseE = Module['__ZTSNSt3__29time_baseE'] = 256819;
+var __ZTINSt3__29time_baseE = Module['__ZTINSt3__29time_baseE'] = 288564;
+var __ZTSNSt3__220__time_get_c_storageIcEE = Module['__ZTSNSt3__220__time_get_c_storageIcEE'] = 256838;
+var __ZTINSt3__220__time_get_c_storageIcEE = Module['__ZTINSt3__220__time_get_c_storageIcEE'] = 288572;
+var __ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 288712;
+var __ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 256872;
+var __ZTSNSt3__220__time_get_c_storageIwEE = Module['__ZTSNSt3__220__time_get_c_storageIwEE'] = 256941;
+var __ZTINSt3__220__time_get_c_storageIwEE = Module['__ZTINSt3__220__time_get_c_storageIwEE'] = 288704;
+var __ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 288884;
+var __ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 256975;
+var __ZTSNSt3__218__time_get_storageIcEE = Module['__ZTSNSt3__218__time_get_storageIcEE'] = 257052;
+var __ZTSNSt3__210__time_getE = Module['__ZTSNSt3__210__time_getE'] = 257084;
+var __ZTINSt3__210__time_getE = Module['__ZTINSt3__210__time_getE'] = 288864;
+var __ZTINSt3__218__time_get_storageIcEE = Module['__ZTINSt3__218__time_get_storageIcEE'] = 288872;
+var __ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 289040;
+var __ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 257105;
+var __ZTSNSt3__218__time_get_storageIwEE = Module['__ZTSNSt3__218__time_get_storageIwEE'] = 257182;
+var __ZTINSt3__218__time_get_storageIwEE = Module['__ZTINSt3__218__time_get_storageIwEE'] = 289028;
+var __ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 289104;
+var __ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 257214;
+var __ZTSNSt3__210__time_putE = Module['__ZTSNSt3__210__time_putE'] = 257283;
+var __ZTINSt3__210__time_putE = Module['__ZTINSt3__210__time_putE'] = 289096;
+var __ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 289160;
+var __ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 257304;
+var __ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 289216;
+var __ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 257373;
+var __ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 289252;
+var __ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 257450;
+var __ZTINSt3__210moneypunctIcLb0EEE = Module['__ZTINSt3__210moneypunctIcLb0EEE'] = 289328;
+var __ZTSNSt3__210moneypunctIcLb0EEE = Module['__ZTSNSt3__210moneypunctIcLb0EEE'] = 257527;
+var __ZTSNSt3__210money_baseE = Module['__ZTSNSt3__210money_baseE'] = 257555;
+var __ZTINSt3__210money_baseE = Module['__ZTINSt3__210money_baseE'] = 289320;
+var __ZTINSt3__210moneypunctIcLb1EEE = Module['__ZTINSt3__210moneypunctIcLb1EEE'] = 289416;
+var __ZTSNSt3__210moneypunctIcLb1EEE = Module['__ZTSNSt3__210moneypunctIcLb1EEE'] = 257576;
+var __ZTINSt3__210moneypunctIwLb0EEE = Module['__ZTINSt3__210moneypunctIwLb0EEE'] = 289504;
+var __ZTSNSt3__210moneypunctIwLb0EEE = Module['__ZTSNSt3__210moneypunctIwLb0EEE'] = 257604;
+var __ZTINSt3__210moneypunctIwLb1EEE = Module['__ZTINSt3__210moneypunctIwLb1EEE'] = 289592;
+var __ZTSNSt3__210moneypunctIwLb1EEE = Module['__ZTSNSt3__210moneypunctIwLb1EEE'] = 257632;
+var __ZTINSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb0EEE'] = 289680;
+var __ZTSNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb0EEE'] = 257660;
+var __ZTINSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb1EEE'] = 289748;
+var __ZTSNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb1EEE'] = 257695;
+var __ZTINSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb0EEE'] = 289816;
+var __ZTSNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb0EEE'] = 257730;
+var __ZTINSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb1EEE'] = 289884;
+var __ZTSNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb1EEE'] = 257765;
+var __ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 289932;
+var __ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 257800;
+var __ZTSNSt3__211__money_getIcEE = Module['__ZTSNSt3__211__money_getIcEE'] = 257870;
+var __ZTINSt3__211__money_getIcEE = Module['__ZTINSt3__211__money_getIcEE'] = 289924;
+var __ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 290000;
+var __ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 257895;
+var __ZTSNSt3__211__money_getIwEE = Module['__ZTSNSt3__211__money_getIwEE'] = 257965;
+var __ZTINSt3__211__money_getIwEE = Module['__ZTINSt3__211__money_getIwEE'] = 289992;
+var __ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 290068;
+var __ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 257990;
+var __ZTSNSt3__211__money_putIcEE = Module['__ZTSNSt3__211__money_putIcEE'] = 258060;
+var __ZTINSt3__211__money_putIcEE = Module['__ZTINSt3__211__money_putIcEE'] = 290060;
+var __ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 290136;
+var __ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258085;
+var __ZTSNSt3__211__money_putIwEE = Module['__ZTSNSt3__211__money_putIwEE'] = 258155;
+var __ZTINSt3__211__money_putIwEE = Module['__ZTINSt3__211__money_putIwEE'] = 290128;
+var __ZTINSt3__28messagesIcEE = Module['__ZTINSt3__28messagesIcEE'] = 290208;
+var __ZTSNSt3__28messagesIcEE = Module['__ZTSNSt3__28messagesIcEE'] = 258180;
+var __ZTSNSt3__213messages_baseE = Module['__ZTSNSt3__213messages_baseE'] = 258201;
+var __ZTINSt3__213messages_baseE = Module['__ZTINSt3__213messages_baseE'] = 290200;
+var __ZTINSt3__28messagesIwEE = Module['__ZTINSt3__28messagesIwEE'] = 290272;
+var __ZTSNSt3__28messagesIwEE = Module['__ZTSNSt3__28messagesIwEE'] = 258225;
+var __ZTINSt3__215messages_bynameIcEE = Module['__ZTINSt3__215messages_bynameIcEE'] = 290336;
+var __ZTSNSt3__215messages_bynameIcEE = Module['__ZTSNSt3__215messages_bynameIcEE'] = 258246;
+var __ZTINSt3__215messages_bynameIwEE = Module['__ZTINSt3__215messages_bynameIwEE'] = 290380;
+var __ZTSNSt3__215messages_bynameIwEE = Module['__ZTSNSt3__215messages_bynameIwEE'] = 258275;
+var __ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 290440;
+var __ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 258304;
+var __ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 290500;
+var __ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 258346;
+var __ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 290560;
+var __ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 258388;
+var __ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 290620;
+var __ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 258431;
+var __ZTINSt3__215__time_get_tempIcEE = Module['__ZTINSt3__215__time_get_tempIcEE'] = 290756;
+var __ZTSNSt3__215__time_get_tempIcEE = Module['__ZTSNSt3__215__time_get_tempIcEE'] = 259652;
+var __ZTINSt3__215__time_get_tempIwEE = Module['__ZTINSt3__215__time_get_tempIwEE'] = 290836;
+var __ZTSNSt3__215__time_get_tempIwEE = Module['__ZTSNSt3__215__time_get_tempIwEE'] = 259681;
+var __ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE = Module['__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE'] = 259724;
+var __ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE = Module['__ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE'] = 259728;
+var __ZTVNSt3__212future_errorE = Module['__ZTVNSt3__212future_errorE'] = 290888;
+var __ZTVNSt3__217__assoc_sub_stateE = Module['__ZTVNSt3__217__assoc_sub_stateE'] = 290908;
+var __ZTVNSt3__223__future_error_categoryE = Module['__ZTVNSt3__223__future_error_categoryE'] = 290852;
+var __ZTINSt3__223__future_error_categoryE = Module['__ZTINSt3__223__future_error_categoryE'] = 290944;
+var __ZTINSt3__212future_errorE = Module['__ZTINSt3__212future_errorE'] = 290956;
+var __ZTINSt3__217__assoc_sub_stateE = Module['__ZTINSt3__217__assoc_sub_stateE'] = 290932;
+var __ZTSNSt3__217__assoc_sub_stateE = Module['__ZTSNSt3__217__assoc_sub_stateE'] = 260457;
+var __ZTSNSt3__223__future_error_categoryE = Module['__ZTSNSt3__223__future_error_categoryE'] = 260485;
+var __ZTSNSt3__212future_errorE = Module['__ZTSNSt3__212future_errorE'] = 260519;
+var __ZTISt11logic_error = Module['__ZTISt11logic_error'] = 297948;
+var __ZTVSt19bad_optional_access = Module['__ZTVSt19bad_optional_access'] = 290988;
+var __ZTISt19bad_optional_access = Module['__ZTISt19bad_optional_access'] = 291008;
+var __ZTSSt19bad_optional_access = Module['__ZTSSt19bad_optional_access'] = 260594;
+var __ZTVNSt12experimental19bad_optional_accessE = Module['__ZTVNSt12experimental19bad_optional_accessE'] = 291020;
+var __ZTINSt12experimental19bad_optional_accessE = Module['__ZTINSt12experimental19bad_optional_accessE'] = 291040;
+var __ZTSNSt12experimental19bad_optional_accessE = Module['__ZTSNSt12experimental19bad_optional_accessE'] = 260618;
+var __ZTVNSt3__217bad_function_callE = Module['__ZTVNSt3__217bad_function_callE'] = 291052;
+var __ZTINSt3__217bad_function_callE = Module['__ZTINSt3__217bad_function_callE'] = 291072;
+var __ZTSNSt3__217bad_function_callE = Module['__ZTSNSt3__217bad_function_callE'] = 260681;
+var __ZNSt3__26chrono12system_clock9is_steadyE = Module['__ZNSt3__26chrono12system_clock9is_steadyE'] = 260709;
+var __ZNSt3__26chrono12steady_clock9is_steadyE = Module['__ZNSt3__26chrono12steady_clock9is_steadyE'] = 260747;
+var __ZTVSt16nested_exception = Module['__ZTVSt16nested_exception'] = 291084;
+var __ZTISt16nested_exception = Module['__ZTISt16nested_exception'] = 291100;
+var __ZTSSt16nested_exception = Module['__ZTSSt16nested_exception'] = 260786;
+var __ZTVNSt3__211regex_errorE = Module['__ZTVNSt3__211regex_errorE'] = 291108;
+var __ZTINSt3__211regex_errorE = Module['__ZTINSt3__211regex_errorE'] = 292152;
+var __ZTSNSt3__211regex_errorE = Module['__ZTSNSt3__211regex_errorE'] = 260807;
+var __ZNSt3__223__libcpp_debug_functionE = Module['__ZNSt3__223__libcpp_debug_functionE'] = 292232;
+var __ZTVNSt3__28__c_nodeE = Module['__ZTVNSt3__28__c_nodeE'] = 292236;
+var __ZTINSt3__28__c_nodeE = Module['__ZTINSt3__28__c_nodeE'] = 292268;
+var __ZTSNSt3__28__c_nodeE = Module['__ZTSNSt3__28__c_nodeE'] = 263020;
+var __ZTVNSt3__212strstreambufE = Module['__ZTVNSt3__212strstreambufE'] = 292276;
+var __ZTTNSt3__210istrstreamE = Module['__ZTTNSt3__210istrstreamE'] = 292380;
+var __ZTTNSt3__210ostrstreamE = Module['__ZTTNSt3__210ostrstreamE'] = 292436;
+var __ZTTNSt3__29strstreamE = Module['__ZTTNSt3__29strstreamE'] = 292512;
+var __ZTINSt3__212strstreambufE = Module['__ZTINSt3__212strstreambufE'] = 292552;
+var __ZTVNSt3__210istrstreamE = Module['__ZTVNSt3__210istrstreamE'] = 292340;
+var __ZTINSt3__210istrstreamE = Module['__ZTINSt3__210istrstreamE'] = 292604;
+var __ZTCNSt3__210istrstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__210istrstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE'] = 292564;
+var __ZTVNSt3__210ostrstreamE = Module['__ZTVNSt3__210ostrstreamE'] = 292396;
+var __ZTINSt3__210ostrstreamE = Module['__ZTINSt3__210ostrstreamE'] = 292656;
+var __ZTCNSt3__210ostrstreamE0_NS_13basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__210ostrstreamE0_NS_13basic_ostreamIcNS_11char_traitsIcEEEE'] = 292616;
+var __ZTVNSt3__29strstreamE = Module['__ZTVNSt3__29strstreamE'] = 292452;
+var __ZTINSt3__29strstreamE = Module['__ZTINSt3__29strstreamE'] = 292808;
+var __ZTCNSt3__29strstreamE0_NS_14basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE0_NS_14basic_iostreamIcNS_11char_traitsIcEEEE'] = 292668;
+var __ZTCNSt3__29strstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE0_NS_13basic_istreamIcNS_11char_traitsIcEEEE'] = 292728;
+var __ZTCNSt3__29strstreamE8_NS_13basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTCNSt3__29strstreamE8_NS_13basic_ostreamIcNS_11char_traitsIcEEEE'] = 292768;
+var __ZTSNSt3__212strstreambufE = Module['__ZTSNSt3__212strstreambufE'] = 263038;
+var __ZTSNSt3__210istrstreamE = Module['__ZTSNSt3__210istrstreamE'] = 263061;
+var __ZTSNSt3__210ostrstreamE = Module['__ZTSNSt3__210ostrstreamE'] = 263082;
+var __ZTSNSt3__29strstreamE = Module['__ZTSNSt3__29strstreamE'] = 263103;
+var __ZTVSt11logic_error = Module['__ZTVSt11logic_error'] = 297888;
+var __ZTVSt9exception = Module['__ZTVSt9exception'] = 297804;
+var __ZTVSt13runtime_error = Module['__ZTVSt13runtime_error'] = 297908;
+var __ZNSt3__219piecewise_constructE = Module['__ZNSt3__219piecewise_constructE'] = 263129;
+var __ZNSt3__213allocator_argE = Module['__ZNSt3__213allocator_argE'] = 263130;
+var __ZTSNSt3__214__shared_countE = Module['__ZTSNSt3__214__shared_countE'] = 263144;
+var __ZTSNSt3__219__shared_weak_countE = Module['__ZTSNSt3__219__shared_weak_countE'] = 263169;
+var __ZTVNSt3__212bad_weak_ptrE = Module['__ZTVNSt3__212bad_weak_ptrE'] = 292900;
+var __ZTINSt3__212bad_weak_ptrE = Module['__ZTINSt3__212bad_weak_ptrE'] = 292920;
+var __ZTSNSt3__212bad_weak_ptrE = Module['__ZTSNSt3__212bad_weak_ptrE'] = 263199;
+var __ZTVNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTVNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 292932;
+var __ZTINSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTINSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 293004;
+var __ZTVNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTVNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 292960;
+var __ZTINSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTINSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 293016;
+var __ZTSNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE = Module['__ZTSNSt12experimental15fundamentals_v13pmr32__new_delete_memory_resource_impE'] = 263222;
+var __ZTSNSt12experimental15fundamentals_v13pmr15memory_resourceE = Module['__ZTSNSt12experimental15fundamentals_v13pmr15memory_resourceE'] = 263296;
+var __ZTINSt12experimental15fundamentals_v13pmr15memory_resourceE = Module['__ZTINSt12experimental15fundamentals_v13pmr15memory_resourceE'] = 292996;
+var __ZTSNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE = Module['__ZTSNSt12experimental15fundamentals_v13pmr26__null_memory_resource_impE'] = 263353;
+var __ZTVNSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTVNSt3__24__fs10filesystem16filesystem_errorE'] = 293032;
+var __ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 293268;
+var __ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 293308;
+var __ZNSt3__24__fs10filesystem16_FilesystemClock9is_steadyE = Module['__ZNSt3__24__fs10filesystem16_FilesystemClock9is_steadyE'] = 263421;
+var __ZTINSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTINSt3__24__fs10filesystem16filesystem_errorE'] = 293072;
+var __ZNSt3__24__fs10filesystem4path19preferred_separatorE = Module['__ZNSt3__24__fs10filesystem4path19preferred_separatorE'] = 263904;
+var __ZTSNSt3__24__fs10filesystem16filesystem_errorE = Module['__ZTSNSt3__24__fs10filesystem16filesystem_errorE'] = 263908;
+var __ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 293364;
+var __ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 293324;
+var __ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 264304;
+var __ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 293376;
+var __ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTVNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 293416;
+var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 293404;
+var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem12__dir_streamENS_9allocatorIS3_EEEE'] = 264640;
+var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 293444;
+var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 264734;
+var ___cxa_unexpected_handler = Module['___cxa_unexpected_handler'] = 293460;
+var ___cxa_terminate_handler = Module['___cxa_terminate_handler'] = 293456;
+var ___cxa_new_handler = Module['___cxa_new_handler'] = 319000;
+var __ZTVSt9bad_alloc = Module['__ZTVSt9bad_alloc'] = 297764;
+var __ZTVSt20bad_array_new_length = Module['__ZTVSt20bad_array_new_length'] = 297784;
+var __ZTISt9bad_alloc = Module['__ZTISt9bad_alloc'] = 297864;
+var __ZTISt20bad_array_new_length = Module['__ZTISt20bad_array_new_length'] = 297876;
+var __ZTSSt9exception = Module['__ZTSSt9exception'] = 271544;
+var __ZTVSt13bad_exception = Module['__ZTVSt13bad_exception'] = 297832;
+var __ZTISt13bad_exception = Module['__ZTISt13bad_exception'] = 297852;
+var __ZTSSt13bad_exception = Module['__ZTSSt13bad_exception'] = 271557;
+var __ZTSSt9bad_alloc = Module['__ZTSSt9bad_alloc'] = 271575;
+var __ZTSSt20bad_array_new_length = Module['__ZTSSt20bad_array_new_length'] = 271588;
+var __ZTVSt12domain_error = Module['__ZTVSt12domain_error'] = 297928;
+var __ZTISt12domain_error = Module['__ZTISt12domain_error'] = 297960;
+var __ZTSSt12domain_error = Module['__ZTSSt12domain_error'] = 271613;
+var __ZTSSt11logic_error = Module['__ZTSSt11logic_error'] = 271630;
+var __ZTVSt16invalid_argument = Module['__ZTVSt16invalid_argument'] = 297972;
+var __ZTISt16invalid_argument = Module['__ZTISt16invalid_argument'] = 297992;
+var __ZTSSt16invalid_argument = Module['__ZTSSt16invalid_argument'] = 271646;
+var __ZTSSt12length_error = Module['__ZTSSt12length_error'] = 271667;
+var __ZTVSt12out_of_range = Module['__ZTVSt12out_of_range'] = 298036;
+var __ZTISt12out_of_range = Module['__ZTISt12out_of_range'] = 298056;
+var __ZTSSt12out_of_range = Module['__ZTSSt12out_of_range'] = 271684;
+var __ZTVSt11range_error = Module['__ZTVSt11range_error'] = 298068;
+var __ZTISt11range_error = Module['__ZTISt11range_error'] = 298100;
+var __ZTSSt11range_error = Module['__ZTSSt11range_error'] = 271701;
+var __ZTSSt13runtime_error = Module['__ZTSSt13runtime_error'] = 271717;
+var __ZTVSt14overflow_error = Module['__ZTVSt14overflow_error'] = 298112;
+var __ZTISt14overflow_error = Module['__ZTISt14overflow_error'] = 298132;
+var __ZTSSt14overflow_error = Module['__ZTSSt14overflow_error'] = 271735;
+var __ZTVSt15underflow_error = Module['__ZTVSt15underflow_error'] = 298144;
+var __ZTISt15underflow_error = Module['__ZTISt15underflow_error'] = 298164;
+var __ZTSSt15underflow_error = Module['__ZTSSt15underflow_error'] = 271754;
+var __ZTVSt8bad_cast = Module['__ZTVSt8bad_cast'] = 298176;
+var __ZTVSt10bad_typeid = Module['__ZTVSt10bad_typeid'] = 298196;
+var __ZTISt10bad_typeid = Module['__ZTISt10bad_typeid'] = 298252;
+var __ZTVSt9type_info = Module['__ZTVSt9type_info'] = 298216;
+var __ZTISt9type_info = Module['__ZTISt9type_info'] = 298232;
+var __ZTSSt9type_info = Module['__ZTSSt9type_info'] = 271804;
+var __ZTSSt8bad_cast = Module['__ZTSSt8bad_cast'] = 271817;
+var __ZTSSt10bad_typeid = Module['__ZTSSt10bad_typeid'] = 271829;
+var __ZTIN10__cxxabiv117__class_type_infoE = Module['__ZTIN10__cxxabiv117__class_type_infoE'] = 298276;
+var __ZTIN10__cxxabiv116__shim_type_infoE = Module['__ZTIN10__cxxabiv116__shim_type_infoE'] = 298264;
+var __ZTIN10__cxxabiv117__pbase_type_infoE = Module['__ZTIN10__cxxabiv117__pbase_type_infoE'] = 298288;
+var __ZTIDn = Module['__ZTIDn'] = 298444;
+var __ZTIN10__cxxabiv119__pointer_type_infoE = Module['__ZTIN10__cxxabiv119__pointer_type_infoE'] = 298300;
+var __ZTIv = Module['__ZTIv'] = 298404;
+var __ZTIN10__cxxabiv120__function_type_infoE = Module['__ZTIN10__cxxabiv120__function_type_infoE'] = 298312;
+var __ZTIN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTIN10__cxxabiv129__pointer_to_member_type_infoE'] = 298324;
+var __ZTSN10__cxxabiv116__shim_type_infoE = Module['__ZTSN10__cxxabiv116__shim_type_infoE'] = 271844;
+var __ZTSN10__cxxabiv117__class_type_infoE = Module['__ZTSN10__cxxabiv117__class_type_infoE'] = 271877;
+var __ZTSN10__cxxabiv117__pbase_type_infoE = Module['__ZTSN10__cxxabiv117__pbase_type_infoE'] = 271911;
+var __ZTSN10__cxxabiv119__pointer_type_infoE = Module['__ZTSN10__cxxabiv119__pointer_type_infoE'] = 271945;
+var __ZTSN10__cxxabiv120__function_type_infoE = Module['__ZTSN10__cxxabiv120__function_type_infoE'] = 271981;
+var __ZTSN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTSN10__cxxabiv129__pointer_to_member_type_infoE'] = 272018;
+var __ZTVN10__cxxabiv116__shim_type_infoE = Module['__ZTVN10__cxxabiv116__shim_type_infoE'] = 298336;
+var __ZTVN10__cxxabiv123__fundamental_type_infoE = Module['__ZTVN10__cxxabiv123__fundamental_type_infoE'] = 298364;
+var __ZTIN10__cxxabiv123__fundamental_type_infoE = Module['__ZTIN10__cxxabiv123__fundamental_type_infoE'] = 298392;
+var __ZTSN10__cxxabiv123__fundamental_type_infoE = Module['__ZTSN10__cxxabiv123__fundamental_type_infoE'] = 272076;
+var __ZTSv = Module['__ZTSv'] = 272116;
+var __ZTSPv = Module['__ZTSPv'] = 272118;
+var __ZTIPv = Module['__ZTIPv'] = 298412;
+var __ZTVN10__cxxabiv119__pointer_type_infoE = Module['__ZTVN10__cxxabiv119__pointer_type_infoE'] = 299684;
+var __ZTSPKv = Module['__ZTSPKv'] = 272121;
+var __ZTIPKv = Module['__ZTIPKv'] = 298428;
+var __ZTSDn = Module['__ZTSDn'] = 272125;
+var __ZTSPDn = Module['__ZTSPDn'] = 272128;
+var __ZTIPDn = Module['__ZTIPDn'] = 298452;
+var __ZTSPKDn = Module['__ZTSPKDn'] = 272132;
+var __ZTIPKDn = Module['__ZTIPKDn'] = 298468;
+var __ZTSb = Module['__ZTSb'] = 272137;
+var __ZTIb = Module['__ZTIb'] = 298484;
+var __ZTSPb = Module['__ZTSPb'] = 272139;
+var __ZTIPb = Module['__ZTIPb'] = 298492;
+var __ZTSPKb = Module['__ZTSPKb'] = 272142;
+var __ZTIPKb = Module['__ZTIPKb'] = 298508;
+var __ZTSw = Module['__ZTSw'] = 272146;
+var __ZTIw = Module['__ZTIw'] = 298524;
+var __ZTSPw = Module['__ZTSPw'] = 272148;
+var __ZTIPw = Module['__ZTIPw'] = 298532;
+var __ZTSPKw = Module['__ZTSPKw'] = 272151;
+var __ZTIPKw = Module['__ZTIPKw'] = 298548;
+var __ZTSc = Module['__ZTSc'] = 272155;
+var __ZTIc = Module['__ZTIc'] = 298564;
+var __ZTSPc = Module['__ZTSPc'] = 272157;
+var __ZTIPc = Module['__ZTIPc'] = 298572;
+var __ZTSPKc = Module['__ZTSPKc'] = 272160;
+var __ZTIPKc = Module['__ZTIPKc'] = 298588;
+var __ZTSh = Module['__ZTSh'] = 272164;
+var __ZTIh = Module['__ZTIh'] = 298604;
+var __ZTSPh = Module['__ZTSPh'] = 272166;
+var __ZTIPh = Module['__ZTIPh'] = 298612;
+var __ZTSPKh = Module['__ZTSPKh'] = 272169;
+var __ZTIPKh = Module['__ZTIPKh'] = 298628;
+var __ZTSa = Module['__ZTSa'] = 272173;
+var __ZTIa = Module['__ZTIa'] = 298644;
+var __ZTSPa = Module['__ZTSPa'] = 272175;
+var __ZTIPa = Module['__ZTIPa'] = 298652;
+var __ZTSPKa = Module['__ZTSPKa'] = 272178;
+var __ZTIPKa = Module['__ZTIPKa'] = 298668;
+var __ZTSs = Module['__ZTSs'] = 272182;
+var __ZTIs = Module['__ZTIs'] = 298684;
+var __ZTSPs = Module['__ZTSPs'] = 272184;
+var __ZTIPs = Module['__ZTIPs'] = 298692;
+var __ZTSPKs = Module['__ZTSPKs'] = 272187;
+var __ZTIPKs = Module['__ZTIPKs'] = 298708;
+var __ZTSt = Module['__ZTSt'] = 272191;
+var __ZTIt = Module['__ZTIt'] = 298724;
+var __ZTSPt = Module['__ZTSPt'] = 272193;
+var __ZTIPt = Module['__ZTIPt'] = 298732;
+var __ZTSPKt = Module['__ZTSPKt'] = 272196;
+var __ZTIPKt = Module['__ZTIPKt'] = 298748;
+var __ZTSi = Module['__ZTSi'] = 272200;
+var __ZTIi = Module['__ZTIi'] = 298764;
+var __ZTSPi = Module['__ZTSPi'] = 272202;
+var __ZTIPi = Module['__ZTIPi'] = 298772;
+var __ZTSPKi = Module['__ZTSPKi'] = 272205;
+var __ZTIPKi = Module['__ZTIPKi'] = 298788;
+var __ZTSj = Module['__ZTSj'] = 272209;
+var __ZTIj = Module['__ZTIj'] = 298804;
+var __ZTSPj = Module['__ZTSPj'] = 272211;
+var __ZTIPj = Module['__ZTIPj'] = 298812;
+var __ZTSPKj = Module['__ZTSPKj'] = 272214;
+var __ZTIPKj = Module['__ZTIPKj'] = 298828;
+var __ZTSl = Module['__ZTSl'] = 272218;
+var __ZTIl = Module['__ZTIl'] = 298844;
+var __ZTSPl = Module['__ZTSPl'] = 272220;
+var __ZTIPl = Module['__ZTIPl'] = 298852;
+var __ZTSPKl = Module['__ZTSPKl'] = 272223;
+var __ZTIPKl = Module['__ZTIPKl'] = 298868;
+var __ZTSm = Module['__ZTSm'] = 272227;
+var __ZTIm = Module['__ZTIm'] = 298884;
+var __ZTSPm = Module['__ZTSPm'] = 272229;
+var __ZTIPm = Module['__ZTIPm'] = 298892;
+var __ZTSPKm = Module['__ZTSPKm'] = 272232;
+var __ZTIPKm = Module['__ZTIPKm'] = 298908;
+var __ZTSx = Module['__ZTSx'] = 272236;
+var __ZTIx = Module['__ZTIx'] = 298924;
+var __ZTSPx = Module['__ZTSPx'] = 272238;
+var __ZTIPx = Module['__ZTIPx'] = 298932;
+var __ZTSPKx = Module['__ZTSPKx'] = 272241;
+var __ZTIPKx = Module['__ZTIPKx'] = 298948;
+var __ZTSy = Module['__ZTSy'] = 272245;
+var __ZTIy = Module['__ZTIy'] = 298964;
+var __ZTSPy = Module['__ZTSPy'] = 272247;
+var __ZTIPy = Module['__ZTIPy'] = 298972;
+var __ZTSPKy = Module['__ZTSPKy'] = 272250;
+var __ZTIPKy = Module['__ZTIPKy'] = 298988;
+var __ZTSn = Module['__ZTSn'] = 272254;
+var __ZTIn = Module['__ZTIn'] = 299004;
+var __ZTSPn = Module['__ZTSPn'] = 272256;
+var __ZTIPn = Module['__ZTIPn'] = 299012;
+var __ZTSPKn = Module['__ZTSPKn'] = 272259;
+var __ZTIPKn = Module['__ZTIPKn'] = 299028;
+var __ZTSo = Module['__ZTSo'] = 272263;
+var __ZTIo = Module['__ZTIo'] = 299044;
+var __ZTSPo = Module['__ZTSPo'] = 272265;
+var __ZTIPo = Module['__ZTIPo'] = 299052;
+var __ZTSPKo = Module['__ZTSPKo'] = 272268;
+var __ZTIPKo = Module['__ZTIPKo'] = 299068;
+var __ZTSDh = Module['__ZTSDh'] = 272272;
+var __ZTIDh = Module['__ZTIDh'] = 299084;
+var __ZTSPDh = Module['__ZTSPDh'] = 272275;
+var __ZTIPDh = Module['__ZTIPDh'] = 299092;
+var __ZTSPKDh = Module['__ZTSPKDh'] = 272279;
+var __ZTIPKDh = Module['__ZTIPKDh'] = 299108;
+var __ZTSf = Module['__ZTSf'] = 272284;
+var __ZTIf = Module['__ZTIf'] = 299124;
+var __ZTSPf = Module['__ZTSPf'] = 272286;
+var __ZTIPf = Module['__ZTIPf'] = 299132;
+var __ZTSPKf = Module['__ZTSPKf'] = 272289;
+var __ZTIPKf = Module['__ZTIPKf'] = 299148;
+var __ZTSd = Module['__ZTSd'] = 272293;
+var __ZTId = Module['__ZTId'] = 299164;
+var __ZTSPd = Module['__ZTSPd'] = 272295;
+var __ZTIPd = Module['__ZTIPd'] = 299172;
+var __ZTSPKd = Module['__ZTSPKd'] = 272298;
+var __ZTIPKd = Module['__ZTIPKd'] = 299188;
+var __ZTSe = Module['__ZTSe'] = 272302;
+var __ZTIe = Module['__ZTIe'] = 299204;
+var __ZTSPe = Module['__ZTSPe'] = 272304;
+var __ZTIPe = Module['__ZTIPe'] = 299212;
+var __ZTSPKe = Module['__ZTSPKe'] = 272307;
+var __ZTIPKe = Module['__ZTIPKe'] = 299228;
+var __ZTSg = Module['__ZTSg'] = 272311;
+var __ZTIg = Module['__ZTIg'] = 299244;
+var __ZTSPg = Module['__ZTSPg'] = 272313;
+var __ZTIPg = Module['__ZTIPg'] = 299252;
+var __ZTSPKg = Module['__ZTSPKg'] = 272316;
+var __ZTIPKg = Module['__ZTIPKg'] = 299268;
+var __ZTSDu = Module['__ZTSDu'] = 272320;
+var __ZTIDu = Module['__ZTIDu'] = 299284;
+var __ZTSPDu = Module['__ZTSPDu'] = 272323;
+var __ZTIPDu = Module['__ZTIPDu'] = 299292;
+var __ZTSPKDu = Module['__ZTSPKDu'] = 272327;
+var __ZTIPKDu = Module['__ZTIPKDu'] = 299308;
+var __ZTSDs = Module['__ZTSDs'] = 272332;
+var __ZTIDs = Module['__ZTIDs'] = 299324;
+var __ZTSPDs = Module['__ZTSPDs'] = 272335;
+var __ZTIPDs = Module['__ZTIPDs'] = 299332;
+var __ZTSPKDs = Module['__ZTSPKDs'] = 272339;
+var __ZTIPKDs = Module['__ZTIPKDs'] = 299348;
+var __ZTSDi = Module['__ZTSDi'] = 272344;
+var __ZTIDi = Module['__ZTIDi'] = 299364;
+var __ZTSPDi = Module['__ZTSPDi'] = 272347;
+var __ZTIPDi = Module['__ZTIPDi'] = 299372;
+var __ZTSPKDi = Module['__ZTSPKDi'] = 272351;
+var __ZTIPKDi = Module['__ZTIPKDi'] = 299388;
+var __ZTVN10__cxxabiv117__array_type_infoE = Module['__ZTVN10__cxxabiv117__array_type_infoE'] = 299404;
+var __ZTIN10__cxxabiv117__array_type_infoE = Module['__ZTIN10__cxxabiv117__array_type_infoE'] = 299432;
+var __ZTSN10__cxxabiv117__array_type_infoE = Module['__ZTSN10__cxxabiv117__array_type_infoE'] = 272356;
+var __ZTVN10__cxxabiv120__function_type_infoE = Module['__ZTVN10__cxxabiv120__function_type_infoE'] = 299444;
+var __ZTVN10__cxxabiv116__enum_type_infoE = Module['__ZTVN10__cxxabiv116__enum_type_infoE'] = 299472;
+var __ZTIN10__cxxabiv116__enum_type_infoE = Module['__ZTIN10__cxxabiv116__enum_type_infoE'] = 299500;
+var __ZTSN10__cxxabiv116__enum_type_infoE = Module['__ZTSN10__cxxabiv116__enum_type_infoE'] = 272390;
+var __ZTIN10__cxxabiv120__si_class_type_infoE = Module['__ZTIN10__cxxabiv120__si_class_type_infoE'] = 299592;
+var __ZTSN10__cxxabiv120__si_class_type_infoE = Module['__ZTSN10__cxxabiv120__si_class_type_infoE'] = 272423;
+var __ZTIN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTIN10__cxxabiv121__vmi_class_type_infoE'] = 299644;
+var __ZTSN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTSN10__cxxabiv121__vmi_class_type_infoE'] = 272460;
+var __ZTVN10__cxxabiv117__pbase_type_infoE = Module['__ZTVN10__cxxabiv117__pbase_type_infoE'] = 299656;
+var __ZTVN10__cxxabiv129__pointer_to_member_type_infoE = Module['__ZTVN10__cxxabiv129__pointer_to_member_type_infoE'] = 299712;
+var _in6addr_any = Module['_in6addr_any'] = 277052;
+var _in6addr_loopback = Module['_in6addr_loopback'] = 277068;
 
 
 
@@ -62807,7 +65894,7 @@ function stackCheckInit() {
   // get these values before even running any of the ctors so we call it redundantly
   // here.
   // TODO(sbc): Move writeStackCookie to native to to avoid this.
-  _emscripten_stack_set_limits(5545152, 302272);
+  _emscripten_stack_set_limits(5562896, 320016);
   writeStackCookie();
 }
 
