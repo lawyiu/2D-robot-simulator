@@ -24,7 +24,7 @@ Please note that Windows users will need to use WSL to build for the web or desk
 
   8. `cd deploy`
 
-  9. `emrun --no_browser --port=8080 .`
+  9. `emrun --no_browser --port=8080 index.html`
 
   10. Open a browser and go to http://localhost:8080
 
