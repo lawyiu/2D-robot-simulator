@@ -7,6 +7,7 @@
 #include <piksel/baseapp.hpp>
 
 class Robot;
+class Tape;
 
 class Level {
 public:
@@ -34,6 +35,7 @@ protected:
     std::vector<b2FrictionJoint*> mFrictionJoints;
 
     std::unique_ptr<Robot> mRobot;
+    std::vector<std::unique_ptr<Tape>> tapes;
 };
 
 #endif /* LEVEL_HPP */

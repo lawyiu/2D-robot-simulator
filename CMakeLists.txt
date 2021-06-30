@@ -38,6 +38,7 @@ set(SOURCES
     src/Arduino.cpp
     src/robot.cpp
     src/tire.cpp
+    src/tape.cpp
     src/pinsController.cpp
     src/led.cpp
     src/L298N_MotorController.cpp
