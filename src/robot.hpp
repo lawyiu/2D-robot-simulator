@@ -55,6 +55,7 @@ public:
     PinsController& getPinsController() { return mPins; }
 
     b2Body* getBody() { return mBody; }
+    b2World* getWorld() { return mWorld; }
 
     /* Applies force to the left or right tires to make the robot move. */
     void applyForce(float force, Tire::Side);
