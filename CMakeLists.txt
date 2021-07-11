@@ -40,6 +40,7 @@ set(SOURCES
     src/tire.cpp
     src/tape.cpp
     src/pinsController.cpp
+    src/lineSensor.cpp
     src/led.cpp
     src/L298N_MotorController.cpp
     src/level.cpp
