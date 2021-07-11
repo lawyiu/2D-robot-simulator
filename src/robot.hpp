@@ -16,7 +16,7 @@ typedef void (*loop_t)(void);
 
 #define DEF_WIDTH 0.30f
 #define DEF_HEIGHT 0.15f
-#define DEF_COLOR glm::vec4(0.8f, 0.4f, 0.0f, 1.0f)
+#define DEF_COLOR glm::vec4(0.8f, 0.4f, 0.0f, 0.7f)
 
 class Robot {
 public:
