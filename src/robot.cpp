@@ -1,6 +1,8 @@
 #include "robot.hpp"
 #include "app.hpp"
 
+#include "lineSensor.hpp"
+
 #include "led.hpp"
 #include "L298N_MotorController.hpp"
 
@@ -64,6 +66,10 @@ void Robot::addTires() {
 }
 
 void Robot::init() {
+    glm::vec2 sensorPos = glm::vec2(-mWidth / 2.0 + 0.03f, 0.0f);
+    unique_ptr<Input> lineSensorPtr(new LineSensor(*this, 7, sensorPos));
+    mInputs.push_back(move(lineSensorPtr));
+
     unique_ptr<Output> ledPtr(new Led(*this));
     mOutputs.push_back(move(ledPtr));
 
@@ -129,6 +135,10 @@ void Robot::update() {
         mLoop();
     }
 
+    for (auto&& input : mInputs) {
+        input->update();
+    }
+
     for (auto&& output : mOutputs) {
         output->update();
     }
@@ -143,6 +153,10 @@ void Robot::draw(Graphics& g) {
 
     for (auto&& tire : mTires) {
         tire->draw(g);
+    }
+
+    for (auto&& input : mInputs) {
+        input->draw(g);
     }
 
     g.translate(getPosition().x, getPosition().y);

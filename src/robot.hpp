@@ -1,6 +1,7 @@
 #ifndef ROBOT_HPP
 #define ROBOT_HPP
 
+#include "input.hpp"
 #include "output.hpp"
 #include "pinsController.hpp"
 #include "tire.hpp"
@@ -74,6 +75,7 @@ protected:
     b2Body* mBody;
 
     PinsController mPins;
+    std::vector<std::unique_ptr<Input>> mInputs;
     std::vector<std::unique_ptr<Output>> mOutputs;
     std::vector<std::unique_ptr<Tire>> mTires;
 
