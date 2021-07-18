@@ -64,6 +64,7 @@ public:
 protected:
     void createBody();
     void addTires();
+    void addLineSensors();
 
     glm::vec2 mPosition;
     float mWidth;

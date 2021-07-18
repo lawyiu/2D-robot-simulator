@@ -66,13 +66,25 @@ void Robot::addTires() {
     }
 }
 
+void Robot::addLineSensors() {
+    std::pair<glm::vec2, uint32_t> lineSensorPositions[] = {
+        std::make_pair(glm::vec2(-mWidth / 2.0 + 0.03f, -0.015f), 6),
+        std::make_pair(glm::vec2(-mWidth / 2.0 + 0.03f, 0.0f), 7),
+        std::make_pair(glm::vec2(-mWidth / 2.0 + 0.03f, 0.015f), 8)
+    };
+
+    for (auto&& lineSensorPos : lineSensorPositions) {
+        glm::vec2& sensorPos = lineSensorPos.first;
+        uint32_t pinNum = lineSensorPos.second;
+        unique_ptr<Input> lineSensorPtr(new LineSensor(*this, pinNum, sensorPos));
+        mInputs.push_back(move(lineSensorPtr));
+    }
+}
+
 void Robot::init() {
     // Robot body needs to be created first since sensors and outputs might depend on it.
     createBody();
-
-    glm::vec2 sensorPos = glm::vec2(-mWidth / 2.0 + 0.03f, 0.0f);
-    unique_ptr<Input> lineSensorPtr(new LineSensor(*this, 7, sensorPos));
-    mInputs.push_back(move(lineSensorPtr));
+    addLineSensors();
 
     unique_ptr<Output> ledPtr(new Led(*this));
     mOutputs.push_back(move(ledPtr));
