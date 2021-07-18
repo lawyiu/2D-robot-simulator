@@ -67,6 +67,9 @@ void Robot::addTires() {
 }
 
 void Robot::init() {
+    // Robot body needs to be created first since sensors and outputs might depend on it.
+    createBody();
+
     glm::vec2 sensorPos = glm::vec2(-mWidth / 2.0 + 0.03f, 0.0f);
     unique_ptr<Input> lineSensorPtr(new LineSensor(*this, 7, sensorPos));
     mInputs.push_back(move(lineSensorPtr));
@@ -77,7 +80,6 @@ void Robot::init() {
     unique_ptr<Output> motorDriverPtr(new L298N_MotorController(*this));
     mOutputs.push_back(move(motorDriverPtr));
 
-    createBody();
     addTires();
     // Set rotation of the robot after adding the tires so that the tires are rotated as well.
     setRotation(mRotation);
