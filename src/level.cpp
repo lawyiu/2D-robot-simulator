@@ -21,6 +21,7 @@ Level::~Level() {
         mWorld->DestroyJoint(frictionJoint);
     }
 
+    tapes.clear();
     mRobot.reset(nullptr);
     mWorld.reset(nullptr);
 }
