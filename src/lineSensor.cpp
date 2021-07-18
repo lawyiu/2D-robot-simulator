@@ -27,6 +27,7 @@ void LineSensor::createBody() {
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 50.0f; // 5 grams
     fixtureDef.isSensor = true;
 
     mBody->CreateFixture(&fixtureDef);
