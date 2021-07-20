@@ -2,6 +2,17 @@ body {
     margin: 2em 0em;
 }
 
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+.sub-container {
+    width: 50%;
+}
+
 .console {
     width: 80%;
     height: 25em;
