@@ -42,8 +42,8 @@ Please note that Windows users will need to use WSL to build for the web or desk
      run.
 
   8. `./sim`
-     To run custom programs, place the ino file inside the arduino_examples folder. Then run `make` and redo step 7 with
-     the name of your custom compiled program.
+     To run custom programs, place the ino file inside the arduino_examples folder. Add the ino file to the INO_SOURCES list
+     in `arduino_examples/CMakeLists.txt`. Then run `make` and redo step 7 with the name of your custom compiled program.
 
 ## Controls
 ### Keys
