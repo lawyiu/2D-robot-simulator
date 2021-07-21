@@ -20,6 +20,9 @@ public:
     void update();
     void draw(piksel::Graphics& g);
 
+    void restart() { mRestart = true; }
+    void reload() { mReload = true; }
+
     Robot& getCurrentRobot();
     Level& getCurrentLevel() { return *mLevel; }
     b2World& getWorld() { return mLevel->getWorld(); }
