@@ -47,6 +47,7 @@ set(SOURCES
     src/level.cpp
     src/main.cpp
     src/app.cpp
+    src/bindingsWrapper.cpp
 )
 add_executable(sim ${SOURCES})
 
@@ -55,9 +56,18 @@ if(EMSCRIPTEN)
         TARGET sim PRE_BUILD
         COMMAND $ENV{EMSDK}/upstream/emscripten/tools/file_packager code --preload arduino_examples/libwelcome.so@/libcode.so --js-output=code.js
         VERBATIM)
-    add_dependencies(sim welcome)
+    add_custom_command(
+        OUTPUT bindings.cpp bindings.js
+        COMMAND $ENV{EMSDK}/upstream/emscripten/tools/webidl_binder ${CMAKE_CURRENT_SOURCE_DIR}/bindings.idl bindings
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bindings.idl
+        VERBATIM)
+    add_custom_target(
+        bindings
+        DEPENDS bindings.cpp bindings.js
+    )
+    add_dependencies(sim welcome bindings)
     target_compile_options(sim PRIVATE -s MAIN_MODULE=1)
-    set_target_properties(sim PROPERTIES LINK_FLAGS "-s MAIN_MODULE=1 --pre-js preRun.js --post-js postRun.js --extern-pre-js code.js")
+    set_target_properties(sim PROPERTIES LINK_FLAGS "-s MAIN_MODULE=1 --pre-js preRun.js --post-js postRun.js --post-js bindings.js --extern-pre-js code.js")
 else()
     set_target_properties(sim PROPERTIES LINK_FLAGS "-Wl,--dynamic-list=\"${PROJECT_SOURCE_DIR}\"/syms.txt")
 endif()
@@ -66,6 +76,7 @@ target_include_directories(sim
     PUBLIC src
     PUBLIC lib/piksel/src
     PUBLIC box2d/include/box2d
+    PRIVATE ${CMAKE_BINARY_DIR}
 )
 target_link_libraries(sim
     piksel

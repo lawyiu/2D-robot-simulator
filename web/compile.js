@@ -26,9 +26,13 @@
 
                 if (data.errors == "") {
                     var code = base64ToUint8Array(data.bin);
-                    simFrame.contentWindow.Module.FS.writeFile("/libcode.so", code);
+                    const module = simFrame.contentWindow.Module;
+                    module.FS.writeFile("/libcode.so", code);
 
-                    compileOutput.textContent += "Successfully compiled!\n" + data.errors;
+                    compileOutput.textContent += "Successfully compiled! Restarting simulation...\n" + data.errors;
+
+                    const appInstance = module.App.prototype.getInstance();
+                    appInstance.restart();
                 } else {
                     compileOutput.textContent += "Compilation Errors:\n" + data.errors;
                 }
