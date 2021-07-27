@@ -29,10 +29,15 @@
                     const module = simFrame.contentWindow.Module;
                     module.FS.writeFile("/libcode.so", code);
 
-                    compileOutput.textContent += "Successfully compiled! Restarting simulation...\n" + data.errors;
+                    compileOutput.textContent += "Successfully compiled!\n";
 
-                    const appInstance = module.App.prototype.getInstance();
-                    appInstance.restart();
+                    const restart_checkbox = $("#checkbox-restart");
+
+                    if (restart_checkbox.prop("checked")) {
+                        compileOutput.textContent += "Restarting simulation...\n";
+                        const appInstance = module.App.prototype.getInstance();
+                        appInstance.restart();
+                    }
                 } else {
                     compileOutput.textContent += "Compilation Errors:\n" + data.errors;
                 }

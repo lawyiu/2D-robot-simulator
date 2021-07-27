@@ -44,3 +44,7 @@ body {
 #controls-header.up::before {
     content: "\25B6  ";
 }
+
+.inline-field {
+    display: inline-block;
+}
