@@ -3,9 +3,9 @@ RUN apt-get update && \
     apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev \
     libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
 RUN git clone https://github.com/rbenv/ruby-build.git && cd ruby-build && PREFIX=./install ./install.sh && \
-    ./install/bin/ruby-build 2.7.2 /usr/local/ruby-2.7.2 && cd ../ && rm -r ruby-build
-RUN echo 'PATH=/usr/local/ruby-2.7.2/bin:$PATH' >> /etc/bash.bashrc
-ENV PATH=/usr/local/ruby-2.7.2/bin:$PATH
+    ./install/bin/ruby-build 2.7.4 /usr/local/ruby-2.7.4 && cd ../ && rm -r ruby-build
+RUN echo 'PATH=/usr/local/ruby-2.7.4/bin:$PATH' >> /etc/bash.bashrc
+ENV PATH=/usr/local/ruby-2.7.4/bin:$PATH
 
 RUN chown emscripten:emscripten /src
 
