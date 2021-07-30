@@ -179,7 +179,7 @@
     }
   
    }
-   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 810, "audio": 0}], "remote_package_size": 810, "package_uuid": "6a21687f-ba4f-4ebd-a65f-abd0c0d0b201"});
+   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 632, "audio": 0}], "remote_package_size": 632, "package_uuid": "d0a47592-b81d-48ae-a78b-262b9e885ca3"});
   
   })();
   
@@ -384,7 +384,7 @@ Module['FS_createPath']("/data/fonts", "OpenSans", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 0, "end": 96932, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 96932, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "c319467f-8d6c-4c30-bf25-c7ed1e52a5f5"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 0, "end": 96932, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 96932, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "23b8e18c-125e-43ab-b00e-bd855d6ff629"});
   
   })();
   
@@ -777,17 +777,13 @@ var PROXYFS = 'PROXYFS is no longer included by default; build with -lproxyfs.js
 var WORKERFS = 'WORKERFS is no longer included by default; build with -lworkerfs.js';
 var NODEFS = 'NODEFS is no longer included by default; build with -lnodefs.js';
 
+
 assert(!ENVIRONMENT_IS_SHELL, "shell environment detected but not enabled at build time.  Add 'shell' to `-s ENVIRONMENT` to enable.");
 
 
 
 
 var STACK_ALIGN = 16;
-
-function alignMemory(size, factor) {
-  if (!factor) factor = STACK_ALIGN; // stack alignment (16-byte) by default
-  return Math.ceil(size / factor) * factor;
-}
 
 function getNativeTypeSize(type) {
   switch (type) {
@@ -1157,9 +1153,12 @@ function ccall(ident, returnType, argTypes, args, opts) {
     }
   }
   var ret = func.apply(null, cArgs);
+  function onDone(ret) {
+    if (stack !== 0) stackRestore(stack);
+    return convertReturnValue(ret);
+  }
 
-  ret = convertReturnValue(ret);
-  if (stack !== 0) stackRestore(stack);
+  ret = onDone(ret);
   return ret;
 }
 
@@ -2108,7 +2107,10 @@ function createWasm() {
         typeof fetch === 'function') {
       return fetch(wasmBinaryFile, { credentials: 'same-origin' }).then(function (response) {
         var result = WebAssembly.instantiateStreaming(response, info);
-        return result.then(receiveInstantiationResult, function(reason) {
+
+        return result.then(
+          receiveInstantiationResult,
+          function(reason) {
             // We expect the most common failure cause to be a bad MIME type for the binary,
             // in which case falling back to ArrayBuffer instantiation should work.
             err('wasm streaming compile failed: ' + reason);
@@ -2158,9 +2160,9 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
 
 
-  var GOT={};
+  var GOT = {};
   Module["GOT"] = GOT;
-  var GOTHandler={get:function(obj, symName) {
+  var GOTHandler = {get:function(obj, symName) {
         if (!GOT[symName]) {
           GOT[symName] = new WebAssembly.Global({'value': 'i32', 'mutable': true});
         }
@@ -2312,7 +2314,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["mergeLibSymbols"] = mergeLibSymbols;
 
-  var LDSO={nextHandle:1,loadedLibs:{},loadedLibNames:{}};
+  var LDSO = {nextHandle:1,loadedLibs:{},loadedLibNames:{}};
   Module["LDSO"] = LDSO;
   
   function dynCallLegacy(sig, ptr, args) {
@@ -2352,7 +2354,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["createInvokeFunction"] = createInvokeFunction;
   
-  var ___heap_base=5550928;
+  var ___heap_base = 5550880;
   Module["___heap_base"] = ___heap_base;
   function getMemory(size) {
       // After the runtime is initialized, we must only use sbrk() normally.
@@ -2453,6 +2455,12 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       return sym;
     }
   Module["resolveGlobalSymbol"] = resolveGlobalSymbol;
+  
+  function alignMemory(size, alignment) {
+      assert(alignment, "alignment argument is required");
+      return Math.ceil(size / alignment) * alignment;
+    }
+  Module["alignMemory"] = alignMemory;
   function loadWebAssemblyModule(binary, flags) {
       var metadata = getDylinkMetadata(binary);
       var originalTable = wasmTable;
@@ -2899,7 +2907,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   ;
   Module["_emscripten_get_now"] = _emscripten_get_now;
   
-  var _emscripten_get_now_is_monotonic=true;;
+  var _emscripten_get_now_is_monotonic = true;;
   Module["_emscripten_get_now_is_monotonic"] = _emscripten_get_now_is_monotonic;
   
   function setErrNo(value) {
@@ -3016,10 +3024,10 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["ExceptionInfo"] = ExceptionInfo;
   
-  var exceptionLast=0;
+  var exceptionLast = 0;
   Module["exceptionLast"] = exceptionLast;
   
-  var uncaughtExceptionCount=0;
+  var uncaughtExceptionCount = 0;
   Module["uncaughtExceptionCount"] = uncaughtExceptionCount;
   function ___cxa_throw(ptr, type, destructor) {
       var info = new ExceptionInfo(ptr);
@@ -3103,7 +3111,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["___map_file"] = ___map_file;
 
-  var __sigalrm_handler=0;
+  var __sigalrm_handler = 0;
   Module["__sigalrm_handler"] = __sigalrm_handler;
   function ___sigaction(sig, act, oldact) {
       //int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
@@ -3117,10 +3125,10 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["___sigaction"] = ___sigaction;
   ___sigaction.sig = 'viii';
 
-  var ___stack_pointer=new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5550928);
+  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5550880);
   Module["___stack_pointer"] = ___stack_pointer;
 
-  var PATH={splitPath:function(filename) {
+  var PATH = {splitPath:function(filename) {
         var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
         return splitPathRe.exec(filename).slice(1);
       },normalizeArray:function(parts, allowAboveRoot) {
@@ -3211,7 +3219,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["getRandomDevice"] = getRandomDevice;
   
-  var PATH_FS={resolve:function() {
+  var PATH_FS = {resolve:function() {
         var resolvedPath = '',
           resolvedAbsolute = false;
         for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
@@ -3265,7 +3273,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       }};
   Module["PATH_FS"] = PATH_FS;
   
-  var TTY={ttys:[],init:function () {
+  var TTY = {ttys:[],init:function () {
         // https://github.com/emscripten-core/emscripten/pull/1555
         // if (ENVIRONMENT_IS_NODE) {
         //   // currently, FS.init does not distinguish if process.stdin is a file or TTY
@@ -3420,7 +3428,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       return ptr;
     }
   Module["mmapAlloc"] = mmapAlloc;
-  var MEMFS={ops_table:null,mount:function(mount) {
+  var MEMFS = {ops_table:null,mount:function(mount) {
         return MEMFS.createNode(null, '/', 16384 | 511 /* 0777 */, 0);
       },createNode:function(parent, name, mode, dev) {
         if (FS.isBlkdev(mode) || FS.isFIFO(mode)) {
@@ -3751,12 +3759,12 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["asyncLoad"] = asyncLoad;
   
-  var ERRNO_MESSAGES={0:"Success",1:"Arg list too long",2:"Permission denied",3:"Address already in use",4:"Address not available",5:"Address family not supported by protocol family",6:"No more processes",7:"Socket already connected",8:"Bad file number",9:"Trying to read unreadable message",10:"Mount device busy",11:"Operation canceled",12:"No children",13:"Connection aborted",14:"Connection refused",15:"Connection reset by peer",16:"File locking deadlock error",17:"Destination address required",18:"Math arg out of domain of func",19:"Quota exceeded",20:"File exists",21:"Bad address",22:"File too large",23:"Host is unreachable",24:"Identifier removed",25:"Illegal byte sequence",26:"Connection already in progress",27:"Interrupted system call",28:"Invalid argument",29:"I/O error",30:"Socket is already connected",31:"Is a directory",32:"Too many symbolic links",33:"Too many open files",34:"Too many links",35:"Message too long",36:"Multihop attempted",37:"File or path name too long",38:"Network interface is not configured",39:"Connection reset by network",40:"Network is unreachable",41:"Too many open files in system",42:"No buffer space available",43:"No such device",44:"No such file or directory",45:"Exec format error",46:"No record locks available",47:"The link has been severed",48:"Not enough core",49:"No message of desired type",50:"Protocol not available",51:"No space left on device",52:"Function not implemented",53:"Socket is not connected",54:"Not a directory",55:"Directory not empty",56:"State not recoverable",57:"Socket operation on non-socket",59:"Not a typewriter",60:"No such device or address",61:"Value too large for defined data type",62:"Previous owner died",63:"Not super-user",64:"Broken pipe",65:"Protocol error",66:"Unknown protocol",67:"Protocol wrong type for socket",68:"Math result not representable",69:"Read only file system",70:"Illegal seek",71:"No such process",72:"Stale file handle",73:"Connection timed out",74:"Text file busy",75:"Cross-device link",100:"Device not a stream",101:"Bad font file fmt",102:"Invalid slot",103:"Invalid request code",104:"No anode",105:"Block device required",106:"Channel number out of range",107:"Level 3 halted",108:"Level 3 reset",109:"Link number out of range",110:"Protocol driver not attached",111:"No CSI structure available",112:"Level 2 halted",113:"Invalid exchange",114:"Invalid request descriptor",115:"Exchange full",116:"No data (for no delay io)",117:"Timer expired",118:"Out of streams resources",119:"Machine is not on the network",120:"Package not installed",121:"The object is remote",122:"Advertise error",123:"Srmount error",124:"Communication error on send",125:"Cross mount point (not really error)",126:"Given log. name not unique",127:"f.d. invalid for this operation",128:"Remote address changed",129:"Can   access a needed shared lib",130:"Accessing a corrupted shared lib",131:".lib section in a.out corrupted",132:"Attempting to link in too many libs",133:"Attempting to exec a shared library",135:"Streams pipe error",136:"Too many users",137:"Socket type not supported",138:"Not supported",139:"Protocol family not supported",140:"Can't send after socket shutdown",141:"Too many references",142:"Host is down",148:"No medium (in tape drive)",156:"Level 2 not synchronized"};
+  var ERRNO_MESSAGES = {0:"Success",1:"Arg list too long",2:"Permission denied",3:"Address already in use",4:"Address not available",5:"Address family not supported by protocol family",6:"No more processes",7:"Socket already connected",8:"Bad file number",9:"Trying to read unreadable message",10:"Mount device busy",11:"Operation canceled",12:"No children",13:"Connection aborted",14:"Connection refused",15:"Connection reset by peer",16:"File locking deadlock error",17:"Destination address required",18:"Math arg out of domain of func",19:"Quota exceeded",20:"File exists",21:"Bad address",22:"File too large",23:"Host is unreachable",24:"Identifier removed",25:"Illegal byte sequence",26:"Connection already in progress",27:"Interrupted system call",28:"Invalid argument",29:"I/O error",30:"Socket is already connected",31:"Is a directory",32:"Too many symbolic links",33:"Too many open files",34:"Too many links",35:"Message too long",36:"Multihop attempted",37:"File or path name too long",38:"Network interface is not configured",39:"Connection reset by network",40:"Network is unreachable",41:"Too many open files in system",42:"No buffer space available",43:"No such device",44:"No such file or directory",45:"Exec format error",46:"No record locks available",47:"The link has been severed",48:"Not enough core",49:"No message of desired type",50:"Protocol not available",51:"No space left on device",52:"Function not implemented",53:"Socket is not connected",54:"Not a directory",55:"Directory not empty",56:"State not recoverable",57:"Socket operation on non-socket",59:"Not a typewriter",60:"No such device or address",61:"Value too large for defined data type",62:"Previous owner died",63:"Not super-user",64:"Broken pipe",65:"Protocol error",66:"Unknown protocol",67:"Protocol wrong type for socket",68:"Math result not representable",69:"Read only file system",70:"Illegal seek",71:"No such process",72:"Stale file handle",73:"Connection timed out",74:"Text file busy",75:"Cross-device link",100:"Device not a stream",101:"Bad font file fmt",102:"Invalid slot",103:"Invalid request code",104:"No anode",105:"Block device required",106:"Channel number out of range",107:"Level 3 halted",108:"Level 3 reset",109:"Link number out of range",110:"Protocol driver not attached",111:"No CSI structure available",112:"Level 2 halted",113:"Invalid exchange",114:"Invalid request descriptor",115:"Exchange full",116:"No data (for no delay io)",117:"Timer expired",118:"Out of streams resources",119:"Machine is not on the network",120:"Package not installed",121:"The object is remote",122:"Advertise error",123:"Srmount error",124:"Communication error on send",125:"Cross mount point (not really error)",126:"Given log. name not unique",127:"f.d. invalid for this operation",128:"Remote address changed",129:"Can   access a needed shared lib",130:"Accessing a corrupted shared lib",131:".lib section in a.out corrupted",132:"Attempting to link in too many libs",133:"Attempting to exec a shared library",135:"Streams pipe error",136:"Too many users",137:"Socket type not supported",138:"Not supported",139:"Protocol family not supported",140:"Can't send after socket shutdown",141:"Too many references",142:"Host is down",148:"No medium (in tape drive)",156:"Level 2 not synchronized"};
   Module["ERRNO_MESSAGES"] = ERRNO_MESSAGES;
   
-  var ERRNO_CODES={EPERM:63,ENOENT:44,ESRCH:71,EINTR:27,EIO:29,ENXIO:60,E2BIG:1,ENOEXEC:45,EBADF:8,ECHILD:12,EAGAIN:6,EWOULDBLOCK:6,ENOMEM:48,EACCES:2,EFAULT:21,ENOTBLK:105,EBUSY:10,EEXIST:20,EXDEV:75,ENODEV:43,ENOTDIR:54,EISDIR:31,EINVAL:28,ENFILE:41,EMFILE:33,ENOTTY:59,ETXTBSY:74,EFBIG:22,ENOSPC:51,ESPIPE:70,EROFS:69,EMLINK:34,EPIPE:64,EDOM:18,ERANGE:68,ENOMSG:49,EIDRM:24,ECHRNG:106,EL2NSYNC:156,EL3HLT:107,EL3RST:108,ELNRNG:109,EUNATCH:110,ENOCSI:111,EL2HLT:112,EDEADLK:16,ENOLCK:46,EBADE:113,EBADR:114,EXFULL:115,ENOANO:104,EBADRQC:103,EBADSLT:102,EDEADLOCK:16,EBFONT:101,ENOSTR:100,ENODATA:116,ETIME:117,ENOSR:118,ENONET:119,ENOPKG:120,EREMOTE:121,ENOLINK:47,EADV:122,ESRMNT:123,ECOMM:124,EPROTO:65,EMULTIHOP:36,EDOTDOT:125,EBADMSG:9,ENOTUNIQ:126,EBADFD:127,EREMCHG:128,ELIBACC:129,ELIBBAD:130,ELIBSCN:131,ELIBMAX:132,ELIBEXEC:133,ENOSYS:52,ENOTEMPTY:55,ENAMETOOLONG:37,ELOOP:32,EOPNOTSUPP:138,EPFNOSUPPORT:139,ECONNRESET:15,ENOBUFS:42,EAFNOSUPPORT:5,EPROTOTYPE:67,ENOTSOCK:57,ENOPROTOOPT:50,ESHUTDOWN:140,ECONNREFUSED:14,EADDRINUSE:3,ECONNABORTED:13,ENETUNREACH:40,ENETDOWN:38,ETIMEDOUT:73,EHOSTDOWN:142,EHOSTUNREACH:23,EINPROGRESS:26,EALREADY:7,EDESTADDRREQ:17,EMSGSIZE:35,EPROTONOSUPPORT:66,ESOCKTNOSUPPORT:137,EADDRNOTAVAIL:4,ENETRESET:39,EISCONN:30,ENOTCONN:53,ETOOMANYREFS:141,EUSERS:136,EDQUOT:19,ESTALE:72,ENOTSUP:138,ENOMEDIUM:148,EILSEQ:25,EOVERFLOW:61,ECANCELED:11,ENOTRECOVERABLE:56,EOWNERDEAD:62,ESTRPIPE:135};
+  var ERRNO_CODES = {EPERM:63,ENOENT:44,ESRCH:71,EINTR:27,EIO:29,ENXIO:60,E2BIG:1,ENOEXEC:45,EBADF:8,ECHILD:12,EAGAIN:6,EWOULDBLOCK:6,ENOMEM:48,EACCES:2,EFAULT:21,ENOTBLK:105,EBUSY:10,EEXIST:20,EXDEV:75,ENODEV:43,ENOTDIR:54,EISDIR:31,EINVAL:28,ENFILE:41,EMFILE:33,ENOTTY:59,ETXTBSY:74,EFBIG:22,ENOSPC:51,ESPIPE:70,EROFS:69,EMLINK:34,EPIPE:64,EDOM:18,ERANGE:68,ENOMSG:49,EIDRM:24,ECHRNG:106,EL2NSYNC:156,EL3HLT:107,EL3RST:108,ELNRNG:109,EUNATCH:110,ENOCSI:111,EL2HLT:112,EDEADLK:16,ENOLCK:46,EBADE:113,EBADR:114,EXFULL:115,ENOANO:104,EBADRQC:103,EBADSLT:102,EDEADLOCK:16,EBFONT:101,ENOSTR:100,ENODATA:116,ETIME:117,ENOSR:118,ENONET:119,ENOPKG:120,EREMOTE:121,ENOLINK:47,EADV:122,ESRMNT:123,ECOMM:124,EPROTO:65,EMULTIHOP:36,EDOTDOT:125,EBADMSG:9,ENOTUNIQ:126,EBADFD:127,EREMCHG:128,ELIBACC:129,ELIBBAD:130,ELIBSCN:131,ELIBMAX:132,ELIBEXEC:133,ENOSYS:52,ENOTEMPTY:55,ENAMETOOLONG:37,ELOOP:32,EOPNOTSUPP:138,EPFNOSUPPORT:139,ECONNRESET:15,ENOBUFS:42,EAFNOSUPPORT:5,EPROTOTYPE:67,ENOTSOCK:57,ENOPROTOOPT:50,ESHUTDOWN:140,ECONNREFUSED:14,EADDRINUSE:3,ECONNABORTED:13,ENETUNREACH:40,ENETDOWN:38,ETIMEDOUT:73,EHOSTDOWN:142,EHOSTUNREACH:23,EINPROGRESS:26,EALREADY:7,EDESTADDRREQ:17,EMSGSIZE:35,EPROTONOSUPPORT:66,ESOCKTNOSUPPORT:137,EADDRNOTAVAIL:4,ENETRESET:39,EISCONN:30,ENOTCONN:53,ETOOMANYREFS:141,EUSERS:136,EDQUOT:19,ESTALE:72,ENOTSUP:138,ENOMEDIUM:148,EILSEQ:25,EOVERFLOW:61,ECANCELED:11,ENOTRECOVERABLE:56,EOWNERDEAD:62,ESTRPIPE:135};
   Module["ERRNO_CODES"] = ERRNO_CODES;
-  var FS={root:null,mounts:[],devices:{},streams:[],nextInode:1,nameTable:null,currentPath:"/",initialized:false,ignorePermissions:true,trackingDelegate:{},tracking:{openFlags:{READ:1,WRITE:2}},ErrnoError:null,genericErrors:{},filesystems:null,syncFSRequests:0,lookupPath:function(path, opts) {
+  var FS = {root:null,mounts:[],devices:{},streams:[],nextInode:1,nameTable:null,currentPath:"/",initialized:false,ignorePermissions:true,trackingDelegate:{},tracking:{openFlags:{READ:1,WRITE:2}},ErrnoError:null,genericErrors:{},filesystems:null,syncFSRequests:0,lookupPath:function(path, opts) {
         path = PATH_FS.resolve(FS.cwd(), path);
         opts = opts || {};
   
@@ -5378,7 +5386,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
         abort('FS.standardizePath has been removed; use PATH.normalize instead');
       }};
   Module["FS"] = FS;
-  var SYSCALLS={mappings:{},DEFAULT_POLLMASK:5,umask:511,calculateAt:function(dirfd, path, allowEmpty) {
+  var SYSCALLS = {mappings:{},DEFAULT_POLLMASK:5,umask:511,calculateAt:function(dirfd, path, allowEmpty) {
         if (path[0] === '/') {
           return path;
         }
@@ -5611,7 +5619,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys__newselect"] = ___sys__newselect;
 
-  var SOCKFS={mount:function(mount) {
+  var SOCKFS = {mount:function(mount) {
         // If Module['websocket'] has already been defined (e.g. for configuring
         // the subprotocol/url) use that, if not initialise it to a new object.
         Module['websocket'] = (Module['websocket'] && 
@@ -5794,7 +5802,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
               ws = new WebSocketConstructor(url, opts);
               ws.binaryType = 'arraybuffer';
             } catch (e) {
-              throw new FS.ErrnoError(ERRNO_CODES.EHOSTUNREACH);
+              throw new FS.ErrnoError(23);
             }
           }
   
@@ -5897,7 +5905,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
               // ECONNREFUSED they are not necessarily the expected error code e.g. 
               // ENOTFOUND on getaddrinfo seems to be node.js specific, so using ECONNREFUSED
               // is still probably the most useful thing to do.
-              sock.error = ERRNO_CODES.ECONNREFUSED; // Used in getsockopt for SOL_SOCKET/SO_ERROR test.
+              sock.error = 14; // Used in getsockopt for SOL_SOCKET/SO_ERROR test.
               Module['websocket'].emit('error', [sock.stream.fd, sock.error, 'ECONNREFUSED: Connection refused']);
               // don't throw
             });
@@ -5912,7 +5920,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             peer.socket.onerror = function(error) {
               // The WebSocket spec only allows a 'simple event' to be thrown on error,
               // so we only really know as much as ECONNREFUSED.
-              sock.error = ERRNO_CODES.ECONNREFUSED; // Used in getsockopt for SOL_SOCKET/SO_ERROR test.
+              sock.error = 14; // Used in getsockopt for SOL_SOCKET/SO_ERROR test.
               Module['websocket'].emit('error', [sock.stream.fd, sock.error, 'ECONNREFUSED: Connection refused']);
             };
           }
@@ -5956,7 +5964,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
               HEAP32[((arg)>>2)] = bytes;
               return 0;
             default:
-              return ERRNO_CODES.EINVAL;
+              return 28;
           }
         },close:function(sock) {
           // if we've spawned a listen server, close it
@@ -5980,7 +5988,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           return 0;
         },bind:function(sock, addr, port) {
           if (typeof sock.saddr !== 'undefined' || typeof sock.sport !== 'undefined') {
-            throw new FS.ErrnoError(ERRNO_CODES.EINVAL);  // already bound
+            throw new FS.ErrnoError(28);  // already bound
           }
           sock.saddr = addr;
           sock.sport = port;
@@ -5999,12 +6007,12 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
               sock.sock_ops.listen(sock, 0);
             } catch (e) {
               if (!(e instanceof FS.ErrnoError)) throw e;
-              if (e.errno !== ERRNO_CODES.EOPNOTSUPP) throw e;
+              if (e.errno !== 138) throw e;
             }
           }
         },connect:function(sock, addr, port) {
           if (sock.server) {
-            throw new FS.ErrnoError(ERRNO_CODES.EOPNOTSUPP);
+            throw new FS.ErrnoError(138);
           }
   
           // TODO autobind
@@ -6016,9 +6024,9 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             var dest = SOCKFS.websocket_sock_ops.getPeer(sock, sock.daddr, sock.dport);
             if (dest) {
               if (dest.socket.readyState === dest.socket.CONNECTING) {
-                throw new FS.ErrnoError(ERRNO_CODES.EALREADY);
+                throw new FS.ErrnoError(7);
               } else {
-                throw new FS.ErrnoError(ERRNO_CODES.EISCONN);
+                throw new FS.ErrnoError(30);
               }
             }
           }
@@ -6030,13 +6038,13 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           sock.dport = peer.port;
   
           // always "fail" in non-blocking mode
-          throw new FS.ErrnoError(ERRNO_CODES.EINPROGRESS);
+          throw new FS.ErrnoError(26);
         },listen:function(sock, backlog) {
           if (!ENVIRONMENT_IS_NODE) {
-            throw new FS.ErrnoError(ERRNO_CODES.EOPNOTSUPP);
+            throw new FS.ErrnoError(138);
           }
           if (sock.server) {
-             throw new FS.ErrnoError(ERRNO_CODES.EINVAL);  // already listening
+             throw new FS.ErrnoError(28);  // already listening
           }
           var WebSocketServer = require('ws').Server;
           var host = sock.saddr;
@@ -6078,13 +6086,13 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             // is still probably the most useful thing to do. This error shouldn't
             // occur in a well written app as errors should get trapped in the compiled
             // app's own getaddrinfo call.
-            sock.error = ERRNO_CODES.EHOSTUNREACH; // Used in getsockopt for SOL_SOCKET/SO_ERROR test.
+            sock.error = 23; // Used in getsockopt for SOL_SOCKET/SO_ERROR test.
             Module['websocket'].emit('error', [sock.stream.fd, sock.error, 'EHOSTUNREACH: Host is unreachable']);
             // don't throw
           });
         },accept:function(listensock) {
           if (!listensock.server) {
-            throw new FS.ErrnoError(ERRNO_CODES.EINVAL);
+            throw new FS.ErrnoError(28);
           }
           var newsock = listensock.pending.shift();
           newsock.stream.flags = listensock.stream.flags;
@@ -6093,7 +6101,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           var addr, port;
           if (peer) {
             if (sock.daddr === undefined || sock.dport === undefined) {
-              throw new FS.ErrnoError(ERRNO_CODES.ENOTCONN);
+              throw new FS.ErrnoError(53);
             }
             addr = sock.daddr;
             port = sock.dport;
@@ -6114,7 +6122,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             }
             // if there was no address to fall back to, error out
             if (addr === undefined || port === undefined) {
-              throw new FS.ErrnoError(ERRNO_CODES.EDESTADDRREQ);
+              throw new FS.ErrnoError(17);
             }
           } else {
             // connection-based sockets will only use the bound
@@ -6128,9 +6136,9 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           // early out if not connected with a connection-based socket
           if (sock.type === 1) {
             if (!dest || dest.socket.readyState === dest.socket.CLOSING || dest.socket.readyState === dest.socket.CLOSED) {
-              throw new FS.ErrnoError(ERRNO_CODES.ENOTCONN);
+              throw new FS.ErrnoError(53);
             } else if (dest.socket.readyState === dest.socket.CONNECTING) {
-              throw new FS.ErrnoError(ERRNO_CODES.EAGAIN);
+              throw new FS.ErrnoError(6);
             }
           }
   
@@ -6164,13 +6172,13 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             dest.socket.send(data);
             return length;
           } catch (e) {
-            throw new FS.ErrnoError(ERRNO_CODES.EINVAL);
+            throw new FS.ErrnoError(28);
           }
         },recvmsg:function(sock, length) {
           // http://pubs.opengroup.org/onlinepubs/7908799/xns/recvmsg.html
           if (sock.type === 1 && sock.server) {
             // tcp servers should not be recv()'ing on the listen socket
-            throw new FS.ErrnoError(ERRNO_CODES.ENOTCONN);
+            throw new FS.ErrnoError(53);
           }
   
           var queued = sock.recv_queue.shift();
@@ -6180,7 +6188,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   
               if (!dest) {
                 // if we have a destination address but are not connected, error out
-                throw new FS.ErrnoError(ERRNO_CODES.ENOTCONN);
+                throw new FS.ErrnoError(53);
               }
               else if (dest.socket.readyState === dest.socket.CLOSING || dest.socket.readyState === dest.socket.CLOSED) {
                 // return null if the socket has closed
@@ -6188,10 +6196,10 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
               }
               else {
                 // else, our socket is in a valid state but truly has nothing available
-                throw new FS.ErrnoError(ERRNO_CODES.EAGAIN);
+                throw new FS.ErrnoError(6);
               }
             } else {
-              throw new FS.ErrnoError(ERRNO_CODES.EAGAIN);
+              throw new FS.ErrnoError(6);
             }
           }
   
@@ -6224,7 +6232,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["getSocketFromFD"] = getSocketFromFD;
   
-  var Sockets={BUFFER_SIZE:10240,MAX_BUFFER_SIZE:10485760,nextFd:1,fds:{},nextport:1,maxport:65535,peer:null,connections:{},portmap:{},localAddr:4261412874,addrPool:[33554442,50331658,67108874,83886090,100663306,117440522,134217738,150994954,167772170,184549386,201326602,218103818,234881034]};
+  var Sockets = {BUFFER_SIZE:10240,MAX_BUFFER_SIZE:10485760,nextFd:1,fds:{},nextport:1,maxport:65535,peer:null,connections:{},portmap:{},localAddr:4261412874,addrPool:[33554442,50331658,67108874,83886090,100663306,117440522,134217738,150994954,167772170,184549386,201326602,218103818,234881034]};
   Module["Sockets"] = Sockets;
   
   function inetPton4(str) {
@@ -6331,7 +6339,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["writeSockaddr"] = writeSockaddr;
   
-  var DNS={address_map:{id:1,addrs:{},names:{}},lookup_name:function (name) {
+  var DNS = {address_map:{id:1,addrs:{},names:{}},lookup_name:function (name) {
         // If the name is already a valid ipv4 / ipv6 address, don't generate a fake one.
         var res = inetPton4(name);
         if (res !== null) {
@@ -6393,7 +6401,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_access"] = ___sys_access;
 
-  var ___sys_acct=function() {
+  var ___sys_acct = function() {
     
     err('warning: unsupported syscall: __sys_acct');return -52;
   };
@@ -6928,7 +6936,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["___sys_getgroups32"] = ___sys_getgroups32;
 
-  var ___sys_getitimer=function() {
+  var ___sys_getitimer = function() {
     
     err('warning: unsupported syscall: __sys_getitimer');return -52;
   };
@@ -6971,7 +6979,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["___sys_getpriority"] = ___sys_getpriority;
 
-  var ___sys_getresgid32=function(ruid, euid, suid) {
+  var ___sys_getresgid32 = function(ruid, euid, suid) {
     
     err('warning: unsupported syscall: __sys_getresgid32');try {
   
@@ -6988,11 +6996,11 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   ;
   Module["___sys_getresgid32"] = ___sys_getresgid32;
 
-  var ___sys_getresuid32=___sys_getresgid32;
+  var ___sys_getresuid32 = ___sys_getresgid32;
   Module["___sys_getresuid32"] = ___sys_getresuid32;
   ___sys_getresuid32.sig = 'iiii';
 
-  var ___sys_getrusage=function(who, usage) {
+  var ___sys_getrusage = function(who, usage) {
     
     err('warning: unsupported syscall: __sys_getrusage');try {
   
@@ -7160,7 +7168,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_lstat64"] = ___sys_lstat64;
 
-  var ___sys_madvise1=function(addr, length, advice) {
+  var ___sys_madvise1 = function(addr, length, advice) {
     
     err('warning: unsupported syscall: __sys_madvise1');try {
   
@@ -7175,7 +7183,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   ;
   Module["___sys_madvise1"] = ___sys_madvise1;
 
-  var ___sys_mincore=function() {
+  var ___sys_mincore = function() {
     
     err('warning: unsupported syscall: __sys_mincore');return -52;
   };
@@ -7227,7 +7235,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_mknodat"] = ___sys_mknodat;
 
-  var ___sys_mlock=function(addr, len) {
+  var ___sys_mlock = function(addr, len) {
     
     err('warning: unsupported syscall: __sys_mlock');try {
   
@@ -7242,7 +7250,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["___sys_mlock"] = ___sys_mlock;
   ___sys_mlock.sig = 'iii';
 
-  var ___sys_mlockall=function(flags) {
+  var ___sys_mlockall = function(flags) {
     
     err('warning: unsupported syscall: __sys_mlockall');try {
   
@@ -7295,7 +7303,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_mmap2"] = ___sys_mmap2;
 
-  var ___sys_mprotect=function(addr, len, size) {
+  var ___sys_mprotect = function(addr, len, size) {
     
     err('warning: unsupported syscall: __sys_mprotect');try {
   
@@ -7309,7 +7317,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   ;
   Module["___sys_mprotect"] = ___sys_mprotect;
 
-  var ___sys_mremap=function(old_addr, old_size, new_size, flags) {
+  var ___sys_mremap = function(old_addr, old_size, new_size, flags) {
     
     err('warning: unsupported syscall: __sys_mremap');try {
   
@@ -7336,7 +7344,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_msync"] = ___sys_msync;
 
-  var ___sys_munlock=function(addr, len) {
+  var ___sys_munlock = function(addr, len) {
     
     err('warning: unsupported syscall: __sys_munlock');try {
   
@@ -7351,7 +7359,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["___sys_munlock"] = ___sys_munlock;
   ___sys_munlock.sig = 'iii';
 
-  var ___sys_munlockall=function() {
+  var ___sys_munlockall = function() {
     
     err('warning: unsupported syscall: __sys_munlockall');try {
   
@@ -7431,7 +7439,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_openat"] = ___sys_openat;
 
-  var ___sys_pause=function() {
+  var ___sys_pause = function() {
     
     err('warning: unsupported syscall: __sys_pause');
       return -27; // we can't pause
@@ -7440,7 +7448,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   ;
   Module["___sys_pause"] = ___sys_pause;
 
-  var PIPEFS={BUCKET_BUFFER_SIZE:8192,mount:function (mount) {
+  var PIPEFS = {BUCKET_BUFFER_SIZE:8192,mount:function (mount) {
         // Do not pollute the real root directory or its child nodes with pipes
         // Looks like it is OK to create another pseudo-root node not linked to the FS.root hierarchy this way
         return FS.createNode(null, '/', 16384 | 511 /* 0777 */, 0);
@@ -7503,9 +7511,9 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   
           return 0;
         },ioctl:function (stream, request, varargs) {
-          return ERRNO_CODES.EINVAL;
+          return 28;
         },fsync:function (stream) {
-          return ERRNO_CODES.EINVAL;
+          return 28;
         },read:function (stream, buffer, offset, length, position /* ignored */) {
           var pipe = stream.node.pipe;
           var currentLength = 0;
@@ -7523,7 +7531,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           }
           if (currentLength == 0) {
             // Behave as if the read end is always non-blocking
-            throw new FS.ErrnoError(ERRNO_CODES.EAGAIN);
+            throw new FS.ErrnoError(6);
           }
           var toRead = Math.min(currentLength, length);
   
@@ -7655,7 +7663,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_pipe"] = ___sys_pipe;
 
-  var ___sys_pipe2=function() {
+  var ___sys_pipe2 = function() {
     
     err('warning: unsupported syscall: __sys_pipe2');return -52;
   };
@@ -7688,7 +7696,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_poll"] = ___sys_poll;
 
-  var ___sys_prlimit64=function(pid, resource, new_limit, old_limit) {
+  var ___sys_prlimit64 = function(pid, resource, new_limit, old_limit) {
     
     err('warning: unsupported syscall: __sys_prlimit64');try {
   
@@ -7708,7 +7716,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   ;
   Module["___sys_prlimit64"] = ___sys_prlimit64;
 
-  var ___sys_pselect6=function() {
+  var ___sys_pselect6 = function() {
     
     err('warning: unsupported syscall: __sys_pselect6');return -52;
   };
@@ -7755,7 +7763,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_recvfrom"] = ___sys_recvfrom;
 
-  var ___sys_recvmmsg=function() {
+  var ___sys_recvmmsg = function() {
     
     err('warning: unsupported syscall: __sys_recvmmsg');return -52;
   };
@@ -7862,7 +7870,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_rmdir"] = ___sys_rmdir;
 
-  var ___sys_sendmmsg=function() {
+  var ___sys_sendmmsg = function() {
     
     err('warning: unsupported syscall: __sys_sendmmsg');return -52;
   };
@@ -7929,7 +7937,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["___sys_setdomainname"] = ___sys_setdomainname;
 
-  var ___sys_setitimer=function() {
+  var ___sys_setitimer = function() {
     
     err('warning: unsupported syscall: __sys_setitimer');return -52;
   };
@@ -7957,7 +7965,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["___sys_setsid"] = ___sys_setsid;
 
-  var ___sys_setsockopt=function(fd) {
+  var ___sys_setsockopt = function(fd) {
     
     err('warning: unsupported syscall: __sys_setsockopt');try {
   
@@ -7971,7 +7979,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   ;
   Module["___sys_setsockopt"] = ___sys_setsockopt;
 
-  var ___sys_shutdown=function(fd, how) {
+  var ___sys_shutdown = function(fd, how) {
     
     err('warning: unsupported syscall: __sys_shutdown');try {
   
@@ -7998,7 +8006,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_socket"] = ___sys_socket;
 
-  var ___sys_socketpair=function() {
+  var ___sys_socketpair = function() {
     
     err('warning: unsupported syscall: __sys_socketpair');return -52;
   };
@@ -8082,7 +8090,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_truncate64"] = ___sys_truncate64;
 
-  var ___sys_ugetrlimit=function(resource, rlim) {
+  var ___sys_ugetrlimit = function(resource, rlim) {
     
     err('warning: unsupported syscall: __sys_ugetrlimit');try {
   
@@ -8185,7 +8193,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   }
   Module["___sys_utimensat"] = ___sys_utimensat;
 
-  var ___sys_wait4=function() {
+  var ___sys_wait4 = function() {
     
     err('warning: unsupported syscall: __sys_wait4');return -52;
   };
@@ -8206,7 +8214,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       Browser.mainLoop.timingValue = value;
   
       if (!Browser.mainLoop.func) {
-        console.error('emscripten_set_main_loop_timing: Cannot set timing mode for main loop since a main loop does not exist! Call emscripten_set_main_loop first to set one up.');
+        err('emscripten_set_main_loop_timing: Cannot set timing mode for main loop since a main loop does not exist! Call emscripten_set_main_loop first to set one up.');
         return 1; // Return non-zero on failure, can't set timing mode when there is no main loop.
       }
   
@@ -8323,7 +8331,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
               Browser.mainLoop.remainingBlockers = (8*remaining + next)/9;
             }
           }
-          console.log('main loop blocker "' + blocker.name + '" took ' + (Date.now() - start) + ' ms'); //, left: ' + Browser.mainLoop.remainingBlockers);
+          out('main loop blocker "' + blocker.name + '" took ' + (Date.now() - start) + ' ms'); //, left: ' + Browser.mainLoop.remainingBlockers);
           Browser.mainLoop.updateStatus();
   
           // catches pause/resume main loop from blocker execution
@@ -8424,7 +8432,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["runtimeKeepalivePop"] = runtimeKeepalivePop;
   runtimeKeepalivePop.sig = 'v';
-  var Browser={mainLoop:{running:false,scheduler:null,method:"",currentlyRunningMainloop:0,func:null,arg:0,timingMode:0,timingValue:0,currentFrameNumber:0,queue:[],pause:function() {
+  var Browser = {mainLoop:{running:false,scheduler:null,method:"",currentlyRunningMainloop:0,func:null,arg:0,timingMode:0,timingValue:0,currentFrameNumber:0,queue:[],pause:function() {
           Browser.mainLoop.scheduler = null;
           // Incrementing this signals the previous main loop that it's now become old, and it must return.
           Browser.mainLoop.currentlyRunningMainloop++;
@@ -8474,12 +8482,12 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           Browser.hasBlobConstructor = true;
         } catch(e) {
           Browser.hasBlobConstructor = false;
-          console.log("warning: no blob constructor, cannot create blobs with mimetypes");
+          out("warning: no blob constructor, cannot create blobs with mimetypes");
         }
-        Browser.BlobBuilder = typeof MozBlobBuilder != "undefined" ? MozBlobBuilder : (typeof WebKitBlobBuilder != "undefined" ? WebKitBlobBuilder : (!Browser.hasBlobConstructor ? console.log("warning: no BlobBuilder") : null));
+        Browser.BlobBuilder = typeof MozBlobBuilder != "undefined" ? MozBlobBuilder : (typeof WebKitBlobBuilder != "undefined" ? WebKitBlobBuilder : (!Browser.hasBlobConstructor ? out("warning: no BlobBuilder") : null));
         Browser.URLObject = typeof window != "undefined" ? (window.URL ? window.URL : window.webkitURL) : undefined;
         if (!Module.noImageDecoding && typeof Browser.URLObject === 'undefined') {
-          console.log("warning: Browser does not support creating object URLs. Built-in browser image decoding will not be available.");
+          out("warning: Browser does not support creating object URLs. Built-in browser image decoding will not be available.");
           Module.noImageDecoding = true;
         }
   
@@ -8528,7 +8536,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             if (onload) onload(byteArray);
           };
           img.onerror = function img_onerror(event) {
-            console.log('Image ' + url + ' could not be decoded');
+            out('Image ' + url + ' could not be decoded');
             if (onerror) onerror();
           };
           img.src = url;
@@ -8565,7 +8573,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             audio.addEventListener('canplaythrough', function() { finish(audio) }, false); // use addEventListener due to chromium bug 124926
             audio.onerror = function audio_onerror(event) {
               if (done) return;
-              console.log('warning: browser could not fully decode audio ' + name + ', trying slower base64 approach');
+              out('warning: browser could not fully decode audio ' + name + ', trying slower base64 approach');
               function encode64(data) {
                 var BASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
                 var PAD = '=';
@@ -9030,7 +9038,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
         }
       }};
   Module["Browser"] = Browser;
-  var AL={QUEUE_INTERVAL:25,QUEUE_LOOKAHEAD:0.1,DEVICE_NAME:"Emscripten OpenAL",CAPTURE_DEVICE_NAME:"Emscripten OpenAL capture",ALC_EXTENSIONS:{ALC_SOFT_pause_device:true,ALC_SOFT_HRTF:true},AL_EXTENSIONS:{AL_EXT_float32:true,AL_SOFT_loop_points:true,AL_SOFT_source_length:true,AL_EXT_source_distance_model:true,AL_SOFT_source_spatialize:true},_alcErr:0,alcErr:0,deviceRefCounts:{},alcStringCache:{},paused:false,stringCache:{},contexts:{},currentCtx:null,buffers:{0:{id:0,refCount:0,audioBuf:null,frequency:0,bytesPerSample:2,channels:1,length:0}},paramArray:[],_nextId:1,newId:function() {
+  var AL = {QUEUE_INTERVAL:25,QUEUE_LOOKAHEAD:0.1,DEVICE_NAME:"Emscripten OpenAL",CAPTURE_DEVICE_NAME:"Emscripten OpenAL capture",ALC_EXTENSIONS:{ALC_SOFT_pause_device:true,ALC_SOFT_HRTF:true},AL_EXTENSIONS:{AL_EXT_float32:true,AL_SOFT_loop_points:true,AL_SOFT_source_length:true,AL_EXT_source_distance_model:true,AL_SOFT_source_spatialize:true},_alcErr:0,alcErr:0,deviceRefCounts:{},alcStringCache:{},paused:false,stringCache:{},contexts:{},currentCtx:null,buffers:{0:{id:0,refCount:0,audioBuf:null,frequency:0,bytesPerSample:2,channels:1,length:0}},paramArray:[],_nextId:1,newId:function() {
         return AL.freeIds.length > 0 ? AL.freeIds.pop() : AL._nextId++;
       },freeIds:[],scheduleContextAudio:function(ctx) {
         // If we are animating using the requestAnimationFrame method, then the main loop does not run when in the background.
@@ -12360,7 +12368,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       ||  requestedFrameCount > (c.capturedFrameCount / fratio)) 
       {
     // if OPENAL_DEBUG
-        console.error('alcCaptureSamples() with invalid bufferSize');
+        err('alcCaptureSamples() with invalid bufferSize');
     // endif
         AL.alcErr = 0xA004 /* ALC_INVALID_VALUE */;
         return;
@@ -12951,7 +12959,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   _alcSuspendContext.sig = 'vi';
 
 
-  var DLFCN={error:null,errorMsg:null};
+  var DLFCN = {error:null,errorMsg:null};
   Module["DLFCN"] = DLFCN;
   function _dlclose(handle) {
       // int dlclose(void *handle);
@@ -12991,9 +12999,9 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["_dlerror"] = _dlerror;
   _dlerror.sig = 'i';
 
-  var ENV={};
+  var ENV = {};
   Module["ENV"] = ENV;
-  function _dlopen(filenameAddr, flags) {
+  function dlopenInternal(filenameAddr, flags, jsflags) {
       // void *dlopen(const char *file, int mode);
       // http://pubs.opengroup.org/onlinepubs/009695399/functions/dlopen.html
       var searchpaths = [];
@@ -13029,20 +13037,32 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       }
   
       // We don't care about RTLD_NOW and RTLD_LAZY.
-      var jsflags = {
-        global:   Boolean(flags & 256),
-        nodelete: Boolean(flags & 4096),
+      var combinedFlags = {
+        global:    Boolean(flags & 256),
+        nodelete:  Boolean(flags & 4096),
+        loadAsync: jsflags.loadAsync,
+        fs:        jsflags.fs,
+      }
   
-        fs: FS, // load libraries from provided filesystem
+      if (jsflags.loadAsync) {
+        return loadDynamicLibrary(filename, combinedFlags);
       }
   
       try {
-        return loadDynamicLibrary(filename, jsflags)
+        return loadDynamicLibrary(filename, combinedFlags)
       } catch (e) {
         err('Error in loading dynamic library ' + filename + ": " + e);
         DLFCN.errorMsg = 'Could not load dynamic lib: ' + filename + '\n' + e;
         return 0;
       }
+    }
+  Module["dlopenInternal"] = dlopenInternal;
+  function _dlopen(filename, flags) {
+      var jsflags = {
+        loadAsync: false,
+        fs: FS, // load libraries from provided filesystem
+      }
+      return dlopenInternal(filename, flags, jsflags);
     }
   Module["_dlopen"] = _dlopen;
   _dlopen.sig = 'iii';
@@ -13218,7 +13238,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["_emscripten_alcResetDeviceSOFT"] = _emscripten_alcResetDeviceSOFT;
   _emscripten_alcResetDeviceSOFT.sig = 'iii';
 
-  var readAsmConstArgsArray=[];
+  var readAsmConstArgsArray = [];
   Module["readAsmConstArgsArray"] = readAsmConstArgsArray;
   function readAsmConstArgs(sigPtr, buf) {
       // Nobody should have mutated _readAsmConstArgsArray underneath us to be something else than an array.
@@ -13322,7 +13342,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       return !!(ctx.multiDrawWebgl = ctx.getExtension('WEBGL_multi_draw'));
     }
   Module["__webgl_enable_WEBGL_multi_draw"] = __webgl_enable_WEBGL_multi_draw;
-  var GL={counter:1,buffers:[],mappedBuffers:{},programs:[],framebuffers:[],renderbuffers:[],textures:[],shaders:[],vaos:[],contexts:[],offscreenCanvases:{},queries:[],samplers:[],transformFeedbacks:[],syncs:[],byteSizeByTypeRoot:5120,byteSizeByType:[1,1,2,2,4,4,4,2,3,4,8],stringCache:{},stringiCache:{},unpackAlignment:4,recordError:function recordError(errorCode) {
+  var GL = {counter:1,buffers:[],mappedBuffers:{},programs:[],framebuffers:[],renderbuffers:[],textures:[],shaders:[],vaos:[],contexts:[],offscreenCanvases:{},queries:[],samplers:[],transformFeedbacks:[],syncs:[],byteSizeByTypeRoot:5120,byteSizeByType:[1,1,2,2,4,4,4,2,3,4,8],stringCache:{},stringiCache:{},unpackAlignment:4,recordError:function recordError(errorCode) {
         if (!GL.lastError) {
           GL.lastError = errorCode;
         }
@@ -14153,7 +14173,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["_emscripten_glDrawArraysInstancedNV"] = _emscripten_glDrawArraysInstancedNV;
   _emscripten_glDrawArraysInstancedNV.sig = 'viiii';
 
-  var tempFixedLengthArray=[];
+  var tempFixedLengthArray = [];
   Module["tempFixedLengthArray"] = tempFixedLengthArray;
   function _emscripten_glDrawBuffers(n, bufs) {
   
@@ -16169,7 +16189,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["_emscripten_glUniform1f"] = _emscripten_glUniform1f;
   _emscripten_glUniform1f.sig = 'vif';
 
-  var miniTempWebGLFloatBuffers=[];
+  var miniTempWebGLFloatBuffers = [];
   Module["miniTempWebGLFloatBuffers"] = miniTempWebGLFloatBuffers;
   function _emscripten_glUniform1fv(location, count, value) {
   
@@ -16199,7 +16219,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["_emscripten_glUniform1i"] = _emscripten_glUniform1i;
   _emscripten_glUniform1i.sig = 'vii';
 
-  var __miniTempWebGLIntBuffers=[];
+  var __miniTempWebGLIntBuffers = [];
   Module["__miniTempWebGLIntBuffers"] = __miniTempWebGLIntBuffers;
   function _emscripten_glUniform1iv(location, count, value) {
   
@@ -16800,7 +16820,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_emscripten_resize_heap"] = _emscripten_resize_heap;
 
-  var JSEvents={inEventHandler:0,removeAllEventListeners:function() {
+  var JSEvents = {inEventHandler:0,removeAllEventListeners:function() {
         for (var i = JSEvents.eventHandlers.length-1; i >= 0; --i) {
           JSEvents._removeHandler(i);
         }
@@ -16938,7 +16958,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["maybeCStringToJsString"] = maybeCStringToJsString;
   
-  var specialHTMLTargets=[0, typeof document !== 'undefined' ? document : 0, typeof window !== 'undefined' ? window : 0];
+  var specialHTMLTargets = [0, typeof document !== 'undefined' ? document : 0, typeof window !== 'undefined' ? window : 0];
   Module["specialHTMLTargets"] = specialHTMLTargets;
   function findEventTarget(target) {
       target = maybeCStringToJsString(target);
@@ -17034,8 +17054,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       return getEnvStrings.strings;
     }
   Module["getEnvStrings"] = getEnvStrings;
-  function _environ_get(__environ, environ_buf) {try {
-  
+  function _environ_get(__environ, environ_buf) {
       var bufSize = 0;
       getEnvStrings().forEach(function(string, i) {
         var ptr = environ_buf + bufSize;
@@ -17044,16 +17063,11 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
         bufSize += string.length + 1;
       });
       return 0;
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
-    return e.errno;
-  }
-  }
+    }
   Module["_environ_get"] = _environ_get;
   _environ_get.sig = 'iii';
 
-  function _environ_sizes_get(penviron_count, penviron_buf_size) {try {
-  
+  function _environ_sizes_get(penviron_count, penviron_buf_size) {
       var strings = getEnvStrings();
       HEAP32[((penviron_count)>>2)] = strings.length;
       var bufSize = 0;
@@ -17062,11 +17076,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       });
       HEAP32[((penviron_buf_size)>>2)] = bufSize;
       return 0;
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
-    return e.errno;
-  }
-  }
+    }
   Module["_environ_sizes_get"] = _environ_sizes_get;
   _environ_sizes_get.sig = 'iii';
 
@@ -17990,7 +18000,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
         this.userptr = null;
       }
   Module["GLFW_Window"] = GLFW_Window;
-  var GLFW={WindowFromId:function(id) {
+  var GLFW = {WindowFromId:function(id) {
         if (id <= 0 || !GLFW.windows) return null;
         return GLFW.windows[id - 1];
       },joystickFunc:null,errorFunc:null,monitorFunc:null,active:null,windows:null,monitors:null,monitorString:null,versionString:null,initialTime:null,extensions:null,hints:null,defaultHints:{131073:0,131074:0,131075:1,131076:1,131077:1,135169:8,135170:8,135171:8,135172:8,135173:24,135174:8,135175:0,135176:0,135177:0,135178:0,135179:0,135180:0,135181:0,135182:0,135183:0,139265:196609,139266:1,139267:0,139268:0,139269:0,139270:0,139271:0,139272:0},DOMToGLFWKeyCode:function(keycode) {
@@ -18329,7 +18339,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   
             if (gamepad) {
               if (!GLFW.joys[joy]) {
-                console.log('glfw joystick connected:',joy);
+                out('glfw joystick connected:',joy);
                 GLFW.joys[joy] = {
                   id: allocate(intArrayFromString(gamepad.id), ALLOC_NORMAL),
                   buttonsCount: gamepad.buttons.length,
@@ -18354,7 +18364,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
               }
             } else {
               if (GLFW.joys[joy]) {
-                console.log('glfw joystick disconnected',joy);
+                out('glfw joystick disconnected',joy);
   
                 if (GLFW.joystickFunc) {
                   wasmTable.get(GLFW.joystickFunc)(joy, 0x00040002); // GLFW_DISCONNECTED
@@ -18426,7 +18436,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           reader.onloadend = function(e) {
             if (reader.readyState != 2) { // not DONE
               ++written;
-              console.log('failed to read dropped file: '+file.name+': '+reader.error);
+              out('failed to read dropped file: '+file.name+': '+reader.error);
               return;
             }
   
@@ -18496,7 +18506,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
                 break;
               }
               case 0x00034002: { // GLFW_CURSOR_HIDDEN
-                console.log("glfwSetInputMode called with GLFW_CURSOR_HIDDEN value not implemented.");
+                out("glfwSetInputMode called with GLFW_CURSOR_HIDDEN value not implemented.");
                 break;
               }
               case 0x00034003: { // GLFW_CURSOR_DISABLED
@@ -18506,22 +18516,22 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
                 break;
               }
               default: {
-                console.log("glfwSetInputMode called with unknown value parameter value: " + value + ".");
+                out("glfwSetInputMode called with unknown value parameter value: " + value + ".");
                 break;
               }
             }
             break;
           }
           case 0x00033002: { // GLFW_STICKY_KEYS
-            console.log("glfwSetInputMode called with GLFW_STICKY_KEYS mode not implemented.");
+            out("glfwSetInputMode called with GLFW_STICKY_KEYS mode not implemented.");
             break;
           }
           case 0x00033003: { // GLFW_STICKY_MOUSE_BUTTONS
-            console.log("glfwSetInputMode called with GLFW_STICKY_MOUSE_BUTTONS mode not implemented.");
+            out("glfwSetInputMode called with GLFW_STICKY_MOUSE_BUTTONS mode not implemented.");
             break;
           }
           default: {
-            console.log("glfwSetInputMode called with unknown mode parameter value: " + mode + ".");
+            out("glfwSetInputMode called with unknown mode parameter value: " + mode + ".");
             break;
           }
         }
@@ -18892,19 +18902,14 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       // Makes no sense in a single-process environment.
       // Should kill itself somtimes depending on `pid`
       err('Calling stub instead of kill()');
-      setErrNo(ERRNO_CODES.EPERM);
+      setErrNo(63);
       return -1;
     }
   Module["_kill"] = _kill;
 
-  function _proc_exit(code) {try {
-  
-      _exit(code);
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
-    return e.errno;
-  }
-  }
+  function _proc_exit(code) {
+      procExit(code);
+    }
   Module["_proc_exit"] = _proc_exit;
   _proc_exit.sig = 'vi';
 
@@ -18943,10 +18948,10 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["__arraySum"] = __arraySum;
   
-  var __MONTH_DAYS_LEAP=[31,29,31,30,31,30,31,31,30,31,30,31];
+  var __MONTH_DAYS_LEAP = [31,29,31,30,31,30,31,31,30,31,30,31];
   Module["__MONTH_DAYS_LEAP"] = __MONTH_DAYS_LEAP;
   
-  var __MONTH_DAYS_REGULAR=[31,28,31,30,31,30,31,31,30,31,30,31];
+  var __MONTH_DAYS_REGULAR = [31,28,31,30,31,30,31,31,30,31,30,31];
   Module["__MONTH_DAYS_REGULAR"] = __MONTH_DAYS_REGULAR;
   function __addDays(date, days) {
       var newDate = new Date(date.getTime());
@@ -19311,10 +19316,10 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   _time.sig = 'ii';
 
 
-  var ___memory_base=1024;
+  var ___memory_base = 1024;
   Module["___memory_base"] = ___memory_base;
 
-  var ___table_base=1;
+  var ___table_base = 1;
   Module["___table_base"] = ___table_base;
 
 
@@ -19798,7 +19803,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
         updateGlobalBufferAndViews(wasmMemory.buffer);
         return 1 /*success*/;
       } catch(e) {
-        console.error('emscripten_realloc_buffer: Attempted to grow heap from ' + buffer.byteLength  + ' bytes to ' + size + ' bytes, but got error: ' + e);
+        err('emscripten_realloc_buffer: Attempted to grow heap from ' + buffer.byteLength  + ' bytes to ' + size + ' bytes, but got error: ' + e);
       }
       // implicit 0 return to save code size (caller will cast "undefined" into 0
       // anyhow)
@@ -19930,13 +19935,6 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_ctime_r"] = _ctime_r;
   _ctime_r.sig = 'iii';
-
-  function ___ctime_r(a0,a1
-  ) {
-  return _ctime_r(a0,a1);
-  }
-  Module["___ctime_r"] = ___ctime_r;
-  ___ctime_r.sig = 'iii';
 
   function _dysize(year) {
       var leap = ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)));
@@ -20551,7 +20549,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   _getaddrinfo.sig = 'iiiii';
 
 
-  var GAI_ERRNO_MESSAGES={};
+  var GAI_ERRNO_MESSAGES = {};
   Module["GAI_ERRNO_MESSAGES"] = GAI_ERRNO_MESSAGES;
 
   function _gai_strerror(val) {
@@ -20589,7 +20587,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_gai_strerror"] = _gai_strerror;
 
-  var Protocols={list:[],map:{}};
+  var Protocols = {list:[],map:{}};
   Module["Protocols"] = Protocols;
 
   function _setprotoent(stayopen) {
@@ -20910,7 +20908,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   
       if (flags & 1 /*EM_LOG_CONSOLE*/) {
         if (flags & 4 /*EM_LOG_ERROR*/) {
-          console.error(str);
+          err(str);
         } else if (flags & 2 /*EM_LOG_WARN*/) {
           console.warn(str);
         } else if (flags & 512 /*EM_LOG_INFO*/) {
@@ -20918,7 +20916,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
         } else if (flags & 256 /*EM_LOG_DEBUG*/) {
           console.debug(str);
         } else {
-          console.log(str);
+          out(str);
         }
       } else if (flags & 6 /*EM_LOG_ERROR|EM_LOG_WARN*/) {
         err(str);
@@ -21419,7 +21417,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_emscripten_return_address"] = _emscripten_return_address;
 
-  var UNWIND_CACHE={};
+  var UNWIND_CACHE = {};
   Module["UNWIND_CACHE"] = UNWIND_CACHE;
 
   function __emscripten_save_in_unwind_cache(callstack) {
@@ -21716,6 +21714,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
 
 
+
   function _emscripten_math_cbrt(x) {
       return Math.cbrt(x);
     }
@@ -21874,7 +21873,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
   function _raise(sig) {
       err('Calling stub instead of raise()');
-      setErrNo(ERRNO_CODES.ENOSYS);
+      setErrNo(52);
       return -1;
     }
   Module["_raise"] = _raise;
@@ -21962,7 +21961,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
 
 
-  var ___sys_rt_sigqueueinfo=function(tgid, pid, uinfo) {
+  var ___sys_rt_sigqueueinfo = function(tgid, pid, uinfo) {
     
     err('warning: unsupported syscall: __sys_rt_sigqueueinfo');try {
   
@@ -22891,10 +22890,10 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["restoreHiddenElements"] = restoreHiddenElements;
 
 
-  var currentFullscreenStrategy={};
+  var currentFullscreenStrategy = {};
   Module["currentFullscreenStrategy"] = currentFullscreenStrategy;
 
-  var restoreOldWindowedStyle=null;
+  var restoreOldWindowedStyle = null;
   Module["restoreOldWindowedStyle"] = restoreOldWindowedStyle;
 
   function softFullscreenResizeWebGLRenderTarget() {
@@ -23783,7 +23782,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
   function _emscripten_console_log(str) {
       assert(typeof str === 'number');
-      console.log(UTF8ToString(str));
+      out(UTF8ToString(str));
     }
   Module["_emscripten_console_log"] = _emscripten_console_log;
 
@@ -23795,7 +23794,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
   function _emscripten_console_error(str) {
       assert(typeof str === 'number');
-      console.error(UTF8ToString(str));
+      err(UTF8ToString(str));
     }
   Module["_emscripten_console_error"] = _emscripten_console_error;
 
@@ -23832,8 +23831,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["checkWasiClock"] = checkWasiClock;
 
-  function _clock_time_get(clk_id, precision_low, precision_high, ptime) {try {
-  
+  function _clock_time_get(clk_id, precision_low, precision_high, ptime) {
       
       if (!checkWasiClock(clk_id)) {
         return 28;
@@ -23852,16 +23850,11 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       HEAP32[((ptime)>>2)] = nsec >>> 0;
       HEAP32[(((ptime)+(4))>>2)] = (nsec / Math.pow(2, 32)) >>> 0;
       return 0;
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
-    return e.errno;
-  }
-  }
+    }
   Module["_clock_time_get"] = _clock_time_get;
   _clock_time_get.sig = 'iiiii';
 
-  function _clock_res_get(clk_id, pres) {try {
-  
+  function _clock_res_get(clk_id, pres) {
       if (!checkWasiClock(clk_id)) {
         return 28;
       }
@@ -23877,11 +23870,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       HEAP32[((pres)>>2)] = nsec >>> 0;
       HEAP32[(((pres)+(4))>>2)] = (nsec / Math.pow(2, 32)) >>> 0;
       return 0;
-    } catch (e) {
-    if (typeof FS === 'undefined' || !(e instanceof FS.ErrnoError)) abort(e);
-    return e.errno;
-  }
-  }
+    }
   Module["_clock_res_get"] = _clock_res_get;
   _clock_res_get.sig = 'iii';
 
@@ -23958,6 +23947,29 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
 
 
+  function _emscripten_dlopen(filename, flags, user_data, onsuccess, onerror) {
+      function errorCallback(e) {
+        DLFCN.errorMsg = 'Could not load dynamic lib: ' + UTF8ToString(filename) + '\n' + e;
+        runtimeKeepalivePop();
+        callUserCallback(function () { wasmTable.get(onerror)(user_data); });
+      }
+      function successCallback(handle) {
+        runtimeKeepalivePop();
+        callUserCallback(function () { wasmTable.get(onsuccess)(user_data, handle); });
+      }
+  
+      runtimeKeepalivePush();
+      var promise = dlopenInternal(filename, flags, { loadAsync: true });
+      if (promise) {
+        promise.then(successCallback, errorCallback);
+      } else {
+        errorCallback();
+      }
+    }
+  Module["_emscripten_dlopen"] = _emscripten_dlopen;
+  _emscripten_dlopen.sig = 'iii';
+
+
 
 
   function _dladdr(addr, info) {
@@ -23974,7 +23986,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
 
 
-  var exceptionCaught= [];
+  var exceptionCaught =  [];
   Module["exceptionCaught"] = exceptionCaught;
 
 
@@ -24185,7 +24197,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
 
 
-  var funcWrappers={};
+  var funcWrappers = {};
   Module["funcWrappers"] = funcWrappers;
 
   function getFuncWrapper(func, sig) {
@@ -24565,7 +24577,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["_emscripten_get_preloaded_image_data_from_FILE"] = _emscripten_get_preloaded_image_data_from_FILE;
   _emscripten_get_preloaded_image_data_from_FILE.sig = 'iiii';
 
-  var wget={wgetRequests:{},nextWgetRequestHandle:0,getNextWgetRequestHandle:function() {
+  var wget = {wgetRequests:{},nextWgetRequestHandle:0,getNextWgetRequestHandle:function() {
         var handle = wget.nextWgetRequestHandle;
         wget.nextWgetRequestHandle++;
         return handle;
@@ -26561,7 +26573,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_emscripten_webgl_init_context_attributes"] = _emscripten_webgl_init_context_attributes;
 
-  var __emscripten_webgl_power_preferences=['default', 'low-power', 'high-performance'];
+  var __emscripten_webgl_power_preferences = ['default', 'low-power', 'high-performance'];
   Module["__emscripten_webgl_power_preferences"] = __emscripten_webgl_power_preferences;
 
   function _emscripten_webgl_do_create_context(target, attributes) {
@@ -27047,7 +27059,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   /** @suppress{missingProperties} */
   function SDL_audio() { return SDL.audio}
   Module["SDL_audio"] = SDL_audio;
-  var SDL={defaults:{width:320,height:200,copyOnLock:true,discardOnLock:false,opaqueFrontBuffer:true},version:null,surfaces:{},canvasPool:[],events:[],fonts:[null],audios:[null],rwops:[null],music:{audio:null,volume:1},mixerFrequency:22050,mixerFormat:32784,mixerNumChannels:2,mixerChunkSize:1024,channelMinimumNumber:0,GL:false,glAttributes:{0:3,1:3,2:2,3:0,4:0,5:1,6:16,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:0,15:1,16:0,17:0,18:0},keyboardState:null,keyboardMap:{},canRequestFullscreen:false,isRequestingFullscreen:false,textInput:false,startTime:null,initFlags:0,buttonState:0,modState:0,DOMButtons:[0,0,0],DOMEventToSDLEvent:{},TOUCH_DEFAULT_ID:0,eventHandler:null,eventHandlerContext:null,eventHandlerTemp:0,keyCodes:{16:1249,17:1248,18:1250,20:1081,33:1099,34:1102,35:1101,36:1098,37:1104,38:1106,39:1103,40:1105,44:316,45:1097,46:127,91:1251,93:1125,96:1122,97:1113,98:1114,99:1115,100:1116,101:1117,102:1118,103:1119,104:1120,105:1121,106:1109,107:1111,109:1110,110:1123,111:1108,112:1082,113:1083,114:1084,115:1085,116:1086,117:1087,118:1088,119:1089,120:1090,121:1091,122:1092,123:1093,124:1128,125:1129,126:1130,127:1131,128:1132,129:1133,130:1134,131:1135,132:1136,133:1137,134:1138,135:1139,144:1107,160:94,161:33,162:34,163:35,164:36,165:37,166:38,167:95,168:40,169:41,170:42,171:43,172:124,173:45,174:123,175:125,176:126,181:127,182:129,183:128,188:44,190:46,191:47,192:96,219:91,220:92,221:93,222:39,224:1251},scanCodes:{8:42,9:43,13:40,27:41,32:44,35:204,39:53,44:54,46:55,47:56,48:39,49:30,50:31,51:32,52:33,53:34,54:35,55:36,56:37,57:38,58:203,59:51,61:46,91:47,92:49,93:48,96:52,97:4,98:5,99:6,100:7,101:8,102:9,103:10,104:11,105:12,106:13,107:14,108:15,109:16,110:17,111:18,112:19,113:20,114:21,115:22,116:23,117:24,118:25,119:26,120:27,121:28,122:29,127:76,305:224,308:226,316:70},loadRect:function(rect) {
+  var SDL = {defaults:{width:320,height:200,copyOnLock:true,discardOnLock:false,opaqueFrontBuffer:true},version:null,surfaces:{},canvasPool:[],events:[],fonts:[null],audios:[null],rwops:[null],music:{audio:null,volume:1},mixerFrequency:22050,mixerFormat:32784,mixerNumChannels:2,mixerChunkSize:1024,channelMinimumNumber:0,GL:false,glAttributes:{0:3,1:3,2:2,3:0,4:0,5:1,6:16,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:0,15:1,16:0,17:0,18:0},keyboardState:null,keyboardMap:{},canRequestFullscreen:false,isRequestingFullscreen:false,textInput:false,startTime:null,initFlags:0,buttonState:0,modState:0,DOMButtons:[0,0,0],DOMEventToSDLEvent:{},TOUCH_DEFAULT_ID:0,eventHandler:null,eventHandlerContext:null,eventHandlerTemp:0,keyCodes:{16:1249,17:1248,18:1250,20:1081,33:1099,34:1102,35:1101,36:1098,37:1104,38:1106,39:1103,40:1105,44:316,45:1097,46:127,91:1251,93:1125,96:1122,97:1113,98:1114,99:1115,100:1116,101:1117,102:1118,103:1119,104:1120,105:1121,106:1109,107:1111,109:1110,110:1123,111:1108,112:1082,113:1083,114:1084,115:1085,116:1086,117:1087,118:1088,119:1089,120:1090,121:1091,122:1092,123:1093,124:1128,125:1129,126:1130,127:1131,128:1132,129:1133,130:1134,131:1135,132:1136,133:1137,134:1138,135:1139,144:1107,160:94,161:33,162:34,163:35,164:36,165:37,166:38,167:95,168:40,169:41,170:42,171:43,172:124,173:45,174:123,175:125,176:126,181:127,182:129,183:128,188:44,190:46,191:47,192:96,219:91,220:92,221:93,222:39,224:1251},scanCodes:{8:42,9:43,13:40,27:41,32:44,35:204,39:53,44:54,46:55,47:56,48:39,49:30,50:31,51:32,52:33,53:34,54:35,55:36,56:37,57:38,58:203,59:51,61:46,91:47,92:49,93:48,96:52,97:4,98:5,99:6,100:7,101:8,102:9,103:10,104:11,105:12,106:13,107:14,108:15,109:16,110:17,111:18,112:19,113:20,114:21,115:22,116:23,117:24,118:25,119:26,120:27,121:28,122:29,127:76,305:224,308:226,316:70},loadRect:function(rect) {
         return {
           x: HEAP32[((rect + 0)>>2)],
           y: HEAP32[((rect + 4)>>2)],
@@ -27893,12 +27905,12 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           }
         }
       },debugSurface:function(surfData) {
-        console.log('dumping surface ' + [surfData.surf, surfData.source, surfData.width, surfData.height]);
+        out('dumping surface ' + [surfData.surf, surfData.source, surfData.width, surfData.height]);
         var image = surfData.ctx.getImageData(0, 0, surfData.width, surfData.height);
         var data = image.data;
         var num = Math.min(surfData.width, surfData.height);
         for (var i = 0; i < num; i++) {
-          console.log('   diagonal ' + i + ':' + [data[i*surfData.width*4 + i*4 + 0], data[i*surfData.width*4 + i*4 + 1], data[i*surfData.width*4 + i*4 + 2], data[i*surfData.width*4 + i*4 + 3]]);
+          out('   diagonal ' + i + ':' + [data[i*surfData.width*4 + i*4 + 0], data[i*surfData.width*4 + i*4 + 1], data[i*surfData.width*4 + i*4 + 2], data[i*surfData.width*4 + i*4 + 3]]);
         }
       },joystickEventState:1,lastJoystickState:{},joystickNamePool:{},recordJoystickState:function(joystick, state) {
         // Standardize button state.
@@ -28416,7 +28428,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
           return !Browser.pointerLock;
           break;
         default:
-          console.log( "SDL_ShowCursor called with unknown toggle parameter value: " + toggle + "." );
+          out( "SDL_ShowCursor called with unknown toggle parameter value: " + toggle + "." );
           break;
       }
     }
@@ -28459,7 +28471,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       if (depth !== 32) {
         // TODO: Actually fill pixel data to created surface.
         // TODO: Take into account depth and pitch parameters.
-        console.log('TODO: Partially unimplemented SDL_CreateRGBSurfaceFrom called!');
+        out('TODO: Partially unimplemented SDL_CreateRGBSurfaceFrom called!');
         return surf;
       }
   
@@ -29066,7 +29078,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
         } else if (SDL.audio.channels < 0 || SDL.audio.channels > 32) {
           throw 'Unsupported number of audio channels for SDL audio: ' + SDL.audio.channels + '!';
         } else if (SDL.audio.channels != 1 && SDL.audio.channels != 2) { // Unsure what SDL audio spec supports. Web Audio spec supports up to 32 channels.
-          console.log('Warning: Using untested number of audio channels ' + SDL.audio.channels);
+          out('Warning: Using untested number of audio channels ' + SDL.audio.channels);
         }
         if (SDL.audio.samples < 128 || SDL.audio.samples > 524288 /* arbitrary cap */) {
           throw 'Unsupported audio callback buffer size ' + SDL.audio.samples + '!';
@@ -29171,7 +29183,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             // sample buffer has finished.
             var curtime = SDL.audioContext['currentTime'];
             if (curtime > SDL.audio.nextPlayTime && SDL.audio.nextPlayTime != 0) {
-              console.log('warning: Audio callback had starved sending audio by ' + (curtime - SDL.audio.nextPlayTime) + ' seconds.');
+              out('warning: Audio callback had starved sending audio by ' + (curtime - SDL.audio.nextPlayTime) + ' seconds.');
             }
             // Don't ever start buffer playbacks earlier from current time than a given constant 'SDL.audio.bufferingDelay', since a browser
             // may not be able to mix that audio clip in immediately, and there may be subsequent jitter that might cause the stream to starve.
@@ -29185,14 +29197,14 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
             // Uncomment to debug SDL buffer feed starves.
             if (SDL.audio.curBufferEnd) {
               var thisBufferStart = Math.round(playtime * SDL.audio.freq);
-              if (thisBufferStart != SDL.audio.curBufferEnd) console.log('SDL starved ' + (thisBufferStart - SDL.audio.curBufferEnd) + ' samples!');
+              if (thisBufferStart != SDL.audio.curBufferEnd) out('SDL starved ' + (thisBufferStart - SDL.audio.curBufferEnd) + ' samples!');
             }
             SDL.audio.curBufferEnd = Math.round(playtime * SDL.audio.freq + sizeSamplesPerChannel);
             */
   
             SDL.audio.nextPlayTime = playtime + SDL.audio.bufferDurationSecs;
           } catch(e) {
-            console.log('Web Audio API error playing back audio: ' + e.toString());
+            out('Web Audio API error playing back audio: ' + e.toString());
           }
         }
   
@@ -29209,7 +29221,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
         SDL.allocateChannels(32);
   
       } catch(e) {
-        console.log('Initializing SDL audio threw an exception: "' + e.toString() + '"! Continuing without audio.');
+        out('Initializing SDL audio threw an exception: "' + e.toString() + '"! Continuing without audio.');
         SDL.audio = null;
         SDL.allocateChannels(0);
         if (obtained) {
@@ -29953,7 +29965,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_TTF_Quit"] = _TTF_Quit;
 
-  var SDL_gfx={drawRectangle:function(surf, x1, y1, x2, y2, action, cssColor) {
+  var SDL_gfx = {drawRectangle:function(surf, x1, y1, x2, y2, action, cssColor) {
         x1 = x1 << 16 >> 16;
         y1 = y1 << 16 >> 16;
         x2 = x2 << 16 >> 16;
@@ -30439,7 +30451,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_glutPostRedisplay"] = _glutPostRedisplay;
   _glutPostRedisplay.sig = 'v';
-  var GLUT={initTime:null,idleFunc:null,displayFunc:null,keyboardFunc:null,keyboardUpFunc:null,specialFunc:null,specialUpFunc:null,reshapeFunc:null,motionFunc:null,passiveMotionFunc:null,mouseFunc:null,buttons:0,modifiers:0,initWindowWidth:256,initWindowHeight:256,initDisplayMode:18,windowX:0,windowY:0,windowWidth:0,windowHeight:0,requestedAnimationFrame:false,saveModifiers:function(event) {
+  var GLUT = {initTime:null,idleFunc:null,displayFunc:null,keyboardFunc:null,keyboardUpFunc:null,specialFunc:null,specialUpFunc:null,reshapeFunc:null,motionFunc:null,passiveMotionFunc:null,mouseFunc:null,buttons:0,modifiers:0,initWindowWidth:256,initWindowHeight:256,initDisplayMode:18,windowX:0,windowY:0,windowWidth:0,windowHeight:0,requestedAnimationFrame:false,saveModifiers:function(event) {
         GLUT.modifiers = 0;
         if (event['shiftKey'])
           GLUT.modifiers += 1; /* GLUT_ACTIVE_SHIFT */
@@ -30681,7 +30693,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
                                                     // Just call it once here.
         /* Can't call _glutReshapeWindow as that requests cancelling fullscreen. */
         if (GLUT.reshapeFunc) {
-          // console.log("GLUT.reshapeFunc (from FS): " + width + ", " + height);
+          // out("GLUT.reshapeFunc (from FS): " + width + ", " + height);
           wasmTable.get(GLUT.reshapeFunc)(width, height);
         }
         _glutPostRedisplay();
@@ -31061,7 +31073,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   function _XPending(display) { return 0 }
   Module["_XPending"] = _XPending;
 
-  var EGL={errorCode:12288,defaultDisplayInitialized:false,currentContext:0,currentReadSurface:0,currentDrawSurface:0,contextAttributes:{alpha:false,depth:false,stencil:false,antialias:false},stringCache:{},setErrorCode:function(code) {
+  var EGL = {errorCode:12288,defaultDisplayInitialized:false,currentContext:0,currentReadSurface:0,currentDrawSurface:0,contextAttributes:{alpha:false,depth:false,stencil:false,antialias:false},stringCache:{},setErrorCode:function(code) {
         EGL.errorCode = code;
       },chooseConfig:function(display, attribList, config, config_size, numConfigs) {
         if (display != 62000 /* Magic ID for Emscripten 'default display' */) {
@@ -32323,7 +32335,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_uuid_variant"] = _uuid_variant;
 
-  var GLEW={isLinaroFork:1,extensions:null,error:{0:null,1:null,2:null,3:null,4:null,5:null,6:null,7:null,8:null},version:{1:null,2:null,3:null,4:null},errorStringConstantFromCode:function(error) {
+  var GLEW = {isLinaroFork:1,extensions:null,error:{0:null,1:null,2:null,3:null,4:null,5:null,6:null,7:null,8:null},version:{1:null,2:null,3:null,4:null},errorStringConstantFromCode:function(error) {
         if (GLEW.isLinaroFork) {
           switch (error) {
             case 4:return "OpenGL ES lib expected, found OpenGL lib"; // GLEW_ERROR_NOT_GLES_VERSION
@@ -32410,7 +32422,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_glewGetString"] = _glewGetString;
 
-  var IDBStore={indexedDB:function() {
+  var IDBStore = {indexedDB:function() {
       if (typeof indexedDB !== 'undefined') return indexedDB;
       var ret = null;
       if (typeof window === 'object') ret = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -33412,7 +33424,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["_glDrawRangeElements"] = _glDrawRangeElements;
   _glDrawRangeElements.sig = 'viiiiii';
 
-  var _glDrawArraysInstancedBaseInstanceWEBGL_sig=undefined;
+  var _glDrawArraysInstancedBaseInstanceWEBGL_sig = undefined;
   Module["_glDrawArraysInstancedBaseInstanceWEBGL_sig"] = _glDrawArraysInstancedBaseInstanceWEBGL_sig;
 
   function _glDrawArraysInstancedBaseInstanceWEBGL(mode, first, count, instanceCount, baseInstance) {
@@ -33430,7 +33442,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_glDrawArraysInstancedBaseInstanceANGLE"] = _glDrawArraysInstancedBaseInstanceANGLE;
 
-  var _glDrawElementsInstancedBaseVertexBaseInstanceWEBGL_sig=undefined;
+  var _glDrawElementsInstancedBaseVertexBaseInstanceWEBGL_sig = undefined;
   Module["_glDrawElementsInstancedBaseVertexBaseInstanceWEBGL_sig"] = _glDrawElementsInstancedBaseVertexBaseInstanceWEBGL_sig;
 
   function _glDrawElementsInstancedBaseVertexBaseInstanceWEBGL(mode, count, type, offset, instanceCount, baseVertex, baseinstance) {
@@ -33673,7 +33685,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
 
 
-  var _emscripten_glDrawArraysInstancedBaseInstanceWEBGL_sig=undefined;
+  var _emscripten_glDrawArraysInstancedBaseInstanceWEBGL_sig = undefined;
   Module["_emscripten_glDrawArraysInstancedBaseInstanceWEBGL_sig"] = _emscripten_glDrawArraysInstancedBaseInstanceWEBGL_sig;
 
   function _emscripten_glDrawArraysInstancedBaseInstanceWEBGL(mode, first, count, instanceCount, baseInstance) {
@@ -33691,7 +33703,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_emscripten_glDrawArraysInstancedBaseInstanceANGLE"] = _emscripten_glDrawArraysInstancedBaseInstanceANGLE;
 
-  var _emscripten_glDrawElementsInstancedBaseVertexBaseInstanceWEBGL_sig=undefined;
+  var _emscripten_glDrawElementsInstancedBaseVertexBaseInstanceWEBGL_sig = undefined;
   Module["_emscripten_glDrawElementsInstancedBaseVertexBaseInstanceWEBGL_sig"] = _emscripten_glDrawElementsInstancedBaseVertexBaseInstanceWEBGL_sig;
 
   function _emscripten_glDrawElementsInstancedBaseVertexBaseInstanceWEBGL(mode, count, type, offset, instanceCount, baseVertex, baseinstance) {
@@ -46952,19 +46964,19 @@ var ___pthread_mutex_unlock = Module["___pthread_mutex_unlock"] = createExportWr
 var _thrd_create = Module["_thrd_create"] = createExportWrapper("thrd_create");
 
 /** @type {function(...*):?} */
-var _pthread_create = Module["_pthread_create"] = createExportWrapper("pthread_create");
+var ___pthread_create = Module["___pthread_create"] = createExportWrapper("__pthread_create");
 
 /** @type {function(...*):?} */
 var _thrd_exit = Module["_thrd_exit"] = createExportWrapper("thrd_exit");
 
 /** @type {function(...*):?} */
-var _pthread_exit = Module["_pthread_exit"] = createExportWrapper("pthread_exit");
+var ___pthread_exit = Module["___pthread_exit"] = createExportWrapper("__pthread_exit");
 
 /** @type {function(...*):?} */
 var _thrd_join = Module["_thrd_join"] = createExportWrapper("thrd_join");
 
 /** @type {function(...*):?} */
-var _pthread_join = Module["_pthread_join"] = createExportWrapper("pthread_join");
+var ___pthread_join = Module["___pthread_join"] = createExportWrapper("__pthread_join");
 
 /** @type {function(...*):?} */
 var _thrd_sleep = Module["_thrd_sleep"] = createExportWrapper("thrd_sleep");
@@ -47019,12 +47031,6 @@ var _pthread_barrier_destroy = Module["_pthread_barrier_destroy"] = createExport
 
 /** @type {function(...*):?} */
 var _pthread_barrier_wait = Module["_pthread_barrier_wait"] = createExportWrapper("pthread_barrier_wait");
-
-/** @type {function(...*):?} */
-var ___pthread_create = Module["___pthread_create"] = createExportWrapper("__pthread_create");
-
-/** @type {function(...*):?} */
-var ___pthread_join = Module["___pthread_join"] = createExportWrapper("__pthread_join");
 
 /** @type {function(...*):?} */
 var _pthread_getspecific = Module["_pthread_getspecific"] = createExportWrapper("pthread_getspecific");
@@ -47223,7 +47229,13 @@ var _pthread_mutex_timedlock = Module["_pthread_mutex_timedlock"] = createExport
 var _emscripten_builtin_pthread_create = Module["_emscripten_builtin_pthread_create"] = createExportWrapper("emscripten_builtin_pthread_create");
 
 /** @type {function(...*):?} */
+var _pthread_create = Module["_pthread_create"] = createExportWrapper("pthread_create");
+
+/** @type {function(...*):?} */
 var _emscripten_builtin_pthread_join = Module["_emscripten_builtin_pthread_join"] = createExportWrapper("emscripten_builtin_pthread_join");
+
+/** @type {function(...*):?} */
+var _pthread_join = Module["_pthread_join"] = createExportWrapper("pthread_join");
 
 /** @type {function(...*):?} */
 var _pthread_key_delete = Module["_pthread_key_delete"] = createExportWrapper("pthread_key_delete");
@@ -47236,6 +47248,9 @@ var _pthread_once = Module["_pthread_once"] = createExportWrapper("pthread_once"
 
 /** @type {function(...*):?} */
 var _pthread_cond_timedwait = Module["_pthread_cond_timedwait"] = createExportWrapper("pthread_cond_timedwait");
+
+/** @type {function(...*):?} */
+var _pthread_exit = Module["_pthread_exit"] = createExportWrapper("pthread_exit");
 
 /** @type {function(...*):?} */
 var _emscripten_builtin_pthread_detach = Module["_emscripten_builtin_pthread_detach"] = createExportWrapper("emscripten_builtin_pthread_detach");
@@ -51076,9 +51091,6 @@ var __get_daylight = Module["__get_daylight"] = createExportWrapper("_get_daylig
 
 /** @type {function(...*):?} */
 var __get_timezone = Module["__get_timezone"] = createExportWrapper("_get_timezone");
-
-/** @type {function(...*):?} */
-var ___emscripten_pthread_data_constructor = Module["___emscripten_pthread_data_constructor"] = createExportWrapper("__emscripten_pthread_data_constructor");
 
 /** @type {function(...*):?} */
 var _emscripten_get_heap_size = Module["_emscripten_get_heap_size"] = createExportWrapper("emscripten_get_heap_size");
@@ -63878,6 +63890,9 @@ var ___signbitf = Module["___signbitf"] = createExportWrapper("__signbitf");
 var ___signbit = Module["___signbit"] = createExportWrapper("__signbit");
 
 /** @type {function(...*):?} */
+var _emscripten_builtin_memcpy = Module["_emscripten_builtin_memcpy"] = createExportWrapper("emscripten_builtin_memcpy");
+
+/** @type {function(...*):?} */
 var _emscripten_scan_stack = Module["_emscripten_scan_stack"] = createExportWrapper("emscripten_scan_stack");
 
 /** @type {function(...*):?} */
@@ -65072,12 +65087,12 @@ var _orig$_ZN10__cxxabiv119__setExceptionClassEP17_Unwind_Exceptiony = Module["_
 var _orig$fminl = Module["_orig$fminl"] = createExportWrapper("orig$fminl");
 
 var __ZNSt3__24coutE = Module['__ZNSt3__24coutE'] = 284548;
-var __ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262300;
-var __ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261588;
+var __ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262296;
+var __ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261584;
 var __ZNSt3__25ctypeIcE2idE = Module['__ZNSt3__25ctypeIcE2idE'] = 302092;
-var __ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262260;
-var __ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 261716;
-var __ZTVNSt3__28ios_baseE = Module['__ZTVNSt3__28ios_baseE'] = 255772;
+var __ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262256;
+var __ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 261712;
+var __ZTVNSt3__28ios_baseE = Module['__ZTVNSt3__28ios_baseE'] = 255768;
 var _Serial = Module['_Serial'] = 272076;
 var _Serial1 = Module['_Serial1'] = 272077;
 var _Serial2 = Module['_Serial2'] = 272078;
@@ -65115,14 +65130,14 @@ var __ZTS3App = Module['__ZTS3App'] = 60357;
 var __ZTIN6piksel7BaseAppE = Module['__ZTIN6piksel7BaseAppE'] = 249576;
 var __ZN6piksel14USE_EMSCRIPTENE = Module['__ZN6piksel14USE_EMSCRIPTENE'] = 60362;
 var __ZN6piksel17minecraft_regularE = Module['__ZN6piksel17minecraft_regularE'] = 272608;
-var _stderr = Module['_stderr'] = 254368;
+var _stderr = Module['_stderr'] = 254600;
 var __ZN20__em_asm_sig_builderI19__em_asm_type_tupleIJEEE6bufferE = Module['__ZN20__em_asm_sig_builderI19__em_asm_type_tupleIJEEE6bufferE'] = 60363;
 var __ZTSN6piksel7BaseAppE = Module['__ZTSN6piksel7BaseAppE'] = 60432;
 var __ZN6piksel4msdfE = Module['__ZN6piksel4msdfE'] = 249720;
-var __ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262476;
-var __ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262516;
-var __ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262068;
-var __ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262008;
+var __ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262472;
+var __ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262512;
+var __ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262064;
+var __ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262004;
 var __ZTV12b2ChainShape = Module['__ZTV12b2ChainShape'] = 249736;
 var __ZTV11b2EdgeShape = Module['__ZTV11b2EdgeShape'] = 249936;
 var __ZTI12b2ChainShape = Module['__ZTI12b2ChainShape'] = 249784;
@@ -65299,23 +65314,23 @@ var __ZTINSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE 
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json119JsonArrayENS_9allocatorIS2_EEEE'] = 63593;
 var __ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTINSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 253084;
 var __ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceIN6json1110JsonObjectENS_9allocatorIS2_EEEE'] = 63664;
-var ___c_dot_utf8 = Module['___c_dot_utf8'] = 254104;
-var ___c_locale = Module['___c_locale'] = 63764;
-var ___c_dot_utf8_locale = Module['___c_dot_utf8_locale'] = 254132;
 var ___libc = Module['___libc'] = 276444;
+var ___c_dot_utf8 = Module['___c_dot_utf8'] = 254332;
+var ___c_locale = Module['___c_locale'] = 63764;
+var ___c_dot_utf8_locale = Module['___c_dot_utf8_locale'] = 254360;
 var ___progname = Module['___progname'] = 276436;
 var ___progname_full = Module['___progname_full'] = 276440;
 var ___hwcap = Module['___hwcap'] = 276508;
 var ___sysinfo = Module['___sysinfo'] = 276512;
 var _program_invocation_short_name = Module['_program_invocation_short_name'] = 276436;
 var _program_invocation_name = Module['_program_invocation_name'] = 276440;
-var _stdout = Module['_stdout'] = 254520;
-var ___stderr_used = Module['___stderr_used'] = 254372;
-var ___stdout_used = Module['___stdout_used'] = 254524;
-var _stdin = Module['_stdin'] = 254672;
-var ___stdin_used = Module['___stdin_used'] = 254676;
+var _stdout = Module['_stdout'] = 254752;
+var ___stderr_used = Module['___stderr_used'] = 254604;
+var ___stdout_used = Module['___stdout_used'] = 254756;
+var _stdin = Module['_stdin'] = 254904;
+var ___stdin_used = Module['___stdin_used'] = 254908;
 var ___environ = Module['___environ'] = 280164;
-var ___seed48 = Module['___seed48'] = 254824;
+var ___seed48 = Module['___seed48'] = 255056;
 var ___pio2_hi = Module['___pio2_hi'] = 221744;
 var ___pio2_lo = Module['___pio2_lo'] = 221760;
 var ___signgam = Module['___signgam'] = 278932;
@@ -65324,11 +65339,11 @@ var _atanlo = Module['_atanlo'] = 227264;
 var _atanhi = Module['_atanhi'] = 227200;
 var _aT = Module['_aT'] = 227328;
 var ___optreset = Module['___optreset'] = 279324;
-var _optind = Module['_optind'] = 255048;
+var _optind = Module['_optind'] = 255272;
 var ___optpos = Module['___optpos'] = 279328;
 var _optarg = Module['_optarg'] = 279332;
 var _optopt = Module['_optopt'] = 279336;
-var _opterr = Module['_opterr'] = 255052;
+var _opterr = Module['_opterr'] = 255276;
 var _optreset = Module['_optreset'] = 279324;
 var ___fsmu8 = Module['___fsmu8'] = 230800;
 var __ns_flagdata = Module['__ns_flagdata'] = 231632;
@@ -65340,42 +65355,42 @@ var ___env_map = Module['___env_map'] = 280172;
 var _tzname = Module['_tzname'] = 280176;
 var _daylight = Module['_daylight'] = 280184;
 var _timezone = Module['_timezone'] = 280188;
-var ___data_end = Module['___data_end'] = 308048;
+var ___data_end = Module['___data_end'] = 308000;
 var ___THREW__ = Module['___THREW__'] = 284340;
 var ___threwValue = Module['___threwValue'] = 284344;
-var __ZTVNSt3__212system_errorE = Module['__ZTVNSt3__212system_errorE'] = 255468;
-var __ZTVNSt3__224__generic_error_categoryE = Module['__ZTVNSt3__224__generic_error_categoryE'] = 255392;
-var __ZTINSt3__224__generic_error_categoryE = Module['__ZTINSt3__224__generic_error_categoryE'] = 255580;
-var __ZTVNSt3__223__system_error_categoryE = Module['__ZTVNSt3__223__system_error_categoryE'] = 255432;
-var __ZTINSt3__223__system_error_categoryE = Module['__ZTINSt3__223__system_error_categoryE'] = 255592;
-var __ZTINSt3__212system_errorE = Module['__ZTINSt3__212system_errorE'] = 255604;
-var __ZTVNSt3__214error_categoryE = Module['__ZTVNSt3__214error_categoryE'] = 255488;
-var __ZTINSt3__214error_categoryE = Module['__ZTINSt3__214error_categoryE'] = 255524;
+var __ZTVNSt3__212system_errorE = Module['__ZTVNSt3__212system_errorE'] = 255464;
+var __ZTVNSt3__224__generic_error_categoryE = Module['__ZTVNSt3__224__generic_error_categoryE'] = 255388;
+var __ZTINSt3__224__generic_error_categoryE = Module['__ZTINSt3__224__generic_error_categoryE'] = 255576;
+var __ZTVNSt3__223__system_error_categoryE = Module['__ZTVNSt3__223__system_error_categoryE'] = 255428;
+var __ZTINSt3__223__system_error_categoryE = Module['__ZTINSt3__223__system_error_categoryE'] = 255588;
+var __ZTINSt3__212system_errorE = Module['__ZTINSt3__212system_errorE'] = 255600;
+var __ZTVNSt3__214error_categoryE = Module['__ZTVNSt3__214error_categoryE'] = 255484;
+var __ZTINSt3__214error_categoryE = Module['__ZTINSt3__214error_categoryE'] = 255520;
 var __ZTSNSt3__214error_categoryE = Module['__ZTSNSt3__214error_categoryE'] = 231773;
-var __ZTVNSt3__212__do_messageE = Module['__ZTVNSt3__212__do_messageE'] = 255532;
-var __ZTINSt3__212__do_messageE = Module['__ZTINSt3__212__do_messageE'] = 255568;
+var __ZTVNSt3__212__do_messageE = Module['__ZTVNSt3__212__do_messageE'] = 255528;
+var __ZTINSt3__212__do_messageE = Module['__ZTINSt3__212__do_messageE'] = 255564;
 var __ZTSNSt3__212__do_messageE = Module['__ZTSNSt3__212__do_messageE'] = 231798;
 var __ZTSNSt3__224__generic_error_categoryE = Module['__ZTSNSt3__224__generic_error_categoryE'] = 231821;
 var __ZTSNSt3__223__system_error_categoryE = Module['__ZTSNSt3__223__system_error_categoryE'] = 231856;
 var __ZTSNSt3__212system_errorE = Module['__ZTSNSt3__212system_errorE'] = 231890;
 var __ZTISt13runtime_error = Module['__ZTISt13runtime_error'] = 269564;
-var __ZTVSt12bad_any_cast = Module['__ZTVSt12bad_any_cast'] = 255616;
-var __ZTISt12bad_any_cast = Module['__ZTISt12bad_any_cast'] = 255636;
+var __ZTVSt12bad_any_cast = Module['__ZTVSt12bad_any_cast'] = 255612;
+var __ZTISt12bad_any_cast = Module['__ZTISt12bad_any_cast'] = 255632;
 var __ZTSSt12bad_any_cast = Module['__ZTSSt12bad_any_cast'] = 231913;
 var __ZTISt8bad_cast = Module['__ZTISt8bad_cast'] = 269716;
-var __ZTVNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTVNSt12experimental15fundamentals_v112bad_any_castE'] = 255648;
-var __ZTINSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTINSt12experimental15fundamentals_v112bad_any_castE'] = 255668;
+var __ZTVNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTVNSt12experimental15fundamentals_v112bad_any_castE'] = 255644;
+var __ZTINSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTINSt12experimental15fundamentals_v112bad_any_castE'] = 255664;
 var __ZTSNSt12experimental15fundamentals_v112bad_any_castE = Module['__ZTSNSt12experimental15fundamentals_v112bad_any_castE'] = 231930;
-var __ZTVSt18bad_variant_access = Module['__ZTVSt18bad_variant_access'] = 255680;
-var __ZTISt18bad_variant_access = Module['__ZTISt18bad_variant_access'] = 255700;
+var __ZTVSt18bad_variant_access = Module['__ZTVSt18bad_variant_access'] = 255676;
+var __ZTISt18bad_variant_access = Module['__ZTISt18bad_variant_access'] = 255696;
 var __ZTSSt18bad_variant_access = Module['__ZTSSt18bad_variant_access'] = 231980;
 var __ZTISt9exception = Module['__ZTISt9exception'] = 269300;
 var __ZSt7nothrow = Module['__ZSt7nothrow'] = 232003;
-var __ZTVNSt3__28ios_base7failureE = Module['__ZTVNSt3__28ios_base7failureE'] = 255752;
+var __ZTVNSt3__28ios_base7failureE = Module['__ZTVNSt3__28ios_base7failureE'] = 255748;
 var __ZNSt3__28ios_base9__xindex_E = Module['__ZNSt3__28ios_base9__xindex_E'] = 284360;
-var __ZTVNSt3__219__iostream_categoryE = Module['__ZTVNSt3__219__iostream_categoryE'] = 255716;
-var __ZTINSt3__219__iostream_categoryE = Module['__ZTINSt3__219__iostream_categoryE'] = 255800;
-var __ZTINSt3__28ios_base7failureE = Module['__ZTINSt3__28ios_base7failureE'] = 255812;
+var __ZTVNSt3__219__iostream_categoryE = Module['__ZTVNSt3__219__iostream_categoryE'] = 255712;
+var __ZTINSt3__219__iostream_categoryE = Module['__ZTINSt3__219__iostream_categoryE'] = 255796;
+var __ZTINSt3__28ios_base7failureE = Module['__ZTINSt3__28ios_base7failureE'] = 255808;
 var __ZNSt3__28ios_base9boolalphaE = Module['__ZNSt3__28ios_base9boolalphaE'] = 232004;
 var __ZNSt3__28ios_base3decE = Module['__ZNSt3__28ios_base3decE'] = 232008;
 var __ZNSt3__28ios_base5fixedE = Module['__ZNSt3__28ios_base5fixedE'] = 232012;
@@ -65404,7 +65419,7 @@ var __ZNSt3__28ios_base6binaryE = Module['__ZNSt3__28ios_base6binaryE'] = 232100
 var __ZNSt3__28ios_base2inE = Module['__ZNSt3__28ios_base2inE'] = 232104;
 var __ZNSt3__28ios_base3outE = Module['__ZNSt3__28ios_base3outE'] = 232108;
 var __ZNSt3__28ios_base5truncE = Module['__ZNSt3__28ios_base5truncE'] = 232112;
-var __ZTINSt3__28ios_baseE = Module['__ZTINSt3__28ios_baseE'] = 255792;
+var __ZTINSt3__28ios_baseE = Module['__ZTINSt3__28ios_baseE'] = 255788;
 var __ZTSNSt3__28ios_baseE = Module['__ZTSNSt3__28ios_baseE'] = 232116;
 var __ZTSNSt3__219__iostream_categoryE = Module['__ZTSNSt3__219__iostream_categoryE'] = 232134;
 var __ZTSNSt3__28ios_base7failureE = Module['__ZTSNSt3__28ios_base7failureE'] = 232164;
@@ -65415,26 +65430,26 @@ var __ZNSt3__25wcoutE = Module['__ZNSt3__25wcoutE'] = 284632;
 var __ZNSt3__24clogE = Module['__ZNSt3__24clogE'] = 284884;
 var __ZNSt3__25wcerrE = Module['__ZNSt3__25wcerrE'] = 284800;
 var __ZNSt3__25wclogE = Module['__ZNSt3__25wclogE'] = 284968;
-var __ZTVNSt3__210__stdinbufIcEE = Module['__ZTVNSt3__210__stdinbufIcEE'] = 255824;
-var __ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 261308;
-var __ZTVNSt3__210__stdinbufIwEE = Module['__ZTVNSt3__210__stdinbufIwEE'] = 255900;
-var __ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 261356;
-var __ZTVNSt3__211__stdoutbufIcEE = Module['__ZTVNSt3__211__stdoutbufIcEE'] = 255976;
-var __ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 261404;
-var __ZTVNSt3__211__stdoutbufIwEE = Module['__ZTVNSt3__211__stdoutbufIwEE'] = 256052;
-var __ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 261452;
+var __ZTVNSt3__210__stdinbufIcEE = Module['__ZTVNSt3__210__stdinbufIcEE'] = 255820;
+var __ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 261304;
+var __ZTVNSt3__210__stdinbufIwEE = Module['__ZTVNSt3__210__stdinbufIwEE'] = 255896;
+var __ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 261352;
+var __ZTVNSt3__211__stdoutbufIcEE = Module['__ZTVNSt3__211__stdoutbufIcEE'] = 255972;
+var __ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 261400;
+var __ZTVNSt3__211__stdoutbufIwEE = Module['__ZTVNSt3__211__stdoutbufIwEE'] = 256048;
+var __ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 261448;
 var __ZNSt3__27codecvtIcc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIcc11__mbstate_tE2idE'] = 302100;
 var __ZNSt3__27codecvtIwc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIwc11__mbstate_tE2idE'] = 302108;
-var __ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 261744;
-var __ZTINSt3__210__stdinbufIcEE = Module['__ZTINSt3__210__stdinbufIcEE'] = 255888;
+var __ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 261740;
+var __ZTINSt3__210__stdinbufIcEE = Module['__ZTINSt3__210__stdinbufIcEE'] = 255884;
 var __ZTSNSt3__210__stdinbufIcEE = Module['__ZTSNSt3__210__stdinbufIcEE'] = 232190;
-var __ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 261772;
-var __ZTINSt3__210__stdinbufIwEE = Module['__ZTINSt3__210__stdinbufIwEE'] = 255964;
+var __ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 261768;
+var __ZTINSt3__210__stdinbufIwEE = Module['__ZTINSt3__210__stdinbufIwEE'] = 255960;
 var __ZTSNSt3__210__stdinbufIwEE = Module['__ZTSNSt3__210__stdinbufIwEE'] = 232214;
-var __ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 261780;
-var __ZTINSt3__211__stdoutbufIcEE = Module['__ZTINSt3__211__stdoutbufIcEE'] = 256040;
+var __ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 261776;
+var __ZTINSt3__211__stdoutbufIcEE = Module['__ZTINSt3__211__stdoutbufIcEE'] = 256036;
 var __ZTSNSt3__211__stdoutbufIcEE = Module['__ZTSNSt3__211__stdoutbufIcEE'] = 232238;
-var __ZTINSt3__211__stdoutbufIwEE = Module['__ZTINSt3__211__stdoutbufIwEE'] = 256116;
+var __ZTINSt3__211__stdoutbufIwEE = Module['__ZTINSt3__211__stdoutbufIwEE'] = 256112;
 var __ZTSNSt3__211__stdoutbufIwEE = Module['__ZTSNSt3__211__stdoutbufIwEE'] = 232263;
 var __ZNSt3__210defer_lockE = Module['__ZNSt3__210defer_lockE'] = 232288;
 var __ZNSt3__211try_to_lockE = Module['__ZNSt3__211try_to_lockE'] = 232289;
@@ -65457,8 +65472,8 @@ var __ZNSt3__210moneypunctIcLb1EE2idE = Module['__ZNSt3__210moneypunctIcLb1EE2id
 var __ZNSt3__210moneypunctIcLb0EE2idE = Module['__ZNSt3__210moneypunctIcLb0EE2idE'] = 301968;
 var __ZNSt3__210moneypunctIwLb1EE2idE = Module['__ZNSt3__210moneypunctIwLb1EE2idE'] = 301992;
 var __ZNSt3__210moneypunctIwLb0EE2idE = Module['__ZNSt3__210moneypunctIwLb0EE2idE'] = 301984;
-var __ZTVNSt3__26locale5__impE = Module['__ZTVNSt3__26locale5__impE'] = 256128;
-var __ZTVNSt3__26locale5facetE = Module['__ZTVNSt3__26locale5facetE'] = 256592;
+var __ZTVNSt3__26locale5__impE = Module['__ZTVNSt3__26locale5__impE'] = 256124;
+var __ZTVNSt3__26locale5facetE = Module['__ZTVNSt3__26locale5facetE'] = 256588;
 var __ZNSt3__27collateIcE2idE = Module['__ZNSt3__27collateIcE2idE'] = 301888;
 var __ZNSt3__27collateIwE2idE = Module['__ZNSt3__27collateIwE2idE'] = 301896;
 var __ZNSt3__27codecvtIDsc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDsc11__mbstate_tE2idE'] = 302116;
@@ -65477,59 +65492,59 @@ var __ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE =
 var __ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 301960;
 var __ZNSt3__28messagesIcE2idE = Module['__ZNSt3__28messagesIcE2idE'] = 302032;
 var __ZNSt3__28messagesIwE2idE = Module['__ZNSt3__28messagesIwE2idE'] = 302040;
-var __ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 260584;
-var __ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 260644;
-var __ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 260704;
-var __ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 260764;
-var __ZTVNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb0EEE'] = 259816;
-var __ZTVNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb1EEE'] = 259884;
-var __ZTVNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb0EEE'] = 259952;
-var __ZTVNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb1EEE'] = 260020;
-var __ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258944;
-var __ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259108;
-var __ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259384;
-var __ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259420;
-var __ZTVNSt3__215messages_bynameIcEE = Module['__ZTVNSt3__215messages_bynameIcEE'] = 260496;
-var __ZTVNSt3__215messages_bynameIwEE = Module['__ZTVNSt3__215messages_bynameIwEE'] = 260540;
+var __ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 260580;
+var __ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 260640;
+var __ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 260700;
+var __ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 260760;
+var __ZTVNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb0EEE'] = 259812;
+var __ZTVNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIcLb1EEE'] = 259880;
+var __ZTVNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb0EEE'] = 259948;
+var __ZTVNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTVNSt3__217moneypunct_bynameIwLb1EEE'] = 260016;
+var __ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258940;
+var __ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259104;
+var __ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259380;
+var __ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259416;
+var __ZTVNSt3__215messages_bynameIcEE = Module['__ZTVNSt3__215messages_bynameIcEE'] = 260492;
+var __ZTVNSt3__215messages_bynameIwEE = Module['__ZTVNSt3__215messages_bynameIwEE'] = 260536;
 var __ZNSt3__26locale2id9__next_idE = Module['__ZNSt3__26locale2id9__next_idE'] = 302080;
-var __ZTVNSt3__214collate_bynameIcEE = Module['__ZTVNSt3__214collate_bynameIcEE'] = 256148;
-var __ZTVNSt3__214collate_bynameIwEE = Module['__ZTVNSt3__214collate_bynameIwEE'] = 256180;
-var __ZTVNSt3__25ctypeIcEE = Module['__ZTVNSt3__25ctypeIcEE'] = 256212;
-var __ZTVNSt3__212ctype_bynameIcEE = Module['__ZTVNSt3__212ctype_bynameIcEE'] = 256264;
-var __ZTVNSt3__212ctype_bynameIwEE = Module['__ZTVNSt3__212ctype_bynameIwEE'] = 256316;
-var __ZTVNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIwc11__mbstate_tEE'] = 256384;
-var __ZTVNSt3__28numpunctIcEE = Module['__ZTVNSt3__28numpunctIcEE'] = 256432;
-var __ZTVNSt3__28numpunctIwEE = Module['__ZTVNSt3__28numpunctIwEE'] = 256472;
-var __ZTVNSt3__215numpunct_bynameIcEE = Module['__ZTVNSt3__215numpunct_bynameIcEE'] = 256512;
-var __ZTVNSt3__215numpunct_bynameIwEE = Module['__ZTVNSt3__215numpunct_bynameIwEE'] = 256552;
-var __ZTVNSt3__215__time_get_tempIcEE = Module['__ZTVNSt3__215__time_get_tempIcEE'] = 260896;
-var __ZTVNSt3__215__time_get_tempIwEE = Module['__ZTVNSt3__215__time_get_tempIwEE'] = 260960;
-var __ZTVNSt3__27collateIcEE = Module['__ZTVNSt3__27collateIcEE'] = 258136;
-var __ZTVNSt3__27collateIwEE = Module['__ZTVNSt3__27collateIwEE'] = 258168;
-var __ZTVNSt3__25ctypeIwEE = Module['__ZTVNSt3__25ctypeIwEE'] = 256624;
-var __ZTVNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIcc11__mbstate_tEE'] = 256732;
-var __ZTVNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDsc11__mbstate_tEE'] = 256820;
-var __ZTVNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDic11__mbstate_tEE'] = 256900;
-var __ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258200;
-var __ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258328;
-var __ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258448;
-var __ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258564;
-var __ZTVNSt3__210moneypunctIcLb0EEE = Module['__ZTVNSt3__210moneypunctIcLb0EEE'] = 259456;
-var __ZTVNSt3__210moneypunctIcLb1EEE = Module['__ZTVNSt3__210moneypunctIcLb1EEE'] = 259552;
-var __ZTVNSt3__210moneypunctIwLb0EEE = Module['__ZTVNSt3__210moneypunctIwLb0EEE'] = 259640;
-var __ZTVNSt3__210moneypunctIwLb1EEE = Module['__ZTVNSt3__210moneypunctIwLb1EEE'] = 259728;
-var __ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 260088;
-var __ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 260156;
-var __ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 260224;
-var __ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 260292;
-var __ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258672;
-var __ZTVNSt3__220__time_get_c_storageIcEE = Module['__ZTVNSt3__220__time_get_c_storageIcEE'] = 260824;
-var __ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258812;
-var __ZTVNSt3__220__time_get_c_storageIwEE = Module['__ZTVNSt3__220__time_get_c_storageIwEE'] = 260860;
-var __ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259264;
-var __ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259328;
-var __ZTVNSt3__28messagesIcEE = Module['__ZTVNSt3__28messagesIcEE'] = 260360;
-var __ZTVNSt3__28messagesIwEE = Module['__ZTVNSt3__28messagesIwEE'] = 260432;
+var __ZTVNSt3__214collate_bynameIcEE = Module['__ZTVNSt3__214collate_bynameIcEE'] = 256144;
+var __ZTVNSt3__214collate_bynameIwEE = Module['__ZTVNSt3__214collate_bynameIwEE'] = 256176;
+var __ZTVNSt3__25ctypeIcEE = Module['__ZTVNSt3__25ctypeIcEE'] = 256208;
+var __ZTVNSt3__212ctype_bynameIcEE = Module['__ZTVNSt3__212ctype_bynameIcEE'] = 256260;
+var __ZTVNSt3__212ctype_bynameIwEE = Module['__ZTVNSt3__212ctype_bynameIwEE'] = 256312;
+var __ZTVNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIwc11__mbstate_tEE'] = 256380;
+var __ZTVNSt3__28numpunctIcEE = Module['__ZTVNSt3__28numpunctIcEE'] = 256428;
+var __ZTVNSt3__28numpunctIwEE = Module['__ZTVNSt3__28numpunctIwEE'] = 256468;
+var __ZTVNSt3__215numpunct_bynameIcEE = Module['__ZTVNSt3__215numpunct_bynameIcEE'] = 256508;
+var __ZTVNSt3__215numpunct_bynameIwEE = Module['__ZTVNSt3__215numpunct_bynameIwEE'] = 256548;
+var __ZTVNSt3__215__time_get_tempIcEE = Module['__ZTVNSt3__215__time_get_tempIcEE'] = 260892;
+var __ZTVNSt3__215__time_get_tempIwEE = Module['__ZTVNSt3__215__time_get_tempIwEE'] = 260956;
+var __ZTVNSt3__27collateIcEE = Module['__ZTVNSt3__27collateIcEE'] = 258132;
+var __ZTVNSt3__27collateIwEE = Module['__ZTVNSt3__27collateIwEE'] = 258164;
+var __ZTVNSt3__25ctypeIwEE = Module['__ZTVNSt3__25ctypeIwEE'] = 256620;
+var __ZTVNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIcc11__mbstate_tEE'] = 256728;
+var __ZTVNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDsc11__mbstate_tEE'] = 256816;
+var __ZTVNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTVNSt3__27codecvtIDic11__mbstate_tEE'] = 256896;
+var __ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258196;
+var __ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258324;
+var __ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258444;
+var __ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258560;
+var __ZTVNSt3__210moneypunctIcLb0EEE = Module['__ZTVNSt3__210moneypunctIcLb0EEE'] = 259452;
+var __ZTVNSt3__210moneypunctIcLb1EEE = Module['__ZTVNSt3__210moneypunctIcLb1EEE'] = 259548;
+var __ZTVNSt3__210moneypunctIwLb0EEE = Module['__ZTVNSt3__210moneypunctIwLb0EEE'] = 259636;
+var __ZTVNSt3__210moneypunctIwLb1EEE = Module['__ZTVNSt3__210moneypunctIwLb1EEE'] = 259724;
+var __ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 260084;
+var __ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 260152;
+var __ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 260220;
+var __ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 260288;
+var __ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258668;
+var __ZTVNSt3__220__time_get_c_storageIcEE = Module['__ZTVNSt3__220__time_get_c_storageIcEE'] = 260820;
+var __ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258808;
+var __ZTVNSt3__220__time_get_c_storageIwEE = Module['__ZTVNSt3__220__time_get_c_storageIwEE'] = 260856;
+var __ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTVNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259260;
+var __ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259324;
+var __ZTVNSt3__28messagesIcEE = Module['__ZTVNSt3__28messagesIcEE'] = 260356;
+var __ZTVNSt3__28messagesIwEE = Module['__ZTVNSt3__28messagesIwEE'] = 260428;
 var __ZNSt3__210moneypunctIcLb0EE4intlE = Module['__ZNSt3__210moneypunctIcLb0EE4intlE'] = 232944;
 var __ZNSt3__210moneypunctIcLb1EE4intlE = Module['__ZNSt3__210moneypunctIcLb1EE4intlE'] = 232945;
 var __ZNSt3__210moneypunctIwLb0EE4intlE = Module['__ZNSt3__210moneypunctIwLb0EE4intlE'] = 232946;
@@ -65542,9 +65557,9 @@ var __ZNSt3__26locale7numericE = Module['__ZNSt3__26locale7numericE'] = 232964;
 var __ZNSt3__26locale4timeE = Module['__ZNSt3__26locale4timeE'] = 232968;
 var __ZNSt3__26locale8messagesE = Module['__ZNSt3__26locale8messagesE'] = 232972;
 var __ZNSt3__26locale3allE = Module['__ZNSt3__26locale3allE'] = 232976;
-var __ZTINSt3__26locale5__impE = Module['__ZTINSt3__26locale5__impE'] = 257972;
-var __ZTINSt3__214collate_bynameIcEE = Module['__ZTINSt3__214collate_bynameIcEE'] = 257996;
-var __ZTINSt3__214collate_bynameIwEE = Module['__ZTINSt3__214collate_bynameIwEE'] = 258020;
+var __ZTINSt3__26locale5__impE = Module['__ZTINSt3__26locale5__impE'] = 257968;
+var __ZTINSt3__214collate_bynameIcEE = Module['__ZTINSt3__214collate_bynameIcEE'] = 257992;
+var __ZTINSt3__214collate_bynameIwEE = Module['__ZTINSt3__214collate_bynameIwEE'] = 258016;
 var __ZNSt3__210ctype_base5spaceE = Module['__ZNSt3__210ctype_base5spaceE'] = 232980;
 var __ZNSt3__210ctype_base5printE = Module['__ZNSt3__210ctype_base5printE'] = 232982;
 var __ZNSt3__210ctype_base5cntrlE = Module['__ZNSt3__210ctype_base5cntrlE'] = 232984;
@@ -65557,86 +65572,86 @@ var __ZNSt3__210ctype_base6xdigitE = Module['__ZNSt3__210ctype_base6xdigitE'] = 
 var __ZNSt3__210ctype_base5blankE = Module['__ZNSt3__210ctype_base5blankE'] = 232998;
 var __ZNSt3__210ctype_base5alnumE = Module['__ZNSt3__210ctype_base5alnumE'] = 233000;
 var __ZNSt3__210ctype_base5graphE = Module['__ZNSt3__210ctype_base5graphE'] = 233002;
-var __ZTINSt3__25ctypeIcEE = Module['__ZTINSt3__25ctypeIcEE'] = 258032;
-var __ZTINSt3__212ctype_bynameIcEE = Module['__ZTINSt3__212ctype_bynameIcEE'] = 258064;
-var __ZTINSt3__212ctype_bynameIwEE = Module['__ZTINSt3__212ctype_bynameIwEE'] = 258076;
-var __ZTINSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIwc11__mbstate_tEE'] = 257268;
-var __ZTINSt3__28numpunctIcEE = Module['__ZTINSt3__28numpunctIcEE'] = 258088;
-var __ZTINSt3__28numpunctIwEE = Module['__ZTINSt3__28numpunctIwEE'] = 258100;
-var __ZTINSt3__215numpunct_bynameIcEE = Module['__ZTINSt3__215numpunct_bynameIcEE'] = 258112;
-var __ZTINSt3__215numpunct_bynameIwEE = Module['__ZTINSt3__215numpunct_bynameIwEE'] = 258124;
-var __ZTINSt3__26locale5facetE = Module['__ZTINSt3__26locale5facetE'] = 256612;
+var __ZTINSt3__25ctypeIcEE = Module['__ZTINSt3__25ctypeIcEE'] = 258028;
+var __ZTINSt3__212ctype_bynameIcEE = Module['__ZTINSt3__212ctype_bynameIcEE'] = 258060;
+var __ZTINSt3__212ctype_bynameIwEE = Module['__ZTINSt3__212ctype_bynameIwEE'] = 258072;
+var __ZTINSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIwc11__mbstate_tEE'] = 257264;
+var __ZTINSt3__28numpunctIcEE = Module['__ZTINSt3__28numpunctIcEE'] = 258084;
+var __ZTINSt3__28numpunctIwEE = Module['__ZTINSt3__28numpunctIwEE'] = 258096;
+var __ZTINSt3__215numpunct_bynameIcEE = Module['__ZTINSt3__215numpunct_bynameIcEE'] = 258108;
+var __ZTINSt3__215numpunct_bynameIwEE = Module['__ZTINSt3__215numpunct_bynameIwEE'] = 258120;
+var __ZTINSt3__26locale5facetE = Module['__ZTINSt3__26locale5facetE'] = 256608;
 var __ZTSNSt3__26locale5facetE = Module['__ZTSNSt3__26locale5facetE'] = 233264;
 var __ZTINSt3__214__shared_countE = Module['__ZTINSt3__214__shared_countE'] = 264552;
-var __ZTINSt3__25ctypeIwEE = Module['__ZTINSt3__25ctypeIwEE'] = 256700;
+var __ZTINSt3__25ctypeIwEE = Module['__ZTINSt3__25ctypeIwEE'] = 256696;
 var __ZTSNSt3__25ctypeIwEE = Module['__ZTSNSt3__25ctypeIwEE'] = 233286;
 var __ZTSNSt3__210ctype_baseE = Module['__ZTSNSt3__210ctype_baseE'] = 233304;
-var __ZTINSt3__210ctype_baseE = Module['__ZTINSt3__210ctype_baseE'] = 256692;
+var __ZTINSt3__210ctype_baseE = Module['__ZTINSt3__210ctype_baseE'] = 256688;
 var __ZTVN10__cxxabiv121__vmi_class_type_infoE = Module['__ZTVN10__cxxabiv121__vmi_class_type_infoE'] = 271080;
-var __ZTINSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIcc11__mbstate_tEE'] = 256788;
+var __ZTINSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIcc11__mbstate_tEE'] = 256784;
 var __ZTSNSt3__27codecvtIcc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIcc11__mbstate_tEE'] = 233325;
 var __ZTSNSt3__212codecvt_baseE = Module['__ZTSNSt3__212codecvt_baseE'] = 233359;
-var __ZTINSt3__212codecvt_baseE = Module['__ZTINSt3__212codecvt_baseE'] = 256780;
-var __ZTINSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDsc11__mbstate_tEE'] = 256868;
+var __ZTINSt3__212codecvt_baseE = Module['__ZTINSt3__212codecvt_baseE'] = 256776;
+var __ZTINSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDsc11__mbstate_tEE'] = 256864;
 var __ZTSNSt3__27codecvtIDsc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDsc11__mbstate_tEE'] = 233382;
-var __ZTINSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDic11__mbstate_tEE'] = 256948;
+var __ZTINSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTINSt3__27codecvtIDic11__mbstate_tEE'] = 256944;
 var __ZTSNSt3__27codecvtIDic11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIDic11__mbstate_tEE'] = 233417;
-var __ZTVNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm16EEE'] = 256980;
-var __ZTINSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm16EEE'] = 257028;
+var __ZTVNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm16EEE'] = 256976;
+var __ZTINSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm16EEE'] = 257024;
 var __ZTSNSt3__216__narrow_to_utf8ILm16EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm16EEE'] = 233452;
-var __ZTVNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm32EEE'] = 257040;
-var __ZTINSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm32EEE'] = 257088;
+var __ZTVNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTVNSt3__216__narrow_to_utf8ILm32EEE'] = 257036;
+var __ZTINSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTINSt3__216__narrow_to_utf8ILm32EEE'] = 257084;
 var __ZTSNSt3__216__narrow_to_utf8ILm32EEE = Module['__ZTSNSt3__216__narrow_to_utf8ILm32EEE'] = 233486;
-var __ZTVNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm16EEE'] = 257100;
-var __ZTINSt3__217__widen_from_utf8ILm16EEE = Module['__ZTINSt3__217__widen_from_utf8ILm16EEE'] = 257148;
+var __ZTVNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm16EEE'] = 257096;
+var __ZTINSt3__217__widen_from_utf8ILm16EEE = Module['__ZTINSt3__217__widen_from_utf8ILm16EEE'] = 257144;
 var __ZTSNSt3__217__widen_from_utf8ILm16EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm16EEE'] = 233520;
-var __ZTVNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm32EEE'] = 257160;
-var __ZTINSt3__217__widen_from_utf8ILm32EEE = Module['__ZTINSt3__217__widen_from_utf8ILm32EEE'] = 257208;
+var __ZTVNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTVNSt3__217__widen_from_utf8ILm32EEE'] = 257156;
+var __ZTINSt3__217__widen_from_utf8ILm32EEE = Module['__ZTINSt3__217__widen_from_utf8ILm32EEE'] = 257204;
 var __ZTSNSt3__217__widen_from_utf8ILm32EEE = Module['__ZTSNSt3__217__widen_from_utf8ILm32EEE'] = 233555;
-var __ZTVNSt3__214__codecvt_utf8IwEE = Module['__ZTVNSt3__214__codecvt_utf8IwEE'] = 257220;
-var __ZTINSt3__214__codecvt_utf8IwEE = Module['__ZTINSt3__214__codecvt_utf8IwEE'] = 257300;
+var __ZTVNSt3__214__codecvt_utf8IwEE = Module['__ZTVNSt3__214__codecvt_utf8IwEE'] = 257216;
+var __ZTINSt3__214__codecvt_utf8IwEE = Module['__ZTINSt3__214__codecvt_utf8IwEE'] = 257296;
 var __ZTSNSt3__214__codecvt_utf8IwEE = Module['__ZTSNSt3__214__codecvt_utf8IwEE'] = 233590;
 var __ZTSNSt3__27codecvtIwc11__mbstate_tEE = Module['__ZTSNSt3__27codecvtIwc11__mbstate_tEE'] = 233618;
-var __ZTVNSt3__214__codecvt_utf8IDsEE = Module['__ZTVNSt3__214__codecvt_utf8IDsEE'] = 257312;
-var __ZTINSt3__214__codecvt_utf8IDsEE = Module['__ZTINSt3__214__codecvt_utf8IDsEE'] = 257360;
+var __ZTVNSt3__214__codecvt_utf8IDsEE = Module['__ZTVNSt3__214__codecvt_utf8IDsEE'] = 257308;
+var __ZTINSt3__214__codecvt_utf8IDsEE = Module['__ZTINSt3__214__codecvt_utf8IDsEE'] = 257356;
 var __ZTSNSt3__214__codecvt_utf8IDsEE = Module['__ZTSNSt3__214__codecvt_utf8IDsEE'] = 233652;
-var __ZTVNSt3__214__codecvt_utf8IDiEE = Module['__ZTVNSt3__214__codecvt_utf8IDiEE'] = 257372;
-var __ZTINSt3__214__codecvt_utf8IDiEE = Module['__ZTINSt3__214__codecvt_utf8IDiEE'] = 257420;
+var __ZTVNSt3__214__codecvt_utf8IDiEE = Module['__ZTVNSt3__214__codecvt_utf8IDiEE'] = 257368;
+var __ZTINSt3__214__codecvt_utf8IDiEE = Module['__ZTINSt3__214__codecvt_utf8IDiEE'] = 257416;
 var __ZTSNSt3__214__codecvt_utf8IDiEE = Module['__ZTSNSt3__214__codecvt_utf8IDiEE'] = 233681;
-var __ZTVNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb0EEE'] = 257432;
-var __ZTINSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb0EEE'] = 257480;
+var __ZTVNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb0EEE'] = 257428;
+var __ZTINSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb0EEE'] = 257476;
 var __ZTSNSt3__215__codecvt_utf16IwLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb0EEE'] = 233710;
-var __ZTVNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb1EEE'] = 257492;
-var __ZTINSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb1EEE'] = 257540;
+var __ZTVNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IwLb1EEE'] = 257488;
+var __ZTINSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IwLb1EEE'] = 257536;
 var __ZTSNSt3__215__codecvt_utf16IwLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IwLb1EEE'] = 233743;
-var __ZTVNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb0EEE'] = 257552;
-var __ZTINSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb0EEE'] = 257600;
+var __ZTVNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb0EEE'] = 257548;
+var __ZTINSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb0EEE'] = 257596;
 var __ZTSNSt3__215__codecvt_utf16IDsLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb0EEE'] = 233776;
-var __ZTVNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb1EEE'] = 257612;
-var __ZTINSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb1EEE'] = 257660;
+var __ZTVNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDsLb1EEE'] = 257608;
+var __ZTINSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDsLb1EEE'] = 257656;
 var __ZTSNSt3__215__codecvt_utf16IDsLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDsLb1EEE'] = 233810;
-var __ZTVNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb0EEE'] = 257672;
-var __ZTINSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb0EEE'] = 257720;
+var __ZTVNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb0EEE'] = 257668;
+var __ZTINSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb0EEE'] = 257716;
 var __ZTSNSt3__215__codecvt_utf16IDiLb0EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb0EEE'] = 233844;
-var __ZTVNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb1EEE'] = 257732;
-var __ZTINSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb1EEE'] = 257780;
+var __ZTVNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTVNSt3__215__codecvt_utf16IDiLb1EEE'] = 257728;
+var __ZTINSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTINSt3__215__codecvt_utf16IDiLb1EEE'] = 257776;
 var __ZTSNSt3__215__codecvt_utf16IDiLb1EEE = Module['__ZTSNSt3__215__codecvt_utf16IDiLb1EEE'] = 233878;
-var __ZTVNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IwEE'] = 257792;
-var __ZTINSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IwEE'] = 257840;
+var __ZTVNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IwEE'] = 257788;
+var __ZTINSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IwEE'] = 257836;
 var __ZTSNSt3__220__codecvt_utf8_utf16IwEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IwEE'] = 233912;
-var __ZTVNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDiEE'] = 257852;
-var __ZTINSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDiEE'] = 257900;
+var __ZTVNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDiEE'] = 257848;
+var __ZTINSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDiEE'] = 257896;
 var __ZTSNSt3__220__codecvt_utf8_utf16IDiEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDiEE'] = 233946;
-var __ZTVNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDsEE'] = 257912;
-var __ZTINSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDsEE'] = 257960;
+var __ZTVNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTVNSt3__220__codecvt_utf8_utf16IDsEE'] = 257908;
+var __ZTINSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTINSt3__220__codecvt_utf8_utf16IDsEE'] = 257956;
 var __ZTSNSt3__220__codecvt_utf8_utf16IDsEE = Module['__ZTSNSt3__220__codecvt_utf8_utf16IDsEE'] = 233981;
 var __ZTSNSt3__26locale5__impE = Module['__ZTSNSt3__26locale5__impE'] = 234016;
 var __ZTSNSt3__214collate_bynameIcEE = Module['__ZTSNSt3__214collate_bynameIcEE'] = 234038;
 var __ZTSNSt3__27collateIcEE = Module['__ZTSNSt3__27collateIcEE'] = 234066;
-var __ZTINSt3__27collateIcEE = Module['__ZTINSt3__27collateIcEE'] = 257984;
+var __ZTINSt3__27collateIcEE = Module['__ZTINSt3__27collateIcEE'] = 257980;
 var __ZTSNSt3__214collate_bynameIwEE = Module['__ZTSNSt3__214collate_bynameIwEE'] = 234086;
 var __ZTSNSt3__27collateIwEE = Module['__ZTSNSt3__27collateIwEE'] = 234114;
-var __ZTINSt3__27collateIwEE = Module['__ZTINSt3__27collateIwEE'] = 258008;
+var __ZTINSt3__27collateIwEE = Module['__ZTINSt3__27collateIwEE'] = 258004;
 var __ZTSNSt3__25ctypeIcEE = Module['__ZTSNSt3__25ctypeIcEE'] = 234134;
 var __ZTSNSt3__212ctype_bynameIcEE = Module['__ZTSNSt3__212ctype_bynameIcEE'] = 234152;
 var __ZTSNSt3__212ctype_bynameIwEE = Module['__ZTSNSt3__212ctype_bynameIwEE'] = 234178;
@@ -65644,147 +65659,147 @@ var __ZTSNSt3__28numpunctIcEE = Module['__ZTSNSt3__28numpunctIcEE'] = 234204;
 var __ZTSNSt3__28numpunctIwEE = Module['__ZTSNSt3__28numpunctIwEE'] = 234225;
 var __ZTSNSt3__215numpunct_bynameIcEE = Module['__ZTSNSt3__215numpunct_bynameIcEE'] = 234246;
 var __ZTSNSt3__215numpunct_bynameIwEE = Module['__ZTSNSt3__215numpunct_bynameIwEE'] = 234275;
-var __ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258296;
+var __ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258292;
 var __ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 234304;
 var __ZTSNSt3__29__num_getIcEE = Module['__ZTSNSt3__29__num_getIcEE'] = 234372;
 var __ZTSNSt3__214__num_get_baseE = Module['__ZTSNSt3__214__num_get_baseE'] = 234394;
-var __ZTINSt3__214__num_get_baseE = Module['__ZTINSt3__214__num_get_baseE'] = 258264;
-var __ZTINSt3__29__num_getIcEE = Module['__ZTINSt3__29__num_getIcEE'] = 258272;
-var __ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258416;
+var __ZTINSt3__214__num_get_baseE = Module['__ZTINSt3__214__num_get_baseE'] = 258260;
+var __ZTINSt3__29__num_getIcEE = Module['__ZTINSt3__29__num_getIcEE'] = 258268;
+var __ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258412;
 var __ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 234419;
 var __ZTSNSt3__29__num_getIwEE = Module['__ZTSNSt3__29__num_getIwEE'] = 234487;
-var __ZTINSt3__29__num_getIwEE = Module['__ZTINSt3__29__num_getIwEE'] = 258392;
-var __ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258532;
+var __ZTINSt3__29__num_getIwEE = Module['__ZTINSt3__29__num_getIwEE'] = 258388;
+var __ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258528;
 var __ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 234509;
 var __ZTSNSt3__29__num_putIcEE = Module['__ZTSNSt3__29__num_putIcEE'] = 234577;
 var __ZTSNSt3__214__num_put_baseE = Module['__ZTSNSt3__214__num_put_baseE'] = 234599;
-var __ZTINSt3__214__num_put_baseE = Module['__ZTINSt3__214__num_put_baseE'] = 258500;
-var __ZTINSt3__29__num_putIcEE = Module['__ZTINSt3__29__num_putIcEE'] = 258508;
-var __ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258640;
+var __ZTINSt3__214__num_put_baseE = Module['__ZTINSt3__214__num_put_baseE'] = 258496;
+var __ZTINSt3__29__num_putIcEE = Module['__ZTINSt3__29__num_putIcEE'] = 258504;
+var __ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258636;
 var __ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 234624;
 var __ZTSNSt3__29__num_putIwEE = Module['__ZTSNSt3__29__num_putIwEE'] = 234692;
-var __ZTINSt3__29__num_putIwEE = Module['__ZTINSt3__29__num_putIwEE'] = 258616;
-var __ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258772;
+var __ZTINSt3__29__num_putIwEE = Module['__ZTINSt3__29__num_putIwEE'] = 258612;
+var __ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 258768;
 var __ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 234714;
 var __ZTSNSt3__29time_baseE = Module['__ZTSNSt3__29time_baseE'] = 234783;
-var __ZTINSt3__29time_baseE = Module['__ZTINSt3__29time_baseE'] = 258756;
+var __ZTINSt3__29time_baseE = Module['__ZTINSt3__29time_baseE'] = 258752;
 var __ZTSNSt3__220__time_get_c_storageIcEE = Module['__ZTSNSt3__220__time_get_c_storageIcEE'] = 234802;
-var __ZTINSt3__220__time_get_c_storageIcEE = Module['__ZTINSt3__220__time_get_c_storageIcEE'] = 258764;
-var __ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258904;
+var __ZTINSt3__220__time_get_c_storageIcEE = Module['__ZTINSt3__220__time_get_c_storageIcEE'] = 258760;
+var __ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 258900;
 var __ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 234836;
 var __ZTSNSt3__220__time_get_c_storageIwEE = Module['__ZTSNSt3__220__time_get_c_storageIwEE'] = 234905;
-var __ZTINSt3__220__time_get_c_storageIwEE = Module['__ZTINSt3__220__time_get_c_storageIwEE'] = 258896;
-var __ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259076;
+var __ZTINSt3__220__time_get_c_storageIwEE = Module['__ZTINSt3__220__time_get_c_storageIwEE'] = 258892;
+var __ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259072;
 var __ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_get_bynameIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 234939;
 var __ZTSNSt3__218__time_get_storageIcEE = Module['__ZTSNSt3__218__time_get_storageIcEE'] = 235016;
 var __ZTSNSt3__210__time_getE = Module['__ZTSNSt3__210__time_getE'] = 235048;
-var __ZTINSt3__210__time_getE = Module['__ZTINSt3__210__time_getE'] = 259056;
-var __ZTINSt3__218__time_get_storageIcEE = Module['__ZTINSt3__218__time_get_storageIcEE'] = 259064;
-var __ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259232;
+var __ZTINSt3__210__time_getE = Module['__ZTINSt3__210__time_getE'] = 259052;
+var __ZTINSt3__218__time_get_storageIcEE = Module['__ZTINSt3__218__time_get_storageIcEE'] = 259060;
+var __ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259228;
 var __ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_get_bynameIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 235069;
 var __ZTSNSt3__218__time_get_storageIwEE = Module['__ZTSNSt3__218__time_get_storageIwEE'] = 235146;
-var __ZTINSt3__218__time_get_storageIwEE = Module['__ZTINSt3__218__time_get_storageIwEE'] = 259220;
-var __ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259296;
+var __ZTINSt3__218__time_get_storageIwEE = Module['__ZTINSt3__218__time_get_storageIwEE'] = 259216;
+var __ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259292;
 var __ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 235178;
 var __ZTSNSt3__210__time_putE = Module['__ZTSNSt3__210__time_putE'] = 235247;
-var __ZTINSt3__210__time_putE = Module['__ZTINSt3__210__time_putE'] = 259288;
-var __ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259352;
+var __ZTINSt3__210__time_putE = Module['__ZTINSt3__210__time_putE'] = 259284;
+var __ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259348;
 var __ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 235268;
-var __ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259408;
+var __ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 259404;
 var __ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 235337;
-var __ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259444;
+var __ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259440;
 var __ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 235414;
-var __ZTINSt3__210moneypunctIcLb0EEE = Module['__ZTINSt3__210moneypunctIcLb0EEE'] = 259520;
+var __ZTINSt3__210moneypunctIcLb0EEE = Module['__ZTINSt3__210moneypunctIcLb0EEE'] = 259516;
 var __ZTSNSt3__210moneypunctIcLb0EEE = Module['__ZTSNSt3__210moneypunctIcLb0EEE'] = 235491;
 var __ZTSNSt3__210money_baseE = Module['__ZTSNSt3__210money_baseE'] = 235519;
-var __ZTINSt3__210money_baseE = Module['__ZTINSt3__210money_baseE'] = 259512;
-var __ZTINSt3__210moneypunctIcLb1EEE = Module['__ZTINSt3__210moneypunctIcLb1EEE'] = 259608;
+var __ZTINSt3__210money_baseE = Module['__ZTINSt3__210money_baseE'] = 259508;
+var __ZTINSt3__210moneypunctIcLb1EEE = Module['__ZTINSt3__210moneypunctIcLb1EEE'] = 259604;
 var __ZTSNSt3__210moneypunctIcLb1EEE = Module['__ZTSNSt3__210moneypunctIcLb1EEE'] = 235540;
-var __ZTINSt3__210moneypunctIwLb0EEE = Module['__ZTINSt3__210moneypunctIwLb0EEE'] = 259696;
+var __ZTINSt3__210moneypunctIwLb0EEE = Module['__ZTINSt3__210moneypunctIwLb0EEE'] = 259692;
 var __ZTSNSt3__210moneypunctIwLb0EEE = Module['__ZTSNSt3__210moneypunctIwLb0EEE'] = 235568;
-var __ZTINSt3__210moneypunctIwLb1EEE = Module['__ZTINSt3__210moneypunctIwLb1EEE'] = 259784;
+var __ZTINSt3__210moneypunctIwLb1EEE = Module['__ZTINSt3__210moneypunctIwLb1EEE'] = 259780;
 var __ZTSNSt3__210moneypunctIwLb1EEE = Module['__ZTSNSt3__210moneypunctIwLb1EEE'] = 235596;
-var __ZTINSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb0EEE'] = 259872;
+var __ZTINSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb0EEE'] = 259868;
 var __ZTSNSt3__217moneypunct_bynameIcLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb0EEE'] = 235624;
-var __ZTINSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb1EEE'] = 259940;
+var __ZTINSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIcLb1EEE'] = 259936;
 var __ZTSNSt3__217moneypunct_bynameIcLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIcLb1EEE'] = 235659;
-var __ZTINSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb0EEE'] = 260008;
+var __ZTINSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb0EEE'] = 260004;
 var __ZTSNSt3__217moneypunct_bynameIwLb0EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb0EEE'] = 235694;
-var __ZTINSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb1EEE'] = 260076;
+var __ZTINSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTINSt3__217moneypunct_bynameIwLb1EEE'] = 260072;
 var __ZTSNSt3__217moneypunct_bynameIwLb1EEE = Module['__ZTSNSt3__217moneypunct_bynameIwLb1EEE'] = 235729;
-var __ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 260124;
+var __ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 260120;
 var __ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 235764;
 var __ZTSNSt3__211__money_getIcEE = Module['__ZTSNSt3__211__money_getIcEE'] = 235834;
-var __ZTINSt3__211__money_getIcEE = Module['__ZTINSt3__211__money_getIcEE'] = 260116;
-var __ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 260192;
+var __ZTINSt3__211__money_getIcEE = Module['__ZTINSt3__211__money_getIcEE'] = 260112;
+var __ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 260188;
 var __ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 235859;
 var __ZTSNSt3__211__money_getIwEE = Module['__ZTSNSt3__211__money_getIwEE'] = 235929;
-var __ZTINSt3__211__money_getIwEE = Module['__ZTINSt3__211__money_getIwEE'] = 260184;
-var __ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 260260;
+var __ZTINSt3__211__money_getIwEE = Module['__ZTINSt3__211__money_getIwEE'] = 260180;
+var __ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTINSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 260256;
 var __ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE = Module['__ZTSNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEEE'] = 235954;
 var __ZTSNSt3__211__money_putIcEE = Module['__ZTSNSt3__211__money_putIcEE'] = 236024;
-var __ZTINSt3__211__money_putIcEE = Module['__ZTINSt3__211__money_putIcEE'] = 260252;
-var __ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 260328;
+var __ZTINSt3__211__money_putIcEE = Module['__ZTINSt3__211__money_putIcEE'] = 260248;
+var __ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTINSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 260324;
 var __ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTSNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 236049;
 var __ZTSNSt3__211__money_putIwEE = Module['__ZTSNSt3__211__money_putIwEE'] = 236119;
-var __ZTINSt3__211__money_putIwEE = Module['__ZTINSt3__211__money_putIwEE'] = 260320;
-var __ZTINSt3__28messagesIcEE = Module['__ZTINSt3__28messagesIcEE'] = 260400;
+var __ZTINSt3__211__money_putIwEE = Module['__ZTINSt3__211__money_putIwEE'] = 260316;
+var __ZTINSt3__28messagesIcEE = Module['__ZTINSt3__28messagesIcEE'] = 260396;
 var __ZTSNSt3__28messagesIcEE = Module['__ZTSNSt3__28messagesIcEE'] = 236144;
 var __ZTSNSt3__213messages_baseE = Module['__ZTSNSt3__213messages_baseE'] = 236165;
-var __ZTINSt3__213messages_baseE = Module['__ZTINSt3__213messages_baseE'] = 260392;
-var __ZTINSt3__28messagesIwEE = Module['__ZTINSt3__28messagesIwEE'] = 260464;
+var __ZTINSt3__213messages_baseE = Module['__ZTINSt3__213messages_baseE'] = 260388;
+var __ZTINSt3__28messagesIwEE = Module['__ZTINSt3__28messagesIwEE'] = 260460;
 var __ZTSNSt3__28messagesIwEE = Module['__ZTSNSt3__28messagesIwEE'] = 236189;
-var __ZTINSt3__215messages_bynameIcEE = Module['__ZTINSt3__215messages_bynameIcEE'] = 260528;
+var __ZTINSt3__215messages_bynameIcEE = Module['__ZTINSt3__215messages_bynameIcEE'] = 260524;
 var __ZTSNSt3__215messages_bynameIcEE = Module['__ZTSNSt3__215messages_bynameIcEE'] = 236210;
-var __ZTINSt3__215messages_bynameIwEE = Module['__ZTINSt3__215messages_bynameIwEE'] = 260572;
+var __ZTINSt3__215messages_bynameIwEE = Module['__ZTINSt3__215messages_bynameIwEE'] = 260568;
 var __ZTSNSt3__215messages_bynameIwEE = Module['__ZTSNSt3__215messages_bynameIwEE'] = 236239;
-var __ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 260632;
+var __ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 260628;
 var __ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 236268;
-var __ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 260692;
+var __ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 260688;
 var __ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 236310;
-var __ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 260752;
+var __ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 260748;
 var __ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 236352;
-var __ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 260812;
+var __ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTINSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 260808;
 var __ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE = Module['__ZTSNSt3__214codecvt_bynameIDic11__mbstate_tEE'] = 236395;
-var __ZTINSt3__215__time_get_tempIcEE = Module['__ZTINSt3__215__time_get_tempIcEE'] = 260948;
+var __ZTINSt3__215__time_get_tempIcEE = Module['__ZTINSt3__215__time_get_tempIcEE'] = 260944;
 var __ZTSNSt3__215__time_get_tempIcEE = Module['__ZTSNSt3__215__time_get_tempIcEE'] = 237324;
-var __ZTINSt3__215__time_get_tempIwEE = Module['__ZTINSt3__215__time_get_tempIwEE'] = 261028;
+var __ZTINSt3__215__time_get_tempIwEE = Module['__ZTINSt3__215__time_get_tempIwEE'] = 261024;
 var __ZTSNSt3__215__time_get_tempIwEE = Module['__ZTSNSt3__215__time_get_tempIwEE'] = 237353;
 var __ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE = Module['__ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE4nposE'] = 237384;
 var __ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE = Module['__ZNSt3__212basic_stringIwNS_11char_traitsIwEENS_9allocatorIwEEE4nposE'] = 237388;
-var __ZTVNSt3__212future_errorE = Module['__ZTVNSt3__212future_errorE'] = 261080;
-var __ZTVNSt3__217__assoc_sub_stateE = Module['__ZTVNSt3__217__assoc_sub_stateE'] = 261100;
-var __ZTVNSt3__223__future_error_categoryE = Module['__ZTVNSt3__223__future_error_categoryE'] = 261044;
-var __ZTINSt3__223__future_error_categoryE = Module['__ZTINSt3__223__future_error_categoryE'] = 261136;
-var __ZTINSt3__212future_errorE = Module['__ZTINSt3__212future_errorE'] = 261148;
-var __ZTINSt3__217__assoc_sub_stateE = Module['__ZTINSt3__217__assoc_sub_stateE'] = 261124;
+var __ZTVNSt3__212future_errorE = Module['__ZTVNSt3__212future_errorE'] = 261076;
+var __ZTVNSt3__217__assoc_sub_stateE = Module['__ZTVNSt3__217__assoc_sub_stateE'] = 261096;
+var __ZTVNSt3__223__future_error_categoryE = Module['__ZTVNSt3__223__future_error_categoryE'] = 261040;
+var __ZTINSt3__223__future_error_categoryE = Module['__ZTINSt3__223__future_error_categoryE'] = 261132;
+var __ZTINSt3__212future_errorE = Module['__ZTINSt3__212future_errorE'] = 261144;
+var __ZTINSt3__217__assoc_sub_stateE = Module['__ZTINSt3__217__assoc_sub_stateE'] = 261120;
 var __ZTSNSt3__217__assoc_sub_stateE = Module['__ZTSNSt3__217__assoc_sub_stateE'] = 237632;
 var __ZTSNSt3__223__future_error_categoryE = Module['__ZTSNSt3__223__future_error_categoryE'] = 237660;
 var __ZTSNSt3__212future_errorE = Module['__ZTSNSt3__212future_errorE'] = 237694;
 var __ZTISt11logic_error = Module['__ZTISt11logic_error'] = 269424;
-var __ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 261180;
-var __ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 261244;
-var __ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 261348;
-var __ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 261396;
-var __ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 261444;
-var __ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 261492;
-var __ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 261560;
-var __ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 261652;
-var __ZTTNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262408;
-var __ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 262624;
-var __ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 261788;
-var __ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 261812;
-var __ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 261836;
-var __ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 261860;
-var __ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 261500;
-var __ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 261964;
-var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 261884;
-var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 261924;
-var __ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261996;
-var __ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 262692;
-var __ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 261732;
+var __ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 261176;
+var __ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 261240;
+var __ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 261344;
+var __ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 261392;
+var __ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 261440;
+var __ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTTNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 261488;
+var __ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 261556;
+var __ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 261648;
+var __ZTTNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262404;
+var __ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTTNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 262620;
+var __ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 261784;
+var __ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_istreamIwNS_11char_traitsIwEEEE'] = 261808;
+var __ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 261832;
+var __ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 261856;
+var __ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 261496;
+var __ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 261960;
+var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 261880;
+var __ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 261920;
+var __ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 261992;
+var __ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 262688;
+var __ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 261728;
 var __ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 237717;
-var __ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 261760;
+var __ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTINSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 261756;
 var __ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 237759;
 var __ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__215basic_streambufIcNS_11char_traitsIcEEEE'] = 237801;
 var __ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__215basic_streambufIwNS_11char_traitsIwEEEE'] = 237850;
@@ -65794,44 +65809,44 @@ var __ZTSNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213
 var __ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTSNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 238040;
 var __ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_iostreamIcNS_11char_traitsIcEEEE'] = 238087;
 var __ZTSNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 238135;
-var __ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262248;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE'] = 262108;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262168;
-var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 262208;
+var __ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262244;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_14basic_iostreamIcS2_EE'] = 262104;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262164;
+var __ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE8_NS_13basic_ostreamIcS2_EE'] = 262204;
 var __ZTSNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__218basic_stringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 238201;
-var __ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262356;
-var __ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 262316;
+var __ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262352;
+var __ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 262312;
 var __ZTSNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 238270;
-var __ZTVNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262368;
-var __ZTINSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262464;
-var __ZTCNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262424;
+var __ZTVNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262364;
+var __ZTINSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTINSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262460;
+var __ZTCNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262420;
 var __ZTSNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTSNSt3__219basic_istringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 238340;
-var __ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262572;
-var __ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262532;
+var __ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 262568;
+var __ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE = Module['__ZTCNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE0_NS_13basic_istreamIcS2_EE'] = 262528;
 var __ZTSNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ifstreamIcNS_11char_traitsIcEEEE'] = 238410;
-var __ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 262584;
-var __ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 262680;
-var __ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 262640;
+var __ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 262580;
+var __ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTINSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 262676;
+var __ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE = Module['__ZTCNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE0_NS_13basic_ostreamIcS2_EE'] = 262636;
 var __ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__214basic_ofstreamIcNS_11char_traitsIcEEEE'] = 238458;
 var __ZTSNSt3__213basic_filebufIcNS_11char_traitsIcEEEE = Module['__ZTSNSt3__213basic_filebufIcNS_11char_traitsIcEEEE'] = 238506;
-var __ZTVSt19bad_optional_access = Module['__ZTVSt19bad_optional_access'] = 262704;
-var __ZTISt19bad_optional_access = Module['__ZTISt19bad_optional_access'] = 262724;
+var __ZTVSt19bad_optional_access = Module['__ZTVSt19bad_optional_access'] = 262700;
+var __ZTISt19bad_optional_access = Module['__ZTISt19bad_optional_access'] = 262720;
 var __ZTSSt19bad_optional_access = Module['__ZTSSt19bad_optional_access'] = 238553;
-var __ZTVNSt12experimental19bad_optional_accessE = Module['__ZTVNSt12experimental19bad_optional_accessE'] = 262736;
-var __ZTINSt12experimental19bad_optional_accessE = Module['__ZTINSt12experimental19bad_optional_accessE'] = 262756;
+var __ZTVNSt12experimental19bad_optional_accessE = Module['__ZTVNSt12experimental19bad_optional_accessE'] = 262732;
+var __ZTINSt12experimental19bad_optional_accessE = Module['__ZTINSt12experimental19bad_optional_accessE'] = 262752;
 var __ZTSNSt12experimental19bad_optional_accessE = Module['__ZTSNSt12experimental19bad_optional_accessE'] = 238577;
-var __ZTVNSt3__217bad_function_callE = Module['__ZTVNSt3__217bad_function_callE'] = 262768;
-var __ZTINSt3__217bad_function_callE = Module['__ZTINSt3__217bad_function_callE'] = 262788;
+var __ZTVNSt3__217bad_function_callE = Module['__ZTVNSt3__217bad_function_callE'] = 262764;
+var __ZTINSt3__217bad_function_callE = Module['__ZTINSt3__217bad_function_callE'] = 262784;
 var __ZTSNSt3__217bad_function_callE = Module['__ZTSNSt3__217bad_function_callE'] = 238617;
 var __ZNSt3__26chrono12system_clock9is_steadyE = Module['__ZNSt3__26chrono12system_clock9is_steadyE'] = 238645;
 var __ZNSt3__26chrono12steady_clock9is_steadyE = Module['__ZNSt3__26chrono12steady_clock9is_steadyE'] = 238646;
-var __ZTVSt16nested_exception = Module['__ZTVSt16nested_exception'] = 262800;
-var __ZTISt16nested_exception = Module['__ZTISt16nested_exception'] = 262816;
+var __ZTVSt16nested_exception = Module['__ZTVSt16nested_exception'] = 262796;
+var __ZTISt16nested_exception = Module['__ZTISt16nested_exception'] = 262812;
 var __ZTSSt16nested_exception = Module['__ZTSSt16nested_exception'] = 238647;
-var __ZTVNSt3__211regex_errorE = Module['__ZTVNSt3__211regex_errorE'] = 262824;
+var __ZTVNSt3__211regex_errorE = Module['__ZTVNSt3__211regex_errorE'] = 262820;
 var __ZTINSt3__211regex_errorE = Module['__ZTINSt3__211regex_errorE'] = 263864;
 var __ZTSNSt3__211regex_errorE = Module['__ZTSNSt3__211regex_errorE'] = 238668;
-var __ZNSt3__212__rs_default4__c_E = Module['__ZNSt3__212__rs_default4__c_E'] = 303900;
+var __ZNSt3__212__rs_default4__c_E = Module['__ZNSt3__212__rs_default4__c_E'] = 303852;
 var __ZNSt3__223__libcpp_debug_functionE = Module['__ZNSt3__223__libcpp_debug_functionE'] = 263944;
 var __ZTVNSt3__28__c_nodeE = Module['__ZTVNSt3__28__c_nodeE'] = 263948;
 var __ZTINSt3__28__c_nodeE = Module['__ZTINSt3__28__c_nodeE'] = 263980;
@@ -65887,7 +65902,7 @@ var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory
 var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 239418;
 var ___cxa_unexpected_handler = Module['___cxa_unexpected_handler'] = 264880;
 var ___cxa_terminate_handler = Module['___cxa_terminate_handler'] = 264876;
-var ___cxa_new_handler = Module['___cxa_new_handler'] = 307024;
+var ___cxa_new_handler = Module['___cxa_new_handler'] = 306976;
 var __ZTVSt9bad_alloc = Module['__ZTVSt9bad_alloc'] = 269240;
 var __ZTVSt20bad_array_new_length = Module['__ZTVSt20bad_array_new_length'] = 269260;
 var __ZTISt9bad_alloc = Module['__ZTISt9bad_alloc'] = 269340;
@@ -66207,6 +66222,7 @@ if (!Object.getOwnPropertyDescriptor(Module, "maybeExit")) Module["maybeExit"] =
 if (!Object.getOwnPropertyDescriptor(Module, "safeSetTimeout")) Module["safeSetTimeout"] = function() { abort("'safeSetTimeout' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "asmjsMangle")) Module["asmjsMangle"] = function() { abort("'asmjsMangle' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "asyncLoad")) Module["asyncLoad"] = function() { abort("'asyncLoad' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "alignMemory")) Module["alignMemory"] = function() { abort("'alignMemory' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "mmapAlloc")) Module["mmapAlloc"] = function() { abort("'mmapAlloc' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "reallyNegative")) Module["reallyNegative"] = function() { abort("'reallyNegative' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "unSign")) Module["unSign"] = function() { abort("'unSign' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
@@ -66295,6 +66311,7 @@ if (!Object.getOwnPropertyDescriptor(Module, "mergeLibSymbols")) Module["mergeLi
 if (!Object.getOwnPropertyDescriptor(Module, "loadWebAssemblyModule")) Module["loadWebAssemblyModule"] = function() { abort("'loadWebAssemblyModule' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "loadDynamicLibrary")) Module["loadDynamicLibrary"] = function() { abort("'loadDynamicLibrary' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "preloadDylibs")) Module["preloadDylibs"] = function() { abort("'preloadDylibs' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
+if (!Object.getOwnPropertyDescriptor(Module, "dlopenInternal")) Module["dlopenInternal"] = function() { abort("'dlopenInternal' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "uncaughtExceptionCount")) Module["uncaughtExceptionCount"] = function() { abort("'uncaughtExceptionCount' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "exceptionLast")) Module["exceptionLast"] = function() { abort("'exceptionLast' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "exceptionCaught")) Module["exceptionCaught"] = function() { abort("'exceptionCaught' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
@@ -66438,7 +66455,7 @@ function stackCheckInit() {
   // get these values before even running any of the ctors so we call it redundantly
   // here.
   // TODO(sbc): Move writeStackCookie to native to to avoid this.
-  _emscripten_stack_set_limits(5550928, 308048);
+  _emscripten_stack_set_limits(5550880, 308000);
   writeStackCookie();
 }
 
@@ -66520,15 +66537,19 @@ function exit(status, implicit) {
       err(msg);
     }
   } else {
-
     exitRuntime();
-
-    if (Module['onExit']) Module['onExit'](status);
-
-    ABORT = true;
   }
 
-  quit_(status, new ExitStatus(status));
+  procExit(status);
+}
+
+function procExit(code) {
+  EXITSTATUS = code;
+  if (!keepRuntimeAlive()) {
+    if (Module['onExit']) Module['onExit'](code);
+    ABORT = true;
+  }
+  quit_(code, new ExitStatus(code));
 }
 
 if (Module['preInit']) {

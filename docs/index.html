@@ -40,9 +40,31 @@
         <form class="editor-form">
         <div class="editor-container">
             <div class="editor" id="program-editor" name="code"></div>
+            <div class="inline-field">
+              <input type="checkbox" id="checkbox-restart" checked="checked">
+              <label for="checkbox-restart">Restart after compiling.</label>
+            </div>
             <button>Compile!</button>
         </div>
         </form>
+
+        <h3 id="pinouts-header" class="console-header">Pinouts</h3>
+        <div id="pinouts-text">
+          <table class="centered bordered">
+            <tr>
+              <th>Component</th>
+              <th>Pin Number</th>
+            </tr>
+            <tr>
+              <td>Built in LED</td>
+              <td>13</td>
+            </tr>
+            <tr>
+              <td>L298N Motor Controller</td>
+              <td>IN1: 2, IN2: 3<br>IN3: 4, IN4: 5<br>&nbsp;ENA: 9, ENB: 10</td>
+            </tr>
+          </table>
+        </div>
 
         <h3 class="console-header">Compiler Output</h3>
         <div class="msg-container">

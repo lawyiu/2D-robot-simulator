@@ -44,3 +44,16 @@ body {
 #controls-header.up::before {
     content: "\25B6  ";
 }
+
+.inline-field {
+    display: inline-block;
+}
+
+table.centered {
+    margin: 0px auto;
+}
+
+table.bordered, table th, table td {
+    border: solid;
+    border-collapse: collapse;
+}
