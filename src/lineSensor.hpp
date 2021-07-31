@@ -33,6 +33,7 @@ private:
     PinsController& mPinsCtrl;
     uint32_t mPinNum;
     glm::vec2 mPosition;
+    bool mState = false;
 
     const glm::vec4 mColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     const float mWidth = 0.01f;  // 1 CM

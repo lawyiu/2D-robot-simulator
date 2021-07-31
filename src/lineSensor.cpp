@@ -49,13 +49,20 @@ void LineSensor::setState(bool state) {
 }
 
 void LineSensor::update() {
+    mState = mPinsCtrl.getPinValue(mPinNum);
 }
 
 void LineSensor::draw(Graphics& g) {
     g.push();
 
     g.stroke(mColor);
-    g.noFill();
+
+    if (!mState) {
+        g.noFill();
+    } else {
+        g.fill(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+    }
+
     g.rectMode(DrawMode::CENTER);
 
     b2Vec2 sensorPos = mBody->GetPosition();
