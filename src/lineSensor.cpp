@@ -5,7 +5,7 @@
 using namespace piksel;
 
 LineSensor::LineSensor(Robot& robot, uint32_t pin, glm::vec2 position)
-    : Input(robot), mPinsCtrl(robot.getPinsController()), mPosition(position) {
+    : Input(robot), mPinNum(pin), mPinsCtrl(robot.getPinsController()), mPosition(position) {
     mWorld = robot.getWorld();
     createBody();
     createJoint();
