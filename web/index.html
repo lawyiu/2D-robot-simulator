@@ -12,7 +12,7 @@
       <div class="sub-container">
         <iframe id="sim-frame" src="sim.html" frameBorder="0"></iframe>
 
-        <h3 id="controls-header" class="console-header">Controls</h3>
+        <h3 id="controls-header" class="console-header" data-collapse-elm="controls-text">Controls</h3>
         <div id="controls-text">
           <p>(Click on canvas to focus for keys to work.)</p>
           <p>R - Restart the simulation.</p>
@@ -23,33 +23,35 @@
           <p>F - Follow the robot with the camera.</p>
         </div>
 
-        <h3 class="console-header">Serial Monitor</h3>
-        <div class="msg-container">
+        <h3 class="console-header" data-collapse-elm="serial-container">Serial Monitor</h3>
+        <div id="serial-container" class="msg-container">
         <textarea class="console" id="serial-console" readonly=true></textarea>
         </div>
 
-        <h3 class="console-header">Error Output</h3>
-        <div class="msg-container">
+        <h3 class="console-header" data-collapse-elm="error-container">Error Output</h3>
+        <div id="error-container" class="msg-container">
         <textarea class="console" id="error-console" readonly=true></textarea>
         </div>
       </div>
 
       <div class="sub-container">
-        <h3 class="console-header">Arduino Program Editor</h3>
-        <select id="examples-selection"></select>
-        <form class="editor-form">
-        <div class="editor-container">
-            <div class="editor" id="program-editor" name="code"></div>
-            <div class="inline-field">
-              <input type="checkbox" id="checkbox-restart" checked="checked">
-              <label for="checkbox-restart">Restart after compiling.</label>
-            </div>
-            <button>Compile!</button>
+        <h3 class="console-header" data-collapse-elm="editor">Arduino Program Editor</h3>
+        <div id="editor">
+          <select id="examples-selection"></select>
+          <form class="editor-form">
+          <div class="editor-container">
+              <div class="editor" id="program-editor" name="code"></div>
+              <div class="inline-field">
+                <input type="checkbox" id="checkbox-restart" checked="checked">
+                <label for="checkbox-restart">Restart after compiling.</label>
+              </div>
+              <button>Compile!</button>
+          </div>
         </div>
         </form>
 
-        <h3 id="pinouts-header" class="console-header">Pinouts</h3>
-        <div id="pinouts-text">
+        <h3 id="pinouts-header" class="console-header up" data-collapse-elm="pinouts-table">Pinouts</h3>
+        <div id="pinouts-table" hidden>
           <table class="centered bordered">
             <tr>
               <th>Component</th>
@@ -66,8 +68,8 @@
           </table>
         </div>
 
-        <h3 class="console-header">Compiler Output</h3>
-        <div class="msg-container">
+        <h3 class="console-header" data-collapse-elm="compiler-container">Compiler Output</h3>
+        <div id="compiler-container" class="msg-container">
         <textarea class="console" id="compiler-console" readonly=true></textarea>
         </div>
       </div>

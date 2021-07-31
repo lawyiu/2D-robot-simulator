@@ -1,16 +1,16 @@
 $(function() {
     "use strict";
 
-    const header = $("#controls-header");
-    const text = $("#controls-text");
+    $(".console-header").click(function() {
+        const header_elm = $(this);
+        const collapse_elm = $("#" + header_elm.data("collapse-elm"));
 
-    header.click(function() {
-        if (text.is(":hidden")) {
-            text.slideDown();
-            header.removeClass("up");
+        if (collapse_elm.is(":hidden")) {
+            collapse_elm.slideDown();
+            header_elm.removeClass("up");
         } else {
-            text.slideUp();
-            header.addClass("up");
+            collapse_elm.slideUp();
+            header_elm.addClass("up");
         }
     });
 });
