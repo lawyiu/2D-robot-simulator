@@ -19,6 +19,7 @@ end
 
 post '/compile' do
   response['Access-Control-Allow-Origin'] = '*'
+  response_code = 200
 
   result = {:errors => '', :bin => ''}
   code = params['code']
@@ -35,11 +36,12 @@ post '/compile' do
 
       if exit_code != 0 then
         result[:errors] = stderr.read()
+        response_code = 400
       elsif
         result[:bin] = Base64.encode64(File.read("#{dir}/libcode.so"))
       end
     end
   end
 
-  JSON(result)
+  [response_code, JSON(result)]
 end
