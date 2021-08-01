@@ -37,11 +37,11 @@ body {
     height: 50em;
 }
 
-#controls-header::before {
+.console-header::before {
     content: "\25BC  ";
 }
 
-#controls-header.up::before {
+.console-header.up::before {
     content: "\25B6  ";
 }
 

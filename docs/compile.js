@@ -21,10 +21,9 @@
         XHR.addEventListener("load", function(e) {
             const errMsg = XHR.status + ": " + XHR.statusText;
 
-            if (XHR.status == 200) {
-                const data = JSON.parse(XHR.responseText);
-
-                if (data.errors == "") {
+            switch (XHR.status) {
+                case 200: {
+                    const data = JSON.parse(XHR.responseText);
                     var code = base64ToUint8Array(data.bin);
                     const module = simFrame.contentWindow.Module;
                     module.FS.writeFile("/libcode.so", code);
@@ -38,11 +37,19 @@
                         const appInstance = module.App.prototype.getInstance();
                         appInstance.restart();
                     }
-                } else {
-                    compileOutput.textContent += "Compilation Errors:\n" + data.errors;
+                    break;
                 }
-            } else {
-                compileOutput.textContent += "Error occurred while contacting compile server: " + errMsg + "\n";
+
+                case 400: {
+                    const data = JSON.parse(XHR.responseText);
+                    compileOutput.textContent += "Compilation Errors:\n" + data.errors;
+                    break;
+                }
+
+                default: {
+                    compileOutput.textContent += "Error occurred while contacting compile server: " + errMsg + "\n";
+                    break;
+                }
             }
         });
 

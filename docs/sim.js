@@ -179,7 +179,7 @@
     }
   
    }
-   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 632, "audio": 0}], "remote_package_size": 632, "package_uuid": "d0a47592-b81d-48ae-a78b-262b9e885ca3"});
+   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 632, "audio": 0}], "remote_package_size": 632, "package_uuid": "74f724ba-a44c-498b-bd43-61d000438acf"});
   
   })();
   
@@ -384,7 +384,7 @@ Module['FS_createPath']("/data/fonts", "OpenSans", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 0, "end": 96932, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 96932, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "23b8e18c-125e-43ab-b00e-bd855d6ff629"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0, "audio": 0}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 0, "end": 96932, "audio": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 96932, "end": 108492, "audio": 0}], "remote_package_size": 108492, "package_uuid": "abe8c0da-8ee6-4ca8-b8fb-69145c78e5c2"});
   
   })();
   
