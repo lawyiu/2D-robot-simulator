@@ -14,7 +14,7 @@ body {
 }
 
 .console {
-    width: 80%;
+    width: 95%;
     height: 25em;
 }
 
@@ -26,7 +26,7 @@ body {
 .editor-container {
     display: flex;
     flex-direction: column;
-    width: 80%
+    width: 95%
 }
 
 .editor {
