@@ -5,12 +5,18 @@ body {
 .container {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     text-align: center;
 }
 
-.sub-container {
-    width: 50%;
+@media (min-width: 1280px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .sub-container {
+        width: 50%;
+    }
 }
 
 .console {
