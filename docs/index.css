@@ -5,16 +5,22 @@ body {
 .container {
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     text-align: center;
 }
 
-.sub-container {
-    width: 50%;
+@media (min-width: 1280px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .sub-container {
+        width: 50%;
+    }
 }
 
 .console {
-    width: 80%;
+    width: 95%;
     height: 25em;
 }
 
@@ -26,7 +32,7 @@ body {
 .editor-container {
     display: flex;
     flex-direction: column;
-    width: 80%
+    width: 95%
 }
 
 .editor {
