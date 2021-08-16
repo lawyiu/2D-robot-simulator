@@ -47,8 +47,14 @@ set(SOURCES
     src/level.cpp
     src/main.cpp
     src/app.cpp
-    src/bindingsWrapper.cpp
 )
+
+if(EMSCRIPTEN)
+    list(APPEND SOURCES
+         src/bindingsWrapper.cpp
+    )
+endif()
+
 add_executable(sim ${SOURCES})
 
 if(EMSCRIPTEN)
