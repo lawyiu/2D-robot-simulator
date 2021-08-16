@@ -9,6 +9,12 @@ Tape::Tape(b2World& world, glm::vec2 position, glm::vec4 color, float width, flo
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(mPosition.x, mPosition.y);
+
+    b2BodyUserData bodyUserData;
+    Contactable* contactable = this;
+    bodyUserData.pointer = reinterpret_cast<uintptr_t>(contactable);
+    bodyDef.userData = bodyUserData;
+
     mBody = mWorld.CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;

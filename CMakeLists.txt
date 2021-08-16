@@ -44,6 +44,7 @@ set(SOURCES
     src/lineSensor.cpp
     src/led.cpp
     src/L298N_MotorController.cpp
+    src/contactListener.cpp
     src/level.cpp
     src/main.cpp
     src/app.cpp

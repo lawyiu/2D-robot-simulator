@@ -1,6 +1,8 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
+#include "contactListener.hpp"
+
 #include <box2d/box2d.h>
 #include <memory>
 #include <vector>
@@ -29,6 +31,8 @@ protected:
     const float mTimeStep = 1.0f / 60.0f;
     const int32 mVelocityIterations = 6;
     const int32 mPositionIterations = 2;
+
+    ContactListener mContactListener;
 
     std::unique_ptr<b2World> mWorld;
     b2Body* mLevelBody;

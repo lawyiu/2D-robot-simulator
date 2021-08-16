@@ -7,6 +7,7 @@ using namespace std;
 Level::Level() {
     b2Vec2 gravity = b2Vec2_zero;
     mWorld.reset(new b2World(gravity));
+    mWorld->SetContactListener(&mContactListener);
 }
 
 void Level::init() {

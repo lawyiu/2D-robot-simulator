@@ -1,6 +1,8 @@
 #include "lineSensor.hpp"
 #include "pinsController.hpp"
 #include "robot.hpp"
+#include "tape.hpp"
+#include "iostream"
 
 using namespace piksel;
 
@@ -20,6 +22,12 @@ void LineSensor::createBody() {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(mPosition.x, mPosition.y);
+
+    b2BodyUserData bodyUserData;
+    Contactable* contactable = this;
+    bodyUserData.pointer = reinterpret_cast<uintptr_t>(contactable);
+    bodyDef.userData = bodyUserData;
+
     mBody = mWorld->CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;
@@ -71,4 +79,16 @@ void LineSensor::draw(Graphics& g) {
     g.rect(0.0f, 0.0f, mWidth, mHeight);
 
     g.pop();
+}
+
+void LineSensor::contactBegin(Contactable& other) {
+    if (typeid(other) == typeid(Tape)) {
+        setState(true);
+    }
+}
+
+void LineSensor::contactEnd(Contactable& other) {
+    if (typeid(other) == typeid(Tape)) {
+        setState(false);
+    }
 }

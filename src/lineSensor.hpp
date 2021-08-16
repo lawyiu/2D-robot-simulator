@@ -2,6 +2,7 @@
 #define LINE_SENSOR_HPP
 
 #include "input.hpp"
+#include "contactable.hpp"
 
 #include <glm/glm.hpp>
 
@@ -11,7 +12,7 @@ class b2World;
 class b2Body;
 class b2Joint;
 
-class LineSensor : public Input {
+class LineSensor : public Input, public Contactable {
 public:
     // Position is relative to origin of robot
     LineSensor(Robot& robot, uint32_t pin, glm::vec2 position);
@@ -22,6 +23,9 @@ public:
 
     void update() override;
     void draw(piksel::Graphics& g) override;
+
+    void contactBegin(Contactable& other) override;
+    void contactEnd(Contactable& other) override;
 
 private:
     void createBody();

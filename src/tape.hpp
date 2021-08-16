@@ -1,13 +1,15 @@
 #ifndef TAPE_HPP
 #define TAPE_HPP
 
+#include "contactable.hpp"
+
 #include <graphics.hpp>
 #include <glm/glm.hpp>
 
 class b2World;
 class b2Body;
 
-class Tape {
+class Tape : public Contactable {
 public:
     Tape(b2World& world, glm::vec2 position, float width, float height)
         : Tape(world, position, glm::vec4(0.43f, 0.45f, 0.44f, 1.0f), width, height) {}
@@ -18,6 +20,9 @@ public:
 
     void update();
     void draw(piksel::Graphics& g);
+
+    void contactBegin(Contactable& other) override {}
+    void contactEnd(Contactable& other) override {}
 
 private:
     glm::vec2 mPosition;
