@@ -11,8 +11,8 @@ class Input {
 public:
     virtual ~Input() {}
 
-    virtual void update() {}
-    virtual void draw(piksel::Graphics& g) {}
+    virtual void update() = 0;
+    virtual void draw(piksel::Graphics& g) = 0;
 
 protected:
     Input(Robot& robot) : mRobot(robot) {}

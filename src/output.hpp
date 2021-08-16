@@ -14,8 +14,8 @@ class Output {
 public:
     virtual ~Output() {}
 
-    virtual void update() {}
-    virtual void draw(piksel::Graphics& g) {}
+    virtual void update() = 0;
+    virtual void draw(piksel::Graphics& g) = 0;
 
 protected:
     Output(Robot& robot, std::initializer_list<uint32_t> pins) : mRobot(robot) {}

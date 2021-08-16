@@ -20,8 +20,8 @@ public:
     // Used to set if the line sensor is over a line or not
     void setState(bool state);
 
-    void update();
-    void draw(piksel::Graphics& g);
+    void update() override;
+    void draw(piksel::Graphics& g) override;
 
 private:
     void createBody();

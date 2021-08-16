@@ -14,8 +14,8 @@ public:
     L298N_MotorController(Robot& robot, bool manualEn) : L298N_MotorController(robot, {2, 3, 4, 5, 9, 10}, manualEn) {}
     L298N_MotorController(Robot& robot, std::initializer_list<uint32_t> pins, bool manualEn);
 
-    void update();
-    void draw(piksel::Graphics& g) {};
+    void update() override;
+    void draw(piksel::Graphics& g) override {};
 
 private:
     void getChannelValues(Pin in1, Pin in2, Pin en, uint32_t& in1Val, uint32_t& in2Val, uint32_t& enVal, bool left);
