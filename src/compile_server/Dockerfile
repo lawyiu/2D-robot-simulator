@@ -1,4 +1,4 @@
-FROM emscripten/emsdk:2.0.26
+FROM emscripten/emsdk:2.0.27
 RUN apt-get update && \
     apt-get install -y autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev \
     libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
