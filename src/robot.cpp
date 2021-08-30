@@ -68,9 +68,9 @@ void Robot::addTires() {
 
 void Robot::addLineSensors() {
     std::pair<glm::vec2, uint32_t> lineSensorPositions[] = {
-        std::make_pair(glm::vec2(-mWidth / 2.0 + 0.03f, -0.015f), 6),
-        std::make_pair(glm::vec2(-mWidth / 2.0 + 0.03f, 0.0f), 7),
-        std::make_pair(glm::vec2(-mWidth / 2.0 + 0.03f, 0.015f), 8)
+        std::make_pair(glm::vec2(mWidth / 2.0 - 0.03f, -0.05f), 6), // Left
+        std::make_pair(glm::vec2(mWidth / 2.0 - 0.03f, 0.0f), 7),   // Center
+        std::make_pair(glm::vec2(mWidth / 2.0 - 0.03f, 0.05f), 8)   // Right
     };
 
     for (auto&& lineSensorPos : lineSensorPositions) {
