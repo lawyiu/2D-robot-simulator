@@ -45,13 +45,13 @@ void App::update() {
         mLevel->update();
     }
 
-    float keyPanDist = pixelsPerSecond * dt;
+    float keyPanDist = pixelsPerSecond / mScaleFactor * dt;
 
     if (mFollow) {
         glm::vec2 position = getCurrentRobot().getPosition();
 
-        mOffsetX = -position.x * mScaleFactor;
-        mOffsetY = -position.y * mScaleFactor;
+        mOffsetX = -position.x;
+        mOffsetY = -position.y;
     } else {
         if (mKeyPanState & PAN_UP) {
             mOffsetY -= keyPanDist;
@@ -85,8 +85,9 @@ void App::draw(piksel::Graphics& g) {
         g.text("Following", mTextPadding, mTextSize);
     }
 
-    g.translate(width / 2.0f + mOffsetX, height / 2.0f + mOffsetY);
+    g.translate(width / 2.0f, height / 2.0f);
     g.scale(mScaleFactor, mScaleFactor);
+    g.translate(mOffsetX, mOffsetY);
 
     mLevel->draw(g);
 }
@@ -183,8 +184,8 @@ void App::mouseMoved(int x, int y) {
             break;
 
         case PANNING:
-            mOffsetX += (x - mOrigX);
-            mOffsetY += (y - mOrigY);
+            mOffsetX += (x - mOrigX) / mScaleFactor;
+            mOffsetY += (y - mOrigY) / mScaleFactor;
             mOrigX = x;
             mOrigY = y;
             break;
