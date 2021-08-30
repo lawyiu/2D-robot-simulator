@@ -4,11 +4,12 @@
 
 using namespace piksel;
 
-Tape::Tape(b2World& world, glm::vec2 position, glm::vec4 color, float width, float height)
+Tape::Tape(b2World& world, glm::vec2 position, float angle, glm::vec4 color, float width, float height)
     : mWorld(world), mPosition(position), mColor(color), mWidth(width), mHeight(height) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(mPosition.x, mPosition.y);
+    bodyDef.angle = angle;
 
     b2BodyUserData bodyUserData;
     Contactable* contactable = this;
@@ -40,7 +41,11 @@ void Tape::draw(Graphics& g) {
 
     g.rectMode(DrawMode::CENTER);
     g.noStroke();
-    g.rect(mPosition.x, mPosition.y, mWidth, mHeight);
+
+    b2Vec2 tapePos = mBody->GetPosition();
+    g.translate(tapePos.x, tapePos.y);
+    g.rotate(mBody->GetAngle());
+    g.rect(0.0f, 0.0f, mWidth, mHeight);
 
     g.pop();
 }

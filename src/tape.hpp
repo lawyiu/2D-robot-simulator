@@ -11,10 +11,15 @@ class b2Body;
 
 class Tape : public Contactable {
 public:
-    Tape(b2World& world, glm::vec2 position, float width, float height)
-        : Tape(world, position, glm::vec4(0.43f, 0.45f, 0.44f, 1.0f), width, height) {}
+    // Position, width, and height in meters
+    // Angle in rads
+    Tape(b2World& world, glm::vec2 position, float angle, float width, float height)
+        : Tape(world, position, angle, glm::vec4(0.43f, 0.45f, 0.44f, 1.0f), width, height) {}
 
-    Tape(b2World& world, glm::vec2 position, glm::vec4 color, float width, float height);
+    Tape(b2World& world, glm::vec2 position, float width, float height)
+        : Tape(world, position, 0.0f, glm::vec4(0.43f, 0.45f, 0.44f, 1.0f), width, height) {}
+
+    Tape(b2World& world, glm::vec2 position, float angle, glm::vec4 color, float width, float height);
 
     ~Tape();
 
