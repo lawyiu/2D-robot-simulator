@@ -20,6 +20,10 @@ public:
     void update();
     void draw(piksel::Graphics& g);
 
+    // Returns an error string on error or an empty string if no error
+    std::string loadLevel(std::string filePath);
+    void clearLevel();
+
     void createFrictionJoint(b2Body* body);
 
     b2World& getWorld() { return *mWorld; }
@@ -39,7 +43,7 @@ protected:
     std::vector<b2FrictionJoint*> mFrictionJoints;
 
     std::unique_ptr<Robot> mRobot;
-    std::vector<std::unique_ptr<Tape>> tapes;
+    std::vector<std::unique_ptr<Tape>> mTapes;
 };
 
 #endif /* LEVEL_HPP */

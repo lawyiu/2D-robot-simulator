@@ -2,6 +2,9 @@
 #include "robot.hpp"
 
 #include <limits.h>
+#include <iostream>
+
+using namespace std;
 
 App& App::getInstance() {
     static App app;
@@ -26,6 +29,10 @@ void App::setup() {
 
     mLevel.reset(new Level());
     mLevel->init();
+    string err = mLevel->loadLevel("data/levels/oval.json");
+    if (!err.empty()) {
+        cerr << "Could not load level: " << err << endl;
+    }
 }
 
 void App::update() {
@@ -38,6 +45,10 @@ void App::update() {
     } else if (mRestart) {
         mLevel.reset(new Level());
         mLevel->init();
+        string err = mLevel->loadLevel("data/levels/oval.json");
+        if (!err.empty()) {
+            cerr << "Could not load level: " << err << endl;
+        }
         mRestart = false;
     }
 

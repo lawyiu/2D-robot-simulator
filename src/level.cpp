@@ -2,7 +2,13 @@
 #include "robot.hpp"
 #include "tape.hpp"
 
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <json11/json11.hpp>
+
 using namespace std;
+using namespace json11;
 
 Level::Level() {
     b2Vec2 gravity = b2Vec2_zero;
@@ -22,13 +28,13 @@ Level::~Level() {
         mWorld->DestroyJoint(frictionJoint);
     }
 
-    tapes.clear();
+    clearLevel();
     mRobot.reset(nullptr);
     mWorld.reset(nullptr);
 }
 
 void Level::update() {
-    for (auto&& tape : tapes) {
+    for (auto&& tape : mTapes) {
         tape->update();
     }
 
@@ -37,11 +43,57 @@ void Level::update() {
 }
 
 void Level::draw(piksel::Graphics& g) {
-    for (auto&& tape : tapes) {
+    for (auto&& tape : mTapes) {
         tape->draw(g);
     }
 
     mRobot->draw(g);
+}
+
+string Level::loadLevel(string filePath) {
+    clearLevel();
+
+    string err;
+    ifstream levelFile(filePath);
+
+    if (levelFile.fail()) {
+        err += filePath + " does not exist!";
+    } else {
+        stringstream buf;
+        buf << levelFile.rdbuf();
+
+        auto json = Json::parse(buf.str(), err);
+        if (err.empty()) {
+            auto tapes = json["tapes"];
+
+            for (auto tape : tapes.array_items()) {
+                string tapeErr;
+                Json::shape shape = {{"x", Json::NUMBER},
+                                     {"y", Json::NUMBER},
+                                     {"width", Json::NUMBER},
+                                     {"height", Json::NUMBER},
+                                     {"angle", Json::NUMBER}};
+
+                if (tape.has_shape(shape, tapeErr)) {
+                    glm::vec2 tapePos(tape["x"].number_value(), tape["y"].number_value());
+                    float angle = glm::radians(tape["angle"].number_value());
+                    float width = tape["width"].number_value();
+                    float height = tape["height"].number_value();
+
+                    unique_ptr<Tape> tape = unique_ptr<Tape>(new Tape(*(mWorld.get()), tapePos, angle, width, height));
+                    mTapes.push_back(move(tape));
+                } else {
+                    cerr << "Parsing Tape failed: " << tapeErr << endl;
+                }
+            }
+        }
+    }
+
+    return err;
+}
+
+void Level::clearLevel() {
+    mTapes.clear();
 }
 
 void Level::createLevel() {
@@ -58,21 +110,6 @@ void Level::createLevel() {
     fixtureDef.isSensor = true;
 
     mLevelBody->CreateFixture(&fixtureDef);
-
-    float tapeThickness = 0.03f;
-    std::pair<glm::vec2, glm::vec2> tapePositions[] = {
-        std::make_pair(glm::vec2(0.0f, -1.0f), glm::vec2(3.0f, tapeThickness)),
-        std::make_pair(glm::vec2(1.5f, 0.0f), glm::vec2(tapeThickness, 2.0f)),
-        std::make_pair(glm::vec2(0.0f, 1.0f), glm::vec2(3.0f, tapeThickness)),
-        std::make_pair(glm::vec2(-1.5f, 0.0f), glm::vec2(tapeThickness, 2.0f))
-    };
-
-    for (auto&& elm : tapePositions) {
-        glm::vec2 tapePos = elm.first;
-        glm::vec2 tapeDim = elm.second;
-        unique_ptr<Tape> tape = unique_ptr<Tape>(new Tape(*(mWorld.get()), tapePos, tapeDim.x, tapeDim.y));
-        tapes.push_back(move(tape));
-    }
 }
 
 void Level::createFrictionJoint(b2Body* body) {
