@@ -7,7 +7,7 @@ using namespace piksel;
 Tape::Tape(b2World& world, glm::vec2 position, float angle, glm::vec4 color, float width, float height)
     : mWorld(world), mPosition(position), mColor(color), mWidth(width), mHeight(height) {
     b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
+    bodyDef.type = b2_staticBody;
     bodyDef.position.Set(mPosition.x, mPosition.y);
     bodyDef.angle = angle;
 
@@ -18,11 +18,11 @@ Tape::Tape(b2World& world, glm::vec2 position, float angle, glm::vec4 color, flo
 
     mBody = mWorld.CreateBody(&bodyDef);
 
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(width / 2.0f, height / 2.0f);
+    b2PolygonShape shape;
+    shape.SetAsBox(width / 2.0f, height / 2.0f);
 
     b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
+    fixtureDef.shape = &shape;
     fixtureDef.isSensor = true;
 
     mBody->CreateFixture(&fixtureDef);
