@@ -13,6 +13,7 @@ SET(INO_SOURCES
     hello.ino
     blink_no_delay.ino
     move.ino
+    simple_line_follower.ino
 )
 
 foreach(SRC_FILE ${INO_SOURCES})

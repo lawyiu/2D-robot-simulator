@@ -111,6 +111,7 @@ if(EMSCRIPTEN)
         hello.ino
         blink_no_delay.ino
         move.ino
+        simple_line_follower.ino
     )
     list(TRANSFORM DEPLOY_EXAMPLES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/arduino_examples/)
 
