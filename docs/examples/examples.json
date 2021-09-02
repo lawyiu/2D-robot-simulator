@@ -15,6 +15,10 @@
         {
             "file": "move.ino",
             "description": "A program that randomly moves the robot around."
+        },
+        {
+            "file": "simple_line_follower.ino",
+            "description": "A program that attempts to steer the robot to follow a line"
         }
     ]
 }
