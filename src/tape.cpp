@@ -45,7 +45,9 @@ void Tape::draw(Graphics& g) {
     b2Vec2 tapePos = mBody->GetPosition();
     g.translate(tapePos.x, tapePos.y);
     g.rotate(mBody->GetAngle());
-    g.rect(0.0f, 0.0f, mWidth, mHeight);
+
+    // Overdraw by 0.01f to account for box2D "skin" thinkness
+    g.rect(0.0f, 0.0f, mWidth + 0.01f, mHeight + 0.01f);
 
     g.pop();
 }
