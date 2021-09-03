@@ -179,11 +179,10 @@
     }
   
    }
-   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 632}], "remote_package_size": 632, "package_uuid": "da101e88-8daa-486b-87c2-e21145ffa22d"});
+   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 632}], "remote_package_size": 632, "package_uuid": "8cd5499a-d4ca-4684-a76a-33477f774193"});
   
   })();
   
-
 
 // The Module object: Our interface to the outside world. We import
 // and export values on it. There are various ways Module can be used:
@@ -385,7 +384,7 @@ Module['FS_createPath']("/data/fonts", "OpenSans", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0}, {"filename": "/data/levels/oval.json", "start": 0, "end": 1202}, {"filename": "/data/levels/rectangle.json", "start": 1202, "end": 1796}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 1796, "end": 98728}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 98728, "end": 110288}], "remote_package_size": 110288, "package_uuid": "aac4c2b8-799d-4c24-a7db-969ec0822035"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0}, {"filename": "/data/levels/oval.json", "start": 0, "end": 1202}, {"filename": "/data/levels/rectangle.json", "start": 1202, "end": 1796}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 1796, "end": 98728}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 98728, "end": 110288}], "remote_package_size": 110288, "package_uuid": "149a7ddf-7b7e-4e94-878f-2f67d2b16ade"});
   
   })();
   
@@ -434,7 +433,6 @@ if (typeof window === "object") {
     Module['arguments'] = [];
   }
 }
-
 
     if (!Module['preRun']) throw 'Module.preRun should exist because file support used it; did a pre-js delete it?';
     necessaryPreJSTasks.forEach(function(task) {
@@ -1918,8 +1916,10 @@ Module["preloadedWasm"] = {}; // maps url to wasm instance exports
 
 /** @param {string|number=} what */
 function abort(what) {
-  if (Module['onAbort']) {
-    Module['onAbort'](what);
+  {
+    if (Module['onAbort']) {
+      Module['onAbort'](what);
+    }
   }
 
   what += '';
@@ -2227,7 +2227,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       if (binary instanceof WebAssembly.Module) {
         var dylinkSection = WebAssembly.Module.customSections(binary, "dylink");
         assert(dylinkSection.length != 0, 'need dylink section');
-        binary = new Int8Array(dylinkSection[0]);
+        binary = new Uint8Array(dylinkSection[0]);
       } else {
         var int32View = new Uint32Array(new Uint8Array(binary.subarray(0, 24)).buffer);
         assert(int32View[0] == 0x6d736100, 'need to see wasm magic number'); // \0asm
@@ -2266,6 +2266,25 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       return customSection;
     }
   Module["getDylinkMetadata"] = getDylinkMetadata;
+
+  function handleException(e) {
+      // Certain exception types we do not treat as errors since they are used for
+      // internal control flow.
+      // 1. ExitStatus, which is thrown by exit()
+      // 2. "unwind", which is thrown by emscripten_unwind_to_js_event_loop() and others
+      //    that wish to return to JS event loop.
+      if (e instanceof ExitStatus || e == 'unwind') {
+        return EXITSTATUS;
+      }
+      // Anything else is an unexpected exception and we treat it as hard error.
+      var toLog = e;
+      if (e && typeof e === 'object' && e.stack) {
+        toLog = [e, e.stack];
+      }
+      err('exception thrown: ' + toLog);
+      quit_(1, e);
+    }
+  Module["handleException"] = handleException;
 
   function jsStackTrace() {
       var error = new Error();
@@ -2356,7 +2375,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["createInvokeFunction"] = createInvokeFunction;
   
-  var ___heap_base = 5551392;
+  var ___heap_base = 5560736;
   Module["___heap_base"] = ___heap_base;
   function getMemory(size) {
       // After the runtime is initialized, we must only use sbrk() normally.
@@ -2904,6 +2923,11 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   Module["___assert_fail"] = ___assert_fail;
   ___assert_fail.sig = 'viiii';
 
+  function ___call_sighandler(fp, sig) {
+      wasmTable.get(fp)(sig);
+    }
+  Module["___call_sighandler"] = ___call_sighandler;
+
   var _emscripten_get_now;if (ENVIRONMENT_IS_NODE) {
     _emscripten_get_now = function() {
       var t = process['hrtime']();
@@ -3117,21 +3141,10 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["___map_file"] = ___map_file;
 
-  var __sigalrm_handler = 0;
-  Module["__sigalrm_handler"] = __sigalrm_handler;
-  function ___sigaction(sig, act, oldact) {
-      //int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
-      if (sig == 14) {
-        __sigalrm_handler = HEAP32[((act)>>2)];
-        return 0;
-      }
-      err('sigaction: signal type not supported: this is a no-op.');
-      return 0;
-    }
-  Module["___sigaction"] = ___sigaction;
-  ___sigaction.sig = 'viii';
+  var ___memory_base = 1024;
+  Module["___memory_base"] = ___memory_base;
 
-  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5551392);
+  var ___stack_pointer = new WebAssembly.Global({'value': 'i32', 'mutable': true}, 5560736);
   Module["___stack_pointer"] = ___stack_pointer;
 
   var PATH = {splitPath:function(filename) {
@@ -8211,6 +8224,9 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   };
   Module["___sys_wait4"] = ___sys_wait4;
 
+  var ___table_base = 1;
+  Module["___table_base"] = ___table_base;
+
   function __emscripten_throw_longjmp() { throw 'longjmp'; }
   Module["__emscripten_throw_longjmp"] = __emscripten_throw_longjmp;
   __emscripten_throw_longjmp.sig = 'v';
@@ -8291,16 +8307,6 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_exit"] = _exit;
   _exit.sig = 'vi';
-  
-  function handleException(e) {
-      if (e instanceof ExitStatus || e === 'unwind') {
-        return;
-      }
-      // And actual unexpected user-exectpion occured
-      if (e && typeof e === 'object' && e.stack) err('exception thrown: ' + [e, e.stack]);
-      throw e;
-    }
-  Module["handleException"] = handleException;
   function maybeExit() {
       if (!keepRuntimeAlive()) {
         try {
@@ -8430,6 +8436,12 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["callUserCallback"] = callUserCallback;
   
+  function runtimeKeepalivePop() {
+      assert(runtimeKeepaliveCounter > 0);
+      runtimeKeepaliveCounter -= 1;
+    }
+  Module["runtimeKeepalivePop"] = runtimeKeepalivePop;
+  runtimeKeepalivePop.sig = 'v';
   function safeSetTimeout(func, timeout) {
       runtimeKeepalivePush();
       return setTimeout(function() {
@@ -8438,13 +8450,6 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
       }, timeout);
     }
   Module["safeSetTimeout"] = safeSetTimeout;
-  
-  function runtimeKeepalivePop() {
-      assert(runtimeKeepaliveCounter > 0);
-      runtimeKeepaliveCounter -= 1;
-    }
-  Module["runtimeKeepalivePop"] = runtimeKeepalivePop;
-  runtimeKeepalivePop.sig = 'v';
   var Browser = {mainLoop:{running:false,scheduler:null,method:"",currentlyRunningMainloop:0,func:null,arg:0,timingMode:0,timingValue:0,currentFrameNumber:0,queue:[],pause:function() {
           Browser.mainLoop.scheduler = null;
           // Incrementing this signals the previous main loop that it's now become old, and it must return.
@@ -18910,42 +18915,17 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
   _glfwWindowHint.sig = 'vii';
 
 
-  function _kill(pid, sig) {
-      // http://pubs.opengroup.org/onlinepubs/000095399/functions/kill.html
-      // Makes no sense in a single-process environment.
-      // Should kill itself somtimes depending on `pid`
-      err('Calling stub instead of kill()');
-      setErrNo(63);
-      return -1;
-    }
-  Module["_kill"] = _kill;
-
   function _proc_exit(code) {
       procExit(code);
     }
   Module["_proc_exit"] = _proc_exit;
   _proc_exit.sig = 'vi';
 
-  function _pthread_sigmask(how, set, oldset) {
-      err('pthread_sigmask() is not supported: this is a no-op.');
-      return 0;
-    }
-  Module["_pthread_sigmask"] = _pthread_sigmask;
-
   function _setTempRet0(val) {
       setTempRet0(val);
     }
   Module["_setTempRet0"] = _setTempRet0;
   _setTempRet0.sig = 'vi';
-
-  function _sigtimedwait(set, sig, timeout) {
-      // POSIX SIGNALS are not supported
-      // if set contains an invalid signal number, EINVAL is returned
-      // in our case we return EINVAL all the time
-      err('Calling stub instead of sigwait()');
-      return 28;
-    }
-  Module["_sigtimedwait"] = _sigtimedwait;
 
   function __isLeapYear(year) {
         return year%4 === 0 && (year%100 !== 0 || year%400 === 0);
@@ -19327,384 +19307,6 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_time"] = _time;
   _time.sig = 'ii';
-
-
-  var ___memory_base = 1024;
-  Module["___memory_base"] = ___memory_base;
-
-  var ___table_base = 1;
-  Module["___table_base"] = ___table_base;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   function _getTempRet0() {
@@ -20731,6 +20333,16 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
 
 
 
+  function _alarm(seconds) {
+      setTimeout(function() {
+        callUserCallback(function() {
+          _raise(14);
+        });
+      }, seconds*1000);
+    }
+  Module["_alarm"] = _alarm;
+
+
   function _emscripten_run_script(ptr) {
       eval(UTF8ToString(ptr));
     }
@@ -21510,22 +21122,7 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_emscripten_pc_get_source_js"] = _emscripten_pc_get_source_js;
 
-  /** @suppress{checkTypes} */
-  function withBuiltinMalloc(func) {
-      var prev_malloc = typeof _malloc !== 'undefined' ? _malloc : undefined;
-      var prev_memalign = typeof _memalign !== 'undefined' ? _memalign : undefined;
-      var prev_free = typeof _free !== 'undefined' ? _free : undefined;
-      _malloc = _emscripten_builtin_malloc;
-      _memalign = _emscripten_builtin_memalign;
-      _free = _emscripten_builtin_free;
-      try {
-        return func();
-      } finally {
-        _malloc = prev_malloc;
-        _memalign = prev_memalign;
-        _free = prev_free;
-      }
-    }
+  function withBuiltinMalloc(func) { return func(); }
   Module["withBuiltinMalloc"] = withBuiltinMalloc;
   function _emscripten_pc_get_file(pc) {
       var result = _emscripten_pc_get_source_js(pc);
@@ -21867,44 +21464,6 @@ function array_bounds_check_error(idx,size){ throw 'Array index ' + idx + ' out 
     }
   Module["_emscripten_math_tanh"] = _emscripten_math_tanh;
 
-
-
-
-
-  function _sigaction(a0,a1,a2
-  ) {
-  return ___sigaction(a0,a1,a2);
-  }
-  Module["_sigaction"] = _sigaction;
-  _sigaction.sig = 'viii';
-
-
-
-  function _siginterrupt() {
-      err('Calling stub instead of siginterrupt()');
-      return 0;
-    }
-  Module["_siginterrupt"] = _siginterrupt;
-
-  function _raise(sig) {
-      err('Calling stub instead of raise()');
-      setErrNo(52);
-      return -1;
-    }
-  Module["_raise"] = _raise;
-
-  function _alarm(seconds) {
-      setTimeout(function() {
-        if (__sigalrm_handler) wasmTable.get(__sigalrm_handler)(0);
-      }, seconds*1000);
-    }
-  Module["_alarm"] = _alarm;
-
-  function _sigpending(set) {
-      HEAP32[((set)>>2)] = 0;
-      return 0;
-    }
-  Module["_sigpending"] = _sigpending;
 
 
 
@@ -34144,6 +33703,7 @@ function tryParseAsDataURI(filename) {
 var asmLibraryArg = {
   "__asctime": ___asctime,
   "__assert_fail": ___assert_fail,
+  "__call_sighandler": ___call_sighandler,
   "__clock_gettime": ___clock_gettime,
   "__cxa_allocate_exception": ___cxa_allocate_exception,
   "__cxa_atexit": ___cxa_atexit,
@@ -34154,7 +33714,6 @@ var asmLibraryArg = {
   "__localtime_r": ___localtime_r,
   "__map_file": ___map_file,
   "__memory_base": ___memory_base,
-  "__sigaction": ___sigaction,
   "__stack_pointer": ___stack_pointer,
   "__sys__newselect": ___sys__newselect,
   "__sys_accept4": ___sys_accept4,
@@ -34736,12 +34295,9 @@ var asmLibraryArg = {
   "glfwTerminate": _glfwTerminate,
   "glfwWindowHint": _glfwWindowHint,
   "gmtime_r": _gmtime_r,
-  "kill": _kill,
   "memory": wasmMemory,
   "proc_exit": _proc_exit,
-  "pthread_sigmask": _pthread_sigmask,
   "setTempRet0": setTempRet0,
-  "sigtimedwait": _sigtimedwait,
   "strftime": _strftime,
   "strftime_l": _strftime_l,
   "time": _time
@@ -47210,7 +46766,7 @@ var ___pthread_mutex_unlock = Module["___pthread_mutex_unlock"] = createExportWr
 var _thrd_create = Module["_thrd_create"] = createExportWrapper("thrd_create");
 
 /** @type {function(...*):?} */
-var ___pthread_create = Module["___pthread_create"] = createExportWrapper("__pthread_create");
+var _pthread_create = Module["_pthread_create"] = createExportWrapper("pthread_create");
 
 /** @type {function(...*):?} */
 var _thrd_exit = Module["_thrd_exit"] = createExportWrapper("thrd_exit");
@@ -47277,6 +46833,9 @@ var _pthread_barrier_destroy = Module["_pthread_barrier_destroy"] = createExport
 
 /** @type {function(...*):?} */
 var _pthread_barrier_wait = Module["_pthread_barrier_wait"] = createExportWrapper("pthread_barrier_wait");
+
+/** @type {function(...*):?} */
+var ___pthread_create = Module["___pthread_create"] = createExportWrapper("__pthread_create");
 
 /** @type {function(...*):?} */
 var _pthread_getspecific = Module["_pthread_getspecific"] = createExportWrapper("pthread_getspecific");
@@ -47473,9 +47032,6 @@ var _pthread_mutex_timedlock = Module["_pthread_mutex_timedlock"] = createExport
 
 /** @type {function(...*):?} */
 var _emscripten_builtin_pthread_create = Module["_emscripten_builtin_pthread_create"] = createExportWrapper("emscripten_builtin_pthread_create");
-
-/** @type {function(...*):?} */
-var _pthread_create = Module["_pthread_create"] = createExportWrapper("pthread_create");
 
 /** @type {function(...*):?} */
 var _emscripten_builtin_pthread_join = Module["_emscripten_builtin_pthread_join"] = createExportWrapper("emscripten_builtin_pthread_join");
@@ -50820,6 +50376,9 @@ var _forkpty = Module["_forkpty"] = createExportWrapper("forkpty");
 var _sigfillset = Module["_sigfillset"] = createExportWrapper("sigfillset");
 
 /** @type {function(...*):?} */
+var _pthread_sigmask = Module["_pthread_sigmask"] = createExportWrapper("pthread_sigmask");
+
+/** @type {function(...*):?} */
 var _getpriority = Module["_getpriority"] = createExportWrapper("getpriority");
 
 /** @type {function(...*):?} */
@@ -51297,6 +50856,15 @@ var _getitimer = Module["_getitimer"] = createExportWrapper("getitimer");
 var _killpg = Module["_killpg"] = createExportWrapper("killpg");
 
 /** @type {function(...*):?} */
+var _kill = Module["_kill"] = createExportWrapper("kill");
+
+/** @type {function(...*):?} */
+var _sigorset = Module["_sigorset"] = createExportWrapper("sigorset");
+
+/** @type {function(...*):?} */
+var _sigandset = Module["_sigandset"] = createExportWrapper("sigandset");
+
+/** @type {function(...*):?} */
 var _sigaddset = Module["_sigaddset"] = createExportWrapper("sigaddset");
 
 /** @type {function(...*):?} */
@@ -51309,7 +50877,16 @@ var _sigemptyset = Module["_sigemptyset"] = createExportWrapper("sigemptyset");
 var _sigismember = Module["_sigismember"] = createExportWrapper("sigismember");
 
 /** @type {function(...*):?} */
+var _siginterrupt = Module["_siginterrupt"] = createExportWrapper("siginterrupt");
+
+/** @type {function(...*):?} */
+var _sigaction = Module["_sigaction"] = createExportWrapper("sigaction");
+
+/** @type {function(...*):?} */
 var _signal = Module["_signal"] = createExportWrapper("signal");
+
+/** @type {function(...*):?} */
+var ___sigaction = Module["___sigaction"] = createExportWrapper("__sigaction");
 
 /** @type {function(...*):?} */
 var _bsd_signal = Module["_bsd_signal"] = createExportWrapper("bsd_signal");
@@ -51330,6 +50907,12 @@ var ___libc_current_sigrtmin = Module["___libc_current_sigrtmin"] = createExport
 var _sigwait = Module["_sigwait"] = createExportWrapper("sigwait");
 
 /** @type {function(...*):?} */
+var _sigtimedwait = Module["_sigtimedwait"] = createExportWrapper("sigtimedwait");
+
+/** @type {function(...*):?} */
+var _sigwaitinfo = Module["_sigwaitinfo"] = createExportWrapper("sigwaitinfo");
+
+/** @type {function(...*):?} */
 var __get_tzname = Module["__get_tzname"] = createExportWrapper("_get_tzname");
 
 /** @type {function(...*):?} */
@@ -51340,6 +50923,15 @@ var __get_timezone = Module["__get_timezone"] = createExportWrapper("_get_timezo
 
 /** @type {function(...*):?} */
 var _emscripten_get_heap_size = Module["_emscripten_get_heap_size"] = createExportWrapper("emscripten_get_heap_size");
+
+/** @type {function(...*):?} */
+var _raise = Module["_raise"] = createExportWrapper("raise");
+
+/** @type {function(...*):?} */
+var ___sig_is_blocked = Module["___sig_is_blocked"] = createExportWrapper("__sig_is_blocked");
+
+/** @type {function(...*):?} */
+var _sigpending = Module["_sigpending"] = createExportWrapper("sigpending");
 
 /** @type {function(...*):?} */
 var _emscripten_atomic_exchange_u8 = Module["_emscripten_atomic_exchange_u8"] = createExportWrapper("emscripten_atomic_exchange_u8");
@@ -65293,10 +64885,10 @@ var _orig$_ZN10__cxxabiv119__setExceptionClassEP17_Unwind_Exceptiony = Module["_
 /** @type {function(...*):?} */
 var _orig$fminl = Module["_orig$fminl"] = createExportWrapper("orig$fminl");
 
-var __ZNSt3__24coutE = Module['__ZNSt3__24coutE'] = 285012;
+var __ZNSt3__24coutE = Module['__ZNSt3__24coutE'] = 294372;
 var __ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTTNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262728;
 var __ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__215basic_stringbufIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262016;
-var __ZNSt3__25ctypeIcE2idE = Module['__ZNSt3__25ctypeIcE2idE'] = 302604;
+var __ZNSt3__25ctypeIcE2idE = Module['__ZNSt3__25ctypeIcE2idE'] = 311948;
 var __ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE = Module['__ZTVNSt3__219basic_ostringstreamIcNS_11char_traitsIcEENS_9allocatorIcEEEE'] = 262688;
 var __ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__29basic_iosIcNS_11char_traitsIcEEEE'] = 262144;
 var __ZTVNSt3__28ios_baseE = Module['__ZTVNSt3__28ios_baseE'] = 256200;
@@ -65304,7 +64896,7 @@ var _Serial = Module['_Serial'] = 272524;
 var _Serial1 = Module['_Serial1'] = 272525;
 var _Serial2 = Module['_Serial2'] = 272526;
 var _Serial3 = Module['_Serial3'] = 272527;
-var __ZNSt3__24cerrE = Module['__ZNSt3__24cerrE'] = 285180;
+var __ZNSt3__24cerrE = Module['__ZNSt3__24cerrE'] = 294540;
 var __ZTV14b2PolygonShape = Module['__ZTV14b2PolygonShape'] = 250468;
 var __ZTV7b2Shape = Module['__ZTV7b2Shape'] = 249216;
 var __ZTISt12length_error = Module['__ZTISt12length_error'] = 269932;
@@ -65572,9 +65164,11 @@ var ___env_map = Module['___env_map'] = 280636;
 var _tzname = Module['_tzname'] = 280640;
 var _daylight = Module['_daylight'] = 280648;
 var _timezone = Module['_timezone'] = 280652;
-var ___data_end = Module['___data_end'] = 308512;
-var ___THREW__ = Module['___THREW__'] = 284804;
-var ___threwValue = Module['___threwValue'] = 284808;
+var ___sig_pending = Module['___sig_pending'] = 289884;
+var ___sig_actions = Module['___sig_actions'] = 280656;
+var ___data_end = Module['___data_end'] = 317856;
+var ___THREW__ = Module['___THREW__'] = 294164;
+var ___threwValue = Module['___threwValue'] = 294168;
 var __ZTVNSt3__212system_errorE = Module['__ZTVNSt3__212system_errorE'] = 255896;
 var __ZTVNSt3__224__generic_error_categoryE = Module['__ZTVNSt3__224__generic_error_categoryE'] = 255820;
 var __ZTINSt3__224__generic_error_categoryE = Module['__ZTINSt3__224__generic_error_categoryE'] = 256008;
@@ -65604,7 +65198,7 @@ var __ZTSSt18bad_variant_access = Module['__ZTSSt18bad_variant_access'] = 232156
 var __ZTISt9exception = Module['__ZTISt9exception'] = 269732;
 var __ZSt7nothrow = Module['__ZSt7nothrow'] = 232179;
 var __ZTVNSt3__28ios_base7failureE = Module['__ZTVNSt3__28ios_base7failureE'] = 256180;
-var __ZNSt3__28ios_base9__xindex_E = Module['__ZNSt3__28ios_base9__xindex_E'] = 284824;
+var __ZNSt3__28ios_base9__xindex_E = Module['__ZNSt3__28ios_base9__xindex_E'] = 294184;
 var __ZTVNSt3__219__iostream_categoryE = Module['__ZTVNSt3__219__iostream_categoryE'] = 256144;
 var __ZTINSt3__219__iostream_categoryE = Module['__ZTINSt3__219__iostream_categoryE'] = 256228;
 var __ZTINSt3__28ios_base7failureE = Module['__ZTINSt3__28ios_base7failureE'] = 256240;
@@ -65640,13 +65234,13 @@ var __ZTINSt3__28ios_baseE = Module['__ZTINSt3__28ios_baseE'] = 256220;
 var __ZTSNSt3__28ios_baseE = Module['__ZTSNSt3__28ios_baseE'] = 232292;
 var __ZTSNSt3__219__iostream_categoryE = Module['__ZTSNSt3__219__iostream_categoryE'] = 232310;
 var __ZTSNSt3__28ios_base7failureE = Module['__ZTSNSt3__28ios_base7failureE'] = 232340;
-var __ZNSt3__219__start_std_streamsE = Module['__ZNSt3__219__start_std_streamsE'] = 285516;
-var __ZNSt3__23cinE = Module['__ZNSt3__23cinE'] = 284836;
-var __ZNSt3__24wcinE = Module['__ZNSt3__24wcinE'] = 284924;
-var __ZNSt3__25wcoutE = Module['__ZNSt3__25wcoutE'] = 285096;
-var __ZNSt3__24clogE = Module['__ZNSt3__24clogE'] = 285348;
-var __ZNSt3__25wcerrE = Module['__ZNSt3__25wcerrE'] = 285264;
-var __ZNSt3__25wclogE = Module['__ZNSt3__25wclogE'] = 285432;
+var __ZNSt3__219__start_std_streamsE = Module['__ZNSt3__219__start_std_streamsE'] = 294876;
+var __ZNSt3__23cinE = Module['__ZNSt3__23cinE'] = 294196;
+var __ZNSt3__24wcinE = Module['__ZNSt3__24wcinE'] = 294284;
+var __ZNSt3__25wcoutE = Module['__ZNSt3__25wcoutE'] = 294456;
+var __ZNSt3__24clogE = Module['__ZNSt3__24clogE'] = 294708;
+var __ZNSt3__25wcerrE = Module['__ZNSt3__25wcerrE'] = 294624;
+var __ZNSt3__25wclogE = Module['__ZNSt3__25wclogE'] = 294792;
 var __ZTVNSt3__210__stdinbufIcEE = Module['__ZTVNSt3__210__stdinbufIcEE'] = 256252;
 var __ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_istreamIcNS_11char_traitsIcEEEE'] = 261736;
 var __ZTVNSt3__210__stdinbufIwEE = Module['__ZTVNSt3__210__stdinbufIwEE'] = 256328;
@@ -65655,8 +65249,8 @@ var __ZTVNSt3__211__stdoutbufIcEE = Module['__ZTVNSt3__211__stdoutbufIcEE'] = 25
 var __ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE = Module['__ZTVNSt3__213basic_ostreamIcNS_11char_traitsIcEEEE'] = 261832;
 var __ZTVNSt3__211__stdoutbufIwEE = Module['__ZTVNSt3__211__stdoutbufIwEE'] = 256480;
 var __ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__213basic_ostreamIwNS_11char_traitsIwEEEE'] = 261880;
-var __ZNSt3__27codecvtIcc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIcc11__mbstate_tE2idE'] = 302612;
-var __ZNSt3__27codecvtIwc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIwc11__mbstate_tE2idE'] = 302620;
+var __ZNSt3__27codecvtIcc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIcc11__mbstate_tE2idE'] = 311956;
+var __ZNSt3__27codecvtIwc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIwc11__mbstate_tE2idE'] = 311964;
 var __ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE = Module['__ZTVNSt3__29basic_iosIwNS_11char_traitsIwEEEE'] = 262172;
 var __ZTINSt3__210__stdinbufIcEE = Module['__ZTINSt3__210__stdinbufIcEE'] = 256316;
 var __ZTSNSt3__210__stdinbufIcEE = Module['__ZTSNSt3__210__stdinbufIcEE'] = 232366;
@@ -65681,34 +65275,34 @@ var __ZNSt3__212placeholders2_7E = Module['__ZNSt3__212placeholders2_7E'] = 2328
 var __ZNSt3__212placeholders2_8E = Module['__ZNSt3__212placeholders2_8E'] = 232871;
 var __ZNSt3__212placeholders2_9E = Module['__ZNSt3__212placeholders2_9E'] = 232872;
 var __ZNSt3__212placeholders3_10E = Module['__ZNSt3__212placeholders3_10E'] = 232873;
-var __ZNSt3__28numpunctIcE2idE = Module['__ZNSt3__28numpunctIcE2idE'] = 302644;
+var __ZNSt3__28numpunctIcE2idE = Module['__ZNSt3__28numpunctIcE2idE'] = 311988;
 var __ZNSt3__214__num_get_base5__srcE = Module['__ZNSt3__214__num_get_base5__srcE'] = 232880;
-var __ZNSt3__25ctypeIwE2idE = Module['__ZNSt3__25ctypeIwE2idE'] = 302596;
-var __ZNSt3__28numpunctIwE2idE = Module['__ZNSt3__28numpunctIwE2idE'] = 302652;
-var __ZNSt3__210moneypunctIcLb1EE2idE = Module['__ZNSt3__210moneypunctIcLb1EE2idE'] = 302488;
-var __ZNSt3__210moneypunctIcLb0EE2idE = Module['__ZNSt3__210moneypunctIcLb0EE2idE'] = 302480;
-var __ZNSt3__210moneypunctIwLb1EE2idE = Module['__ZNSt3__210moneypunctIwLb1EE2idE'] = 302504;
-var __ZNSt3__210moneypunctIwLb0EE2idE = Module['__ZNSt3__210moneypunctIwLb0EE2idE'] = 302496;
+var __ZNSt3__25ctypeIwE2idE = Module['__ZNSt3__25ctypeIwE2idE'] = 311940;
+var __ZNSt3__28numpunctIwE2idE = Module['__ZNSt3__28numpunctIwE2idE'] = 311996;
+var __ZNSt3__210moneypunctIcLb1EE2idE = Module['__ZNSt3__210moneypunctIcLb1EE2idE'] = 311832;
+var __ZNSt3__210moneypunctIcLb0EE2idE = Module['__ZNSt3__210moneypunctIcLb0EE2idE'] = 311824;
+var __ZNSt3__210moneypunctIwLb1EE2idE = Module['__ZNSt3__210moneypunctIwLb1EE2idE'] = 311848;
+var __ZNSt3__210moneypunctIwLb0EE2idE = Module['__ZNSt3__210moneypunctIwLb0EE2idE'] = 311840;
 var __ZTVNSt3__26locale5__impE = Module['__ZTVNSt3__26locale5__impE'] = 256556;
 var __ZTVNSt3__26locale5facetE = Module['__ZTVNSt3__26locale5facetE'] = 257020;
-var __ZNSt3__27collateIcE2idE = Module['__ZNSt3__27collateIcE2idE'] = 302400;
-var __ZNSt3__27collateIwE2idE = Module['__ZNSt3__27collateIwE2idE'] = 302408;
-var __ZNSt3__27codecvtIDsc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDsc11__mbstate_tE2idE'] = 302628;
-var __ZNSt3__27codecvtIDic11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDic11__mbstate_tE2idE'] = 302636;
-var __ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 302416;
-var __ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 302424;
-var __ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 302432;
-var __ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 302440;
-var __ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 302512;
-var __ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 302520;
-var __ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 302528;
-var __ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 302536;
-var __ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 302448;
-var __ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 302456;
-var __ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 302464;
-var __ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 302472;
-var __ZNSt3__28messagesIcE2idE = Module['__ZNSt3__28messagesIcE2idE'] = 302544;
-var __ZNSt3__28messagesIwE2idE = Module['__ZNSt3__28messagesIwE2idE'] = 302552;
+var __ZNSt3__27collateIcE2idE = Module['__ZNSt3__27collateIcE2idE'] = 311744;
+var __ZNSt3__27collateIwE2idE = Module['__ZNSt3__27collateIwE2idE'] = 311752;
+var __ZNSt3__27codecvtIDsc11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDsc11__mbstate_tE2idE'] = 311972;
+var __ZNSt3__27codecvtIDic11__mbstate_tE2idE = Module['__ZNSt3__27codecvtIDic11__mbstate_tE2idE'] = 311980;
+var __ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 311760;
+var __ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 311768;
+var __ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__27num_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 311776;
+var __ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__27num_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 311784;
+var __ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 311856;
+var __ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 311864;
+var __ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__29money_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 311872;
+var __ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__29money_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 311880;
+var __ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_getIcNS_19istreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 311792;
+var __ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_getIwNS_19istreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 311800;
+var __ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE = Module['__ZNSt3__28time_putIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcEEEEE2idE'] = 311808;
+var __ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE = Module['__ZNSt3__28time_putIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEE2idE'] = 311816;
+var __ZNSt3__28messagesIcE2idE = Module['__ZNSt3__28messagesIcE2idE'] = 311888;
+var __ZNSt3__28messagesIwE2idE = Module['__ZNSt3__28messagesIwE2idE'] = 311896;
 var __ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIcc11__mbstate_tEE'] = 261012;
 var __ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIwc11__mbstate_tEE'] = 261072;
 var __ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE = Module['__ZTVNSt3__214codecvt_bynameIDsc11__mbstate_tEE'] = 261132;
@@ -65723,7 +65317,7 @@ var __ZTVNSt3__215time_put_bynameIcNS_19ostreambuf_iteratorIcNS_11char_traitsIcE
 var __ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE = Module['__ZTVNSt3__215time_put_bynameIwNS_19ostreambuf_iteratorIwNS_11char_traitsIwEEEEEE'] = 259848;
 var __ZTVNSt3__215messages_bynameIcEE = Module['__ZTVNSt3__215messages_bynameIcEE'] = 260924;
 var __ZTVNSt3__215messages_bynameIwEE = Module['__ZTVNSt3__215messages_bynameIwEE'] = 260968;
-var __ZNSt3__26locale2id9__next_idE = Module['__ZNSt3__26locale2id9__next_idE'] = 302592;
+var __ZNSt3__26locale2id9__next_idE = Module['__ZNSt3__26locale2id9__next_idE'] = 311936;
 var __ZTVNSt3__214collate_bynameIcEE = Module['__ZTVNSt3__214collate_bynameIcEE'] = 256576;
 var __ZTVNSt3__214collate_bynameIwEE = Module['__ZTVNSt3__214collate_bynameIwEE'] = 256608;
 var __ZTVNSt3__25ctypeIcEE = Module['__ZTVNSt3__25ctypeIcEE'] = 256640;
@@ -66062,7 +65656,7 @@ var __ZTSSt16nested_exception = Module['__ZTSSt16nested_exception'] = 238823;
 var __ZTVNSt3__211regex_errorE = Module['__ZTVNSt3__211regex_errorE'] = 263252;
 var __ZTINSt3__211regex_errorE = Module['__ZTINSt3__211regex_errorE'] = 264296;
 var __ZTSNSt3__211regex_errorE = Module['__ZTSNSt3__211regex_errorE'] = 238844;
-var __ZNSt3__212__rs_default4__c_E = Module['__ZNSt3__212__rs_default4__c_E'] = 304364;
+var __ZNSt3__212__rs_default4__c_E = Module['__ZNSt3__212__rs_default4__c_E'] = 313708;
 var __ZNSt3__223__libcpp_debug_functionE = Module['__ZNSt3__223__libcpp_debug_functionE'] = 264376;
 var __ZTVNSt3__28__c_nodeE = Module['__ZTVNSt3__28__c_nodeE'] = 264380;
 var __ZTINSt3__28__c_nodeE = Module['__ZTINSt3__28__c_nodeE'] = 264412;
@@ -66118,7 +65712,7 @@ var __ZTINSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory
 var __ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE = Module['__ZTSNSt3__220__shared_ptr_emplaceINS_4__fs10filesystem28recursive_directory_iterator12__shared_impENS_9allocatorIS4_EEEE'] = 239606;
 var ___cxa_unexpected_handler = Module['___cxa_unexpected_handler'] = 265312;
 var ___cxa_terminate_handler = Module['___cxa_terminate_handler'] = 265308;
-var ___cxa_new_handler = Module['___cxa_new_handler'] = 307488;
+var ___cxa_new_handler = Module['___cxa_new_handler'] = 316832;
 var __ZTVSt9bad_alloc = Module['__ZTVSt9bad_alloc'] = 269672;
 var __ZTVSt20bad_array_new_length = Module['__ZTVSt20bad_array_new_length'] = 269692;
 var __ZTISt9bad_alloc = Module['__ZTISt9bad_alloc'] = 269772;
@@ -66363,7 +65957,7 @@ if (!Object.getOwnPropertyDescriptor(Module, "stackTrace")) Module["stackTrace"]
 if (!Object.getOwnPropertyDescriptor(Module, "addOnPreRun")) Module["addOnPreRun"] = function() { abort("'addOnPreRun' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "addOnInit")) Module["addOnInit"] = function() { abort("'addOnInit' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "addOnPreMain")) Module["addOnPreMain"] = function() { abort("'addOnPreMain' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-Module["addOnExit"] = addOnExit;
+if (!Object.getOwnPropertyDescriptor(Module, "addOnExit")) Module["addOnExit"] = function() { abort("'addOnExit' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "addOnPostRun")) Module["addOnPostRun"] = function() { abort("'addOnPostRun' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "writeStringToMemory")) Module["writeStringToMemory"] = function() { abort("'writeStringToMemory' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "writeArrayToMemory")) Module["writeArrayToMemory"] = function() { abort("'writeArrayToMemory' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
@@ -66644,23 +66238,10 @@ function callMain(args) {
     // execution is asynchronously handed off to a pthread.
     // if we're not running an evented main loop, it's time to exit
     exit(ret, /* implicit = */ true);
+    return ret;
   }
   catch (e) {
-    // Certain exception types we do not treat as errors since they are used for
-    // internal control flow.
-    // 1. ExitStatus, which is thrown by exit()
-    // 2. "unwind", which is thrown by emscripten_unwind_to_js_event_loop() and others
-    //    that wish to return to JS event loop.
-    if (e instanceof ExitStatus || e == 'unwind') {
-      return;
-    }
-    // Anything else is an unexpected exception and we treat it as hard error.
-    var toLog = e;
-    if (e && typeof e === 'object' && e.stack) {
-      toLog = [e, e.stack];
-    }
-    err('exception thrown: ' + toLog);
-    quit_(1, e);
+    return handleException(e);
   } finally {
     calledMain = true;
 
@@ -66672,7 +66253,7 @@ function stackCheckInit() {
   // get these values before even running any of the ctors so we call it redundantly
   // here.
   // TODO(sbc): Move writeStackCookie to native to to avoid this.
-  _emscripten_stack_set_limits(5551392, 308512);
+  _emscripten_stack_set_limits(5560736, 317856);
   writeStackCookie();
 }
 
@@ -67055,7 +66636,7 @@ if (typeof window === "object" && (typeof ENVIRONMENT_IS_PTHREAD === 'undefined'
       var emrun_http_sequence_number = 1;
       var prevPrint = out;
       var prevErr = err;
-      Module['addOnExit'](function() { if (emrun_num_post_messages_in_flight == 0) postExit('^exit^'+EXITSTATUS); else emrun_should_close_itself = true; });
+      addOnExit(function() { if (emrun_num_post_messages_in_flight == 0) postExit('^exit^'+EXITSTATUS); else emrun_should_close_itself = true; });
       out = function(text) { post('^out^'+(emrun_http_sequence_number++)+'^'+encodeURIComponent(text)); prevPrint(text); };
       err = function(text) { post('^err^'+(emrun_http_sequence_number++)+'^'+encodeURIComponent(text)); prevErr(text); };
 
@@ -67083,4 +66664,3 @@ if (typeof window === "object" && (typeof ENVIRONMENT_IS_PTHREAD === 'undefined'
 
   if (typeof Module !== 'undefined' && typeof document !== 'undefined') emrun_register_handlers();
 }
-
