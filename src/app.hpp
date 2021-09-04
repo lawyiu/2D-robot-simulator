@@ -5,7 +5,7 @@
 #include <piksel/baseapp.hpp>
 #include <box2d/box2d.h>
 
-#define INIT_SCALE_FACTOR 500.0f
+#define INIT_SCALE_FACTOR 160.0f
 
 class Robot;
 
