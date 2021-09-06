@@ -24,6 +24,7 @@ public:
     void reload() { mReload = true; }
 
     Robot& getCurrentRobot();
+    bool setCurrentLevel(std::string levelFile);
     Level& getCurrentLevel() { return *mLevel; }
     b2World& getWorld() { return mLevel->getWorld(); }
 
@@ -81,6 +82,7 @@ private:
     float mOrigY = 0.0f;
 
     std::unique_ptr<Level> mLevel;
+    std::string mCurrentLevelFile = "oval.json";
 };
 
 #endif /* APP_HPP */

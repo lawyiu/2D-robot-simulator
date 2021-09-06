@@ -3,4 +3,5 @@ interface App {
     [Ref] static App getInstance();
     void restart();
     void reload();
+    boolean setCurrentLevel(DOMString levelFile);
 };

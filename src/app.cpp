@@ -29,10 +29,7 @@ void App::setup() {
 
     mLevel.reset(new Level());
     mLevel->init();
-    string err = mLevel->loadLevel("data/levels/oval.json");
-    if (!err.empty()) {
-        cerr << "Could not load level: " << err << endl;
-    }
+    setCurrentLevel(mCurrentLevelFile);
 }
 
 void App::update() {
@@ -45,10 +42,7 @@ void App::update() {
     } else if (mRestart) {
         mLevel.reset(new Level());
         mLevel->init();
-        string err = mLevel->loadLevel("data/levels/oval.json");
-        if (!err.empty()) {
-            cerr << "Could not load level: " << err << endl;
-        }
+        setCurrentLevel(mCurrentLevelFile);
         mRestart = false;
     }
 
@@ -105,6 +99,20 @@ void App::draw(piksel::Graphics& g) {
 
 Robot& App::getCurrentRobot() {
     return mLevel->getRobot();
+}
+
+bool App::setCurrentLevel(string levelFile) {
+    bool error = false;
+
+    mCurrentLevelFile = levelFile;
+
+    string err = mLevel->loadLevel("data/levels/" + levelFile);
+    if (!err.empty()) {
+        cerr << "Could not load level: " << err << endl;
+        error = true;
+    }
+
+    return error;
 }
 
 void App::keyPressed(int key) {
