@@ -34,6 +34,10 @@
 
                     if (restart_checkbox.prop("checked")) {
                         compileOutput.textContent += "Restarting simulation...\n";
+
+                        module.clearSerialOutput();
+                        module.clearErrorOutput();
+
                         const appInstance = module.App.prototype.getInstance();
                         appInstance.restart();
                     }
