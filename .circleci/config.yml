@@ -5,33 +5,68 @@ orbs:
   gh-pages: sugarshin/gh-pages@0.0.6
 
 executors:
+  base-executor:
+    docker:
+      - image: cimg/base:stable
+
   emscripten-executor:
     docker:
       - image: emscripten/emsdk:2.0.30
 
 jobs:
-  build-web:
-    executor: emscripten-executor
+  checkout-repo:
+    executor: base-executor
     steps:
       - checkout
       - run: git submodule update --recursive --init
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+  build-web:
+    executor: emscripten-executor
+    steps:
+      - attach_workspace:
+          at: ~/
       - run: |
           mkdir build_web
           cd build_web
           emcmake cmake ../
           make deploy
       - persist_to_workspace:
-          root: build_web
+          root: ~/
           paths:
-            - deploy
+            - project/build_web/deploy
+
+  build-desktop:
+    executor: base-executor
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: |
+          mkdir build_desktop
+          cd build_desktop
+          cmake ../
+          make
 
 workflows:
   build-web-deploy:
     jobs:
-      - build-web
+      - checkout-repo
+      - build-web:
+          requires:
+            - checkout-repo
+
+      - build-desktop:
+          pre-steps:
+            - run: sudo apt update
+            - run: sudo apt install cmake libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+          requires:
+            - checkout-repo
+
       - gh-pages/deploy:
           attach-workspace: true
-          workspace-root: build_web
+          workspace-root: ~/
           build-dir: build_web/deploy
           requires:
             - build-web
