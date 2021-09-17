@@ -1,0 +1,65 @@
+body {
+    margin: 2em 0em;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+@media (min-width: 1280px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .sub-container {
+        width: 50%;
+    }
+}
+
+.console {
+    width: 95%;
+    height: 25em;
+}
+
+.editor-form {
+    display: flex;
+    justify-content: center;
+}
+
+.editor-container {
+    display: flex;
+    flex-direction: column;
+    width: 95%
+}
+
+.editor {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 50em;
+}
+
+.console-header::before {
+    content: "\25BC  ";
+}
+
+.console-header.up::before {
+    content: "\25B6  ";
+}
+
+.inline-field {
+    display: inline-block;
+}
+
+table.centered {
+    margin: 0px auto;
+}
+
+table.bordered, table th, table td {
+    border: solid;
+    border-collapse: collapse;
+}
