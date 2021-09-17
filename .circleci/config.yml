@@ -1,0 +1,77 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+# Use a package of configuration called an orb.
+orbs:
+  gh-pages: sugarshin/gh-pages@0.0.6
+
+executors:
+  base-executor:
+    docker:
+      - image: cimg/base:stable
+
+  emscripten-executor:
+    docker:
+      - image: emscripten/emsdk:2.0.30
+
+jobs:
+  checkout-repo:
+    executor: base-executor
+    steps:
+      - checkout
+      - run: git submodule update --recursive --init
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+  build-web:
+    executor: emscripten-executor
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: |
+          mkdir build_web
+          cd build_web
+          emcmake cmake ../
+          make deploy
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/build_web/deploy
+
+  build-desktop:
+    executor: base-executor
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: |
+          mkdir build_desktop
+          cd build_desktop
+          cmake ../
+          make
+
+workflows:
+  build-web-deploy:
+    jobs:
+      - checkout-repo
+      - build-web:
+          requires:
+            - checkout-repo
+
+      - build-desktop:
+          pre-steps:
+            - run: sudo apt update
+            - run: sudo apt install cmake libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+          requires:
+            - checkout-repo
+
+      - gh-pages/deploy:
+          attach-workspace: true
+          workspace-root: ~/
+          build-dir: build_web/deploy
+          requires:
+            - build-web
+          ssh-fingerprints: 'a4:8c:85:7f:e5:78:d0:3d:b3:f4:9b:e1:bd:14:db:1b'
+          filters:
+            branches:
+              only:
+                - main

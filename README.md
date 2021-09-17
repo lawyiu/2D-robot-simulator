@@ -1,4 +1,6 @@
 # 2D-robot-simulator
+[![CircleCI](https://circleci.com/gh/lawyiu/2D-robot-simulator/tree/main.svg?style=shield)](https://circleci.com/gh/lawyiu/2D-robot-simulator/tree/main)
+
 A 2 dimensional top down robot simulator designed to allow users to run their Arduino code on a virtual robot.
 
 Try out the [web demo](https://lawyiu.github.io/2D-robot-simulator/)!
