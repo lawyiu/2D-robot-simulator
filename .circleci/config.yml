@@ -48,6 +48,21 @@ jobs:
           cd build_desktop
           cmake ../
           make
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/build_desktop
+
+  run-tests-desktop:
+    executor: base-executor
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: |
+          cd build_desktop
+          ./tests --gtest_output=xml
+      - store_test_results:
+          path: build_desktop
 
 workflows:
   build-web-deploy:
@@ -63,6 +78,10 @@ workflows:
             - run: sudo apt install cmake libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
           requires:
             - checkout-repo
+
+      - run-tests-desktop:
+          requires:
+            - build-desktop
 
       - gh-pages/deploy:
           attach-workspace: true
