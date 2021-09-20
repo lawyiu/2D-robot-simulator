@@ -48,6 +48,10 @@ jobs:
           cd build_desktop
           cmake ../
           make
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/build_desktop
 
   run-tests-desktop:
     executor: base-executor
