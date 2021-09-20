@@ -60,7 +60,7 @@ jobs:
           at: ~/
       - run: |
           cd build_desktop
-          ./tests --gtest-output=xml
+          ./tests --gtest_output=xml
       - store_test_results:
           path: build_desktop
 
