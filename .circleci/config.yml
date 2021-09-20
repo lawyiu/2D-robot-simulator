@@ -49,6 +49,17 @@ jobs:
           cmake ../
           make
 
+  run-tests-desktop:
+    executor: base-executor
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: |
+          cd build_desktop
+          ./tests --gtest-output=xml
+      - store_test_results:
+          path: build_desktop
+
 workflows:
   build-web-deploy:
     jobs:
