@@ -1,5 +1,6 @@
 # 2D-robot-simulator
 [![CircleCI](https://circleci.com/gh/lawyiu/2D-robot-simulator/tree/main.svg?style=shield)](https://circleci.com/gh/lawyiu/2D-robot-simulator/tree/main)
+[![Azure Static Web Apps CI/CD](https://github.com/lawyiu/2D-robot-simulator/actions/workflows/azure-static-web-apps-agreeable-ocean-0a407871e.yml/badge.svg?branch=main)](https://github.com/lawyiu/2D-robot-simulator/actions/workflows/azure-static-web-apps-agreeable-ocean-0a407871e.yml)
 
 A 2 dimensional top down robot simulator designed to allow users to run their Arduino code on a virtual robot.
 
