@@ -179,7 +179,7 @@
     }
   
    }
-   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 635}], "remote_package_size": 635, "package_uuid": "c7f66535-9016-4ffa-8267-4e3759143be0"});
+   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 635}], "remote_package_size": 635, "package_uuid": "17c7e415-450e-446b-ae18-ca3e25e68b85"});
   
   })();
   
@@ -384,7 +384,7 @@ Module['FS_createPath']("/data", "levels", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492}, {"filename": "/data/levels/oval.json", "start": 108492, "end": 109694}, {"filename": "/data/levels/rectangle.json", "start": 109694, "end": 110288}], "remote_package_size": 110288, "package_uuid": "ea78ffe1-3155-409e-b1dc-2f9998e8647f"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492}, {"filename": "/data/levels/oval.json", "start": 108492, "end": 109694}, {"filename": "/data/levels/rectangle.json", "start": 109694, "end": 110288}], "remote_package_size": 110288, "package_uuid": "92740ef5-e03c-4f30-acb3-e8abdfb6707a"});
   
   })();
   
