@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: true
+          submodules: recursive
 
       - name: Build
         run: mkdir build_web && cd build_web && emcmake cmake ../ && make deploy
