@@ -75,6 +75,10 @@ workflows:
           requires:
             - checkout-repo
 
+      - run-tests-desktop:
+          requires:
+            - build-desktop
+
       - gh-pages/deploy:
           attach-workspace: true
           workspace-root: ~/
