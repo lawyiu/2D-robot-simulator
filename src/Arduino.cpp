@@ -112,3 +112,19 @@ size_t SerialPort::println(double val, int places) {
 unsigned long millis() {
     return App::getInstance().millis();
 }
+
+long random(long max) {
+    return rand() % max;
+}
+
+long random(long min, long max) {
+    if (min >= max) {
+        min = max - 1;
+    }
+
+    return min + (rand() % (max - min));
+}
+
+void randomSeed(unsigned long seed) {
+    srand(seed);
+}

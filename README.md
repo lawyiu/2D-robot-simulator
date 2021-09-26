@@ -62,6 +62,7 @@ Please note that Windows users will need to use WSL to build for the web or desk
   * Setting pinmode
   * Digital/analog read and write
   * `millis()`
+  * `randomSeed()` and `random()`
 
 ## Limitations of the Simulator
   * Serial reading is not supported yet.
