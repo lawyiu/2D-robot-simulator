@@ -14,25 +14,6 @@
 #define ENA_PIN 9
 #define ENB_PIN 10
 
-class RandomGenerator {
-public:
-    RandomGenerator(unsigned long seed) {
-        x = seed;
-    }
-
-    int getRandom() {
-        x = (a * x + c) % m;
-        return x;
-    }
-
-private:
-    unsigned long x;
-
-    const unsigned long a = 1103515245L;
-    const unsigned short c = 12345;
-    const unsigned long m = 2147483648L;
-};
-
 void setupForward() {
     digitalWrite(IN1_PIN, HIGH);
     digitalWrite(IN2_PIN, LOW);
@@ -88,8 +69,6 @@ void stop() {
     analogWrite(ENB_PIN, 0);
 }
 
-RandomGenerator rng(millis());
-
 void setup() {
     // put your setup code here, to run once:
     pinMode(IN1_PIN, OUTPUT);
@@ -98,10 +77,14 @@ void setup() {
     pinMode(IN4_PIN, OUTPUT);
     pinMode(ENA_PIN, OUTPUT);
     pinMode(ENB_PIN, OUTPUT);
+
+    // seed the random number generator
+    randomSeed(millis());
 }
 
 void changeDirection() {
-    unsigned int randValue = rng.getRandom() % 7;
+    // get a random number from 0 to 6
+    unsigned int randValue = random(7);
 
     switch (randValue) {
         case 0:

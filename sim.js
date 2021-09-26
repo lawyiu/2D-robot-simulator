@@ -179,7 +179,7 @@
     }
   
    }
-   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 635}], "remote_package_size": 635, "package_uuid": "009642aa-fafc-4fa7-8d4a-c3722c25f719"});
+   loadPackage({"files": [{"filename": "/libcode.so", "start": 0, "end": 635}], "remote_package_size": 635, "package_uuid": "55281fd2-6975-4cd0-be8c-ad6c0c062bbc"});
   
   })();
   
@@ -384,7 +384,7 @@ Module['FS_createPath']("/data", "levels", true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492}, {"filename": "/data/levels/oval.json", "start": 108492, "end": 109694}, {"filename": "/data/levels/rectangle.json", "start": 109694, "end": 110288}], "remote_package_size": 110288, "package_uuid": "5a189cfb-366f-4508-a9e6-951a087d28f1"});
+   loadPackage({"files": [{"filename": "/data/dummy", "start": 0, "end": 0}, {"filename": "/data/fonts/OpenSans/LICENSE.txt", "start": 0, "end": 11560}, {"filename": "/data/fonts/OpenSans/OpenSans-Regular.ttf", "start": 11560, "end": 108492}, {"filename": "/data/levels/oval.json", "start": 108492, "end": 109694}, {"filename": "/data/levels/rectangle.json", "start": 109694, "end": 110288}], "remote_package_size": 110288, "package_uuid": "67a46180-2c89-4631-9e99-160279c73429"});
   
   })();
   
@@ -34494,6 +34494,21 @@ var __Z6millisv = Module["__Z6millisv"] = createExportWrapper("_Z6millisv");
 var __ZN6piksel7BaseApp6millisEv = Module["__ZN6piksel7BaseApp6millisEv"] = createExportWrapper("_ZN6piksel7BaseApp6millisEv");
 
 /** @type {function(...*):?} */
+var __Z6randoml = Module["__Z6randoml"] = createExportWrapper("_Z6randoml");
+
+/** @type {function(...*):?} */
+var _rand = Module["_rand"] = createExportWrapper("rand");
+
+/** @type {function(...*):?} */
+var __Z6randomll = Module["__Z6randomll"] = createExportWrapper("_Z6randomll");
+
+/** @type {function(...*):?} */
+var __Z10randomSeedm = Module["__Z10randomSeedm"] = createExportWrapper("_Z10randomSeedm");
+
+/** @type {function(...*):?} */
+var _srand = Module["_srand"] = createExportWrapper("srand");
+
+/** @type {function(...*):?} */
 var __ZNSt3__28ios_base6unsetfEj = Module["__ZNSt3__28ios_base6unsetfEj"] = createExportWrapper("_ZNSt3__28ios_base6unsetfEj");
 
 /** @type {function(...*):?} */
@@ -49379,12 +49394,6 @@ var _jrand48 = Module["_jrand48"] = createExportWrapper("jrand48");
 
 /** @type {function(...*):?} */
 var _mrand48 = Module["_mrand48"] = createExportWrapper("mrand48");
-
-/** @type {function(...*):?} */
-var _srand = Module["_srand"] = createExportWrapper("srand");
-
-/** @type {function(...*):?} */
-var _rand = Module["_rand"] = createExportWrapper("rand");
 
 /** @type {function(...*):?} */
 var _rand_r = Module["_rand_r"] = createExportWrapper("rand_r");
