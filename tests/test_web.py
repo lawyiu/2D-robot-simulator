@@ -1,7 +1,6 @@
 import unittest
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException
 from robotsim import RobotSim
 
 
@@ -79,11 +78,8 @@ class RobotSimTests(unittest.TestCase):
             new_text = get_text_func()
             return cond(new_text, text)
 
-        try:
-            WebDriverWait(cls.driver, cls.WAIT_TIMEOUT) \
-                .until(text_fulfills_cond)
-        except TimeoutException:
-            pass
+        WebDriverWait(cls.driver, cls.WAIT_TIMEOUT) \
+            .until(text_fulfills_cond)
 
         return new_text
 
