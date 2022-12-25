@@ -107,6 +107,17 @@ class RobotSimTests(unittest.TestCase):
         self.assertTrue(self.RESTARTING_SIMULATION_MESSAGE in new_compiler_msg,
             "%s not in compiler output even with restart simulation checkbox checked" % self.RESTARTING_SIMULATION_MESSAGE)
 
+    def test_serial_output_after_compiling_hello_world(self):
+        sim = RobotSim(self.driver, self.URL)
+
+        prev_serial_output_text = sim.get_serial_output_text()
+
+        sim.compile_program(self.HELLO_WORLD_PROG)
+
+        self.wait_for_text_condition(sim.get_serial_output_text, self.cond_not_eq, prev_serial_output_text)
+
+        self.assertTrue('hello world' in sim.get_serial_output_text(), 'hello world not found as expected in serial output text')
+
     @classmethod
     def wait_for_text_condition(cls, get_text_func, cond, text):
         new_text = None

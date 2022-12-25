@@ -2,12 +2,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import ElementNotVisibleException
-
 
 class RobotSim:
     SIM_TIMEOUT = 30
     PAGE_TITLE = '2D Robot Simulator'
+    COMPILER_SUCCESS_MESSAGE = 'Successfully compiled'
 
     SPINNER_ID = 'spinner'
     PROGRAM_EDITOR_SEL = '#program-editor > .ace_text-input'
@@ -15,6 +16,7 @@ class RobotSim:
     COMPILER_CONSOLE_ID = 'compiler-console'
     SELECT_PROGRAM_ID = 'examples-selection'
     CHECKBOX_RESTART_ID = 'checkbox-restart'
+    SERIAL_OUTPUT_ID = 'serial-console'
 
     def __init__(self, driver, url):
         self.driver = driver
@@ -41,6 +43,11 @@ class RobotSim:
         self.select_program = Select(self.select_program_elm)
         self.restart_checkbox_elm = self.driver.find_element(
             By.ID, self.CHECKBOX_RESTART_ID)
+        self.serial_output_elm = self.driver.find_element(
+            By.ID, self.SERIAL_OUTPUT_ID)
+
+    def get_serial_output_text(self):
+        return self.serial_output_elm.get_attribute('value')
 
     def get_program_editor_text(self):
         return self.prog_edit_elm.get_attribute('value')
@@ -58,6 +65,11 @@ class RobotSim:
         self.prog_edit_elm.send_keys(program)
 
         self.compile_btn_elm.click()
+
+    def wait_for_program_to_compile(self):
+        wait = WebDriverWait(self.driver, self.SIM_TIMEOUT)
+        wait.until(EC.text_to_be_present_in_element_value(
+            (By.ID, self.COMPILER_CONSOLE_ID), self.COMPILER_SUCCESS_MESSAGE))
 
     def click_compile_program_button(self):
         self.compile_btn_elm.click()
