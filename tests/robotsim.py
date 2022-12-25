@@ -14,6 +14,7 @@ class RobotSim:
     COMPILE_BUTTON_SEL = '.editor-form button'
     COMPILER_CONSOLE_ID = 'compiler-console'
     SELECT_PROGRAM_ID = 'examples-selection'
+    CHECKBOX_RESTART_ID = 'checkbox-restart'
 
     def __init__(self, driver, url):
         self.driver = driver
@@ -38,6 +39,8 @@ class RobotSim:
         self.select_program_elm = self.driver.find_element(
             By.ID, self.SELECT_PROGRAM_ID)
         self.select_program = Select(self.select_program_elm)
+        self.restart_checkbox_elm = self.driver.find_element(
+            By.ID, self.CHECKBOX_RESTART_ID)
 
     def get_program_editor_text(self):
         return self.prog_edit_elm.get_attribute('value')
@@ -56,5 +59,14 @@ class RobotSim:
 
         self.compile_btn_elm.click()
 
+    def click_compile_program_button(self):
+        self.compile_btn_elm.click()
+
     def get_compiler_console_text(self):
         return self.compiler_console_elm.text
+
+    def click_restart_checkbox(self):
+        return self.restart_checkbox_elm.click()
+
+    def is_restart_checkbox_checked(self):
+        return self.restart_checkbox_elm.is_selected()
